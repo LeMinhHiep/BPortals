@@ -16,7 +16,14 @@ namespace MVCData.Repositories.StockTasks
             : base(totalBikePortalsEntities, "TransferOrderEditable")
         {
         }
+    }
 
+    public class VehicleTransferOrderRepository : TransferOrderRepository, IVehicleTransferOrderRepository
+    {
+        public VehicleTransferOrderRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities)
+        {
+        }
 
         public IList<TransferOrder> SearchTransferOrders(int locationID, string commodityTypeIDList, string searchText)
         {
@@ -34,15 +41,6 @@ namespace MVCData.Repositories.StockTasks
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return transferOrders;
-        }
-
-    }
-
-    public class VehicleTransferOrderRepository : TransferOrderRepository, IVehicleTransferOrderRepository
-    {
-        public VehicleTransferOrderRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities)
-        {
         }
     }
 

@@ -15,11 +15,11 @@ namespace MVCData.Repositories.CommonTasks
             this.totalBikePortalsEntities = totalBikePortalsEntities;
         }
 
-        public IList<Location> SearchLocationsByName(string searchText)
+        public IList<Location> SearchLocationsByName(int? filterLocationID, string searchText)
         {
             this.totalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
 
-            List<Location> locations = this.totalBikePortalsEntities.Locations.Where(w => w.Code.Contains(searchText) || w.Name.Contains(searchText)).ToList();
+            List<Location> locations = this.totalBikePortalsEntities.Locations.Where(w => (filterLocationID == null || filterLocationID == w.LocationID) && (w.Code.Contains(searchText) || w.Name.Contains(searchText))).ToList();
 
             this.totalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 

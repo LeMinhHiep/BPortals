@@ -29,6 +29,8 @@ namespace MVCClient.Controllers.SalesTasks
             commodityTypeIDList.Append((int)GlobalEnums.CommodityTypeID.Vehicles);
 
             RequireJsOptions.Add("commodityTypeIDList", commodityTypeIDList.ToString(), RequireJsOptionsScope.Page);
+
+            RequireJsOptions.Add("FilterLocationID", -1, RequireJsOptionsScope.Page);
         }
 
     }

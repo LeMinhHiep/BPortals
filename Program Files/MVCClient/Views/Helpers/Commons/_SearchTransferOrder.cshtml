@@ -26,7 +26,7 @@
                             })
                             .Scrollable(s => s.Height(SettingsManager.GridPopupHeight))
                             .DataSource(ds => ds.Ajax()
-                            .Read(read => read.Action("SearchTransferOrders", "TransferOrdersApi").Data("onAdditionalGetTransferOrders"))
+                            .Read(read => read.Action("SearchTransferOrders", "VehicleTransferOrdersApi").Data("onAdditionalGetTransferOrders"))
                             .ServerOperation(true))
                             .Selectable())
             </div>

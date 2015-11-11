@@ -6,6 +6,6 @@ namespace MVCCore.Repositories.CommonTasks
 {
     public interface ILocationRepository
     {
-        IList<Location> SearchLocationsByName(string searchText);
+        IList<Location> SearchLocationsByName(int? filterLocationID, string searchText);
     }
 }

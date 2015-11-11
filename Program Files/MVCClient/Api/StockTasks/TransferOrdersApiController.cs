@@ -36,37 +36,17 @@ namespace MVCClient.Api.StockTasks
         {
             return this.transferOrderRepository.Loading(User.Identity.GetUserId(), nmvnTaskID).Where(ww => ww.StockTransferTypeID == (int)stockTransferTypeID).Include(w => w.Warehouse).Include(l => l.Location);
         }
-
-
-        public JsonResult SearchTransferOrders([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, string commodityTypeIDList, string searchText)
-        {
-            var result = transferOrderRepository.SearchTransferOrders(locationID, commodityTypeIDList, searchText).Select(s => new
-            {
-                s.TransferOrderID,
-                TransferOrderReference = s.Reference,
-                TransferOrderEntryDate = s.EntryDate,
-                TransferOrderRequestedDate = s.RequestedDate,
-
-                s.WarehouseID,
-                WarehouseCode = s.Warehouse.Code,
-                WarehouseName = s.Warehouse.Name,
-                WarehouseLocationName = s.Warehouse.Location.Name,
-                WarehouseLocationTelephone = s.Warehouse.Location.Telephone,
-                WarehouseLocationFacsimile = s.Warehouse.Location.Facsimile,
-                WarehouseLocationAddress = s.Warehouse.Location.Address
-            });
-            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
-        }
-
-
     }
 
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class VehicleTransferOrdersApiController : TransferOrdersApiController
     {
+        private readonly IVehicleTransferOrderRepository vehicleTransferOrderRepository;
+
         public VehicleTransferOrdersApiController(IVehicleTransferOrderRepository vehicleTransferOrderRepository)
             : base(vehicleTransferOrderRepository)
         {
+            this.vehicleTransferOrderRepository = vehicleTransferOrderRepository;
         }
 
         public JsonResult GetVehicleTransferOrders([DataSourceRequest] DataSourceRequest request)
@@ -87,6 +67,29 @@ namespace MVCClient.Api.StockTasks
             });
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        public JsonResult SearchTransferOrders([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, string commodityTypeIDList, string searchText)
+        {
+            var result = vehicleTransferOrderRepository.SearchTransferOrders(locationID, commodityTypeIDList, searchText).Select(s => new
+            {
+                s.TransferOrderID,
+                TransferOrderReference = s.Reference,
+                TransferOrderEntryDate = s.EntryDate,
+                TransferOrderRequestedDate = s.RequestedDate,
+
+                s.WarehouseID,
+                WarehouseCode = s.Warehouse.Code,
+                WarehouseName = s.Warehouse.Name,
+                WarehouseLocationName = s.Warehouse.Location.Name,
+                WarehouseLocationTelephone = s.Warehouse.Location.Telephone,
+                WarehouseLocationFacsimile = s.Warehouse.Location.Facsimile,
+                WarehouseLocationAddress = s.Warehouse.Location.Address
+            });
+            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
+        }
+
     }
 
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
