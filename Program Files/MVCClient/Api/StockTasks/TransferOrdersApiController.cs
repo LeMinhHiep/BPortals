@@ -69,7 +69,16 @@ namespace MVCClient.Api.StockTasks
         }
 
 
-
+        /// <summary>
+        /// This function should improve, since the TransferOrder has been change since 12-nov to break into 2: VehicleTransferOrder and PartTransferOrder
+        /// And then: we have TransferOrders.StockTransferTypeID => so we should change this function to filter data base on this new property StockTransferTypeID, instead of commodityTypeIDList
+        /// In brief: This function should be improved later!!!
+        /// </summary>
+        /// <param name="dataSourceRequest"></param>
+        /// <param name="locationID"></param>
+        /// <param name="commodityTypeIDList"></param>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         public JsonResult SearchTransferOrders([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, string commodityTypeIDList, string searchText)
         {
             var result = vehicleTransferOrderRepository.SearchTransferOrders(locationID, commodityTypeIDList, searchText).Select(s => new
