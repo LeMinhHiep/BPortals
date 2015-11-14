@@ -57,6 +57,7 @@ namespace MVCData.Repositories
 
         public virtual ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters)
         {
+            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
             var objectResult = this.TotalBikePortalsObjectContext.ExecuteFunction<TElement>(functionName, parameters);
 
             return objectResult.ToList<TElement>();
@@ -64,6 +65,7 @@ namespace MVCData.Repositories
 
         public virtual int ExecuteFunction(string functionName, params ObjectParameter[] parameters)
         {
+            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
             return this.TotalBikePortalsObjectContext.ExecuteFunction(functionName, parameters);
         }
 

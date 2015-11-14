@@ -14,6 +14,7 @@ namespace MVCData.Repositories.CommonTasks
         public InventoryRepository(TotalBikePortalsEntities totalBikePortalsEntities)
         {
             this.totalBikePortalsEntities = totalBikePortalsEntities;
+            this.totalBikePortalsEntities.Database.CommandTimeout = 300;
         }
 
         public bool CheckOverStock(DateTime? checkedDate, string warehouseIDList, string commodityIDList)
