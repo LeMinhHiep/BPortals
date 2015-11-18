@@ -1566,6 +1566,12 @@
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetVehiclesInvoiceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="NmvnTaskID" Type="int" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetVehiclesInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
         </Function>
@@ -2499,6 +2505,12 @@
           </FunctionImport>
           <FunctionImport Name="GetVehicleTransferOrderViewDetails" ReturnType="Collection(TotalBikePortalsModel.VehicleTransferOrderViewDetail)">
           <Parameter Name="TransferOrderID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehiclesInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.VehiclesInvoiceIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="NmvnTaskID" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -4514,6 +4526,16 @@
           <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="VehiclesInvoiceIndex">
+          <Property Type="Int32" Name="SalesInvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="VATInvoiceNo" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CustomerDescription" Nullable="false" MaxLength="305" />
+          <Property Type="String" Name="CommodityName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5846,6 +5868,20 @@
                 <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetVehiclesInvoiceIndexes" FunctionName="TotalBikePortalsModel.Store.GetVehiclesInvoiceIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.VehiclesInvoiceIndex">
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="CustomerDescription" ColumnName="CustomerDescription" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

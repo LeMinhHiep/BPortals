@@ -116,11 +116,12 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
         private void VehicleTransferPostSaveValidate()
         {
-            string[] queryArray = new string[3];
+            string[] queryArray = new string[4];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = 'Warehouse Date: ' + CAST(GoodsReceiptDetails.EntryDate AS nvarchar) FROM StockTransferDetails INNER JOIN GoodsReceiptDetails ON StockTransferDetails.StockTransferID = @EntityID AND StockTransferDetails.GoodsReceiptDetailID = GoodsReceiptDetails.GoodsReceiptDetailID AND StockTransferDetails.EntryDate < GoodsReceiptDetails.EntryDate ";
             queryArray[1] = " SELECT TOP 1 @FoundEntity = 'Transfer Order Date: ' + CAST(TransferOrders.EntryDate AS nvarchar) FROM StockTransfers INNER JOIN TransferOrders ON StockTransfers.StockTransferID = @EntityID AND StockTransfers.TransferOrderID = TransferOrders.TransferOrderID AND StockTransfers.EntryDate < TransferOrders.EntryDate ";
             queryArray[2] = " SELECT TOP 1 @FoundEntity = 'Over Quantity: ' + CAST(ROUND(Quantity - QuantityIssue, 0) AS nvarchar) FROM GoodsReceiptDetails WHERE (ROUND(Quantity - QuantityIssue, 0) < 0) ";
+            queryArray[3] = " SELECT TOP 1 @FoundEntity = 'Xuất kho vượt số lượng lệnh: ' + CAST(ROUND(Quantity - QuantityTransfer, 0) AS nvarchar) FROM TransferOrderDetails WHERE (ROUND(Quantity - QuantityTransfer, 0) < 0) ";
             
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("VehicleTransferPostSaveValidate", queryArray);
         }

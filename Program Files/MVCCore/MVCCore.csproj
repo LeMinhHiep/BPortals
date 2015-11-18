@@ -66,6 +66,7 @@
     <Compile Include="Repositories\CommonTasks\IPaymentTermRepository.cs" />
     <Compile Include="Repositories\CommonTasks\IPriceTermRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />
+    <Compile Include="Repositories\IGenericAPIRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\IGenericWithDetailRepository.cs" />
     <Compile Include="Repositories\StockTasks\IGoodsReceiptRepository.cs" />

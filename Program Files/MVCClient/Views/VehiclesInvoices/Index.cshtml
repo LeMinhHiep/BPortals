@@ -3,17 +3,17 @@
 
 
 <div>
-    @(Html.Kendo().Grid<MVCDTO.SalesTasks.VehiclesInvoicePrimitiveDTO>()
+    @(Html.Kendo().Grid<MVCModel.Models.VehiclesInvoiceIndex>()
             .Name("kendoGridIndex")
             .Columns(columns =>
             {
                 columns.Bound(p => p.SalesInvoiceID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.Remarks).Title("").Width(10);
-                columns.Bound(p => p.EntryDate).DisplayNameTitle().Format("{0:D}").Width(110);
-                columns.Bound(p => p.VATInvoiceNo).DisplayNameTitle().Width(40);
-                columns.Bound(p => p.CustomerName).DisplayNameTitle().Width(470);
-                columns.Bound(p => p.Description).DisplayNameTitle().Width(210);
-                columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(115);//.ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" })
+                columns.Bound(p => p.LocationCode).Title("CN").Width(10);
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:D}").Width(110);
+                columns.Bound(p => p.VATInvoiceNo).Title("HĐ VAT").Width(40);
+                columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(470);
+                columns.Bound(p => p.CommodityName).Title("Xe").Width(210);
+                columns.Bound(p => p.GrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(115);//.ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" })
 
                 columns.Template(model => null).Width(90)
                     .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "VehiclesInvoices", action = "Edit" }) + "/#= SalesInvoiceID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "VehiclesInvoices", action = "Delete" }) + "/#= SalesInvoiceID #'><span class='k-icon k-delete'></span></a>");
@@ -31,7 +31,7 @@
             })
             .DataSource(dataSource => dataSource
                         .Ajax()
-                        .Read(read => read.Action("GetVehiclesInvoices", "VehiclesInvoiceApi"))
+                        .Read(read => read.Action("GetVehiclesInvoiceIndexes", "VehiclesInvoiceApi"))
                         .Sort(sort =>
                             {
                                 sort.Add(p => p.EntryDate).Descending();

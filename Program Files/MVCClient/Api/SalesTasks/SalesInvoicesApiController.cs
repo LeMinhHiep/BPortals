@@ -32,32 +32,28 @@ namespace MVCClient.Api.SalesTasks
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class VehiclesInvoiceApiController : Controller
     {
-        private readonly IVehiclesInvoiceRepository vehiclesInvoiceRepository;
+        private readonly IVehiclesInvoiceAPIRepository vehiclesInvoiceAPIRepository;
 
-        public VehiclesInvoiceApiController(IVehiclesInvoiceRepository vehiclesInvoiceRepository)
+        public VehiclesInvoiceApiController(IVehiclesInvoiceAPIRepository vehiclesInvoiceAPIRepository)
         {
-            this.vehiclesInvoiceRepository = vehiclesInvoiceRepository;
+            this.vehiclesInvoiceAPIRepository = vehiclesInvoiceAPIRepository;
         }
 
-        public JsonResult GetVehiclesInvoices([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetVehiclesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<SalesInvoiceDetail> salesInvoiceDetails = this.vehiclesInvoiceRepository.DetailLoading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.VehiclesInvoice);
+            ICollection<VehiclesInvoiceIndex> vehiclesInvoiceIndexes = this.vehiclesInvoiceAPIRepository.GetEntityIndexes<VehiclesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-10), DateTime.Today);
 
-            DataSourceResult response = salesInvoiceDetails.ToDataSourceResult(request, o => new VehiclesInvoicePrimitiveDTO
-            {
-                Remarks = o.SalesInvoice.Location.Code,
-                SalesInvoiceID = o.SalesInvoiceID,
-                EntryDate = o.EntryDate,
-                VATInvoiceNo = o.SalesInvoice.VATInvoiceNo,
-                CustomerName = o.SalesInvoice.Customer.Name + ",    " + o.SalesInvoice.Customer.AddressNo,
-                Description = o.Commodity.Name,
-                TotalGrossAmount = o.GrossAmount
-            });
+            DataSourceResult response = vehiclesInvoiceIndexes.ToDataSourceResult(request);
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
        
     }
+
+
+
+
+
 
 
 

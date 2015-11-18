@@ -41,7 +41,7 @@ namespace MVCData.Repositories.SalesTasks
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
-            
+            /*
             Helpers.SqlProgrammability.StockTasks.Inventories m = new Helpers.SqlProgrammability.StockTasks.Inventories(totalBikePortalsEntities);
             m.RestoreProcedure();
 
@@ -88,13 +88,7 @@ namespace MVCData.Repositories.SalesTasks
 
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);
             cmm.RestoreProcedure();
-            
-        }
-
-        public IQueryable<SalesInvoiceDetail> DetailLoading(string aspUserID, GlobalEnums.NmvnTaskID nmvnTaskID)//for Loading (09/07/2015) - let review and optimize Loading laster
-        {
-            int userID = this.TotalBikePortalsEntities.AspNetUsers.Where(w => w.Id == aspUserID).FirstOrDefault().UserID;
-            return this.TotalBikePortalsEntities.SalesInvoiceDetails.Include(i => i.SalesInvoice).Where(w => w.SalesInvoice.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.VehiclesInvoice && this.TotalBikePortalsEntities.AccessControls.Where(acl => acl.UserID == userID && acl.NMVNTaskID == (int)nmvnTaskID && acl.AccessLevel > 0).Select(s => s.OrganizationalUnitID).Contains(w.SalesInvoice.OrganizationalUnitID)).Include(ic => ic.Commodity).Include(cus => cus.SalesInvoice.Customer).Include(il => il.SalesInvoice.Location);
+            */
         }
     }
 
@@ -145,6 +139,15 @@ namespace MVCData.Repositories.SalesTasks
 
 
 
+
+
+    public class VehiclesInvoiceAPIRepository : GenericAPIRepository, IVehiclesInvoiceAPIRepository
+    {
+        public VehiclesInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetVehiclesInvoiceIndexes")
+        {
+        }
+    }
 
 
 

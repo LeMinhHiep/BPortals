@@ -94,6 +94,7 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IVehiclesInvoiceService>().To<VehiclesInvoiceService>();
                 kernel.Bind<IVehiclesInvoiceRepository>().To<VehiclesInvoiceRepository>();
+                kernel.Bind<IVehiclesInvoiceAPIRepository>().To<VehiclesInvoiceAPIRepository>();
 
                 kernel.Bind<IPartsInvoiceService>().To<PartsInvoiceService>();
                 kernel.Bind<IPartsInvoiceRepository>().To<PartsInvoiceRepository>();

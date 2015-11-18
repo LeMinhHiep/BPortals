@@ -81,6 +81,7 @@
     <Compile Include="Repositories\CommonTasks\PaymentTermRepository.cs" />
     <Compile Include="Repositories\CommonTasks\AspNetUserRepository.cs" />
     <Compile Include="Repositories\CommonTasks\PriceTermRepository.cs" />
+    <Compile Include="Repositories\GenericAPIRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\GenericWithDetailRepository.cs" />
     <Compile Include="Repositories\StockTasks\GoodsReceiptRepository.cs" />

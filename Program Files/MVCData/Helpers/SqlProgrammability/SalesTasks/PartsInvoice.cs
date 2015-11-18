@@ -14,6 +14,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         public void RestoreProcedure()
         {
+            this.GetPartsInvoiceIndexes();
+
             this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false);
             this.GetCommoditiesInWarehouses("GetPartAvailables", false, true, false);
             this.GetCommoditiesInWarehouses("GetCommoditiesInWarehouses", false, true, true);
@@ -28,6 +30,27 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         }
 
 
+        private void GetPartsInvoiceIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesInvoices.SalesInvoiceID, CAST(SalesInvoices.EntryDate AS DATE) AS EntryDate, SalesInvoices.Reference, SalesInvoices.VATInvoiceNo, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, SalesInvoiceDetails.GrossAmount " + "\r\n";
+            queryString = queryString + "       FROM        SalesInvoices INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.PartsInvoice + " AND SalesInvoices.EntryDate >= @FromDate AND SalesInvoices.EntryDate <= @ToDate AND SalesInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.PartsInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = SalesInvoices.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Customers ON SalesInvoices.CustomerID = Customers.CustomerID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   SalesInvoiceDetails ON SalesInvoices.SalesInvoiceID = SalesInvoiceDetails.SalesInvoiceID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   Commodities ON SalesInvoiceDetails.CommodityID = Commodities.CommodityID" + "\r\n";
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetPartsInvoiceIndexes", queryString);
+        }
 
         /// <summary>
         /// Get QuantityAvailable (Remaining) Commodities BY EVERY (WarehouseID, CommodityID)
@@ -105,7 +128,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                 queryString = queryString + "                               FROM            SalesInvoiceDetails " + "\r\n";
                 queryString = queryString + "                               WHERE           SalesInvoiceID = @SalesInvoiceID AND LocationID = @LocationID AND CommodityID IN (SELECT CommodityID FROM @Commodities) " + "\r\n";
 
-                queryString = queryString + "                               SET             @HasCommoditiesAvailable = @@ROWCOUNT " + "\r\n";
+                queryString = queryString + "                               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
                 queryString = queryString + "                   END " + "\r\n";
 
                 queryString = queryString + "               IF (@StockTransferID > 0) " + "\r\n";
@@ -115,7 +138,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                 queryString = queryString + "                               FROM            StockTransferDetails " + "\r\n";
                 queryString = queryString + "                               WHERE           StockTransferID = @StockTransferID AND LocationID = @LocationID AND CommodityID IN (SELECT CommodityID FROM @Commodities) " + "\r\n";
 
-                queryString = queryString + "                               SET             @HasCommoditiesAvailable = @@ROWCOUNT " + "\r\n";
+                queryString = queryString + "                               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
                 queryString = queryString + "                   END " + "\r\n";
 
                 //queryString = queryString + "             IF (@StockAdjustID > 0) " + "\r\n";

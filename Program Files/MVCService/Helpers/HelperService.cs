@@ -20,6 +20,14 @@ namespace MVCService.Helpers
         where TDto : BaseDTO, IBaseDetailEntity<TDtoDetail>
         where TDtoDetail : class, IHelperWarehouseID, IHelperCommodityID, IHelperCommodityTypeID
     {
+        /// <summary>
+        /// Get checkedDate, warehouseIDList/ commodityIDList Collection for CheckOverStock
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <param name="entity"></param>
+        /// <param name="checkedDate"></param>
+        /// <param name="warehouseIDList"></param>
+        /// <param name="commodityIDList"></param>
         public void GetWCParameters(TDto dto, TEntity entity, ref DateTime? checkedDate, ref string warehouseIDList, ref string commodityIDList)
         {
             #region Get checkedDate, warehouseIDList/ commodityIDList Collection for CheckOverStock

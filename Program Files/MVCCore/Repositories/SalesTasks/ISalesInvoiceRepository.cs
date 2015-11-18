@@ -13,7 +13,6 @@ namespace MVCCore.Repositories.SalesTasks
 
     public interface IVehiclesInvoiceRepository : ISalesInvoiceRepository
     {
-        IQueryable<SalesInvoiceDetail> DetailLoading(string aspUserID, GlobalEnums.NmvnTaskID nmvnTaskID);//for Loading (09/07/2015) - let review and optimize Loading laster
     }
 
     public interface IPartsInvoiceRepository : ISalesInvoiceRepository
@@ -24,6 +23,11 @@ namespace MVCCore.Repositories.SalesTasks
     {
         IList<SalesInvoice> GetActiveServiceInvoices(int locationID, int? serviceInvoiceID, string licensePlate, int isFinished);
         IList<RelatedPartsInvoiceValue> GetRelatedPartsInvoiceValue(int serviceInvoiceID);
+    }
+
+
+    public interface IVehiclesInvoiceAPIRepository : IGenericAPIRepository 
+    {
     }
 
 }
