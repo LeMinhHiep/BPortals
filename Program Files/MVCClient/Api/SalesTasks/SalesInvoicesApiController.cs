@@ -41,7 +41,7 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetVehiclesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<VehiclesInvoiceIndex> vehiclesInvoiceIndexes = this.vehiclesInvoiceAPIRepository.GetEntityIndexes<VehiclesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-10), DateTime.Today);
+            ICollection<VehiclesInvoiceIndex> vehiclesInvoiceIndexes = this.vehiclesInvoiceAPIRepository.GetEntityIndexes<VehiclesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
 
             DataSourceResult response = vehiclesInvoiceIndexes.ToDataSourceResult(request);
 
