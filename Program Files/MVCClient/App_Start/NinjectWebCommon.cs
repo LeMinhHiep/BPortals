@@ -98,10 +98,12 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IPartsInvoiceService>().To<PartsInvoiceService>();
                 kernel.Bind<IPartsInvoiceRepository>().To<PartsInvoiceRepository>();
+                kernel.Bind<IPartsInvoiceAPIRepository>().To<PartsInvoiceAPIRepository>();
                 kernel.Bind<IPartsInvoiceHelperService>().To<PartsInvoiceHelperService>();
 
                 kernel.Bind<IServicesInvoiceService>().To<ServicesInvoiceService>();
                 kernel.Bind<IServicesInvoiceRepository>().To<ServicesInvoiceRepository>();
+                kernel.Bind<IServicesInvoiceAPIRepository>().To<ServicesInvoiceAPIRepository>();
 
                 kernel.Bind<IQuotationService>().To<QuotationService>();
                 kernel.Bind<IQuotationRepository>().To<QuotationRepository>();
@@ -114,6 +116,7 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IServiceContractService>().To<ServiceContractService>();
                 kernel.Bind<IServiceContractRepository>().To<ServiceContractRepository>();
+                kernel.Bind<IServiceContractAPIRepository>().To<ServiceContractAPIRepository>();
 
                 kernel.Bind<IVehicleTransferOrderService>().To<VehicleTransferOrderService>();
                 kernel.Bind<IVehicleTransferOrderRepository>().To<VehicleTransferOrderRepository>();

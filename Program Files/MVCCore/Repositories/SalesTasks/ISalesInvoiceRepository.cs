@@ -30,4 +30,11 @@ namespace MVCCore.Repositories.SalesTasks
     {
     }
 
+    public interface IPartsInvoiceAPIRepository : IGenericAPIRepository
+    {
+    }
+
+    public interface IServicesInvoiceAPIRepository : IGenericAPIRepository
+    {
+    }
 }

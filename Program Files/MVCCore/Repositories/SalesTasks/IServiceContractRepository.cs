@@ -12,4 +12,9 @@ namespace MVCCore.Repositories.SalesTasks
         
         ICollection<ServiceContractGetVehiclesInvoice> ServiceContractGetVehiclesInvoice(int locationID, string searchText, int? salesInvoiceID, int? serviceContractID);
     }
+
+    public interface IServiceContractAPIRepository : IGenericAPIRepository
+    {
+    }
+
 }

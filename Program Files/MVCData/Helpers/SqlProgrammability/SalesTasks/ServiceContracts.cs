@@ -15,6 +15,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         public void RestoreProcedure()
         {
+            this.GetServiceContractIndexes();
+
             this.ServiceContractGetVehiclesInvoices();
             this.SearchServiceContracts();
 
@@ -24,6 +26,28 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.ServicesContractDeletable();
 
             this.ServiceContractInitReference();
+        }
+
+        private void GetServiceContractIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      ServiceContracts.ServiceContractID, CAST(ServiceContracts.EntryDate AS DATE) AS EntryDate, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.LicensePlate, ServiceContracts.AgentName, ServiceContracts.PurchaseDate " + "\r\n";
+            queryString = queryString + "       FROM        ServiceContracts INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON ServiceContracts.EntryDate >= @FromDate AND ServiceContracts.EntryDate <= @ToDate AND ServiceContracts.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.ServiceContract + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = ServiceContracts.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Customers ON ServiceContracts.CustomerID = Customers.CustomerID INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID " + "\r\n";
+
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetServiceContractIndexes", queryString);
         }
 
         private void ServiceContractGetVehiclesInvoices()

@@ -9,7 +9,7 @@
             {
                 columns.Bound(p => p.SalesInvoiceID).DisplayNameTitle().Hidden();
                 columns.Bound(p => p.LocationCode).Title("CN").Width(10);
-                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:D}").Width(110);
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
                 columns.Bound(p => p.VATInvoiceNo).Title("HĐ VAT").Width(40);
                 columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(470);
                 columns.Bound(p => p.CommodityName).Title("Xe").Width(210);
@@ -30,23 +30,23 @@
                 e.DataBound("hightLightSelectedRow");
             })
             .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .Read(read => read.Action("GetVehiclesInvoiceIndexes", "VehiclesInvoiceApi"))
-                        .Sort(sort =>
-                            {
-                                sort.Add(p => p.EntryDate).Descending();
-                                sort.Add(p => p.SalesInvoiceID).Descending();
-                            })
-                        //.Events(events => events.Error("onError"))
-                        .PageSize(20)
-                        .Model(model =>
-                        {
-                            model.Id(x => x.SalesInvoiceID);
-                            model.Field(m => m.SalesInvoiceID).DefaultValue(0);
-                        })
-                        .ServerOperation(true)
-                        //.Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
-                    ).HtmlAttributes(new { @class = "grid-class" }))
+                .Ajax()
+                .Read(read => read.Action("GetVehiclesInvoiceIndexes", "VehiclesInvoiceApi"))
+                .Sort(sort =>
+                    {
+                        sort.Add(p => p.EntryDate).Descending();
+                        sort.Add(p => p.SalesInvoiceID).Descending();
+                    })
+                //.Events(events => events.Error("onError"))
+                .PageSize(20)
+                .Model(model =>
+                {
+                    model.Id(x => x.SalesInvoiceID);
+                    model.Field(m => m.SalesInvoiceID).DefaultValue(0);
+                })
+                .ServerOperation(true)
+                //.Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
+            ).HtmlAttributes(new { @class = "grid-class" }))
 </div>
 
 

@@ -41,7 +41,7 @@ namespace MVCData.Repositories.SalesTasks
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
-            /*
+            
             Helpers.SqlProgrammability.StockTasks.Inventories m = new Helpers.SqlProgrammability.StockTasks.Inventories(totalBikePortalsEntities);
             m.RestoreProcedure();
 
@@ -88,7 +88,7 @@ namespace MVCData.Repositories.SalesTasks
 
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);
             cmm.RestoreProcedure();
-            */
+            
         }
     }
 
@@ -149,6 +149,21 @@ namespace MVCData.Repositories.SalesTasks
         }
     }
 
+    public class PartsInvoiceAPIRepository : GenericAPIRepository, IPartsInvoiceAPIRepository
+    {
+        public PartsInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetPartsInvoiceIndexes")
+        {
+        }
+    }
+
+    public class ServicesInvoiceAPIRepository : GenericAPIRepository, IServicesInvoiceAPIRepository
+    {
+        public ServicesInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetServicesInvoiceIndexes")
+        {
+        }
+    }
 
 
 }

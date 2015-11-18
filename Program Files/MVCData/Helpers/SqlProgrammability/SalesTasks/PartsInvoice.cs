@@ -39,12 +39,13 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      SalesInvoices.SalesInvoiceID, CAST(SalesInvoices.EntryDate AS DATE) AS EntryDate, SalesInvoices.Reference, SalesInvoices.VATInvoiceNo, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, SalesInvoiceDetails.GrossAmount " + "\r\n";
+            queryString = queryString + "       SELECT      SalesInvoices.SalesInvoiceID, CAST(SalesInvoices.EntryDate AS DATE) AS EntryDate, SalesInvoices.Reference, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, ServiceContracts.LicensePlate, ServiceInvoices.EntryDate AS ServiceDate, ServiceInvoices.Reference AS ServiceReference, SalesInvoices.TotalGrossAmount " + "\r\n";
             queryString = queryString + "       FROM        SalesInvoices INNER JOIN" + "\r\n";
             queryString = queryString + "                   Locations ON SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.PartsInvoice + " AND SalesInvoices.EntryDate >= @FromDate AND SalesInvoices.EntryDate <= @ToDate AND SalesInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.PartsInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = SalesInvoices.LocationID INNER JOIN " + "\r\n";
             queryString = queryString + "                   Customers ON SalesInvoices.CustomerID = Customers.CustomerID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                   SalesInvoiceDetails ON SalesInvoices.SalesInvoiceID = SalesInvoiceDetails.SalesInvoiceID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                   Commodities ON SalesInvoiceDetails.CommodityID = Commodities.CommodityID" + "\r\n";
+            queryString = queryString + "                   ServiceContracts ON SalesInvoices.ServiceContractID = ServiceContracts.ServiceContractID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   SalesInvoices AS ServiceInvoices ON SalesInvoices.ServiceInvoiceID = ServiceInvoices.SalesInvoiceID" + "\r\n";
             queryString = queryString + "       " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";

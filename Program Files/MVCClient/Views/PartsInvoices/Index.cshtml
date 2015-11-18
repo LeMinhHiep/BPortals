@@ -31,23 +31,20 @@
     @Html.HiddenFor(model => model.ServiceInvoiceEntryDate);
 
     <div>
-        @(Html.Kendo().Grid<MVCDTO.SalesTasks.PartsInvoicePrimitiveDTO>()
+        @(Html.Kendo().Grid<MVCModel.Models.PartsInvoiceIndex>()
             .Name("kendoGridIndex")
             .Columns(columns =>
             {
                 columns.Bound(p => p.SalesInvoiceID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.ServiceInvoiceID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.EntryDate).DisplayNameTitle().Format("{0:d}").Width(80).Filterable(false);
-                columns.Bound(p => p.CustomerName).DisplayNameTitle().Width(140);
-                columns.Bound(p => p.CustomerAddressNo).DisplayNameTitle().Width(190).Filterable(false)
-                    .ClientTemplate("#= (CustomerAddressNo == null)? '' : CustomerAddressNo # #= (CustomerEntireTerritoryEntireName == null)? '' : CustomerEntireTerritoryEntireName #");
-                columns.Bound(p => p.ServiceContractCommodityName).DisplayNameTitle().Width(120);
-                columns.Bound(p => p.ServiceContractLicensePlate).DisplayNameTitle().Width(80).Filterable(false);
-                columns.Bound(p => p.ServiceContractChassisCode).DisplayNameTitle().Width(80).Filterable(false);
-                columns.Bound(p => p.ServiceContractEngineCode).DisplayNameTitle().Width(80).Filterable(false);
-                columns.Bound(p => p.ServiceInvoiceEntryDate).Title("Xe đang sửa").Width(80).Filterable(false)
-                    .ClientTemplate("#= (ServiceInvoiceEntryDate == null)? '' : kendo.format('{0:d}', ServiceInvoiceEntryDate) #");
-                columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(100).ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+                columns.Bound(p => p.LocationCode).Title("CN").Width(3);
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
+                columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(470);
+                columns.Bound(p => p.CommodityName).Title("Xe").Width(210);
+                columns.Bound(p => p.LicensePlate).Title("Biển số").Width(110);
+                columns.Bound(p => p.ServiceReference).Title("DV").Width(20);
+                columns.Bound(p => p.ServiceDate).Title("Giờ DV").Format("{0:dd/MM HH:mm}").Width(90);
+                columns.Bound(p => p.TotalGrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(115);//.ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" })
+                
                 columns.Template(model => null).Width(120)
                     .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "PartsInvoices", action = "Edit" }) + "/#= SalesInvoiceID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "PartsInvoices", action = "Delete" }) + "/#= SalesInvoiceID #'><span class='k-icon k-delete'></span></a>");
             })
@@ -63,7 +60,7 @@
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("GetPartsInvoices", "PartsInvoiceApi"))
+                .Read(read => read.Action("GetPartsInvoiceIndexes", "PartsInvoiceApi"))
                 .Sort(sort =>
                     {
                         sort.Add(p => p.EntryDate).Descending();

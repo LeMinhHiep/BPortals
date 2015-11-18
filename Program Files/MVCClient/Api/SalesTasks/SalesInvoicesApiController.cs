@@ -18,12 +18,7 @@ using MVCClient.ViewModels.SalesTasks;
 using System.Collections.Generic;
 
 
-
-
-
 using Microsoft.AspNet.Identity;
-
-
 
 
 
@@ -52,88 +47,53 @@ namespace MVCClient.Api.SalesTasks
 
 
 
-
-
-
-
-
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class PartsInvoiceApiController : Controller
     {
-        private readonly IPartsInvoiceRepository partsInvoiceRepository;
+        private readonly IPartsInvoiceAPIRepository partsInvoiceAPIRepository;
 
-        public PartsInvoiceApiController(IPartsInvoiceRepository partsInvoiceRepository)
+        public PartsInvoiceApiController(IPartsInvoiceAPIRepository partsInvoiceAPIRepository)
         {
-            this.partsInvoiceRepository = partsInvoiceRepository;
+            this.partsInvoiceAPIRepository = partsInvoiceAPIRepository;
         }
 
-        public JsonResult GetPartsInvoices([DataSourceRequest] DataSourceRequest request)
-        {
-            IQueryable<SalesInvoice> salesInvoices = this.partsInvoiceRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.PartsInvoice).Where(t => t.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.PartsInvoice).Include(c => c.Customer).Include(e => e.Customer.EntireTerritory).Include(s => s.ServiceContract.Commodity).Include(i => i.SalesInvoice1);
 
-            DataSourceResult response = salesInvoices.ToDataSourceResult(request, o => new PartsInvoicePrimitiveDTO
-            {
-                SalesInvoiceID = o.SalesInvoiceID,
-                EntryDate = o.EntryDate,
-                Reference = o.Reference,
-                CustomerName = o.Customer.Name,
-                CustomerBirthday = o.Customer.Birthday,
-                CustomerTelephone = o.Customer.Telephone,
-                CustomerAddressNo = o.Customer.AddressNo,
-                CustomerEntireTerritoryEntireName = o.Customer.EntireTerritory.EntireName,
-                ServiceContractCommodityCode = o.ServiceContract != null ? o.ServiceContract.Commodity.Code : "",
-                ServiceContractCommodityName = o.ServiceContract != null ? o.ServiceContract.Commodity.Name : "",
-                ServiceContractLicensePlate = o.ServiceContract != null ? o.ServiceContract.LicensePlate : "",
-                ServiceContractChassisCode = o.ServiceContract != null ? o.ServiceContract.ChassisCode : "",
-                ServiceContractEngineCode = o.ServiceContract != null ? o.ServiceContract.EngineCode : "",
-                ServiceInvoiceEntryDate = o.SalesInvoice1 != null ? o.SalesInvoice1.EntryDate : (DateTime?)null,
-                TotalGrossAmount = o.TotalGrossAmount,
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+        public JsonResult GetPartsInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            ICollection<PartsInvoiceIndex> partsInvoiceIndexes = this.partsInvoiceAPIRepository.GetEntityIndexes<PartsInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+
+            DataSourceResult response = partsInvoiceIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-
     }
+
+
+
+
 
 
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class ServicesInvoiceApiController : Controller
     {
         private readonly IServicesInvoiceRepository servicesInvoiceRepository;
+        private readonly IServicesInvoiceAPIRepository servicesInvoiceAPIRepository;
 
-        public ServicesInvoiceApiController(IServicesInvoiceRepository servicesInvoiceRepository)
+        public ServicesInvoiceApiController(IServicesInvoiceRepository servicesInvoiceRepository, IServicesInvoiceAPIRepository servicesInvoiceAPIRepository)
         {
             this.servicesInvoiceRepository = servicesInvoiceRepository;
+            this.servicesInvoiceAPIRepository = servicesInvoiceAPIRepository;
         }
 
-        public JsonResult GetServicesInvoices([DataSourceRequest] DataSourceRequest request)
-        {
-            IQueryable<SalesInvoice> salesInvoices = this.servicesInvoiceRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.ServicesInvoice).Where(t => t.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice).Include(c => c.Customer).Include(e => e.Customer.EntireTerritory).Include(s => s.ServiceContract.Commodity);
 
-            DataSourceResult response = salesInvoices.ToDataSourceResult(request, o => new ServicesInvoicePrimitiveDTO
-            {
-                SalesInvoiceID = o.SalesInvoiceID,
-                EntryDate = o.EntryDate,
-                Reference = o.Reference,
-                CustomerName = o.Customer.Name,
-                CustomerBirthday = o.Customer.Birthday,
-                CustomerTelephone = o.Customer.Telephone,
-                CustomerAddressNo = o.Customer.AddressNo,
-                CustomerEntireTerritoryEntireName = o.Customer.EntireTerritory.EntireName,
-                ServiceContractCommodityName = o.ServiceContract.Commodity.Name,
-                ServiceContractLicensePlate = o.ServiceContract.LicensePlate,
-                ServiceContractChassisCode = o.ServiceContract.ChassisCode,
-                ServiceContractEngineCode = o.ServiceContract.EngineCode,
-                ServiceContractColorCode = o.ServiceContract.ColorCode,
-                TotalGrossAmount = o.TotalGrossAmount,
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+        public JsonResult GetServicesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            ICollection<ServicesInvoiceIndex> servicesInvoiceIndexes = this.servicesInvoiceAPIRepository.GetEntityIndexes<ServicesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+
+            DataSourceResult response = servicesInvoiceIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-
-
 
         public JsonResult GetActiveServiceInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? serviceInvoiceID, string licensePlate, int isFinished)
         {

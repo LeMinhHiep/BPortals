@@ -152,6 +152,9 @@
     <Compile Include="Models\PartAvailable.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PartsInvoiceIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PartsInvoiceViewDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
@@ -224,10 +227,16 @@
     <Compile Include="Models\ServiceContractGetVehiclesInvoice.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ServiceContractIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ServiceContractResult.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ServiceContractType.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ServicesInvoiceIndex.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockTransfer.cs">

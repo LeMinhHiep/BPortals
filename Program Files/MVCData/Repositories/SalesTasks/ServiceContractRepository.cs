@@ -32,4 +32,13 @@ namespace MVCData.Repositories.SalesTasks
             return this.TotalBikePortalsEntities.ServiceContractGetVehiclesInvoices(locationID, searchText, salesInvoiceID, serviceContractID).ToList();
         }        
     }
+
+    public class ServiceContractAPIRepository : GenericAPIRepository, IServiceContractAPIRepository
+    {
+        public ServiceContractAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetServiceContractIndexes")
+        {
+        }
+    }
+
 }

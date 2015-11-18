@@ -31,21 +31,21 @@
     
 
     <div>
-        @(Html.Kendo().Grid<MVCDTO.SalesTasks.ServiceContractPrimitiveDTO>()
+        @(Html.Kendo().Grid<MVCModel.Models.ServiceContractIndex>()
             .Name("kendoGridIndex")
             .Columns(columns =>
             {
                 columns.Bound(p => p.ServiceContractID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.Reference).DisplayNameTitle().Width(80).Filterable(false);
-                columns.Bound(p => p.EntryDate).DisplayNameTitle().Format("{0:d}").Width(80).Filterable(false);
-                columns.Bound(p => p.CustomerName).DisplayNameTitle().Width(160);
-                columns.Bound(p => p.CustomerTelephone).DisplayNameTitle().Width(80);
-                columns.Bound(p => p.CustomerBirthday).DisplayNameTitle().Format("{0:d}").Width(80).Filterable(false);                
-                columns.Bound(p => p.LicensePlate).DisplayNameTitle().Width(80);
-                columns.Bound(p => p.ChassisCode).DisplayNameTitle().Width(80);
-                columns.Bound(p => p.EngineCode).DisplayNameTitle().Width(80);
-                columns.Bound(p => p.Description).DisplayNameTitle().Width(140).Filterable(false);
-                columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Width(100).Hidden();
+                columns.Bound(p => p.LocationCode).Title("CN").Width(3);
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
+                columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(370);
+                columns.Bound(p => p.CommodityName).Title("Xe").Width(180);
+                columns.Bound(p => p.ChassisCode).Title("Số khung").Width(110);
+                columns.Bound(p => p.EngineCode).Title("Số máy").Width(50);
+                columns.Bound(p => p.LicensePlate).Title("Biển số").Width(100);
+                columns.Bound(p => p.AgentName).Title("Đại lý").Width(100);
+                columns.Bound(p => p.PurchaseDate).Title("Mua").Format("{0:dd/MM/yyyy}").Width(40);
+                
                 columns.Template(model => null).Width(86)
                     .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "ServiceContracts", action = "Edit" }) + "/#= ServiceContractID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "ServiceContracts", action = "Delete" }) + "/#= ServiceContractID #'><span class='k-icon k-delete'></span></a>");
 
@@ -62,7 +62,7 @@
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("GetServiceContracts", "ServiceContractsApi"))
+                .Read(read => read.Action("GetServiceContractIndexes", "ServiceContractsApi"))
                 .Sort(sort =>
                     {
                         sort.Add(p => p.EntryDate).Descending();

@@ -1,4 +1,5 @@
-﻿using MVCModel.Models;
+﻿using MVCBase.Enums;
+using MVCModel.Models;
 
 namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 {
@@ -13,6 +14,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         public void RestoreProcedure()
         {
+            this.GetServicesInvoiceIndexes();
+
             this.GetRelatedPartsInvoiceValue();
 
             this.ServicesInvoicePostSaveValidate();
@@ -21,6 +24,30 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.ServicesInvoiceDeletable();
 
             this.SalesInvoicePrint();
+        }
+
+
+        private void GetServicesInvoiceIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesInvoices.SalesInvoiceID, CAST(SalesInvoices.EntryDate AS DATE) AS EntryDate, SalesInvoices.Reference, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.LicensePlate, SalesInvoices.TotalGrossAmount " + "\r\n";
+            queryString = queryString + "       FROM        SalesInvoices INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + " AND SalesInvoices.EntryDate >= @FromDate AND SalesInvoices.EntryDate <= @ToDate AND SalesInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.ServicesInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = SalesInvoices.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Customers ON SalesInvoices.CustomerID = Customers.CustomerID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   ServiceContracts ON SalesInvoices.ServiceContractID = ServiceContracts.ServiceContractID LEFT JOIN" + "\r\n";
+            queryString = queryString + "                   Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID " + "\r\n";
+            
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetServicesInvoiceIndexes", queryString);
         }
 
         /// <summary>

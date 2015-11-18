@@ -12,6 +12,7 @@ using MVCModel.Models;
 
 
 using Microsoft.AspNet.Identity;
+using System;
 
 
 
@@ -22,10 +23,12 @@ namespace MVCClient.Api.SalesTasks
     public class ServiceContractsApiController : Controller
     {
         private readonly IServiceContractRepository serviceContractRepository;
+        private readonly IServiceContractAPIRepository serviceContractAPIRepository;
 
-        public ServiceContractsApiController(IServiceContractRepository serviceContractRepository)
+        public ServiceContractsApiController(IServiceContractRepository serviceContractRepository, IServiceContractAPIRepository serviceContractAPIRepository)
         {
             this.serviceContractRepository = serviceContractRepository;
+            this.serviceContractAPIRepository = serviceContractAPIRepository;
         }
 
 
@@ -42,27 +45,15 @@ namespace MVCClient.Api.SalesTasks
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
-
-        public JsonResult GetServiceContracts([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetServiceContractIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<ServiceContract> serviceContracts = this.serviceContractRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.ServiceContract).Include(c => c.Customer);
+            ICollection<ServiceContractIndex> serviceContractIndexes = this.serviceContractAPIRepository.GetEntityIndexes<ServiceContractIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
 
-            DataSourceResult response = serviceContracts.ToDataSourceResult(request, o => new ServiceContractPrimitiveDTO
-            {
-                ServiceContractID = o.ServiceContractID,
-                Reference = o.Reference,
-                EntryDate = o.EntryDate,
-                CustomerName = o.Customer.Name,
-                CustomerBirthday = o.Customer.Birthday,
-                CustomerTelephone = o.Customer.Telephone,
-                LicensePlate = o.LicensePlate,
-                ChassisCode = o.ChassisCode,
-                EngineCode = o.EngineCode,
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+            DataSourceResult response = serviceContractIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
 
         public JsonResult ServiceContractGetVehiclesInvoice([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, string searchText, int? salesInvoiceID, int? serviceContractID)
         {
