@@ -15,12 +15,13 @@ namespace MVCModel.Models
     {
         public string LocationCode { get; set; }
         public int GoodsReceiptID { get; set; }
-        public System.DateTime EntryDate { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
         public string Reference { get; set; }
         public decimal TotalQuantity { get; set; }
         public string VoucherType { get; set; }
         public string VoucherReference { get; set; }
         public Nullable<System.DateTime> VoucherDate { get; set; }
         public string VoucherOwner { get; set; }
+        public string Description { get; set; }
     }
 }

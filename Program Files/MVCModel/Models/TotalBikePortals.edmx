@@ -4653,13 +4653,14 @@
         <ComplexType Name="GoodsReceiptIndex">
           <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
           <Property Type="Int32" Name="GoodsReceiptID" Nullable="false" />
-          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
           <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="VoucherType" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="VoucherReference" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="VoucherDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="VoucherOwner" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="VoucherOwner" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="PartTransferOrderIndex">
           <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
@@ -6116,6 +6117,7 @@
                 <ScalarProperty Name="VoucherReference" ColumnName="VoucherReference" />
                 <ScalarProperty Name="VoucherDate" ColumnName="VoucherDate" />
                 <ScalarProperty Name="VoucherOwner" ColumnName="VoucherOwner" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
