@@ -13,4 +13,16 @@ namespace MVCCore.Repositories.StockTasks
 
     public interface IPartTransferOrderRepository : ITransferOrderRepository
     { }
+
+
+
+
+
+    public interface IVehicleTransferOrderAPIRepository : IGenericAPIRepository
+    {
+    }
+
+    public interface IPartTransferOrderAPIRepository : IGenericAPIRepository
+    {
+    }
 }

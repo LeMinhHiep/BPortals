@@ -1503,6 +1503,11 @@
           <Parameter Name="StockTransferID" Type="int" Mode="In" />
           <Parameter Name="StockAdjustID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetGoodsReceiptIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetGoodsReceiptViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GoodsReceiptID" Type="int" Mode="In" />
           <Parameter Name="GoodsReceiptTypeID" Type="int" Mode="In" />
@@ -1539,6 +1544,16 @@
         </Function>
         <Function Name="GetPartsInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPartTransferIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetPartTransferOrderIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GetPartTransferOrderViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TransferOrderID" Type="int" Mode="In" />
@@ -1588,6 +1603,16 @@
         </Function>
         <Function Name="GetVehiclesInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetVehicleTransferIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetVehicleTransferOrderIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GetVehicleTransferOrderViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TransferOrderID" Type="int" Mode="In" />
@@ -2536,6 +2561,31 @@
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GetServiceContractIndexes" ReturnType="Collection(TotalBikePortalsModel.ServiceContractIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetGoodsReceiptIndexes" ReturnType="Collection(TotalBikePortalsModel.GoodsReceiptIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPartTransferOrderIndexes" ReturnType="Collection(TotalBikePortalsModel.PartTransferOrderIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehicleTransferOrderIndexes" ReturnType="Collection(TotalBikePortalsModel.VehicleTransferOrderIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPartTransferIndexes" ReturnType="Collection(TotalBikePortalsModel.PartTransferIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehicleTransferIndexes" ReturnType="Collection(TotalBikePortalsModel.VehicleTransferIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
@@ -4600,6 +4650,63 @@
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="PurchaseDate" Nullable="true" Precision="23" />
         </ComplexType>
+        <ComplexType Name="GoodsReceiptIndex">
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="GoodsReceiptID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="VoucherType" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="VoucherReference" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="VoucherDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VoucherOwner" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="PartTransferOrderIndex">
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TransferOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="RequestedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SourceLocationCode" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="VehicleTransferOrderIndex">
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TransferOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="RequestedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SourceLocationCode" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="PartTransferIndex">
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="StockTransferID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TransferOrderReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="TransferOrderEntryDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="TransferOrderRequestedDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="VehicleTransferIndex">
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="StockTransferID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TransferOrderReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="TransferOrderEntryDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="TransferOrderRequestedDate" Nullable="true" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5994,6 +6101,83 @@
                 <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
                 <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetGoodsReceiptIndexes" FunctionName="TotalBikePortalsModel.Store.GetGoodsReceiptIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.GoodsReceiptIndex">
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="GoodsReceiptID" ColumnName="GoodsReceiptID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="VoucherType" ColumnName="VoucherType" />
+                <ScalarProperty Name="VoucherReference" ColumnName="VoucherReference" />
+                <ScalarProperty Name="VoucherDate" ColumnName="VoucherDate" />
+                <ScalarProperty Name="VoucherOwner" ColumnName="VoucherOwner" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPartTransferOrderIndexes" FunctionName="TotalBikePortalsModel.Store.GetPartTransferOrderIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PartTransferOrderIndex">
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="TransferOrderID" ColumnName="TransferOrderID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="RequestedDate" ColumnName="RequestedDate" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceLocationCode" ColumnName="SourceLocationCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetVehicleTransferOrderIndexes" FunctionName="TotalBikePortalsModel.Store.GetVehicleTransferOrderIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.VehicleTransferOrderIndex">
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="TransferOrderID" ColumnName="TransferOrderID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="RequestedDate" ColumnName="RequestedDate" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceLocationCode" ColumnName="SourceLocationCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPartTransferIndexes" FunctionName="TotalBikePortalsModel.Store.GetPartTransferIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PartTransferIndex">
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="StockTransferID" ColumnName="StockTransferID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TransferOrderReference" ColumnName="TransferOrderReference" />
+                <ScalarProperty Name="TransferOrderEntryDate" ColumnName="TransferOrderEntryDate" />
+                <ScalarProperty Name="TransferOrderRequestedDate" ColumnName="TransferOrderRequestedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetVehicleTransferIndexes" FunctionName="TotalBikePortalsModel.Store.GetVehicleTransferIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.VehicleTransferIndex">
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="StockTransferID" ColumnName="StockTransferID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TransferOrderReference" ColumnName="TransferOrderReference" />
+                <ScalarProperty Name="TransferOrderEntryDate" ColumnName="TransferOrderEntryDate" />
+                <ScalarProperty Name="TransferOrderRequestedDate" ColumnName="TransferOrderRequestedDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

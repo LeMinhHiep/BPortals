@@ -33,32 +33,24 @@ namespace MVCClient.Api.StockTasks
     public class VehicleTransferApiController : Controller
     {
         private readonly IVehicleTransferRepository vehicleTransferRepository;
+        private readonly IVehicleTransferAPIRepository vehicleTransferAPIRepository;
 
-        public VehicleTransferApiController(IVehicleTransferRepository vehicleTransferRepository)
+        public VehicleTransferApiController(IVehicleTransferRepository vehicleTransferRepository, IVehicleTransferAPIRepository vehicleTransferAPIRepository)
         {
             this.vehicleTransferRepository = vehicleTransferRepository;
+            this.vehicleTransferAPIRepository = vehicleTransferAPIRepository;
         }
 
-        public JsonResult GetVehicleTransfers([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetVehicleTransferIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<StockTransfer> saleTransfers = this.vehicleTransferRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.VehicleTransfer).Where(t => t.StockTransferTypeID == (int)GlobalEnums.StockTransferTypeID.VehicleTransfer).Include(t => t.TransferOrder);
+            ICollection<VehicleTransferIndex> vehicleTransferIndexes = this.vehicleTransferAPIRepository.GetEntityIndexes<VehicleTransferIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
 
-            DataSourceResult response = saleTransfers.ToDataSourceResult(request, o => new VehicleTransferPrimitiveDTO
-            {
-                StockTransferID = o.StockTransferID,
-                EntryDate = o.EntryDate,
-                TransferOrderEntryDate = o.TransferOrder != null ? o.TransferOrder.EntryDate : (DateTime?)null,
-                TransferOrderReference = o.TransferOrder != null ? o.TransferOrder.Reference : null,
-                TransferOrderRequestedDate = o.TransferOrder != null ? o.TransferOrder.RequestedDate : (DateTime?)null,
-                Reference = o.Reference,
-                WarehouseID = o.WarehouseID,
-                TotalQuantity = o.TotalQuantity,
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+            DataSourceResult response = vehicleTransferIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        
         public JsonResult GetPendingVehicleTransferOrders([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int transferOrderID)
         {
             var result = this.vehicleTransferRepository.GetPendingVehicleTransferOrders(locationID, transferOrderID);
@@ -67,35 +59,32 @@ namespace MVCClient.Api.StockTasks
 
     }
 
+
+
+
+
+
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class PartTransferApiController : Controller
     {
         private readonly IPartTransferRepository partTransferRepository;
+        private readonly IPartTransferAPIRepository partTransferAPIRepository;
 
-        public PartTransferApiController(IPartTransferRepository partTransferRepository)
+        public PartTransferApiController(IPartTransferRepository partTransferRepository, IPartTransferAPIRepository partTransferAPIRepository)
         {
             this.partTransferRepository = partTransferRepository;
+            this.partTransferAPIRepository = partTransferAPIRepository;
         }
 
-        public JsonResult GetPartTransfers([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetPartTransferIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<StockTransfer> saleTransfers = this.partTransferRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.PartTransfer).Where(t => t.StockTransferTypeID == (int)GlobalEnums.StockTransferTypeID.PartTransfer).Include(t => t.TransferOrder);
+            ICollection<PartTransferIndex> partTransferIndexes = this.partTransferAPIRepository.GetEntityIndexes<PartTransferIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
 
-            DataSourceResult response = saleTransfers.ToDataSourceResult(request, o => new PartTransferPrimitiveDTO
-            {
-                StockTransferID = o.StockTransferID,
-                EntryDate = o.EntryDate,
-                TransferOrderEntryDate = o.TransferOrder != null ? o.TransferOrder.EntryDate : (DateTime?)null,
-                TransferOrderReference = o.TransferOrder != null ? o.TransferOrder.Reference : null,
-                TransferOrderRequestedDate = o.TransferOrder != null ? o.TransferOrder.RequestedDate : (DateTime?)null,
-                Reference = o.Reference,
-                WarehouseID = o.WarehouseID,
-                TotalQuantity = o.TotalQuantity,
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+            DataSourceResult response = partTransferIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
 
         public JsonResult GetPendingPartTransferOrders([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int transferOrderID)
         {

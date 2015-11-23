@@ -90,6 +90,7 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IGoodsReceiptService>().To<GoodsReceiptService>();
                 kernel.Bind<IGoodsReceiptRepository>().To<GoodsReceiptRepository>();
+                kernel.Bind<IGoodsReceiptAPIRepository>().To<GoodsReceiptAPIRepository>();
                 kernel.Bind<IGoodsReceiptHelperService>().To<GoodsReceiptHelperService>();
 
                 kernel.Bind<IVehiclesInvoiceService>().To<VehiclesInvoiceService>();
@@ -120,15 +121,19 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IVehicleTransferOrderService>().To<VehicleTransferOrderService>();
                 kernel.Bind<IVehicleTransferOrderRepository>().To<VehicleTransferOrderRepository>();
+                kernel.Bind<IVehicleTransferOrderAPIRepository>().To<VehicleTransferOrderAPIRepository>();
 
                 kernel.Bind<IPartTransferOrderService>().To<PartTransferOrderService>();
                 kernel.Bind<IPartTransferOrderRepository>().To<PartTransferOrderRepository>();
+                kernel.Bind<IPartTransferOrderAPIRepository>().To<PartTransferOrderAPIRepository>();
 
                 kernel.Bind<IVehicleTransferService>().To<VehicleTransferService>();
                 kernel.Bind<IVehicleTransferRepository>().To<VehicleTransferRepository>();
+                kernel.Bind<IVehicleTransferAPIRepository>().To<VehicleTransferAPIRepository>();
 
                 kernel.Bind<IPartTransferService>().To<PartTransferService>();
                 kernel.Bind<IPartTransferRepository>().To<PartTransferRepository>();
+                kernel.Bind<IPartTransferAPIRepository>().To<PartTransferAPIRepository>();
 
                 kernel.Bind<IPartTransferHelperService>().To<PartTransferHelperService>(); 
 

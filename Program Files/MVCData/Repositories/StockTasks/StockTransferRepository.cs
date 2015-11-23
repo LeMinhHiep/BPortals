@@ -56,4 +56,28 @@ namespace MVCData.Repositories.StockTasks
             return pendingPartTransferOrders;
         }
     }
+
+
+
+
+
+
+
+
+    public class VehicleTransferAPIRepository : GenericAPIRepository, IVehicleTransferAPIRepository
+    {
+        public VehicleTransferAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetVehicleTransferIndexes")
+        {
+        }
+    }
+
+    public class PartTransferAPIRepository : GenericAPIRepository, IPartTransferAPIRepository
+    {
+        public PartTransferAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetPartTransferIndexes")
+        {
+        }
+    }
+
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Collections.Generic;
 
@@ -19,28 +20,24 @@ namespace MVCClient.Api.StockTasks
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class GoodsReceiptsApiController : Controller
     {
-        private readonly IGoodsReceiptRepository goodsReceiptRepository;       
+        private readonly IGoodsReceiptRepository goodsReceiptRepository;
+        private readonly IGoodsReceiptAPIRepository goodsReceiptAPIRepository;
 
-        public GoodsReceiptsApiController(IGoodsReceiptRepository goodsReceiptRepository)
+        public GoodsReceiptsApiController(IGoodsReceiptRepository goodsReceiptRepository, IGoodsReceiptAPIRepository goodsReceiptAPIRepository)
         {
             this.goodsReceiptRepository = goodsReceiptRepository;
+            this.goodsReceiptAPIRepository = goodsReceiptAPIRepository;
         }
 
-        public JsonResult GetGoodsReceipts([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetGoodsReceiptIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<GoodsReceipt> goodsReceipts = this.goodsReceiptRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.GoodsReceipt);
+            ICollection<GoodsReceiptIndex> goodsReceiptIndexes = this.goodsReceiptAPIRepository.GetEntityIndexes<GoodsReceiptIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
 
-            DataSourceResult response = goodsReceipts.ToDataSourceResult(request, o => new GoodsReceiptPrimitiveDTO
-            {
-                GoodsReceiptID = o.GoodsReceiptID,
-                EntryDate = o.EntryDate,
-                Reference = o.Reference,
-                TotalQuantity = o.TotalQuantity,                
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+            DataSourceResult response = goodsReceiptIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
 
         public JsonResult GetPurchaseInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? goodsReceiptID, string purchaseInvoiceReference)
         {

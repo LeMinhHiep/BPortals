@@ -31,4 +31,13 @@ namespace MVCData.Repositories.StockTasks
         }
 
     }
+
+    public class GoodsReceiptAPIRepository : GenericAPIRepository, IGoodsReceiptAPIRepository
+    {
+        public GoodsReceiptAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetGoodsReceiptIndexes")
+        {
+        }
+    }
+
 }

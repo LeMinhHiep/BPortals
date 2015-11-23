@@ -131,6 +131,9 @@
     <Compile Include="Models\GoodsReceiptGetStockTransfer.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GoodsReceiptIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GoodsReceiptViewDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
@@ -156,6 +159,12 @@
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PartsInvoiceViewDetail.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PartTransferIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PartTransferOrderIndex.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PartTransferOrderViewDetail.cs">
@@ -281,6 +290,12 @@
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VehiclesInvoiceViewDetail.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleTransferIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleTransferOrderIndex.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VehicleTransferOrderViewDetail.cs">

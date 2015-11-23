@@ -52,4 +52,27 @@ namespace MVCData.Repositories.StockTasks
         }
     }
 
+
+
+
+
+
+
+
+    public class VehicleTransferOrderAPIRepository : GenericAPIRepository, IVehicleTransferOrderAPIRepository
+    {
+        public VehicleTransferOrderAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetVehicleTransferOrderIndexes")
+        {
+        }
+    }
+
+    public class PartTransferOrderAPIRepository : GenericAPIRepository, IPartTransferOrderAPIRepository
+    {
+        public PartTransferOrderAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetPartTransferOrderIndexes")
+        {
+        }
+    }
+
 }

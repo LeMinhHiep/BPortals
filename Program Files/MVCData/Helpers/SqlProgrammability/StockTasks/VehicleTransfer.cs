@@ -15,6 +15,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
         public void RestoreProcedure()
         {
+            this.GetStockTransferIndexes();
+
             this.GetVehicleTransferViewDetails();
             this.GetPendingVehicleTransferOrders();
 
@@ -28,8 +30,35 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.StockTransferInitReference();
         }
 
-       
+
+        private void GetStockTransferIndexes()
+        {
+            this.GetStockTransferIndexesBUILDSQL("GetVehicleTransferIndexes", GlobalEnums.StockTransferTypeID.VehicleTransfer, GlobalEnums.NmvnTaskID.VehicleTransfer);
+            this.GetStockTransferIndexesBUILDSQL("GetPartTransferIndexes", GlobalEnums.StockTransferTypeID.PartTransfer, GlobalEnums.NmvnTaskID.PartTransfer);
+        }
+
+        private void GetStockTransferIndexesBUILDSQL(string storedProcedureName, GlobalEnums.StockTransferTypeID stockTransferTypeID, GlobalEnums.NmvnTaskID nmvnTaskID)
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      Locations.Code AS LocationCode, StockTransfers.StockTransferID, CAST(StockTransfers.EntryDate AS DATE) AS EntryDate, StockTransfers.Reference, Warehouses.Code AS WarehouseCode, StockTransfers.TotalQuantity, StockTransfers.Description, TransferOrders.Reference AS TransferOrderReference, TransferOrders.EntryDate AS TransferOrderEntryDate, TransferOrders.RequestedDate AS TransferOrderRequestedDate " + "\r\n";
+            queryString = queryString + "       FROM        StockTransfers INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON StockTransfers.StockTransferTypeID = " + (int)stockTransferTypeID + " AND StockTransfers.EntryDate >= @FromDate AND StockTransfers.EntryDate <= @ToDate AND StockTransfers.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)nmvnTaskID + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = StockTransfers.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Warehouses ON StockTransfers.WarehouseID = Warehouses.WarehouseID LEFT JOIN " + "\r\n";
+            queryString = queryString + "                   TransferOrders ON StockTransfers.TransferOrderID = TransferOrders.TransferOrderID " + "\r\n";
             
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure(storedProcedureName, queryString);
+        }
+
 
         private void GetVehicleTransferViewDetails()
         {

@@ -13,4 +13,9 @@ namespace MVCCore.Repositories.StockTasks
 
         ICollection<AdditionalGoodsReceiptVoucherText> GetAdditionalGoodsReceiptVoucherText(int goodsReceiptTypeID, int voucherID);
     }
+
+    public interface IGoodsReceiptAPIRepository : IGenericAPIRepository
+    {
+    }
+
 }

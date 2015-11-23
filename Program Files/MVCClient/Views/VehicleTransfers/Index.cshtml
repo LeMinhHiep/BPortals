@@ -5,21 +5,20 @@
     ViewBag.urlAction = @Url.Action("CreateWizard", "VehicleTransfers");
                             
     <div>
-        @(Html.Kendo().Grid<MVCDTO.StockTasks.VehicleTransferPrimitiveDTO>()
+        @(Html.Kendo().Grid<MVCModel.Models.VehicleTransferIndex>()
             .Name("kendoGridIndex")
             .Columns(columns =>
             {
                 columns.Bound(p => p.StockTransferID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.Reference).DisplayNameTitle().Width(100);
-                columns.Bound(p => p.EntryDate).DisplayNameTitle().Format("{0:d}").Width(80);
-                columns.Bound(p => p.TransferOrderEntryDate).DisplayNameTitle().Format("{0:d}").Width(80);
-                columns.Bound(p => p.TransferOrderReference).DisplayNameTitle().Width(120);
-                columns.Bound(p => p.TransferOrderRequestedDate).DisplayNameTitle().Format("{0:d}").Width(80);
-                columns.Bound(p => p.WarehouseID).DisplayNameTitle().Hidden();
-                columns.Bound(p => p.WarehouseName).DisplayNameTitle().Width(120);
-                columns.Bound(p => p.Description).DisplayNameTitle().Width(120);
-                columns.Bound(p => p.TotalQuantity).DisplayNameTitle().Format("{0:n0}").Filterable(false).Width(80).ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
-                columns.Bound(p => p.Remarks).Title("Ghi chú").Filterable(false).Width(100);
+                columns.Bound(p => p.LocationCode).Title("CN").Width(3);
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
+                columns.Bound(p => p.Reference).Title("Số phiếu").Width(10);
+                columns.Bound(p => p.WarehouseCode).Title("Nơi Nhận").Width(10);
+                columns.Bound(p => p.TransferOrderReference).Title("Lệnh ĐH").Width(10);
+                columns.Bound(p => p.TransferOrderEntryDate).Title("Ngày lệnh").Format("{0:dd/MM HH:mm}").Width(90);
+                columns.Bound(p => p.TransferOrderRequestedDate).Title("Ngày y/c").Format("{0:dd/MM HH:mm}").Width(90);
+                columns.Bound(p => p.Description).Title("Diễn giải").Width(270);
+                columns.Bound(p => p.TotalQuantity).Title("Số lượng").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(65);//.ClientFooterTemplate("TC: #= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" })
 
                 columns.Template(model => null).Width(86)
                     .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "VehicleTransfers", action = "Edit" }) + "/#= StockTransferID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "VehicleTransfers", action = "Delete" }) + "/#= StockTransferID #'><span class='k-icon k-delete'></span></a>");
@@ -37,7 +36,7 @@
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("GetVehicleTransfers", "VehicleTransferApi"))
+                .Read(read => read.Action("GetVehicleTransferIndexes", "VehicleTransferApi"))
                 .Sort(sort =>
                     {
                         sort.Add(p => p.EntryDate).Descending();

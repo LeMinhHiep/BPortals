@@ -15,6 +15,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
         public void RestoreProcedure()
         {
+            this.GetGoodsReceiptIndexes();
+
             this.GoodsReceiptGetPurchaseInvoices();
             this.GoodsReceiptGetStockTransfers();
             this.GetAdditionalGoodsReceiptVoucherText();
@@ -28,6 +30,33 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.GoodsReceiptInitReference();
         }
 
+        private void GetGoodsReceiptIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      Locations.Code AS LocationCode, GoodsReceipts.GoodsReceiptID, CAST(GoodsReceipts.EntryDate AS DATE) AS EntryDate, GoodsReceipts.Reference, GoodsReceipts.TotalQuantity, 'XE' AS VoucherType, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherDate, Suppliers.OfficialName AS VoucherOwner " + "\r\n";
+            queryString = queryString + "       FROM        GoodsReceipts INNER JOIN " + "\r\n";
+            queryString = queryString + "                   PurchaseInvoices ON GoodsReceipts.EntryDate >= @FromDate AND GoodsReceipts.EntryDate <= @ToDate AND GoodsReceipts.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND GoodsReceipts.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.GoodsReceipt + " AND AccessControls.AccessLevel > 0) AND GoodsReceipts.VoucherID = PurchaseInvoices.PurchaseInvoiceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Customers Suppliers ON PurchaseInvoices.SupplierID = Suppliers.CustomerID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Locations ON GoodsReceipts.LocationID = Locations.LocationID " + "\r\n";
+
+            queryString = queryString + "       UNION ALL" + "\r\n";
+
+            queryString = queryString + "       SELECT      Locations.Code AS LocationCode, GoodsReceipts.GoodsReceiptID, CAST(GoodsReceipts.EntryDate AS DATE) AS EntryDate, GoodsReceipts.Reference, GoodsReceipts.TotalQuantity, 'PT' AS VoucherType, StockTransfers.Reference AS VoucherReference, StockTransfers.EntryDate AS VoucherDate, StockTransferLocations.Name AS VoucherOwner " + "\r\n";
+            queryString = queryString + "       FROM        GoodsReceipts INNER JOIN " + "\r\n";
+            queryString = queryString + "                   StockTransfers ON GoodsReceipts.EntryDate >= @FromDate AND GoodsReceipts.EntryDate <= @ToDate AND GoodsReceipts.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AND GoodsReceipts.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.GoodsReceipt + " AND AccessControls.AccessLevel > 0) AND GoodsReceipts.VoucherID = StockTransfers.StockTransferID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Locations StockTransferLocations ON StockTransfers.LocationID = StockTransferLocations.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Locations ON GoodsReceipts.LocationID = Locations.LocationID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetGoodsReceiptIndexes", queryString);
+        }
 
         private void GoodsReceiptGetPurchaseInvoices()
         {

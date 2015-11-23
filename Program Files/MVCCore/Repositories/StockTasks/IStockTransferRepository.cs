@@ -16,6 +16,17 @@ namespace MVCCore.Repositories.StockTasks
     public interface IPartTransferRepository : IStockTransferRepository
     {
         IEnumerable<PendingPartTransferOrder> GetPendingPartTransferOrders(int locationID, int transferOrderID);
-    } 
-    
+    }
+
+
+
+
+    public interface IVehicleTransferAPIRepository : IGenericAPIRepository
+    {
+    }
+
+    public interface IPartTransferAPIRepository : IGenericAPIRepository
+    {
+    }
+
 }

@@ -15,12 +15,42 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
         public void RestoreProcedure()
         {
+            this.GetTransferOrderIndexes();
+
             this.GetVehicleTransferOrderViewDetails();
             this.GetPartTransferOrderViewDetails();
 
             this.TransferOrderEditable();
 
             this.TransferOrderInitReference();
+        }
+
+
+        private void GetTransferOrderIndexes()
+        {
+            this.GetTransferOrderIndexesBUILDSQL("GetVehicleTransferOrderIndexes", GlobalEnums.StockTransferTypeID.VehicleTransfer, GlobalEnums.NmvnTaskID.VehicleTransferOrder);
+            this.GetTransferOrderIndexesBUILDSQL("GetPartTransferOrderIndexes", GlobalEnums.StockTransferTypeID.PartTransfer, GlobalEnums.NmvnTaskID.PartTransferOrder);
+        }
+
+        private void GetTransferOrderIndexesBUILDSQL(string storedProcedureName, GlobalEnums.StockTransferTypeID stockTransferTypeID, GlobalEnums.NmvnTaskID nmvnTaskID)
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      Locations.Code AS LocationCode, TransferOrders.TransferOrderID, CAST(TransferOrders.EntryDate AS DATE) AS EntryDate, TransferOrders.Reference, TransferOrders.RequestedDate, SourceLocations.Code AS SourceLocationCode, Warehouses.Code AS WarehouseCode, TransferOrders.TotalQuantity, TransferOrders.Description " + "\r\n";
+            queryString = queryString + "       FROM        TransferOrders INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON TransferOrders.StockTransferTypeID = " + (int)stockTransferTypeID + " AND TransferOrders.EntryDate >= @FromDate AND TransferOrders.EntryDate <= @ToDate AND TransferOrders.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)nmvnTaskID + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = TransferOrders.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Locations SourceLocations ON TransferOrders.SourceLocationID = SourceLocations.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Warehouses ON TransferOrders.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure(storedProcedureName, queryString);
         }
 
 
