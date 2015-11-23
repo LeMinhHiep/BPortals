@@ -46,7 +46,7 @@
                 columns.Bound(p => p.AgentName).Title("Đại lý").Width(100);
                 columns.Bound(p => p.PurchaseDate).Title("Mua").Format("{0:dd/MM/yyyy}").Width(40);
                 
-                columns.Template(model => null).Width(66)
+                columns.Template(model => null).Width(86)
                     .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "ServiceContracts", action = "Edit" }) + "/#= ServiceContractID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "ServiceContracts", action = "Delete" }) + "/#= ServiceContractID #'><span class='k-icon k-delete'></span></a>");
 
             })

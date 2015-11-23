@@ -3,7 +3,7 @@
 
 
 <div>
-    @(Html.Kendo().Grid<MVCModel.Models.VehicleTransferOrderIndex>()
+    @(Html.Kendo().Grid<MVCModel.Models.PartTransferOrderIndex>()
             .Name("kendoGridIndex")
             .Columns(columns =>
             {
@@ -33,7 +33,7 @@
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("GetPartTransferOrders", "PartTransferOrdersApi"))
+                .Read(read => read.Action("GetPartTransferOrderIndexes", "PartTransferOrdersApi"))
                 .Sort(sort =>
                     {
                         sort.Add(p => p.EntryDate).Descending();

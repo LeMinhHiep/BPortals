@@ -275,6 +275,7 @@
     <Compile Include="Controllers\GenericSimpleController.cs" />
     <Compile Include="Controllers\GenericViewDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Init3006\DeletePartsInvoicesController.cs" />
     <Compile Include="Controllers\Init3006\Init3006Controller.cs" />
     <Compile Include="Controllers\StockTasks\GoodsReceiptsController.cs" />
     <Compile Include="Controllers\PurchaseTasks\PurchaseInvoicesController.cs" />
@@ -1603,10 +1604,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Attributes\" />
     <Folder Include="Builders\ServiceTasks\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\Core\" />
-    <Folder Include="Views\GenericApi\" />
-    <Folder Include="Views\LocationsApi\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
