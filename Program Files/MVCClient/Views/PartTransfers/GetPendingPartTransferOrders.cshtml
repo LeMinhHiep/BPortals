@@ -11,8 +11,8 @@
         columns.Bound(c => c.CommodityCode).Title("Mã phụ tùng").Width(20);
         columns.Bound(c => c.CommodityName).Title("Tên phụ tùng").Width(38);
         columns.Bound(c => c.WarehouseCode).Title("Kho").Width(8);
+        columns.Bound(c => c.QuantityAvailable).Title("Tồn kho").Format("{0:n0}").Width(8).HtmlAttributes(new { @class = "grid-number-column" });
         columns.Bound(c => c.QuantityOrderPending).Title("SL điều").Format("{0:n0}").Width(8).HtmlAttributes(new { @class = "grid-number-column" });
-        columns.Bound(c => c.QuantityAvailable).Title("SL điều").Format("{0:n0}").Width(8).HtmlAttributes(new { @class = "grid-number-column" });
         columns.Bound(c => c.Remarks).DisplayNameTitle().Width(15);
         
         columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(3);
