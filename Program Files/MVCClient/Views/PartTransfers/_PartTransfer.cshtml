@@ -167,7 +167,7 @@
     function GetPendingPartTransferOrders() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingPartTransferOrders", "PartTransfers")", "Chọn phụ tùng", "900px", "413px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingPartTransferOrders", "PartTransfers")", "Chọn phụ tùng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeight");
         });
     }
 

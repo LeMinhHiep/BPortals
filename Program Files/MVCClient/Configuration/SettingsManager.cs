@@ -18,6 +18,10 @@ namespace MVCClient.Configuration
         public static int GridPopupHeight = 263;
         public static int GridPopupNoTabHeight = 330;
 
+        public static int PopupHeight = 481;
+        public static int PopupWidth = 1024;
+        public static int PopupContentHeight = 367;
+
         public static string MonthDayPattern
         {
             get

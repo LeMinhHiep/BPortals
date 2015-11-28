@@ -183,7 +183,7 @@
     function GetPendingVehicleTransferOrders() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingVehicleTransferOrders", "VehicleTransfers")", "Chọn phụ tùng", "900px", "413px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingVehicleTransferOrders", "VehicleTransfers")", "Chọn xe", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeight");
         });
     }
 
