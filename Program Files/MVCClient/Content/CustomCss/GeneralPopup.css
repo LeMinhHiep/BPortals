@@ -18,7 +18,7 @@
 }
 
 
-.background-bar{
+.background-bar {
     margin-top: 1px;
     background: linear-gradient(#FAFAFA, #EDEDED);
 }
@@ -42,7 +42,7 @@ input[type="button"] {
     width: 850px;
 }
 
-.div-notabstrip{
+.div-notabstrip {
     margin-top: 20px;
     margin-left: 20px;
     width: 850px;
@@ -61,6 +61,7 @@ input[type="button"] {
 }
 
 #main-popup {
+    padding: 0px;
     padding-right: 1px;
     max-width: 1900px;
 }
