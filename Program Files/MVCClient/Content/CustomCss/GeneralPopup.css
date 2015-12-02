@@ -62,6 +62,25 @@ input[type="button"] {
 
 #main-popup {
     padding: 0px;
-    padding-right: 1px;
+    padding-right: 0px;
     max-width: 1900px;
+}
+
+
+.k-widget.k-tabstrip.k-header ul.k-reset.k-tabstrip-items {
+    padding: 0px;
+    padding-top: 2px;
+}
+
+
+.k-widget.k-tabstrip.k-header .k-content.k-state-active{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.k-widget.k-tabstrip.k-header .k-content{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }

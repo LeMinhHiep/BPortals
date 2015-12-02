@@ -182,7 +182,7 @@ namespace MVCClient.Controllers
 
 
 
-        [AccessLevelAuthorize]
+        [AccessLevelAuthorize, ImportModelStateFromTempData]
         public virtual ActionResult Delete(int? id)
         {
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
@@ -193,7 +193,7 @@ namespace MVCClient.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, ExportModelStateToTempData]
         public virtual ActionResult DeleteConfirmed(int id)
         {
             try

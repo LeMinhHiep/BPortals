@@ -1,4 +1,6 @@
-﻿@model MVCClient.ViewModels.SalesTasks.PartsInvoiceViewModel
+﻿@using MVCClient.Configuration 
+
+@model MVCClient.ViewModels.SalesTasks.PartsInvoiceViewModel
 
 @using (Html.BeginForm())
 {
@@ -97,7 +99,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PartsInvoices")", "Chọn ", "900px", "480px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PartsInvoices")", "Chọn ", "@SettingsManager.PopupWidth", "512");
         });
     }
 </script>

@@ -97,6 +97,8 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetActiveServiceInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? serviceInvoiceID, string licensePlate, int isFinished)
         {
+            if (licensePlate == "") return Json(null);
+
             var result = servicesInvoiceRepository.GetActiveServiceInvoices(locationID, serviceInvoiceID, licensePlate, isFinished).Select(s => new
             {
                 s.SalesInvoiceID,

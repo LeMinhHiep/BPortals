@@ -41,6 +41,8 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult SearchServiceContracts([DataSourceRequest] DataSourceRequest dataSourceRequest, string searchText)
         {
+            if (searchText == "") return Json(null);
+
             var result = serviceContractRepository.SearchServiceContracts(searchText);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }

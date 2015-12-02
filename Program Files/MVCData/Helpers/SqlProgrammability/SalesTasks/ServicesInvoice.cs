@@ -106,6 +106,36 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
 
+        private void SearchActiveServiceInvoices()
+        {
+            string queryString = " @SearchText nvarchar(100) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE @ServiceContracts TABLE (ServiceContractID int, Reference nvarchar(10) NULL, CustomerID int NOT NULL, CommodityID int NOT NULL, PurchaseDate datetime NULL, LicensePlate nvarchar(60) NULL, ChassisCode nvarchar(60) NULL, EngineCode nvarchar(60) NULL, ColorCode nvarchar(60) NULL, AgentName nvarchar(100) NULL)" + "\r\n";
+
+            queryString = queryString + "       IF (@SearchText <> '') " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               INSERT INTO @ServiceContracts SELECT ServiceContractID, Reference, CustomerID, CommodityID, PurchaseDate, LicensePlate, ChassisCode, EngineCode, ColorCode, AgentName FROM ServiceContracts WHERE LicensePlate LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "               IF (@@ROWCOUNT <= 0) " + "\r\n";
+            queryString = queryString + "                   INSERT INTO @ServiceContracts SELECT ServiceContractID, Reference, CustomerID, CommodityID, PurchaseDate, LicensePlate, ChassisCode, EngineCode, ColorCode, AgentName FROM ServiceContracts WHERE ChassisCode LIKE '%' + @SearchText + '%' OR EngineCode LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+            queryString = queryString + "       SELECT  ServiceContracts.ServiceContractID, ServiceContracts.Reference AS ServiceContractReference, ServiceContracts.CommodityID AS ServiceContractCommodityID, Commodities.Code AS ServiceContractCommodityCode, Commodities.Name AS ServiceContractCommodityName, ServiceContracts.PurchaseDate AS ServiceContractPurchaseDate, " + "\r\n";
+            queryString = queryString + "               ServiceContracts.LicensePlate AS ServiceContractLicensePlate, ServiceContracts.ChassisCode AS ServiceContractChassisCode, ServiceContracts.EngineCode AS ServiceContractEngineCode, ServiceContracts.ColorCode AS ServiceContractColorCode, ServiceContracts.AgentName AS ServiceContractAgentName, " + "\r\n";
+            queryString = queryString + "               ServiceContracts.CustomerID, Customers.Name AS CustomerName, Customers.Birthday AS CustomerBirthday, Customers.Telephone AS CustomerTelephone, Customers.AddressNo AS CustomerAddressNo, EntireTerritories.EntireName AS CustomerEntireTerritoryEntireName " + "\r\n";
+            queryString = queryString + "       FROM    @ServiceContracts ServiceContracts INNER JOIN " + "\r\n";
+            queryString = queryString + "               Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID INNER JOIN " + "\r\n";
+            queryString = queryString + "               Customers ON ServiceContracts.CustomerID = Customers.CustomerID INNER JOIN " + "\r\n";
+            queryString = queryString + "               EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("SearchActiveServiceInvoices", queryString);
+        }
+
+
 
 
         private void SalesInvoicePrint()
