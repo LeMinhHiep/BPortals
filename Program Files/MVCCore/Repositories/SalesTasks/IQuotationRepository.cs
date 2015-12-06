@@ -7,6 +7,6 @@ namespace MVCCore.Repositories.SalesTasks
 {
     public interface IQuotationRepository : IGenericWithDetailRepository<Quotation, QuotationDetail>
     {
-        IList<Quotation> GetActiveQuotations(int? quotationID, string searchQuotation, int isFinished);
+        IList<QuotationResult> GetActiveQuotations(int locationID, int? quotationID, string searchText, int isFinished);
     }
 }

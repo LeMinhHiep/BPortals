@@ -21,7 +21,7 @@ namespace MVCCore.Repositories.SalesTasks
 
     public interface IServicesInvoiceRepository : ISalesInvoiceRepository
     {
-        IList<SalesInvoice> GetActiveServiceInvoices(int locationID, int? serviceInvoiceID, string licensePlate, int isFinished);
+        IList<ServiceInvoiceResult> GetActiveServiceInvoices(int locationID, int? serviceInvoiceID, string licensePlate, int isFinished);
         IList<RelatedPartsInvoiceValue> GetRelatedPartsInvoiceValue(int serviceInvoiceID);
     }
 

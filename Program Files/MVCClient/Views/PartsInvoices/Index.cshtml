@@ -99,7 +99,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PartsInvoices")", "Chọn ", "@SettingsManager.PopupWidth", "512");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PartsInvoices")", "Chọn ", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

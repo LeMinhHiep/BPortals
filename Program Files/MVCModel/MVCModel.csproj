@@ -212,6 +212,9 @@
     <Compile Include="Models\QuotationDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuotationResult.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QuotationViewDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
@@ -243,6 +246,9 @@
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ServiceContractType.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ServiceInvoiceResult.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ServicesInvoiceIndex.cs">

@@ -941,5 +941,47 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VehicleTransferIndex>("GetVehicleTransferIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
+    
+        public virtual ObjectResult<ServiceInvoiceResult> SearchServiceInvoices(Nullable<int> locationID, Nullable<int> serviceInvoiceID, string searchText, Nullable<int> isFinished)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var serviceInvoiceIDParameter = serviceInvoiceID.HasValue ?
+                new ObjectParameter("ServiceInvoiceID", serviceInvoiceID) :
+                new ObjectParameter("ServiceInvoiceID", typeof(int));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var isFinishedParameter = isFinished.HasValue ?
+                new ObjectParameter("IsFinished", isFinished) :
+                new ObjectParameter("IsFinished", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ServiceInvoiceResult>("SearchServiceInvoices", locationIDParameter, serviceInvoiceIDParameter, searchTextParameter, isFinishedParameter);
+        }
+    
+        public virtual ObjectResult<QuotationResult> SearchQuotations(Nullable<int> locationID, Nullable<int> quotationID, string searchText, Nullable<int> isFinished)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var quotationIDParameter = quotationID.HasValue ?
+                new ObjectParameter("QuotationID", quotationID) :
+                new ObjectParameter("QuotationID", typeof(int));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var isFinishedParameter = isFinished.HasValue ?
+                new ObjectParameter("IsFinished", isFinished) :
+                new ObjectParameter("IsFinished", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QuotationResult>("SearchQuotations", locationIDParameter, quotationIDParameter, searchTextParameter, isFinishedParameter);
+        }
     }
 }

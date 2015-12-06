@@ -14,6 +14,7 @@
           <Property Name="NMVNTaskID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="AccessLevel" Type="int" Nullable="false" />
+          <Property Name="AccessLevelBACKUP" Type="int" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
@@ -1690,8 +1691,20 @@
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="SearchQuotations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="QuotationID" Type="int" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsFinished" Type="int" Mode="In" />
+        </Function>
         <Function Name="SearchServiceContracts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SearchServiceInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="ServiceInvoiceID" Type="int" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsFinished" Type="int" Mode="In" />
         </Function>
         <Function Name="ServiceContractGetVehiclesInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -2589,6 +2602,18 @@
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SearchServiceInvoices" ReturnType="Collection(TotalBikePortalsModel.ServiceInvoiceResult)">
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceInvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="IsFinished" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SearchQuotations" ReturnType="Collection(TotalBikePortalsModel.QuotationResult)">
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="QuotationID" Mode="In" Type="Int32" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="IsFinished" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -4368,6 +4393,7 @@
           <Property Name="NMVNTaskID" Type="Int32" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
           <Property Name="AccessLevel" Type="Int32" Nullable="false" />
+          <Property Name="AccessLevelBACKUP" Type="Int32" />
         </EntityType>
         <EntityType Name="RAWDATA_07_2015">
           <Key>
@@ -4707,6 +4733,54 @@
           <Property Type="String" Name="TransferOrderReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="TransferOrderEntryDate" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="TransferOrderRequestedDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ServiceInvoiceResult">
+          <Property Type="Int32" Name="SalesInvoiceID" Nullable="true" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="QuotationID" Nullable="true" />
+          <Property Type="String" Name="QuotationReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="QuotationEntryDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="CustomerBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerAddressNo" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+          <Property Type="Int32" Name="ServiceContractID" Nullable="true" />
+          <Property Type="String" Name="ServiceContractReference" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ServiceContractCommodityID" Nullable="false" />
+          <Property Type="String" Name="ServiceContractCommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ServiceContractCommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ServiceContractLicensePlate" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractEngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="ServiceContractPurchaseDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ServiceContractAgentName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ServiceLineID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="QuotationResult">
+          <Property Type="Int32" Name="QuotationID" Nullable="true" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="CustomerBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerAddressNo" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+          <Property Type="Int32" Name="ServiceContractID" Nullable="true" />
+          <Property Type="String" Name="ServiceContractReference" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ServiceContractCommodityID" Nullable="false" />
+          <Property Type="String" Name="ServiceContractCommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ServiceContractCommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ServiceContractLicensePlate" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ServiceContractEngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="ServiceContractPurchaseDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ServiceContractAgentName" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5825,6 +5899,7 @@
           <EntitySetMapping Name="AccessControls">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.AccessControl">
               <MappingFragment StoreEntitySet="AccessControls">
+                <ScalarProperty Name="AccessLevelBACKUP" ColumnName="AccessLevelBACKUP" />
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
                 <ScalarProperty Name="NMVNTaskID" ColumnName="NMVNTaskID" />
@@ -6180,6 +6255,62 @@
                 <ScalarProperty Name="TransferOrderReference" ColumnName="TransferOrderReference" />
                 <ScalarProperty Name="TransferOrderEntryDate" ColumnName="TransferOrderEntryDate" />
                 <ScalarProperty Name="TransferOrderRequestedDate" ColumnName="TransferOrderRequestedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchServiceInvoices" FunctionName="TotalBikePortalsModel.Store.SearchServiceInvoices">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.ServiceInvoiceResult">
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
+                <ScalarProperty Name="QuotationReference" ColumnName="QuotationReference" />
+                <ScalarProperty Name="QuotationEntryDate" ColumnName="QuotationEntryDate" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerBirthday" ColumnName="CustomerBirthday" />
+                <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
+                <ScalarProperty Name="CustomerAddressNo" ColumnName="CustomerAddressNo" />
+                <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
+                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
+                <ScalarProperty Name="ServiceContractReference" ColumnName="ServiceContractReference" />
+                <ScalarProperty Name="ServiceContractCommodityID" ColumnName="ServiceContractCommodityID" />
+                <ScalarProperty Name="ServiceContractCommodityCode" ColumnName="ServiceContractCommodityCode" />
+                <ScalarProperty Name="ServiceContractCommodityName" ColumnName="ServiceContractCommodityName" />
+                <ScalarProperty Name="ServiceContractLicensePlate" ColumnName="ServiceContractLicensePlate" />
+                <ScalarProperty Name="ServiceContractColorCode" ColumnName="ServiceContractColorCode" />
+                <ScalarProperty Name="ServiceContractChassisCode" ColumnName="ServiceContractChassisCode" />
+                <ScalarProperty Name="ServiceContractEngineCode" ColumnName="ServiceContractEngineCode" />
+                <ScalarProperty Name="ServiceContractPurchaseDate" ColumnName="ServiceContractPurchaseDate" />
+                <ScalarProperty Name="ServiceContractAgentName" ColumnName="ServiceContractAgentName" />
+                <ScalarProperty Name="ServiceLineID" ColumnName="ServiceLineID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchQuotations" FunctionName="TotalBikePortalsModel.Store.SearchQuotations">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.QuotationResult">
+                <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerBirthday" ColumnName="CustomerBirthday" />
+                <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
+                <ScalarProperty Name="CustomerAddressNo" ColumnName="CustomerAddressNo" />
+                <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
+                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
+                <ScalarProperty Name="ServiceContractReference" ColumnName="ServiceContractReference" />
+                <ScalarProperty Name="ServiceContractCommodityID" ColumnName="ServiceContractCommodityID" />
+                <ScalarProperty Name="ServiceContractCommodityCode" ColumnName="ServiceContractCommodityCode" />
+                <ScalarProperty Name="ServiceContractCommodityName" ColumnName="ServiceContractCommodityName" />
+                <ScalarProperty Name="ServiceContractLicensePlate" ColumnName="ServiceContractLicensePlate" />
+                <ScalarProperty Name="ServiceContractColorCode" ColumnName="ServiceContractColorCode" />
+                <ScalarProperty Name="ServiceContractChassisCode" ColumnName="ServiceContractChassisCode" />
+                <ScalarProperty Name="ServiceContractEngineCode" ColumnName="ServiceContractEngineCode" />
+                <ScalarProperty Name="ServiceContractPurchaseDate" ColumnName="ServiceContractPurchaseDate" />
+                <ScalarProperty Name="ServiceContractAgentName" ColumnName="ServiceContractAgentName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

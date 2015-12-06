@@ -19,5 +19,6 @@ namespace MVCModel.Models
         public int NMVNTaskID { get; set; }
         public int OrganizationalUnitID { get; set; }
         public int AccessLevel { get; set; }
+        public Nullable<int> AccessLevelBACKUP { get; set; }
     }
 }

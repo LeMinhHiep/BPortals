@@ -1,53 +1,51 @@
-﻿@using MVCDTO.SalesTasks
+﻿@using MVCModel.Models
 @using MVCClient.Configuration
 
-<div class="tabstrip-workspace">
 
-    <div class="div-find">
-        <input id="quotationSearchBox" class="k-textbox" onkeyup="quotationSearchBox_KeyUp()" />
-        <input id="quotationSearchButton" type="button" class="k-button" value="Tìm" onclick="quotationSearchButton_Click()" />
-    </div>
+@(Html.Kendo().Grid<QuotationResult>()
+    .Name("gridQuotations")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.CustomerName).Title("Chủ xe").Width(18);
+        columns.Bound(c => c.CustomerAddressNo).Title("Địa chỉ").Width(22);
 
-    <div>
-        @(Html.Kendo().Grid<QuotationalInvoicePrimitiveDTO>()
-                            .Name("gridQuotations")
-                            .Columns(columns =>
-                            {
-                                columns.Bound(c => c.QuotationReference).DisplayNameTitle().Width(80);
-                                columns.Bound(c => c.QuotationEntryDate).DisplayNameTitle().Format("{0:" + SettingsManager.DateFormat + "}").Width(80);
+        columns.Bound(c => c.ServiceContractCommodityName).Title("Loại xe").Width(14);
+        columns.Bound(c => c.ServiceContractChassisCode).Title("Số khung").Width(16);
+        columns.Bound(c => c.ServiceContractEngineCode).Title("Số máy").Width(12);
+        columns.Bound(c => c.ServiceContractLicensePlate).Title("Biển số").Width(9);
 
-                                columns.Bound(c => c.CustomerName).DisplayNameTitle().Width(160);
-                                columns.Bound(c => c.CustomerTelephone).DisplayNameTitle().Width(100);
-                                columns.Bound(c => c.CustomerAddressNo).DisplayNameTitle().Hidden();
-                                columns.Bound(c => c.CustomerEntireTerritoryEntireName).DisplayNameTitle().Hidden();
+        columns.Bound(c => c.EntryDate).Title("Giờ BG").Width(9).Format("{0:" + SettingsManager.TimeFormat + "}");
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Template(@<text>
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập biển số, hoặc số khung, hoặc số máy:</label>
+                    <input id="quotationSearchBox" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="quotationSearchBox_KeyUp()" />
+                </div>
+            </text>);
+        })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+    .DataSource(ds => ds.Ajax()
+    .Read(read => read.Action("GetActiveQuotations", "QuotationsApi").Data("onAdditionalGetActiveQuotations"))
+    .ServerOperation(true))
+    .Selectable()
+)
 
-                                columns.Bound(c => c.ServiceContractCommodityName).DisplayNameTitle().Width(160);
-                                columns.Bound(c => c.ServiceContractLicensePlate).DisplayNameTitle().Width(80);
-                            })
-                            .Scrollable(s => s.Height(SettingsManager.GridPopupHeight))
-                            .DataSource(ds => ds.Ajax()
-                            .Read(read => read.Action("GetActiveQuotations", "QuotationsApi").Data("onAdditionalGetActiveQuotations"))
-                            .ServerOperation(true))
-                            .Selectable())
-    </div>
-</div>
 
 <script type="text/javascript">
     function onAdditionalGetActiveQuotations(e) {
         return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
             quotationID: window.parent.$("#QuotationID").val(),
-            searchQuotation: $("#quotationSearchBox").val(),
+            searchText: $("#quotationSearchBox").val(),
             isFinished: 0
         };
     }
 
-    function quotationSearchButton_Click() {
-        $("#gridQuotations").data("kendoGrid").dataSource.read();
-    }
-
     function quotationSearchBox_KeyUp() {
         if ($("#quotationSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
-            quotationSearchButton_Click();
+            $("#gridQuotations").data("kendoGrid").dataSource.read();
         }
     }
 

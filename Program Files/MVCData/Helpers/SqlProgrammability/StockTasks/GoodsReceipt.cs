@@ -63,7 +63,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             string queryString = " @LocationID int, @GoodsReceiptID int, @PurchaseInvoiceReference nvarchar(60) " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT         " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AS GoodsReceiptTypeID, PurchaseInvoices.PurchaseInvoiceID AS VoucherID, PurchaseInvoices.EntryDate, PurchaseInvoices.Reference, Customers.Name AS CustomerName, PurchaseInvoices.AttentionName, Customers.Telephone, PurchaseInvoices.Description, PurchaseInvoices.Remarks " + "\r\n";
+            queryString = queryString + "       SELECT         " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AS GoodsReceiptTypeID, PurchaseInvoices.PurchaseInvoiceID AS VoucherID, PurchaseInvoices.EntryDate, PurchaseInvoices.Reference, PurchaseInvoices.VATInvoiceNo, PurchaseInvoices.VATInvoiceDate, Customers.Name AS CustomerName, PurchaseInvoices.AttentionName, Customers.Telephone, PurchaseInvoices.Description, PurchaseInvoices.Remarks " + "\r\n";
             queryString = queryString + "       FROM            PurchaseInvoices INNER JOIN Customers ON (@PurchaseInvoiceReference = '' OR PurchaseInvoices.Reference LIKE '%' + @PurchaseInvoiceReference + '%') AND PurchaseInvoices.LocationID = @LocationID AND PurchaseInvoices.SupplierID = Customers.CustomerID INNER JOIN EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
 
             queryString = queryString + "       WHERE           PurchaseInvoices.PurchaseInvoiceID IN  " + "\r\n";

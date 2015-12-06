@@ -11,8 +11,11 @@ namespace MVCClient.Configuration
         }
 
         public static int AutoCompleteMinLenght = 4;
+
         public static string DateFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+        public static string TimeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
         public static string DateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
+        
         public static string NumberFormat = "{0:n0}";
         public static string YearMonthPattern = CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern;
         public static int GridPopupHeight = 263;
@@ -20,6 +23,7 @@ namespace MVCClient.Configuration
 
         public static int PopupHeight = 481;
         public static int PopupHeightSmall = 320;
+        public static int PopupHeightWithTab = 512;
 
         public static int PopupWidth = 1024;
         public static int PopupWidthSmall = 700;
@@ -56,6 +60,7 @@ namespace MVCClient.Configuration
 
         public int AutoCompleteMinLenght { get { return SettingsManager.AutoCompleteMinLenght; } }
         public string DateFormat { get { return SettingsManager.DateFormat; } }
+        public string TimeFormat { get { return SettingsManager.TimeFormat; } }
         public string DateTimeFormat { get { return SettingsManager.DateTimeFormat; } }
         public string NumberFormat { get { return SettingsManager.NumberFormat; } }
         public string YearMonthPattern { get { return SettingsManager.YearMonthPattern; } }

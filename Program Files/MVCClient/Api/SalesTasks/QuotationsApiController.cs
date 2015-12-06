@@ -61,33 +61,11 @@ namespace MVCClient.Api.SalesTasks
         }
 
 
-        public JsonResult GetActiveQuotations([DataSourceRequest] DataSourceRequest dataSourceRequest, int? quotationID, string searchQuotation, int isFinished)
+        public JsonResult GetActiveQuotations([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? quotationID, string searchText, int isFinished)
         {
-            var result = quotationRepository.GetActiveQuotations(quotationID, searchQuotation, isFinished).Select(s => new
-            {
-                s.QuotationID,
-                QuotationReference = s.Reference,
-                QuotationEntryDate = s.EntryDate,
+            if (searchText == "") return Json(null);
 
-                s.CustomerID,
-                CustomerName = s.Customer.Name,
-                CustomerBirthday = s.Customer.Birthday,
-                CustomerTelephone = s.Customer.Telephone,
-                CustomerAddressNo = s.Customer.AddressNo,
-                CustomerEntireTerritoryEntireName = s.Customer.EntireTerritory.Name,
-
-                s.ServiceContractID,
-                ServiceContractReference = s.ServiceContract.Reference,
-                ServiceContractCommodityID = s.ServiceContract.CommodityID,
-                ServiceContractCommodityCode = s.ServiceContract.Commodity.Code,
-                ServiceContractCommodityName = s.ServiceContract.Commodity.Name,
-                ServiceContractLicensePlate = s.ServiceContract.LicensePlate,
-                ServiceContractColorCode = s.ServiceContract.ColorCode,
-                ServiceContractChassisCode = s.ServiceContract.ChassisCode,
-                ServiceContractEngineCode = s.ServiceContract.EngineCode,
-                ServiceContractPurchaseDate = s.ServiceContract.PurchaseDate,
-                ServiceContractAgentName = s.ServiceContract.AgentName
-            });
+            var result = quotationRepository.GetActiveQuotations(locationID, quotationID, searchText, isFinished);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

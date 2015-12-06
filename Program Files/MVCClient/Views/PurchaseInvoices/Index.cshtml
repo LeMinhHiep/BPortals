@@ -1,4 +1,5 @@
-﻿@model MVCClient.ViewModels.PurchaseTasks.PurchaseInvoiceViewModel
+﻿@using MVCClient.Configuration;
+@model MVCClient.ViewModels.PurchaseTasks.PurchaseInvoiceViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -99,7 +100,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PurchaseInvoices")", "Chọn đơn đặt hàng", "900px", "480px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "PurchaseInvoices")", "Chọn đơn đặt hàng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

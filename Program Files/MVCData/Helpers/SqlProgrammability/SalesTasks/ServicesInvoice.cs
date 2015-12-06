@@ -23,6 +23,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.ServicesInvoiceEditable();
             this.ServicesInvoiceDeletable();
 
+            this.SearchServiceInvoices();
             this.SalesInvoicePrint();
         }
 
@@ -106,33 +107,40 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
 
-        private void SearchActiveServiceInvoices()
+        private void SearchServiceInvoices()
         {
-            string queryString = " @SearchText nvarchar(100) " + "\r\n";
+            string querySQL = " SELECT SalesInvoices.SalesInvoiceID, SalesInvoices.EntryDate, SalesInvoices.Reference, SalesInvoices.CustomerID, SalesInvoices.ServiceContractID, ServiceContracts.Reference AS ServiceContractReference, ServiceContracts.CommodityID AS ServiceContractCommodityID, ServiceContracts.LicensePlate, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.ColorCode, ServiceContracts.PurchaseDate, ServiceContracts.AgentName, SalesInvoices.QuotationID, SalesInvoices.ServiceLineID FROM SalesInvoices INNER JOIN ServiceContracts ON SalesInvoices.ServiceContractID = ServiceContracts.ServiceContractID WHERE SalesInvoices.LocationID = @LocationID AND SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + " AND (SalesInvoices.SalesInvoiceID = @ServiceInvoiceID OR (@IsFinished = -1 OR SalesInvoices.IsFinished = @IsFinished)) ";
+
+            string queryString = " @LocationID int, @ServiceInvoiceID int, @SearchText nvarchar(100), @IsFinished int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE @ServiceContracts TABLE (ServiceContractID int, Reference nvarchar(10) NULL, CustomerID int NOT NULL, CommodityID int NOT NULL, PurchaseDate datetime NULL, LicensePlate nvarchar(60) NULL, ChassisCode nvarchar(60) NULL, EngineCode nvarchar(60) NULL, ColorCode nvarchar(60) NULL, AgentName nvarchar(100) NULL)" + "\r\n";
+            queryString = queryString + "       DECLARE @ServiceInvoices TABLE (SalesInvoiceID int, EntryDate datetime NOT NULL, Reference nvarchar(10) NULL, CustomerID int NOT NULL, ServiceContractID int, ServiceContractReference nvarchar(10) NULL, ServiceContractCommodityID int NOT NULL, LicensePlate nvarchar(60) NULL, ChassisCode nvarchar(60) NULL, EngineCode nvarchar(60) NULL, ColorCode nvarchar(60) NULL, PurchaseDate datetime NULL, AgentName nvarchar(100) NULL, QuotationID int NULL, ServiceLineID int NOT NULL)" + "\r\n";
 
-            queryString = queryString + "       IF (@SearchText <> '') " + "\r\n";
+            
+            queryString = queryString + "       IF (@SearchText = '') " + "\r\n";
+            queryString = queryString + "           INSERT INTO @ServiceInvoices " + querySQL + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               INSERT INTO @ServiceContracts SELECT ServiceContractID, Reference, CustomerID, CommodityID, PurchaseDate, LicensePlate, ChassisCode, EngineCode, ColorCode, AgentName FROM ServiceContracts WHERE LicensePlate LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "               INSERT INTO @ServiceInvoices " + querySQL + " AND ServiceContracts.LicensePlate LIKE '%' + @SearchText + '%' " + "\r\n";
             queryString = queryString + "               IF (@@ROWCOUNT <= 0) " + "\r\n";
-            queryString = queryString + "                   INSERT INTO @ServiceContracts SELECT ServiceContractID, Reference, CustomerID, CommodityID, PurchaseDate, LicensePlate, ChassisCode, EngineCode, ColorCode, AgentName FROM ServiceContracts WHERE ChassisCode LIKE '%' + @SearchText + '%' OR EngineCode LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "                   INSERT INTO @ServiceInvoices " + querySQL + " AND (ServiceContracts.ChassisCode LIKE '%' + @SearchText + '%' OR ServiceContracts.EngineCode LIKE '%' + @SearchText + '%') " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
+            
 
-            queryString = queryString + "       SELECT  ServiceContracts.ServiceContractID, ServiceContracts.Reference AS ServiceContractReference, ServiceContracts.CommodityID AS ServiceContractCommodityID, Commodities.Code AS ServiceContractCommodityCode, Commodities.Name AS ServiceContractCommodityName, ServiceContracts.PurchaseDate AS ServiceContractPurchaseDate, " + "\r\n";
-            queryString = queryString + "               ServiceContracts.LicensePlate AS ServiceContractLicensePlate, ServiceContracts.ChassisCode AS ServiceContractChassisCode, ServiceContracts.EngineCode AS ServiceContractEngineCode, ServiceContracts.ColorCode AS ServiceContractColorCode, ServiceContracts.AgentName AS ServiceContractAgentName, " + "\r\n";
-            queryString = queryString + "               ServiceContracts.CustomerID, Customers.Name AS CustomerName, Customers.Birthday AS CustomerBirthday, Customers.Telephone AS CustomerTelephone, Customers.AddressNo AS CustomerAddressNo, EntireTerritories.EntireName AS CustomerEntireTerritoryEntireName " + "\r\n";
-            queryString = queryString + "       FROM    @ServiceContracts ServiceContracts INNER JOIN " + "\r\n";
-            queryString = queryString + "               Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID INNER JOIN " + "\r\n";
-            queryString = queryString + "               Customers ON ServiceContracts.CustomerID = Customers.CustomerID INNER JOIN " + "\r\n";
-            queryString = queryString + "               EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "       SELECT  ServiceInvoices.SalesInvoiceID, ServiceInvoices.EntryDate, ServiceInvoices.Reference, ServiceInvoices.QuotationID, Quotations.Reference AS QuotationReference, Quotations.EntryDate AS QuotationEntryDate, " + "\r\n";
+            queryString = queryString + "               ServiceInvoices.CustomerID, Customers.Name AS CustomerName, Customers.Birthday AS CustomerBirthday, Customers.Telephone AS CustomerTelephone, Customers.AddressNo AS CustomerAddressNo, EntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "               ServiceInvoices.ServiceContractID, ServiceInvoices.ServiceContractReference, ServiceInvoices.ServiceContractCommodityID, Commodities.Code AS ServiceContractCommodityCode, Commodities.Name AS ServiceContractCommodityName, ServiceInvoices.LicensePlate AS ServiceContractLicensePlate, ServiceInvoices.ColorCode AS ServiceContractColorCode, ServiceInvoices.ChassisCode AS ServiceContractChassisCode, ServiceInvoices.EngineCode AS ServiceContractEngineCode, ServiceInvoices.PurchaseDate AS ServiceContractPurchaseDate, ServiceInvoices.AgentName AS ServiceContractAgentName, ServiceInvoices.ServiceLineID " + "\r\n";
+            queryString = queryString + "       FROM    @ServiceInvoices ServiceInvoices INNER JOIN " + "\r\n";
+            queryString = queryString + "               Commodities ON ServiceInvoices.ServiceContractCommodityID = Commodities.CommodityID INNER JOIN " + "\r\n";
+            queryString = queryString + "               Customers ON ServiceInvoices.CustomerID = Customers.CustomerID INNER JOIN " + "\r\n";
+            queryString = queryString + "               EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID LEFT JOIN " + "\r\n";
+            queryString = queryString + "               Quotations ON ServiceInvoices.QuotationID = Quotations.QuotationID " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
-            this.totalBikePortalsEntities.CreateStoredProcedure("SearchActiveServiceInvoices", queryString);
+            this.totalBikePortalsEntities.CreateStoredProcedure("SearchServiceInvoices", queryString);
         }
 
 

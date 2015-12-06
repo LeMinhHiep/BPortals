@@ -95,39 +95,11 @@ namespace MVCClient.Api.SalesTasks
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetActiveServiceInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? serviceInvoiceID, string licensePlate, int isFinished)
+        public JsonResult GetActiveServiceInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int? serviceInvoiceID, string searchText, int isFinished)
         {
-            if (licensePlate == "") return Json(null);
+            if (searchText == "") return Json(null);
 
-            var result = servicesInvoiceRepository.GetActiveServiceInvoices(locationID, serviceInvoiceID, licensePlate, isFinished).Select(s => new
-            {
-                s.SalesInvoiceID,
-                s.Reference,
-                s.EntryDate,
-
-                s.QuotationID,
-                QuotationReference = s.Quotation != null ? s.Quotation.Reference : null,
-                QuotationEntryDate = s.Quotation != null ? s.Quotation.EntryDate : (DateTime?)null,
-
-                s.CustomerID,
-                CustomerName = s.Customer.Name,
-                CustomerBirthday = s.Customer.Birthday,
-                CustomerTelephone = s.Customer.Telephone,
-                CustomerAddressNo = s.Customer.AddressNo,
-                CustomerEntireTerritoryEntireName = s.Customer.EntireTerritory.Name,
-
-                s.ServiceContractID,
-                ServiceContractReference = s.ServiceContract.Reference,
-                ServiceContractCommodityID = s.ServiceContract.CommodityID,
-                ServiceContractCommodityCode = s.ServiceContract.Commodity.Code,
-                ServiceContractCommodityName = s.ServiceContract.Commodity.Name,
-                ServiceContractLicensePlate = s.ServiceContract.LicensePlate,
-                ServiceContractColorCode = s.ServiceContract.ColorCode,
-                ServiceContractChassisCode = s.ServiceContract.ChassisCode,
-                ServiceContractEngineCode = s.ServiceContract.EngineCode,
-                ServiceContractPurchaseDate = s.ServiceContract.PurchaseDate,
-                ServiceContractAgentName = s.ServiceContract.AgentName
-            });
+            var result = servicesInvoiceRepository.GetActiveServiceInvoices(locationID, serviceInvoiceID, searchText, isFinished);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

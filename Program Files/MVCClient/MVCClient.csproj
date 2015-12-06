@@ -1599,6 +1599,10 @@
     <Content Include="Views\PartTransferOrders\Delete.cshtml" />
     <Content Include="Views\PartTransferOrders\Create.cshtml" />
     <Content Include="Views\PartTransferOrders\_PartTransferOrder.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_GetPurchaseOrder.cshtml" />
+    <Content Include="Views\PurchaseInvoices\_GetSupplier.cshtml" />
+    <Content Include="Views\GoodsReceipts\_GetPurchaseInvoice.cshtml" />
+    <Content Include="Views\GoodsReceipts\_GetStockTransfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

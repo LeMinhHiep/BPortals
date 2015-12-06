@@ -1,22 +1,20 @@
-﻿@using MVCDTO.SalesTasks
+﻿@using MVCModel.Models
 @using MVCClient.Configuration
 
 
-@(Html.Kendo().Grid<ServicesInvoicePrimitiveDTO>()
+@(Html.Kendo().Grid<ServiceInvoiceResult>()
     .Name("gridServiceInvoices")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Reference).DisplayNameTitle().Width(80);
-        columns.Bound(c => c.EntryDate).DisplayNameTitle().Format("{0:" + SettingsManager.DateFormat + "}").Width(80);
+        columns.Bound(c => c.CustomerName).Title("Chủ xe").Width(18);
+        columns.Bound(c => c.CustomerAddressNo).Title("Địa chỉ").Width(22);
 
-        columns.Bound(c => c.CustomerName).DisplayNameTitle().Width(160);
-        columns.Bound(c => c.CustomerTelephone).DisplayNameTitle().Width(100);
-        columns.Bound(c => c.CustomerAddressNo).DisplayNameTitle().Hidden();
-        columns.Bound(c => c.CustomerEntireTerritoryEntireName).DisplayNameTitle().Hidden();
+        columns.Bound(c => c.ServiceContractCommodityName).Title("Loại xe").Width(14);
+        columns.Bound(c => c.ServiceContractChassisCode).Title("Số khung").Width(16);
+        columns.Bound(c => c.ServiceContractEngineCode).Title("Số máy").Width(12);
+        columns.Bound(c => c.ServiceContractLicensePlate).Title("Biển số").Width(9);
 
-        columns.Bound(c => c.ServiceContractCommodityName).DisplayNameTitle().Width(160);
-        columns.Bound(c => c.ServiceContractLicensePlate).DisplayNameTitle().Width(80);
-        columns.Bound(c => c.ServiceLineID).DisplayNameTitle().Width(80);
+        columns.Bound(c => c.EntryDate).Title("Giờ nhận").Width(9).Format("{0:" + SettingsManager.TimeFormat + "}");
     })
     .ToolBar(toolbar =>
         {
@@ -40,7 +38,7 @@
         return {
             locationID: window.parent.requireConfig.pageOptions.LocationID,
             serviceInvoiceID: window.parent.$("#ServiceInvoiceID").val(),
-            licensePlate: $("#serviceInvoicesSearchBox").val(),
+            searchText: $("#serviceInvoicesSearchBox").val(),
             isFinished: 0
         };
     }

@@ -1,4 +1,5 @@
-﻿@model MVCClient.ViewModels.StockTasks.GoodsReceiptViewModel
+﻿@using MVCClient.Configuration
+@model MVCClient.ViewModels.StockTasks.GoodsReceiptViewModel
 
 @using (Html.BeginForm())
 {
@@ -79,7 +80,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "GoodsReceipts")", "Chọn phiếu", "900px", "480px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "GoodsReceipts")", "Chọn phiếu", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

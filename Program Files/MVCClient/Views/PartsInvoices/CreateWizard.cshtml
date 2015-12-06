@@ -2,12 +2,10 @@
 
 @{Layout = "~/Views/Shared/_LayoutPopupWindow.cshtml";}
 
-
 @using (Html.BeginForm())
 {
-    @*<div class="div-tabstrip">*@
 
-        @(Html.Kendo().TabStrip()
+    @(Html.Kendo().TabStrip()
         .HtmlAttributes(new { @style = "height: 466px; margin-left: 0px; margin-right: 0px;" })
         .Name("tabStrip")
         .Items(tabStrip =>
@@ -23,8 +21,7 @@
                     @Html.Partial("~/Views/Helpers/Commons/_SearchServiceContract.cshtml")
                 </text>);
         })
-        )
-    @*</div>*@
+    )
 
 
     <div class="background-bar" style="height: 45px;">

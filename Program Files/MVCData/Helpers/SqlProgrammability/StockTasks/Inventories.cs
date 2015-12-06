@@ -46,8 +46,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "           WarehouseID int NOT NULL ," + "\r\n";
             queryString = queryString + "           GoodsReceiptTypeID int NOT NULL ," + "\r\n";
             queryString = queryString + "           EntryDate datetime NOT NULL ," + "\r\n";
-            queryString = queryString + "           Quantity decimal(18, 2) NOT NULL ," + "\r\n";
-            queryString = queryString + "           AmountCost decimal(18, 2) NOT NULL ," + "\r\n";
+            queryString = queryString + "           Quantity float NOT NULL ," + "\r\n";
+            queryString = queryString + "           AmountCost float NOT NULL ," + "\r\n";
             queryString = queryString + "           Remarks nvarchar (100))" + "\r\n";
 
             queryString = queryString + "       IF @GoodsReceiptID > 0 " + "\r\n";
@@ -109,6 +109,9 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                       FROM        WarehouseBalanceDetail " + "\r\n";
             queryString = queryString + "                       WHERE       EntryDate = @EntryDateMAX" + "\r\n";
 
+            //-----------04/12/2015: VAN DE MAU CHOT LA O CHO NAY!!!!COPY WarehouseBalancePrice CHO THANG SAU TU THANG TRUOC: CAN PHAI TINH TOAN LAI TU TONG TRI GIA/ TONG SO LUONG
+            //BEN HOTEL MOI THU DA OK, TUY NHIEN: O DAY TRUNG BINH CUA TAT CA KHO => XEM CACH LAM CHO PHU HOP
+            //CAN PHAI THAM KHAO: STEP 3: RECALCULATE END BALANCE (AmountCost)  => DE TINH AVERAGE PRICE FOR NEXT MONTH
             queryString = queryString + "                       INSERT INTO WarehouseBalancePrice (EntryDate, CommodityID, UnitPrice) " + "\r\n";
             queryString = queryString + "                       SELECT      @EntryDateEveryMonth, CommodityID, UnitPrice" + "\r\n";
             queryString = queryString + "                       FROM        WarehouseBalancePrice " + "\r\n";
@@ -150,8 +153,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             #region Update Warehouse balance average price + ending amount
 
             queryString = queryString + "       DECLARE     @LastDayOfPreviousMonth DateTime" + "\r\n";
-            queryString = queryString + "       DECLARE     @WarehouseInputCollection TABLE (WarehouseID int NOT NULL, CommodityID int NOT NULL, Quantity decimal(18, 2) NOT NULL, PurchaseInvoiceQuantity decimal(18, 2) NOT NULL, AmountCost decimal(18, 2) NOT NULL, UnitPrice decimal(18, 2) NOT NULL) " + "\r\n";
-            queryString = queryString + "       DECLARE     @WarehouseInputAveragePrice TABLE (CommodityID int NOT NULL, UnitPrice decimal(18, 2) NOT NULL) " + "\r\n";
+            queryString = queryString + "       DECLARE     @WarehouseInputCollection TABLE (WarehouseID int NOT NULL, CommodityID int NOT NULL, Quantity float NOT NULL, PurchaseInvoiceQuantity float NOT NULL, AmountCost float NOT NULL, UnitPrice float NOT NULL) " + "\r\n";
+            queryString = queryString + "       DECLARE     @WarehouseInputAveragePrice TABLE (CommodityID int NOT NULL, UnitPrice float NOT NULL) " + "\r\n";
 
             queryString = queryString + "       SET         @EntryDateEveryMonth = dbo.EOMONTHTIME(@EntryDate, 9999)" + "\r\n";//--FIND THE FIRST @EntryDateEveryMonth WHICH IS GREATER OR EQUAL TO @EntryDate
 

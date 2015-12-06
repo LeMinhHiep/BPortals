@@ -121,13 +121,9 @@ namespace MVCData.Repositories.SalesTasks
         {
         }
 
-        public IList<SalesInvoice> GetActiveServiceInvoices(int locationID, int? serviceInvoiceID, string searchText, int isFinished)
+        public IList<ServiceInvoiceResult> GetActiveServiceInvoices(int locationID, int? serviceInvoiceID, string searchText, int isFinished)
         {
-            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
-            List<SalesInvoice> SalesInvoices = this.TotalBikePortalsEntities.SalesInvoices.Include(c => c.Customer).Include(t => t.Customer.EntireTerritory).Include(sc => sc.ServiceContract.Commodity).Include(q => q.Quotation).Where(w => w.LocationID == locationID && w.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice && (w.SalesInvoiceID == serviceInvoiceID || (isFinished == -1 || (isFinished == 0 && !w.IsFinished) || (isFinished == 1 && w.IsFinished))) && (searchText == "" || w.ServiceContract.LicensePlate.Contains(searchText) || w.ServiceContract.ChassisCode.Contains(searchText) || w.ServiceContract.EngineCode.Contains(searchText))).ToList();
-            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
-
-            return SalesInvoices;
+            return this.TotalBikePortalsEntities.SearchServiceInvoices(locationID, serviceInvoiceID, searchText, isFinished).ToList();
         }
 
         public IList<RelatedPartsInvoiceValue> GetRelatedPartsInvoiceValue(int serviceInvoiceID)
