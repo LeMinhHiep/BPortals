@@ -12,6 +12,14 @@ body {
     /*padding: 0px 4%;*/
 }
 
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 2600px;
+    }
+}
+
+
 #main {
     width: 100%;
     min-width: 1150px;
