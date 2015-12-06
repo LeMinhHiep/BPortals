@@ -84,9 +84,11 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IPurchaseOrderService>().To<PurchaseOrderService>();
                 kernel.Bind<IPurchaseOrderRepository>().To<PurchaseOrderRepository>();
+                kernel.Bind<IPurchaseOrderAPIRepository>().To<PurchaseOrderAPIRepository>();
 
                 kernel.Bind<IPurchaseInvoiceService>().To<PurchaseInvoiceService>();                
                 kernel.Bind<IPurchaseInvoiceRepository>().To<PurchaseInvoiceRepository>();
+                kernel.Bind<IPurchaseInvoiceAPIRepository>().To<PurchaseInvoiceAPIRepository>();
 
                 kernel.Bind<IGoodsReceiptService>().To<GoodsReceiptService>();
                 kernel.Bind<IGoodsReceiptRepository>().To<GoodsReceiptRepository>();

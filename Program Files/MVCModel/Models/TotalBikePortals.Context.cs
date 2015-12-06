@@ -63,6 +63,7 @@ namespace MVCModel.Models
         public virtual DbSet<RAWDATA_07_2015> RAWDATA_07_2015 { get; set; }
         public virtual DbSet<VCNB_T07> VCNB_T07 { get; set; }
         public virtual DbSet<TransferOrder> TransferOrders { get; set; }
+        public virtual DbSet<StockTransferType> StockTransferTypes { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {
@@ -982,6 +983,40 @@ namespace MVCModel.Models
                 new ObjectParameter("IsFinished", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QuotationResult>("SearchQuotations", locationIDParameter, quotationIDParameter, searchTextParameter, isFinishedParameter);
+        }
+    
+        public virtual ObjectResult<PurchaseInvoiceIndex> GetPurchaseInvoiceIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PurchaseInvoiceIndex>("GetPurchaseInvoiceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<PurchaseOrderIndex> GetPurchaseOrderIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PurchaseOrderIndex>("GetPurchaseOrderIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
     }
 }

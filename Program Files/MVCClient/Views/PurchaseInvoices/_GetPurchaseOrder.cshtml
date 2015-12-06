@@ -39,7 +39,7 @@
     }
 
     function purchaseOrderReferenceSearchBox_KeyUp() {
-        if ($("#purchaseOrderReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#purchaseOrderReferenceSearchBox").val().length === 0 || $("#purchaseOrderReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#getPurchaseOrdersGrid").data("kendoGrid").dataSource.read();
         }
     }

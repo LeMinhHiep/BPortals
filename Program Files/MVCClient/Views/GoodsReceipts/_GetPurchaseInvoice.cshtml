@@ -6,15 +6,16 @@
     .Name("getPurchaseInvoicesGrid")
     .Columns(columns =>
     {
-        columns.Bound(c => c.EntryDate).Title("Ngày").Width(80).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Bound(c => c.Reference).Title("Số hóa đơn").Width(80);
+        columns.Bound(c => c.EntryDate).Title("Ngày").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.Reference).Title("Số phiếu").Width(8);
+        columns.Bound(c => c.VATInvoiceNo).Title("Hóa đơn").Width(12);
+        columns.Bound(c => c.VATInvoiceDate).Title("Ngày HĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
 
-        columns.Bound(c => c.CustomerName).Title("Nhà cung cấp").Width(160);
-        columns.Bound(c => c.AttentionName).Title("Người liên hệ").Width(120);
-        columns.Bound(c => c.Telephone).Title("Điện thoại").Width(80);
+        columns.Bound(c => c.CustomerName).Title("Nhà cung cấp").Width(18);
+        columns.Bound(c => c.AttentionName).Title("Người liên hệ").Width(17);
+        columns.Bound(c => c.Telephone).Title("Điện thoại").Width(10);
 
-        columns.Bound(c => c.Description).Title("Diễn giải").Width(120);
-        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(120);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(15);
     })
     .ToolBar(toolbar =>
     {
@@ -43,7 +44,7 @@
     }
 
     function purchaseInvoiceReferenceSearchBox_KeyUp() {
-        if ($("#purchaseInvoiceReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#purchaseInvoiceReferenceSearchBox").val().length === 0 || $("#purchaseInvoiceReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#getPurchaseInvoicesGrid").data("kendoGrid").dataSource.read();
         }
     }

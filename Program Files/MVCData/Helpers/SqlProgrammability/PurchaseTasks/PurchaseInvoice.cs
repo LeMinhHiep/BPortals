@@ -16,6 +16,8 @@ namespace MVCData.Helpers.SqlProgrammability.PurchaseTasks
 
         public void RestoreProcedure()
         {
+            this.GetPurchaseInvoiceIndexes();
+
             this.PurchaseInvoiceGetPurchaseOrders();
             this.PurchaseInvoiceGetSuppliers();
 
@@ -28,6 +30,26 @@ namespace MVCData.Helpers.SqlProgrammability.PurchaseTasks
             this.PurchaseInvoiceInitReference();
         }
 
+        private void GetPurchaseInvoiceIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      PurchaseInvoices.PurchaseInvoiceID, CAST(PurchaseInvoices.EntryDate AS DATE) AS EntryDate, PurchaseInvoices.Reference, Locations.Code AS LocationCode, Suppliers.Name + ',    ' + Suppliers.AddressNo AS SupplierDescription, PurchaseOrders.Reference AS PurchaseOrderReference, PurchaseOrders.EntryDate AS PurchaseOrderEntryDate, PurchaseOrders.ConfirmReference, PurchaseOrders.ConfirmDate, PurchaseInvoices.VATInvoiceNo, PurchaseInvoices.VATInvoiceDate, PurchaseInvoices.TotalQuantity, PurchaseInvoices.TotalGrossAmount, PurchaseInvoices.Description " + "\r\n";
+            queryString = queryString + "       FROM        PurchaseInvoices INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Locations ON PurchaseInvoices.EntryDate >= @FromDate AND PurchaseInvoices.EntryDate <= @ToDate AND PurchaseInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.PurchaseInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = PurchaseInvoices.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Customers Suppliers ON PurchaseInvoices.SupplierID = Suppliers.CustomerID INNER JOIN" + "\r\n";
+            queryString = queryString + "                   PurchaseOrders ON PurchaseInvoices.PurchaseOrderID = PurchaseOrders.PurchaseOrderID" + "\r\n";
+            queryString = queryString + "       " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetPurchaseInvoiceIndexes", queryString);
+        }
 
         private void PurchaseInvoiceGetPurchaseOrders()
         {

@@ -25,4 +25,13 @@ namespace MVCData.Repositories.PurchaseTasks
             return this.TotalBikePortalsEntities.PurchaseInvoiceGetSuppliers(locationID, purchaseInvoiceID, supplierName).ToList();
         }
     }
+
+
+    public class PurchaseInvoiceAPIRepository : GenericAPIRepository, IPurchaseInvoiceAPIRepository
+    {
+        public PurchaseInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetPurchaseInvoiceIndexes")
+        {
+        }
+    }
 }

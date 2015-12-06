@@ -7,7 +7,7 @@
         .Name("gridTransferOrders")
         .Columns(columns =>
         {
-            columns.Bound(c => c.TransferOrderReference).DisplayNameTitle().Width(160);
+            columns.Bound(c => c.TransferOrderReference).DisplayNameTitle().Width(80);
             columns.Bound(c => c.TransferOrderEntryDate).DisplayNameTitle().Width(80).Format("{0:" + SettingsManager.DateFormat + "}");
             columns.Bound(c => c.TransferOrderRequestedDate).DisplayNameTitle().Width(80).Format("{0:" + SettingsManager.DateFormat + "}");
             columns.Bound(c => c.WarehouseName).DisplayNameTitle().Width(100);
@@ -54,7 +54,7 @@
     }
 
     function transferOrdersSearchBox_KeyUp() {
-        if ($("#transferOrdersSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#transferOrdersSearchBox").val().length === 0 || $("#transferOrdersSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#gridTransferOrders").data("kendoGrid").dataSource.read();
         }
     }

@@ -10,4 +10,8 @@ namespace MVCCore.Repositories.PurchaseTasks
         ICollection<PurchaseInvoiceGetPurchaseOrder> GetPurchaseOrders(int locationID, int? purchaseInvoiceID, string purchaseOrderReference);
         ICollection<PurchaseInvoiceGetSupplier> GetSuppliers(int locationID, int? purchaseInvoiceID, string supplierName);
     }
+
+    public interface IPurchaseInvoiceAPIRepository : IGenericAPIRepository
+    {
+    }
 }

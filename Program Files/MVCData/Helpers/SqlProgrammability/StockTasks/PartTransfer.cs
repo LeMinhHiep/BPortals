@@ -117,7 +117,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             string[] queryArray = new string[2];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = 'Transfer Order Date: ' + CAST(TransferOrders.EntryDate AS nvarchar) FROM StockTransfers INNER JOIN TransferOrders ON StockTransfers.StockTransferID = @EntityID AND StockTransfers.TransferOrderID = TransferOrders.TransferOrderID AND StockTransfers.EntryDate < TransferOrders.EntryDate ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = 'Xuất kho vượt số lượng lệnh: ' + CAST(ROUND(Quantity - QuantityTransfer, 0) AS nvarchar) FROM TransferOrderDetails WHERE (ROUND(Quantity - QuantityTransfer, 0) < 0) ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Xuất kho vượt số lượng lệnh điều hàng: ' + Commodities.Code + '-' + Commodities.Name + ': ' + CAST(ROUND(TransferOrderDetails.Quantity - TransferOrderDetails.QuantityTransfer, 0) AS nvarchar) FROM TransferOrderDetails INNER JOIN Commodities ON TransferOrderDetails.CommodityID = Commodities.CommodityID WHERE (ROUND(TransferOrderDetails.Quantity - TransferOrderDetails.QuantityTransfer, 0) < 0) ";
 
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("PartTransferPostSaveValidate", queryArray);
         }

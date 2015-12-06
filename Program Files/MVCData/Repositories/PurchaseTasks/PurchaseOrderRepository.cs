@@ -11,4 +11,12 @@ namespace MVCData.Repositories.PurchaseTasks
         }
 
     }
+
+    public class PurchaseOrderAPIRepository : GenericAPIRepository, IPurchaseOrderAPIRepository
+    {
+        public PurchaseOrderAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetPurchaseOrderIndexes")
+        {
+        }
+    }
 }

@@ -7,8 +7,9 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.EntryDate).Title("Ngày").Width(80).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Bound(c => c.Reference).Title("Phiếu chuyển kho").Width(80);
-
+        columns.Bound(c => c.Reference).Title("Số phiếu").Width(80);
+        columns.Bound(c => c.StockTransferTypeCode).Title("Loại").Width(80);
+        
         columns.Bound(c => c.LocationName).Title("Nơi chuyển").Width(160);
         columns.Bound(c => c.Telephone).Title("Điện thoại").Width(120);
         columns.Bound(c => c.Facsimile).Title("Số fax").Width(80);
@@ -43,7 +44,7 @@
     }
 
     function stockTransferReferenceSearchBox_KeyUp() {
-        if ($("#stockTransferReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#stockTransferReferenceSearchBox").val().length === 0 || $("#stockTransferReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#getStockTransfersGrid").data("kendoGrid").dataSource.read();
         }
     }

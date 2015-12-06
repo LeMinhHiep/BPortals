@@ -656,6 +656,15 @@
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="StockTransferTypes">
+          <Key>
+            <PropertyRef Name="StockTransferTypeID" />
+          </Key>
+          <Property Name="StockTransferTypeID" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Territories">
           <Key>
             <PropertyRef Name="TerritoryID" />
@@ -1367,6 +1376,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockTransfers_StockTransferTypes">
+          <End Role="StockTransferTypes" Type="Self.StockTransferTypes" Multiplicity="1" />
+          <End Role="StockTransfers" Type="Self.StockTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockTransferTypes">
+              <PropertyRef Name="StockTransferTypeID" />
+            </Principal>
+            <Dependent Role="StockTransfers">
+              <PropertyRef Name="StockTransferTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StockTransfers_TransferOrders">
           <End Role="TransferOrders" Type="Self.TransferOrders" Multiplicity="0..1" />
           <End Role="StockTransfers" Type="Self.StockTransfers" Multiplicity="*" />
@@ -1570,11 +1591,21 @@
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="TransferOrderID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPurchaseInvoiceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetPurchaseInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PurchaseInvoiceID" Type="int" Mode="In" />
           <Parameter Name="PurchaseOrderID" Type="int" Mode="In" />
           <Parameter Name="SupplierID" Type="int" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="GetPurchaseOrderIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GetQuotationViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="QuotationID" Type="int" Mode="In" />
@@ -1800,6 +1831,7 @@
           <EntitySet Name="ServiceContractTypes" EntityType="Self.ServiceContractTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockTransferDetails" EntityType="Self.StockTransferDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockTransfers" EntityType="Self.StockTransfers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockTransferTypes" EntityType="Self.StockTransferTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territories" EntityType="Self.Territories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferOrderDetails" EntityType="Self.TransferOrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferOrders" EntityType="Self.TransferOrders" Schema="dbo" store:Type="Tables" />
@@ -2012,6 +2044,10 @@
           <AssociationSet Name="FK_StockTransferDetails_Warehouses" Association="Self.FK_StockTransferDetails_Warehouses">
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="StockTransferDetails" EntitySet="StockTransferDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockTransfers_StockTransferTypes" Association="Self.FK_StockTransfers_StockTransferTypes">
+            <End Role="StockTransferTypes" EntitySet="StockTransferTypes" />
+            <End Role="StockTransfers" EntitySet="StockTransfers" />
           </AssociationSet>
           <AssociationSet Name="FK_StockTransfers_TransferOrders" Association="Self.FK_StockTransfers_TransferOrders">
             <End Role="TransferOrders" EntitySet="TransferOrders" />
@@ -2615,6 +2651,21 @@
             <Parameter Name="SearchText" Mode="In" Type="String" />
             <Parameter Name="IsFinished" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="StockTransferTypes" EntityType="TotalBikePortalsModel.StockTransferType" />
+          <AssociationSet Name="FK_StockTransfers_StockTransferTypes" Association="TotalBikePortalsModel.FK_StockTransfers_StockTransferTypes">
+            <End Role="StockTransferType" EntitySet="StockTransferTypes" />
+            <End Role="StockTransfer" EntitySet="StockTransfers" />
+          </AssociationSet>
+          <FunctionImport Name="GetPurchaseInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.PurchaseInvoiceIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPurchaseOrderIndexes" ReturnType="Collection(TotalBikePortalsModel.PurchaseOrderIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -2704,6 +2755,8 @@
           <Property Type="String" Name="Telephone" Nullable="false" MaxLength="100" />
           <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="VATInvoiceNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="VATInvoiceDate" Nullable="true" Precision="23" />
           </ComplexType>
         <ComplexType Name="VehiclesInvoiceViewDetail">
           <Property Type="Int32" Name="SalesInvoiceDetailID" Nullable="false" />
@@ -2884,6 +2937,7 @@
           <Property Type="String" Name="Address" Nullable="false" MaxLength="100" />
           <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="StockTransferTypeCode" Nullable="false" MaxLength="50" />
           </ComplexType>
         <ComplexType Name="AdditionalGoodsReceiptVoucherText">
           <Property Type="String" Name="VoucherText1" Nullable="false" MaxLength="100" />
@@ -3350,6 +3404,7 @@
           <NavigationProperty Name="StockTransferDetails" Relationship="TotalBikePortalsModel.FK_StockTransferDetails_StockTransfers" FromRole="StockTransfer" ToRole="StockTransferDetail" />
           <NavigationProperty Name="Warehouse" Relationship="TotalBikePortalsModel.FK_StockTransfers_Warehouses" FromRole="StockTransfer" ToRole="Warehouse" />
           <NavigationProperty Name="TransferOrder" Relationship="TotalBikePortalsModel.FK_StockTransfers_TransferOrders" FromRole="StockTransfer" ToRole="TransferOrder" />
+          <NavigationProperty Name="StockTransferType" Relationship="TotalBikePortalsModel.FK_StockTransfers_StockTransferTypes" FromRole="StockTransfer" ToRole="StockTransferType" />
         </EntityType>
         <EntityType Name="TransferOrderDetail">
           <Key>
@@ -4782,6 +4837,56 @@
           <Property Type="DateTime" Name="ServiceContractPurchaseDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="ServiceContractAgentName" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="StockTransferType">
+          <Key>
+            <PropertyRef Name="StockTransferTypeID" />
+          </Key>
+          <Property Name="StockTransferTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StockTransfers" Relationship="TotalBikePortalsModel.FK_StockTransfers_StockTransferTypes" FromRole="StockTransferType" ToRole="StockTransfer" />
+        </EntityType>
+        <Association Name="FK_StockTransfers_StockTransferTypes">
+          <End Type="TotalBikePortalsModel.StockTransferType" Role="StockTransferType" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.StockTransfer" Role="StockTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockTransferType">
+              <PropertyRef Name="StockTransferTypeID" />
+            </Principal>
+            <Dependent Role="StockTransfer">
+              <PropertyRef Name="StockTransferTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="PurchaseInvoiceIndex">
+          <Property Type="Int32" Name="PurchaseInvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SupplierDescription" Nullable="false" MaxLength="305" />
+          <Property Type="String" Name="ConfirmReference" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="ConfirmDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VATInvoiceNo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="VATInvoiceDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PurchaseOrderReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="PurchaseOrderEntryDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="PurchaseOrderIndex">
+          <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ConfirmReference" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="ConfirmDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SupplierDescription" Nullable="false" MaxLength="305" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4894,6 +4999,8 @@
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
                 </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5121,6 +5228,7 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="StockTransferTypeCode" ColumnName="StockTransferTypeCode" />
                 </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6311,6 +6419,52 @@
                 <ScalarProperty Name="ServiceContractEngineCode" ColumnName="ServiceContractEngineCode" />
                 <ScalarProperty Name="ServiceContractPurchaseDate" ColumnName="ServiceContractPurchaseDate" />
                 <ScalarProperty Name="ServiceContractAgentName" ColumnName="ServiceContractAgentName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="StockTransferTypes">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.StockTransferType">
+              <MappingFragment StoreEntitySet="StockTransferTypes">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="StockTransferTypeID" ColumnName="StockTransferTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPurchaseInvoiceIndexes" FunctionName="TotalBikePortalsModel.Store.GetPurchaseInvoiceIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PurchaseInvoiceIndex">
+                <ScalarProperty Name="PurchaseInvoiceID" ColumnName="PurchaseInvoiceID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="SupplierDescription" ColumnName="SupplierDescription" />
+                <ScalarProperty Name="ConfirmReference" ColumnName="ConfirmReference" />
+                <ScalarProperty Name="ConfirmDate" ColumnName="ConfirmDate" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
+                <ScalarProperty Name="PurchaseOrderReference" ColumnName="PurchaseOrderReference" />
+                <ScalarProperty Name="PurchaseOrderEntryDate" ColumnName="PurchaseOrderEntryDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPurchaseOrderIndexes" FunctionName="TotalBikePortalsModel.Store.GetPurchaseOrderIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PurchaseOrderIndex">
+                <ScalarProperty Name="PurchaseOrderID" ColumnName="PurchaseOrderID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="ConfirmReference" ColumnName="ConfirmReference" />
+                <ScalarProperty Name="ConfirmDate" ColumnName="ConfirmDate" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="SupplierDescription" ColumnName="SupplierDescription" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

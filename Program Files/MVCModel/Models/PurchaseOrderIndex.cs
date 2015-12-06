@@ -11,18 +11,17 @@ namespace MVCModel.Models
 {
     using System;
     
-    public partial class GoodsReceiptGetStockTransfer
+    public partial class PurchaseOrderIndex
     {
-        public string Description { get; set; }
-        public string Remarks { get; set; }
-        public int GoodsReceiptTypeID { get; set; }
-        public int VoucherID { get; set; }
-        public string LocationName { get; set; }
-        public string Telephone { get; set; }
-        public string Facsimile { get; set; }
-        public string Address { get; set; }
-        public System.DateTime EntryDate { get; set; }
+        public int PurchaseOrderID { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
         public string Reference { get; set; }
-        public string StockTransferTypeCode { get; set; }
+        public string ConfirmReference { get; set; }
+        public Nullable<System.DateTime> ConfirmDate { get; set; }
+        public string LocationCode { get; set; }
+        public string SupplierDescription { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public decimal TotalGrossAmount { get; set; }
+        public string Description { get; set; }
     }
 }

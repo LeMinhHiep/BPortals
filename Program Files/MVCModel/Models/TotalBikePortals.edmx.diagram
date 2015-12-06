@@ -102,6 +102,8 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransfers_TransferOrders" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_TransferOrderDetails_TransferOrders" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_TransferOrders_Warehouses" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.StockTransferType" Width="1.5" PointX="10.375" PointY="6.875" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransfers_StockTransferTypes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

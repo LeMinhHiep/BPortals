@@ -22,5 +22,7 @@ namespace MVCModel.Models
         public string Telephone { get; set; }
         public System.DateTime EntryDate { get; set; }
         public string Reference { get; set; }
+        public string VATInvoiceNo { get; set; }
+        public Nullable<System.DateTime> VATInvoiceDate { get; set; }
     }
 }

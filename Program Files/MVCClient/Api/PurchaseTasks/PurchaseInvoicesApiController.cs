@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,38 +18,27 @@ using Microsoft.AspNet.Identity;
 
 
 
+
 namespace MVCClient.Api.PurchaseTasks
 {
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class PurchaseInvoicesApiController : Controller
     {
         private readonly IPurchaseInvoiceRepository purchaseInvoiceRepository;
+        private readonly IPurchaseInvoiceAPIRepository purchaseInvoiceAPIRepository;
 
-        public PurchaseInvoicesApiController(IPurchaseInvoiceRepository purchaseInvoiceRepository)
+        public PurchaseInvoicesApiController(IPurchaseInvoiceRepository purchaseInvoiceRepository, IPurchaseInvoiceAPIRepository purchaseInvoiceAPIRepository)
         {
             this.purchaseInvoiceRepository = purchaseInvoiceRepository;
+            this.purchaseInvoiceAPIRepository = purchaseInvoiceAPIRepository;
         }
 
-        public JsonResult GetPurchaseInvoices([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetPurchaseInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<PurchaseInvoice> purchaseInvoices = this.purchaseInvoiceRepository.Loading(User.Identity.GetUserId(), MVCBase.Enums.GlobalEnums.NmvnTaskID.PurchaseInvoice).Include(c => c.Customer).Include(e => e.Customer.EntireTerritory);
-            
-            DataSourceResult response = purchaseInvoices.ToDataSourceResult(request, o => new PurchaseInvoicePrimitiveDTO
-            {
-                PurchaseInvoiceID = o.PurchaseInvoiceID,
-                EntryDate = o.EntryDate,
-                Reference = o.Reference,
-                CustomerName = o.Customer.Name,
-                CustomerAttentionName = o.Customer.AttentionName,
-                CustomerTelephone = o.Customer.Telephone,
-                CustomerAddressNo = o.Customer.AddressNo,
-                CustomerEntireTerritoryEntireName = o.Customer.EntireTerritory.EntireName,
-                TotalQuantity = o.TotalQuantity,
-                TotalAmount = o.TotalAmount,
-                TotalGrossAmount = o.TotalGrossAmount,                
-                Description = o.Description,
-                Remarks = o.Remarks
-            });
+            ICollection<PurchaseInvoiceIndex> purchaseInvoiceIndexes = this.purchaseInvoiceAPIRepository.GetEntityIndexes<PurchaseInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+
+            DataSourceResult response = purchaseInvoiceIndexes.ToDataSourceResult(request);
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 

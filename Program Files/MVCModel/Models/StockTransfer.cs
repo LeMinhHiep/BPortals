@@ -44,5 +44,6 @@ namespace MVCModel.Models
         public virtual ICollection<StockTransferDetail> StockTransferDetails { get; set; }
         public virtual Warehouse Warehouse { get; set; }
         public virtual TransferOrder TransferOrder { get; set; }
+        public virtual StockTransferType StockTransferType { get; set; }
     }
 }

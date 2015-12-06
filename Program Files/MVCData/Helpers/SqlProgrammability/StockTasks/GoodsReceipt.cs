@@ -64,7 +64,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "       SELECT         " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AS GoodsReceiptTypeID, PurchaseInvoices.PurchaseInvoiceID AS VoucherID, PurchaseInvoices.EntryDate, PurchaseInvoices.Reference, PurchaseInvoices.VATInvoiceNo, PurchaseInvoices.VATInvoiceDate, Customers.Name AS CustomerName, PurchaseInvoices.AttentionName, Customers.Telephone, PurchaseInvoices.Description, PurchaseInvoices.Remarks " + "\r\n";
-            queryString = queryString + "       FROM            PurchaseInvoices INNER JOIN Customers ON (@PurchaseInvoiceReference = '' OR PurchaseInvoices.Reference LIKE '%' + @PurchaseInvoiceReference + '%') AND PurchaseInvoices.LocationID = @LocationID AND PurchaseInvoices.SupplierID = Customers.CustomerID INNER JOIN EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "       FROM            PurchaseInvoices INNER JOIN Customers ON (@PurchaseInvoiceReference = '' OR PurchaseInvoices.Reference LIKE '%' + @PurchaseInvoiceReference + '%' OR PurchaseInvoices.VATInvoiceNo LIKE '%' + @PurchaseInvoiceReference + '%') AND PurchaseInvoices.LocationID = @LocationID AND PurchaseInvoices.SupplierID = Customers.CustomerID INNER JOIN EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
 
             queryString = queryString + "       WHERE           PurchaseInvoices.PurchaseInvoiceID IN  " + "\r\n";
 
@@ -80,8 +80,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             string queryString = " @LocationID int, @GoodsReceiptID int, @StockTransferReference nvarchar(60) " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT          " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AS GoodsReceiptTypeID, StockTransfers.StockTransferID AS VoucherID, StockTransfers.EntryDate, StockTransfers.Reference, Locations.Name AS LocationName, Locations.Telephone, Locations.Facsimile, Locations.Address, StockTransfers.Description, StockTransfers.Remarks " + "\r\n";
-            queryString = queryString + "       FROM            StockTransfers INNER JOIN Locations ON StockTransfers.LocationID = Locations.LocationID AND StockTransfers.WarehouseID IN (SELECT WarehouseID FROM Warehouses WHERE LocationID = @LocationID) AND (@StockTransferReference = '' OR StockTransfers.Reference LIKE '%' + @StockTransferReference + '%') " + "\r\n";
+            queryString = queryString + "       SELECT          " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AS GoodsReceiptTypeID, StockTransfers.StockTransferID AS VoucherID, StockTransfers.EntryDate, StockTransfers.Reference, StockTransferTypes.Code AS StockTransferTypeCode, Locations.Name AS LocationName, Locations.Telephone, Locations.Facsimile, Locations.Address, StockTransfers.Description, StockTransfers.Remarks " + "\r\n";
+            queryString = queryString + "       FROM            StockTransfers INNER JOIN StockTransferTypes ON StockTransfers.StockTransferTypeID = StockTransferTypes.StockTransferTypeID INNER JOIN Locations ON StockTransfers.LocationID = Locations.LocationID AND StockTransfers.WarehouseID IN (SELECT WarehouseID FROM Warehouses WHERE LocationID = @LocationID) AND (@StockTransferReference = '' OR StockTransfers.Reference LIKE '%' + @StockTransferReference + '%') " + "\r\n";
 
             queryString = queryString + "       WHERE           StockTransfers.StockTransferID IN  " + "\r\n";
 

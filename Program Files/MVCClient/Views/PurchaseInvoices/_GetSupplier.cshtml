@@ -39,7 +39,7 @@
     }
 
     function supplierNameSearchBox_KeyUp() {
-        if ($("#supplierNameSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#supplierNameSearchBox").val().length === 0 || $("#supplierNameSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#getSuppliersGrid").data("kendoGrid").dataSource.read();
         }
     }

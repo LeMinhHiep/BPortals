@@ -60,7 +60,7 @@
     }
 
     function CommoditySearchBox_KeyUp() {
-        if ($("#CommoditySearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ($("#CommoditySearchBox").val().length === 0 || $("#CommoditySearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
             $("#gridVehiclesInvoices").data("kendoGrid").dataSource.read();
         }
     }
