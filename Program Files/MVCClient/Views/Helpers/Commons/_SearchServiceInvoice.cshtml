@@ -14,7 +14,7 @@
         columns.Bound(c => c.ServiceContractEngineCode).Title("Số máy").Width(12);
         columns.Bound(c => c.ServiceContractLicensePlate).Title("Biển số").Width(9);
 
-        columns.Bound(c => c.EntryDate).Title("Giờ nhận").Width(9).Format("{0:" + SettingsManager.TimeFormat + "}");
+        columns.Bound(c => c.EntryDate).Title("Ngày nhận").Width(9).Format("{0:" + SettingsManager.DateTimeFormat + "}");
     })
     .ToolBar(toolbar =>
         {
