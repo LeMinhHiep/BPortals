@@ -40,11 +40,11 @@ namespace MVCClient.Api.CommonTasks
         {
             try
             {
-                var commodityResult = new { CommodityID = 0, Code = "", Name = "", VATPercent = new decimal(0) };
+                var commodityResult = new { CommodityID = 0, Code = "", Name = "", CommodityTypeID = 0, VATPercent = new decimal(0) };
 
-                var result = commodityRepository.SearchCommoditiesByName(code, null).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityCategory.VATPercent });
+                var result = commodityRepository.SearchCommoditiesByName(code, null).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityTypeID, s.CommodityCategory.VATPercent });
                 if (result.Count() > 0)
-                    commodityResult = new { CommodityID = result.First().CommodityID, Code = result.First().Code, Name = result.First().Name, VATPercent = result.First().VATPercent };
+                    commodityResult = new { CommodityID = result.First().CommodityID, Code = result.First().Code, Name = result.First().Name, CommodityTypeID = result.First().CommodityTypeID, VATPercent = result.First().VATPercent };
                 else
                 {
                     CommodityDTO commodityDTO = new CommodityDTO();
@@ -59,7 +59,7 @@ namespace MVCClient.Api.CommonTasks
                     commodityService.UserID = 2; //Ai cung co quyen add Commodity, boi viec add can cu theo UserID = 2: tanthanhhotel@gmail.com
 
                     if (commodityService.Save(commodityDTO))
-                        commodityResult = new { CommodityID = commodityDTO.CommodityID, Code = commodityDTO.Code, Name = commodityDTO.Name, VATPercent = new decimal(10) };
+                        commodityResult = new { CommodityID = commodityDTO.CommodityID, Code = commodityDTO.Code, Name = commodityDTO.Name, CommodityTypeID = commodityDTO.CommodityTypeID, VATPercent = new decimal(10) };
                 }
 
                 return Json(commodityResult, JsonRequestBehavior.AllowGet);
@@ -110,7 +110,7 @@ namespace MVCClient.Api.CommonTasks
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public JsonResult GetPartAvailables(int? locationID, DateTime? entryDate, string searchText)
@@ -119,7 +119,7 @@ namespace MVCClient.Api.CommonTasks
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
 
         public JsonResult GetCommodities([DataSourceRequest] DataSourceRequest request, int commodityCategoryID, int commodityTypeID)
         {

@@ -54,6 +54,7 @@
                         dataRow.set("CommodityID", result.CommodityID);
                         dataRow.set("CommodityCode", result.Code);
                         dataRow.set("CommodityName", result.Name);
+                        dataRow.set("CommodityTypeID", result.CommodityTypeID);
                         dataRow.set("VATPercent", Math.round(result.VATPercent, requireConfig.websiteOptions.rndAmount));
                     }
                     else

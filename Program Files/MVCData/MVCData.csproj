@@ -49,6 +49,8 @@
     <Compile Include="EntityFrameworkExtension.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\AccessControl.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\Commons.cs" />
+    <Compile Include="Helpers\SqlProgrammability\StockTasks\BackupInventory14DEC.cs" />
+    <Compile Include="Helpers\SqlProgrammability\StockTasks\BackupInventory15DEC.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\GoodsReceipt.cs" />
     <Compile Include="Helpers\SqlProgrammability\PurchaseTasks\PurchaseOrder.cs" />
     <Compile Include="Helpers\SqlProgrammability\SalesTasks\PartsInvoice.cs" />
