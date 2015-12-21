@@ -19,6 +19,7 @@ using AutoMapper;
 
 
 using Microsoft.AspNet.Identity;
+using MVCClient.Api.SessionTasks;
 
 
 
@@ -37,7 +38,7 @@ namespace MVCClient.Api.PurchaseTasks
 
         public JsonResult GetPurchaseOrderIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<PurchaseOrderIndex> purchaseOrderIndexes = this.purchaseOrderAPIRepository.GetEntityIndexes<PurchaseOrderIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<PurchaseOrderIndex> purchaseOrderIndexes = this.purchaseOrderAPIRepository.GetEntityIndexes<PurchaseOrderIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = purchaseOrderIndexes.ToDataSourceResult(request);
 

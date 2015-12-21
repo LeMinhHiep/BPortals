@@ -1,57 +1,57 @@
 ﻿using MVCCore.Helpers;
-using MVCCore.Repositories;
-using MVCModel.Helpers;
-using MVCModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using MVCModel.Models;
+using MVCCore.Repositories;
+
 namespace MVCData.Helpers
 {    
     public class ModuleDetailRepository : IModuleDetailRepository
     {
-        private readonly CommonTableEntities commonTableEntities;
+        private readonly TotalBikePortalsEntities totalBikePortalsEntities;
 
-        public ModuleDetailRepository(CommonTableEntities commonTableEntities)
+        public ModuleDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities)
         {
-            this.commonTableEntities = commonTableEntities;
+            this.totalBikePortalsEntities = totalBikePortalsEntities;
         }
 
         public IQueryable<ModuleDetail> GetAllModuleDetails()
         {
-            return this.commonTableEntities.ModuleDetails;
+            return this.totalBikePortalsEntities.ModuleDetails;
         }
 
         public IQueryable<ModuleDetail> GetModuleDetailByModuleID(int moduleID)
         {
-            return this.commonTableEntities.ModuleDetails.Where(x => x.ModuleID == moduleID && x.InActive == 0);
+            return this.totalBikePortalsEntities.ModuleDetails.Where(x => x.ModuleID == moduleID && x.InActive == 0);
         }
 
         public ModuleDetail GetModuleDetailByID(int taskID)
         {
-            return this.commonTableEntities.ModuleDetails.SingleOrDefault(x => x.TaskID == taskID);
+            return this.totalBikePortalsEntities.ModuleDetails.SingleOrDefault(x => x.TaskID == taskID);
         }
 
         public void AddModuleDetail(ModuleDetail moduleDetail)
         {
-            this.commonTableEntities.ModuleDetails.Add(moduleDetail);
+            this.totalBikePortalsEntities.ModuleDetails.Add(moduleDetail);
         }
 
         public void Add(ModuleDetail moduleDetail)
         {
-            this.commonTableEntities.ModuleDetails.Add(moduleDetail);
+            this.totalBikePortalsEntities.ModuleDetails.Add(moduleDetail);
         }
 
         public void Remove(ModuleDetail moduleDetail)
         {
-            this.commonTableEntities.ModuleDetails.Remove(moduleDetail);
+            this.totalBikePortalsEntities.ModuleDetails.Remove(moduleDetail);
         }
 
         public void SaveChanges()
         {
-            this.commonTableEntities.SaveChanges();
+            this.totalBikePortalsEntities.SaveChanges();
         }
 
     }

@@ -15,6 +15,7 @@ using MVCCore.Repositories.PurchaseTasks;
 
 
 using Microsoft.AspNet.Identity;
+using MVCClient.Api.SessionTasks;
 
 
 
@@ -35,7 +36,7 @@ namespace MVCClient.Api.PurchaseTasks
 
         public JsonResult GetPurchaseInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<PurchaseInvoiceIndex> purchaseInvoiceIndexes = this.purchaseInvoiceAPIRepository.GetEntityIndexes<PurchaseInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<PurchaseInvoiceIndex> purchaseInvoiceIndexes = this.purchaseInvoiceAPIRepository.GetEntityIndexes<PurchaseInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = purchaseInvoiceIndexes.ToDataSourceResult(request);
 

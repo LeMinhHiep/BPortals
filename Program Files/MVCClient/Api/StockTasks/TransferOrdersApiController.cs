@@ -17,6 +17,7 @@ using MVCCore.Repositories.StockTasks;
 
 
 using Microsoft.AspNet.Identity;
+using MVCClient.Api.SessionTasks;
 
 
 
@@ -50,7 +51,7 @@ namespace MVCClient.Api.StockTasks
 
         public JsonResult GetVehicleTransferOrderIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<VehicleTransferOrderIndex> vehicleTransferOrderIndexes = this.vehicleTransferOrderAPIRepository.GetEntityIndexes<VehicleTransferOrderIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<VehicleTransferOrderIndex> vehicleTransferOrderIndexes = this.vehicleTransferOrderAPIRepository.GetEntityIndexes<VehicleTransferOrderIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = vehicleTransferOrderIndexes.ToDataSourceResult(request);
 
@@ -108,7 +109,7 @@ namespace MVCClient.Api.StockTasks
 
         public JsonResult GetPartTransferOrderIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<PartTransferOrderIndex> partTransferOrderIndexes = this.partTransferOrderAPIRepository.GetEntityIndexes<PartTransferOrderIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<PartTransferOrderIndex> partTransferOrderIndexes = this.partTransferOrderAPIRepository.GetEntityIndexes<PartTransferOrderIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = partTransferOrderIndexes.ToDataSourceResult(request);
 

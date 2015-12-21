@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
 using System.Collections.Generic;
 
+using MVCBase.Enums;
 using MVCModel.Models;
 using MVCCore.Repositories;
 
@@ -28,6 +29,12 @@ namespace MVCData.Repositories
 
         protected TotalBikePortalsEntities TotalBikePortalsEntities { get { return this.totalBikePortalsEntities; } }
 
+
+        public int GetModuleID(GlobalEnums.NmvnTaskID nmvnTaskID)
+        {
+            var moduleDetail = this.totalBikePortalsEntities.ModuleDetails.Where(w => w.TaskID == (int)nmvnTaskID).FirstOrDefault();
+            return moduleDetail != null ? moduleDetail.ModuleID : 0;
+        }
 
         /// <summary>
         ///     Detect whether the context is dirty (i.e., there are changes in entities in memory that have
@@ -71,7 +78,7 @@ namespace MVCData.Repositories
 
 
 
-        
+
 
         public T GetEntity<T>(bool proxyCreationEnabled, Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : class
         {
@@ -83,7 +90,7 @@ namespace MVCData.Repositories
             if (includes != null && includes.Any())
                 result = includes.Aggregate(result, (current, include) => current.Include(include));
 
-            
+
             T entity = null;
 
             if (predicate != null)
@@ -117,7 +124,7 @@ namespace MVCData.Repositories
 
 
 
-        
+
 
         public ICollection<T> GetEntities<T>(bool proxyCreationEnabled, Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : class
         {

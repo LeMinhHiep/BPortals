@@ -13,6 +13,7 @@ using MVCCore.Repositories.StockTasks;
 
 
 using Microsoft.AspNet.Identity;
+using MVCClient.Api.SessionTasks;
 
 
 namespace MVCClient.Api.StockTasks
@@ -31,7 +32,7 @@ namespace MVCClient.Api.StockTasks
 
         public JsonResult GetGoodsReceiptIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<GoodsReceiptIndex> goodsReceiptIndexes = this.goodsReceiptAPIRepository.GetEntityIndexes<GoodsReceiptIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<GoodsReceiptIndex> goodsReceiptIndexes = this.goodsReceiptAPIRepository.GetEntityIndexes<GoodsReceiptIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = goodsReceiptIndexes.ToDataSourceResult(request);
 

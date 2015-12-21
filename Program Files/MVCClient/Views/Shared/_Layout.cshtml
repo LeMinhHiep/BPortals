@@ -77,8 +77,6 @@
 
 
 
-
-
     <div id="czDLGWindow"></div>
 
 
@@ -143,61 +141,6 @@
         //var userName2 = userName + '(' + d.getHours() + ':' + d.getMinutes() + ')';
         //$('#displayname').val(userName2);
         //End chatbox variable
-
-
-        function selectModule(e) {            
-            var url = '@Url.Action("TaskMenu", "MenuApi", new { moduleID = "module-id" })';
-            url = url.replace("module-id", $(e.item).attr("moduleid"));
-
-            $('#detail-menu').load(url);
-        }
-
-        function selectTask(e) {
-            taskID = $(e.item).attr("taskID");
-            taskName = $(e.item).attr("taskName");
-            taskController = $(e.item).attr("taskController");
-            taskActions = $(e.item).attr("taskActions");
-
-            var url = '@Url.Action("taskActions", "taskController")';
-            url = url.replace("taskActions", taskActions);
-            url = url.replace("taskController", taskController);
-
-            window.open(url, "_self");
-
-            @*$.ajax({
-                url: '@Url.Action("SetTask", "MenuApi")',
-                type: 'POST',
-                contentType: 'application/json;',
-                data: JSON.stringify({ taskID: taskID, taskName: taskName, taskController: taskController }),
-                success: function (valid) {
-                    //if (valid) { }
-                    //else { }
-                }
-            });*@
-        }
-
-        function collapse_click() {
-            menu_arrow(false);
-        }
-
-        function expand_click() {
-            menu_arrow(true);
-        }
-
-        function menu_arrow(isUp) {
-            if (isUp == true) {
-                $("#header1").slideDown();
-                $("#up-arrow-container").css("display", "inline-block");
-                $("#down-arrow-container").css("display", "none");
-            }
-            else {
-                $("#header1").slideUp();
-                $("#up-arrow-container").css("display", "none");
-                $("#down-arrow-container").css("display", "	inline-block");
-            }
-        }
-
-
     </script>
    
     @RenderSection("scripts", required: false)

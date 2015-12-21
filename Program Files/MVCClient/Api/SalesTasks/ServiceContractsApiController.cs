@@ -13,6 +13,7 @@ using MVCModel.Models;
 
 using Microsoft.AspNet.Identity;
 using System;
+using MVCClient.Api.SessionTasks;
 
 
 
@@ -49,7 +50,7 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetServiceContractIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<ServiceContractIndex> serviceContractIndexes = this.serviceContractAPIRepository.GetEntityIndexes<ServiceContractIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<ServiceContractIndex> serviceContractIndexes = this.serviceContractAPIRepository.GetEntityIndexes<ServiceContractIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = serviceContractIndexes.ToDataSourceResult(request);
 

@@ -26,7 +26,5 @@ namespace MVCModel.Helpers
         }
     
         public virtual DbSet<SchemeRoutine> SchemeRoutines { get; set; }
-        public virtual DbSet<ModuleDetail> ModuleDetails { get; set; }
-        public virtual DbSet<Module> Modules { get; set; }
     }
 }

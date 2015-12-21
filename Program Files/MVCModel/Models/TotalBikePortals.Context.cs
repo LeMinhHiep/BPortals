@@ -64,6 +64,8 @@ namespace MVCModel.Models
         public virtual DbSet<VCNB_T07> VCNB_T07 { get; set; }
         public virtual DbSet<TransferOrder> TransferOrders { get; set; }
         public virtual DbSet<StockTransferType> StockTransferTypes { get; set; }
+        public virtual DbSet<ModuleDetail> ModuleDetails { get; set; }
+        public virtual DbSet<Module> Modules { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {

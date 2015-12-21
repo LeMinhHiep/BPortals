@@ -7,23 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVCModel.Helpers
+namespace MVCModel.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ModuleDetail
+    public partial class Module
     {
-        public int TaskID { get; set; }
         public int ModuleID { get; set; }
         public string Description { get; set; }
         public string DescriptionEN { get; set; }
-        public string Actions { get; set; }
-        public double LastOpen { get; set; }
-        public double SerialID { get; set; }
-        public double InActive { get; set; }
-        public string SoftDescription { get; set; }
-        public string Controller { get; set; }
+        public int SerialID { get; set; }
         public string ImageIndex { get; set; }
+        public int InActive { get; set; }
     }
 }

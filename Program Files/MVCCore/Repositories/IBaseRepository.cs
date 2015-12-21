@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
 
+using MVCBase.Enums;
 
 namespace MVCCore.Repositories
 {
     public interface IBaseRepository
     {
         bool IsDirty();
+
+        int GetModuleID(GlobalEnums.NmvnTaskID nmvnTaskID);
 
         ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters);
         int ExecuteFunction(string functionName, params ObjectParameter[] parameters);
@@ -26,7 +29,7 @@ namespace MVCCore.Repositories
         ICollection<T> GetEntities<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : class;
         ICollection<T> GetEntities<T>(bool proxyCreationEnabled, Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : class;
 
-            
+
 
     }
 }

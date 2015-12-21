@@ -62,6 +62,10 @@ namespace MVCService
             return this.genericRepository.GetByID(id);
         }
 
+        public override GlobalEnums.NmvnTaskID NmvnTaskID
+        {
+            get { return this.nmvnTaskID; }
+        }
 
         public override GlobalEnums.AccessLevel GetAccessLevel(int? organizationalUnitID)
         {

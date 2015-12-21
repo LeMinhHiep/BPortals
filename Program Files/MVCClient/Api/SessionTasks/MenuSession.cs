@@ -5,6 +5,38 @@ using System.Web;
 
 namespace MVCClient.Api.SessionTasks
 {
+    public class HomeSession
+    {
+        public static DateTime GetGlobalFromDate(HttpContextBase context)
+        {
+            if (context.Session["GlobalFromDate"] == null)
+                return DateTime.Today.AddDays(-2);
+            else
+                return (DateTime)context.Session["GlobalFromDate"];
+        }
+
+        public static void SetGlobalFromDate(HttpContextBase context, DateTime globalFromDate)
+        {
+            context.Session["GlobalFromDate"] = globalFromDate;
+        }
+
+        
+
+        public static DateTime GetGlobalToDate(HttpContextBase context)
+        {
+            if (context.Session["GlobalToDate"] == null)
+                return DateTime.Today.AddDays(2).AddHours(23).AddMinutes(59).AddSeconds(59);
+            else
+                return (DateTime)context.Session["GlobalToDate"];
+        }
+
+        public static void SetGlobalToDate(HttpContextBase context, DateTime globalToDate)
+        {
+            context.Session["GlobalToDate"] = globalToDate;
+        }
+
+    }
+
     public class MenuSession
     {
         public static int GetModuleID(HttpContextBase context)

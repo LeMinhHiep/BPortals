@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Collections.Generic;
 using System.Web.UI;
 
 using Kendo.Mvc.UI;
@@ -15,8 +16,7 @@ using MVCDTO.SalesTasks;
 
 using MVCCore.Repositories.SalesTasks;
 using MVCClient.ViewModels.SalesTasks;
-using System.Collections.Generic;
-
+using MVCClient.Api.SessionTasks;
 
 using Microsoft.AspNet.Identity;
 
@@ -36,7 +36,7 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetVehiclesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<VehiclesInvoiceIndex> vehiclesInvoiceIndexes = this.vehiclesInvoiceAPIRepository.GetEntityIndexes<VehiclesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<VehiclesInvoiceIndex> vehiclesInvoiceIndexes = this.vehiclesInvoiceAPIRepository.GetEntityIndexes<VehiclesInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = vehiclesInvoiceIndexes.ToDataSourceResult(request);
 
@@ -60,7 +60,7 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetPartsInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<PartsInvoiceIndex> partsInvoiceIndexes = this.partsInvoiceAPIRepository.GetEntityIndexes<PartsInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<PartsInvoiceIndex> partsInvoiceIndexes = this.partsInvoiceAPIRepository.GetEntityIndexes<PartsInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = partsInvoiceIndexes.ToDataSourceResult(request);
 
@@ -88,7 +88,7 @@ namespace MVCClient.Api.SalesTasks
 
         public JsonResult GetServicesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
         {
-            ICollection<ServicesInvoiceIndex> servicesInvoiceIndexes = this.servicesInvoiceAPIRepository.GetEntityIndexes<ServicesInvoiceIndex>(User.Identity.GetUserId(), DateTime.Today.AddDays(-1000), DateTime.Today.AddDays(360));
+            ICollection<ServicesInvoiceIndex> servicesInvoiceIndexes = this.servicesInvoiceAPIRepository.GetEntityIndexes<ServicesInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = servicesInvoiceIndexes.ToDataSourceResult(request);
 

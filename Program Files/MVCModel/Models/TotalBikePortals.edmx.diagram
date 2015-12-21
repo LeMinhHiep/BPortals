@@ -104,6 +104,8 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_TransferOrders_Warehouses" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.StockTransferType" Width="1.5" PointX="10.375" PointY="6.875" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransfers_StockTransferTypes" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.ModuleDetail" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.Module" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

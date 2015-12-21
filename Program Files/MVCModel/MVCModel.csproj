@@ -67,12 +67,6 @@
       <DependentUpon>CommonTable.edmx</DependentUpon>
     </Compile>
     <Compile Include="Helpers\IHelper.cs" />
-    <Compile Include="Helpers\Module.cs">
-      <DependentUpon>CommonTable.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Helpers\ModuleDetail.cs">
-      <DependentUpon>CommonTable.tt</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\SchemeRoutine.cs">
       <DependentUpon>CommonTable.tt</DependentUpon>
     </Compile>
@@ -141,6 +135,12 @@
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Location.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Module.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModuleDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrganizationalUnit.cs">

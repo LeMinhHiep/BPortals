@@ -2,7 +2,7 @@
 using MVCClient.Converters;
 using MVCClient.ViewModels.Menus;
 using MVCCore.Helpers;
-using MVCModel.Helpers;
+using MVCModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +70,9 @@ namespace MVCClient.Api.Menus
             ViewBag.ModuleName = moduleName;
             ViewBag.TaskName = taskName;
             ViewBag.TaskController = taskController;
+
+            ViewBag.GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext);
+            ViewBag.GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext);
            
             var moduleMaster = moduleRepository.GetAllModules();
              

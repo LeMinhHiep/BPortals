@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 
 using MVCClient.Models;
+using MVCClient.ViewModels.Home;
+using MVCClient.Api.SessionTasks;
 
 namespace MVCClient.Controllers
 {
@@ -31,5 +33,23 @@ namespace MVCClient.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Options()
+        {
+            OptionViewModel optionViewModel = new OptionViewModel { GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext), GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext) };
+
+            return View(optionViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Options(OptionViewModel optionViewModel)
+        {
+            HomeSession.SetGlobalFromDate(this.HttpContext, optionViewModel.GlobalFromDate);
+            HomeSession.SetGlobalToDate(this.HttpContext, optionViewModel.GlobalToDate);
+
+            return View("Index");
+        }
+
     }
 }

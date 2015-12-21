@@ -5,33 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CommonTableModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ModuleDetails">
-          <Key>
-            <PropertyRef Name="TaskID" />
-          </Key>
-          <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="ModuleID" Type="int" Nullable="false" />
-          <Property Name="SoftDescription" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DescriptionEN" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Actions" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Controller" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastOpen" Type="float" Nullable="false" />
-          <Property Name="SerialID" Type="float" Nullable="false" />
-          <Property Name="ImageIndex" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="InActive" Type="float" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Modules">
-          <Key>
-            <PropertyRef Name="ModuleID" />
-          </Key>
-          <Property Name="ModuleID" Type="int" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DescriptionEN" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="SerialID" Type="int" Nullable="false" />
-          <Property Name="ImageIndex" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="InActive" Type="int" Nullable="false" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TotalBikePortals.dbo.SchemeRoutines' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SchemeRoutines">
@@ -94,8 +67,6 @@ warning 6002: The table/view 'TotalBikePortals.dbo.SchemeRoutines' does not have
           <Property Name="LAST_ALTERED" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityContainer Name="CommonTableModelStoreContainer">
-          <EntitySet Name="ModuleDetails" EntityType="Self.ModuleDetails" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchemeRoutines" EntityType="Self.SchemeRoutines" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [SchemeRoutines].[SPECIFIC_CATALOG] AS [SPECIFIC_CATALOG], 
@@ -217,36 +188,7 @@ warning 6002: The table/view 'TotalBikePortals.dbo.SchemeRoutines' does not have
         </EntityType>
         <EntityContainer Name="CommonTableEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="SchemeRoutines" EntityType="Self.SchemeRoutine" />
-          <EntitySet Name="ModuleDetails" EntityType="CommonTableModel.ModuleDetail" />
-          <EntitySet Name="Modules" EntityType="CommonTableModel.Module" />
         </EntityContainer>
-        <EntityType Name="ModuleDetail">
-          <Key>
-            <PropertyRef Name="TaskID" />
-          </Key>
-          <Property Name="TaskID" Type="Int32" Nullable="false" />
-          <Property Name="ModuleID" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DescriptionEN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Actions" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastOpen" Type="Double" Nullable="false" />
-          <Property Name="SerialID" Type="Double" Nullable="false" />
-          <Property Name="InActive" Type="Double" Nullable="false" />
-          <Property Name="SoftDescription" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ImageIndex" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Module">
-          <Key>
-            <PropertyRef Name="ModuleID" />
-          </Key>
-          <Property Name="ModuleID" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DescriptionEN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SerialID" Type="Int32" Nullable="false" />
-          <Property Name="InActive" Type="Int32" Nullable="false" />
-          <Property Name="ImageIndex" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -307,35 +249,6 @@ warning 6002: The table/view 'TotalBikePortals.dbo.SchemeRoutines' does not have
                 <ScalarProperty Name="IS_IMPLICITLY_INVOCABLE" ColumnName="IS_IMPLICITLY_INVOCABLE" />
                 <ScalarProperty Name="CREATED" ColumnName="CREATED" />
                 <ScalarProperty Name="LAST_ALTERED" ColumnName="LAST_ALTERED" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ModuleDetails">
-            <EntityTypeMapping TypeName="CommonTableModel.ModuleDetail">
-              <MappingFragment StoreEntitySet="ModuleDetails">
-                <ScalarProperty Name="ImageIndex" ColumnName="ImageIndex" />
-                <ScalarProperty Name="Controller" ColumnName="Controller" />
-                <ScalarProperty Name="SoftDescription" ColumnName="SoftDescription" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
-                <ScalarProperty Name="LastOpen" ColumnName="LastOpen" />
-                <ScalarProperty Name="Actions" ColumnName="Actions" />
-                <ScalarProperty Name="DescriptionEN" ColumnName="DescriptionEN" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Modules">
-            <EntityTypeMapping TypeName="CommonTableModel.Module">
-              <MappingFragment StoreEntitySet="Modules">
-                <ScalarProperty Name="ImageIndex" ColumnName="ImageIndex" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
-                <ScalarProperty Name="DescriptionEN" ColumnName="DescriptionEN" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

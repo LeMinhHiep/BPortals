@@ -15,6 +15,8 @@
 
         public enum NmvnTaskID
         {
+            UnKnown = 0,
+
             Customer = 8001,
             Commodity = 8002,
 

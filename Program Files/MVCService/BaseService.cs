@@ -36,6 +36,9 @@ namespace MVCService
             }
         }
 
+        public virtual GlobalEnums.NmvnTaskID NmvnTaskID { get { return GlobalEnums.NmvnTaskID.UnKnown; } }
+        public int NmvnModuleID { get { return this.baseRepository.GetModuleID(this.NmvnTaskID); } }
+
         public virtual GlobalEnums.AccessLevel GetAccessLevel()
         { return this.GetAccessLevel(0); }
         public virtual GlobalEnums.AccessLevel GetAccessLevel(int? organizationalUnitID)

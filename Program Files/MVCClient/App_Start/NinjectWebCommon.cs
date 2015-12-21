@@ -11,7 +11,6 @@ namespace MVCClient.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using MVCModel.Models;
-    using MVCModel.Helpers;
     using MVCCore.Repositories.CommonTasks;
     using MVCCore.Repositories.PurchaseTasks;
     using MVCCore.Repositories.SalesTasks;
@@ -80,7 +79,6 @@ namespace MVCClient.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 kernel.Bind<TotalBikePortalsEntities>().ToSelf().InRequestScope();
-                kernel.Bind<CommonTableEntities>().ToSelf().InRequestScope();
 
                 kernel.Bind<IPurchaseOrderService>().To<PurchaseOrderService>();
                 kernel.Bind<IPurchaseOrderRepository>().To<PurchaseOrderRepository>();

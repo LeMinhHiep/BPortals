@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;    
+    font-family: Arial, Helvetica, sans-serif;
     /*background-color: #FBF9EF;*/
     background-color: white;
     padding: 0px 0px;
@@ -54,7 +54,7 @@ body {
 
 ul {
     list-style-type: none;
-    margin-left: 25px;    
+    margin-left: 25px;
 }
 
 #cart {
@@ -221,38 +221,38 @@ input[type=text], input[type=password], select {
     background-color: #ffeeee;
 }
 
-#div-DeleteConfirm{
-    text-align:right;     
-    width: 1150px; 
+#div-DeleteConfirm {
+    text-align: right;
+    width: 1150px;
     padding-right: 5px;
-    color:darkred;
+    color: darkred;
 }
 
-#div-alert{
-    display:none;
-    text-align:right;     
-    width: 1150px; 
-    /*margin-top: 10px;*/ 
+#div-alert {
+    display: none;
+    text-align: right;
+    width: 1150px;
+    /*margin-top: 10px;*/
     padding-right: 5px;
 }
 
-.validation-summary-errors{    
-    display:none;
+.validation-summary-errors {
+    display: none;
     /*margin-left: 60px;*/
-     /*color: #ff0000;*/
+    /*color: #ff0000;*/
     /*margin-top: 10px;*/
     margin-bottom: 25px;
     background-color: #E0FFFF;
     border: 1px solid #00688B;
     border-radius: 8px 8px 8px 8px;
     color: #00688B;
-    font-weight: bold;    
+    font-weight: bold;
     width: 1150px;
     float: left;
-    text-align: left;    
+    text-align: left;
 }
 
-    .validation-summary-errors ul{     
+    .validation-summary-errors ul {
         margin-top: 5px;
     }
 
@@ -275,7 +275,7 @@ tr {
 
 th {
     /*background-color: #9b9993;*/
-    /*color: #000;*/    
+    /*color: #000;*/
     text-align: left;
     font-weight: normal;
 }
@@ -319,7 +319,7 @@ label {
 }
 
 .k-menu-horizontal > .k-item {
-    background-color: green;
+    background-color: forestgreen;
     /*box-shadow: 10px 10px 5px #888888;*/
     /*background: linear-gradient(to bottom, #246124 50%, #166916 50%);
     background-size: 200% 100%;*/
@@ -327,22 +327,22 @@ label {
 
 .k-menu-horizontal .k-animation-container > ul {
     border-radius: 10px;
-    background-color: green;
+    background-color: forestgreen;
 }
 
     .k-menu-horizontal .k-animation-container > ul > li {
-        background-color: green;
+        background-color: forestgreen;
     }
 
         .k-menu-horizontal .k-animation-container > ul > li > .k-content {
             margin: 7px;
-            background-color: green;
+            background-color: forestgreen;
             color: white;
         }
 
 
 .k-menu-vertical > li {
-    background: radial-gradient(darkred, #FF954C);
+    background: radial-gradient(#6596a9, #162b33); /*radial-gradient(darkred, #FF954C);*/
     background-color: #A5B8CB;
     border: 0px;
     /*font-size: small;*/
@@ -390,7 +390,7 @@ label {
     }
 
     .k-menu-vertical .k-state-active, .k-menu-vertical .k-state-active:hover, .k-menu-vertical .k-active-filter, .k-menu-vertical .k-tabstrip .k-state-active {
-        background: none repeat scroll 0 0 green;
+        background: none repeat scroll 0 0 forestgreen;
         box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
         border-color: #a6afbe;
         /*color: #515967;*/
@@ -405,7 +405,7 @@ label {
     border-right: #5d5a53 0px dotted;
     padding-right: 5px;
     margin: 0 5px 0 0;
-    float: left;    
+    float: left;
 }
 
 
@@ -417,9 +417,9 @@ label {
     }
 
     #categories1 a:hover {
-        /*background-color: green;*/
-        background: none repeat scroll 0 0 green;
-        box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;        
+        /*background-color: forestgreen;*/
+        background: none repeat scroll 0 0 forestgreen;
+        box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
         -webkit-animation: myfirst 4s; /* Chrome, Safari, Opera */
         animation: myfirst 4s;
     }
@@ -431,7 +431,7 @@ label {
     }
 
     to {
-        background: green;
+        background: #ca0e0b;
     }
 }
 
@@ -442,7 +442,7 @@ label {
     }
 
     to {
-        background: green;
+        background: #ca0e0b;
     }
 }
 
@@ -540,23 +540,23 @@ label {
     min-width: 1150px;
     height: 55px;
     clear: both;
-    background-color: green;
+    background-color: forestgreen;
     text-align: right;
     /*background-image: url("../Content/Images/New/header_Background.jpg");*/
-    background: linear-gradient(darkred, #FF954C);
+    background: linear-gradient(#6596a9, #162b33); /*linear-gradient(darkred, #FF954C);           #6596a9, #162b33        */
 }
 
 .MainMenu-left {
     height: 55px;
-    width: 310px;
+    width: 400px;
     float: left;
-    background: linear-gradient(darkred, #66A5C9);
+    background: linear-gradient(#ca4646, darkred); /*linear-gradient(darkred, #66A5C9);*/
 }
 
 
 #MainMenu {
     width: 1000px;
-    background-color: green;
+    background-color: forestgreen;
 }
 
     #MainMenu > .k-item {
@@ -567,7 +567,7 @@ label {
         /*font-size: small;*/
         font-weight: lighter;
         /*background-image: url("../Content/Images/New/header_Background.jpg");*/
-        background: linear-gradient(darkred, #FF954C);
+        background: linear-gradient(#6596a9, #162b33); /*linear-gradient(darkred, #FF954C);*/
     }
 
         #MainMenu > .k-item > span {
@@ -577,11 +577,11 @@ label {
 
         #MainMenu > .k-item > .k-link:hover {
             color: yellow;
-            background-color: red;
+            background-color: #ca0e0b;
             height: 51px;
             box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
-            -webkit-animation: orange-red 4s; /* Chrome, Safari, Opera */
-            animation: orange-red 4s;
+            -webkit-animation: myfirst 1s; /* Chrome, Safari, Opera */
+            animation: myfirst 1s; /*animation: orange-red 4s;*/
         }
 
         #MainMenu > .k-item > .k-link > .k-image {
@@ -590,6 +590,29 @@ label {
             padding-bottom: 3px;
             margin-top: 2px;
         }
+
+        #MainMenu > .k-item.k-state-selected {
+            color: yellow;
+            background: linear-gradient(#ca4646, darkred);
+        }
+
+        #MainMenu > .k-item.k-state-selected_1 {
+            color: slategrey;
+            background: linear-gradient(#dc7171, #852809);
+        }
+        
+
+#grouplist > .k-item > .k-link:hover {
+    background-color: #ca0e0b;
+    box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
+    -webkit-animation: myfirst 1s; /* Chrome, Safari, Opera */
+    animation: myfirst 1s; /*animation: orange-red 4s;*/
+}
+
+#grouplist > .k-item.k-state-selected {
+    color: yellow;
+    background: radial-gradient(#ca4646, darkred);
+}
 
 .menu-separation {
     width: 100%;
@@ -700,27 +723,27 @@ li[highlight=highlight] {
         display: none;
     }
 
-.info-bar1 {           
-    /*background-color: #257fb2;*/   
+.info-bar1 {
+    /*background-color: #257fb2;*/
 }
 
-.info-bar2 {    
-    /*background-color: #14a0ef;*/    
+.info-bar2 {
+    /*background-color: #14a0ef;*/
 }
 
-a[class^='info-bar']{
-     padding: 7px 10px 4px 2px;
-     border-radius: 5px;
-     border-color: #ccc;
-     border-width: 1px;
-     border-style: solid;
-     background-color: transparent;
+a[class^='info-bar'] {
+    padding: 7px 10px 4px 2px;
+    border-radius: 5px;
+    border-color: #ccc;
+    border-width: 1px;
+    border-style: solid;
+    background-color: transparent;
 }
 
-a[class^='info-bar'] > img{
-    padding-bottom: 5px;
-    padding-right: 5px;
-}
+    a[class^='info-bar'] > img {
+        padding-bottom: 5px;
+        padding-right: 5px;
+    }
 
 .icon-tablet-2 {
     /*background-position: -25px -100px;*/
@@ -756,7 +779,7 @@ a[class^='info-bar'] > img{
     padding-left: 10px;
 }
 
-.multiline-grid{    
+.multiline-grid {
     color: #B2B2B2;
     /*height: 12px;*/
 }

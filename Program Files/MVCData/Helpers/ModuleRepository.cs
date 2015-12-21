@@ -1,6 +1,5 @@
 ﻿using MVCCore.Helpers;
 using MVCCore.Repositories;
-using MVCModel.Helpers;
 using MVCModel.Models;
 using System;
 using System.Collections.Generic;
@@ -12,22 +11,22 @@ namespace MVCData.Helpers
 {   
     public class ModuleRepository : IModuleRepository
     {
-        private readonly CommonTableEntities commonTableEntities;
+        private readonly TotalBikePortalsEntities totalBikePortalsEntities;
 
-        public ModuleRepository(CommonTableEntities commonTableEntities)
+        public ModuleRepository(TotalBikePortalsEntities totalBikePortalsEntities)
         {
-            this.commonTableEntities = commonTableEntities;
-            this.commonTableEntities.Configuration.ProxyCreationEnabled = false;
+            this.totalBikePortalsEntities = totalBikePortalsEntities;
+            this.totalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
         }
 
         public IQueryable<Module> GetAllModules()
         {
-            return this.commonTableEntities.Modules.Where(w => w.InActive == 0);
+            return this.totalBikePortalsEntities.Modules.Where(w => w.InActive == 0);
         }
 
         public Module GetModuleByID(int moduleID)
         {
-            var module = this.commonTableEntities.Modules.SingleOrDefault(x => x.ModuleID == moduleID);
+            var module = this.totalBikePortalsEntities.Modules.SingleOrDefault(x => x.ModuleID == moduleID);
             return module;
         }
 
@@ -35,17 +34,17 @@ namespace MVCData.Helpers
 
         public void SaveChanges()
         {
-            this.commonTableEntities.SaveChanges();
+            this.totalBikePortalsEntities.SaveChanges();
         }
 
         public void Add(Module module)
         {
-            this.commonTableEntities.Modules.Add(module);
+            this.totalBikePortalsEntities.Modules.Add(module);
         }
 
         public void Delete(Module module)
         {
-            this.commonTableEntities.Modules.Remove(module);
+            this.totalBikePortalsEntities.Modules.Remove(module);
         }
     }
 }

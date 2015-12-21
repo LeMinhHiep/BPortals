@@ -333,6 +333,7 @@
     <Compile Include="ViewModels\Helpers\IPersonInChargeDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IPreparedPersonDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\PrintViewModel.cs" />
+    <Compile Include="ViewModels\Home\OptionViewModel.cs" />
     <Compile Include="ViewModels\Menus\ModuleDetailViewModel.cs" />
     <Compile Include="ViewModels\Menus\ModuleViewModel.cs" />
     <Compile Include="ViewModels\StockTasks\GoodsReceiptViewModel.cs" />
@@ -408,6 +409,11 @@
     <Content Include="Content\Images\New\downarrow1.png" />
     <Content Include="Content\Images\New\Expand Arrow-50.png" />
     <Content Include="Content\Images\New\header_Background.jpg" />
+    <Content Include="Content\Images\New\menu\Date-Filter.ico" />
+    <Content Include="Content\Images\New\menu\Date-Search-01.png" />
+    <Content Include="Content\Images\New\menu\Date-Search-02.png" />
+    <Content Include="Content\Images\New\menu\Date-Search-03.png" />
+    <Content Include="Content\Images\New\menu\Date-search.png" />
     <Content Include="Content\Images\New\menu\icon_suachua.png" />
     <Content Include="Content\Images\New\menu\menu_xemay.png" />
     <Content Include="Content\Images\New\Near-Me.png" />
@@ -723,6 +729,8 @@
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\Delete.js" />
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\Edit.js" />
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\Index.js" />
+    <Content Include="Scripts\Controllers\Root\Home\Index.js" />
+    <Content Include="Scripts\Controllers\Root\Home\Options.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Delete.js" />
@@ -1603,6 +1611,7 @@
     <Content Include="Views\PurchaseInvoices\_GetSupplier.cshtml" />
     <Content Include="Views\GoodsReceipts\_GetPurchaseInvoice.cshtml" />
     <Content Include="Views\GoodsReceipts\_GetStockTransfer.cshtml" />
+    <Content Include="Views\Home\Options.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
