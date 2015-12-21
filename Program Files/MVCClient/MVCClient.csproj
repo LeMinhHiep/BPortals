@@ -731,6 +731,11 @@
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\Index.js" />
     <Content Include="Scripts\Controllers\Root\Home\Index.js" />
     <Content Include="Scripts\Controllers\Root\Home\Options.js" />
+    <Content Include="Scripts\Controllers\Root\Inventories\SalesInvoiceJournal.js" />
+    <Content Include="Scripts\Controllers\Root\Inventories\VehicleCard.js" />
+    <Content Include="Scripts\Controllers\Root\Inventories\VehicleJournal.js" />
+    <Content Include="Scripts\Controllers\Root\Inventories\WarehouseCard.js" />
+    <Content Include="Scripts\Controllers\Root\Inventories\WarehouseJournal.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Delete.js" />
