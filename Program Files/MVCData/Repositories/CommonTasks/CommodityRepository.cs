@@ -26,7 +26,7 @@ namespace MVCData.Repositories.CommonTasks
 
             foreach (Commodity commodity in commodities)
             {
-                this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.ComposeCommodityCode(commodity.Code, commodity.CommodityTypeID) + "' WHERE CommodityID = " + commodity.CommodityID); 
+                this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.AlphaNumericString(commodity.Code) + "' WHERE CommodityID = " + commodity.CommodityID); 
             }
             
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
