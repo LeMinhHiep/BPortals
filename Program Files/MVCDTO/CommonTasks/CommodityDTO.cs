@@ -18,6 +18,7 @@ namespace MVCDTO.CommonTasks
 
         public int CommodityID { get; set; }
         public string Code { get; set; }
+        public string OfficialCode { get { return MVCBase.CommonExpressions.AlphaNumericString(this.Code); } }
         public string Name { get; set; }
         public string OfficialName { get; set; }
         public string OriginalName { get; set; }
@@ -28,11 +29,10 @@ namespace MVCDTO.CommonTasks
         public int CommodityTypeID { get; set; }
         public string CommodityTypeName { get; set; }
 
-        public Nullable<int> SupplierID { get; set; }
         [Display(Name = "Nhà cung cấp")]
         [Required(ErrorMessage = "vui lòng chọn nhà cung cấp")]
-        public string CustomerName { get; set; }
-
+        public Nullable<int> SupplierID { get; set; }
+        
         public Nullable<int> PiecePerPack { get; set; }
         public Nullable<int> QuantityAlert { get; set; }
         public decimal ListedPrice { get; set; }

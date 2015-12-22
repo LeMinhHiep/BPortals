@@ -42,6 +42,7 @@
           </Key>
           <Property Name="CommodityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OfficialCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="OfficialName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="OriginalName" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -238,6 +239,7 @@
           <Property Name="LocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OfficialName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Facsimile" Type="nvarchar" MaxLength="60" Nullable="false" />
@@ -3126,6 +3128,7 @@
           <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Locations" FromRole="Location" ToRole="ServiceContract" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TransferOrders" Relationship="TotalBikePortalsModel.FK_TransferOrders_Locations" FromRole="Location" ToRole="TransferOrder" />
+          <Property Name="OfficialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="PaymentTerm">
           <Key>
@@ -4033,6 +4036,7 @@
           <NavigationProperty Name="StockTransferDetails" Relationship="TotalBikePortalsModel.FK_StockTransferDetails_Commodities" FromRole="Commodity" ToRole="StockTransferDetail" />
           <NavigationProperty Name="TransferOrderDetails" Relationship="TotalBikePortalsModel.FK_TransferOrderDetails_Commodities" FromRole="Commodity" ToRole="TransferOrderDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="TotalBikePortalsModel.FK_QuotationDetails_Commodities" FromRole="Commodity" ToRole="QuotationDetail" />
+          <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GoodsReceiptDetail">
           <Key>
@@ -5449,6 +5453,7 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.Location">
               <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Facsimile" ColumnName="Facsimile" />
@@ -5864,6 +5869,7 @@
           <EntitySetMapping Name="Commodities">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.Commodity">
               <MappingFragment StoreEntitySet="Commodities">
+                <ScalarProperty Name="OfficialCode" ColumnName="OfficialCode" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Specifycation" ColumnName="Specifycation" />

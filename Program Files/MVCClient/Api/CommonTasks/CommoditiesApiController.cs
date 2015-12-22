@@ -48,7 +48,7 @@ namespace MVCClient.Api.CommonTasks
                 else
                 {
                     CommodityDTO commodityDTO = new CommodityDTO();
-                    commodityDTO.Code = code;
+                    commodityDTO.Code = MVCBase.CommonExpressions.ComposeCommodityCode(code, commodityTypeID);
                     commodityDTO.Name = name;
                     commodityDTO.OfficialName = name;
                     commodityDTO.OriginalName = originalName;

@@ -16,12 +16,29 @@ namespace MVCData.Repositories.CommonTasks
         }
 
 
+        public bool InitOfficialCode22DEC15()
+        {
+            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
+
+            List<Commodity> commodities = this.TotalBikePortalsEntities.Commodities.ToList();
+
+            foreach (Commodity commodity in commodities)
+            {
+                this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.AlphaNumericString(commodity.Code) + "' WHERE CommodityID = " + commodity.CommodityID); 
+            }
+            
+            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
+
+            return true;
+        }
 
         public IList<Commodity> SearchCommoditiesByName(string searchText, string commodityTypeIDList)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
 
-            var queryable = this.TotalBikePortalsEntities.Commodities.Where(w => w.Code.Contains(searchText) || w.Name.Contains(searchText)).Include(i => i.CommodityCategory);
+            searchText = MVCBase.CommonExpressions.AlphaNumericString(searchText);
+
+            var queryable = this.TotalBikePortalsEntities.Commodities.Where(w => w.Code.Contains(searchText) || w.OfficialCode.Contains(searchText) || w.Name.Contains(searchText)).Include(i => i.CommodityCategory);
             if (commodityTypeIDList != null)
             {
                 List<int> listCommodityTypeID = commodityTypeIDList.Split(',').Select(n => int.Parse(n)).ToList();

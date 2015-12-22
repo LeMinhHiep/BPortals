@@ -11,7 +11,9 @@ namespace MVCCore.Helpers
     public interface IModuleRepository
     {
         IQueryable<Module> GetAllModules();
-        Module GetModuleByID(int moduleID);                
+
+        Module GetModuleByID(int moduleID);
+        string GetLocationName(int userID);
 
         void SaveChanges();
         void Add(Module module);

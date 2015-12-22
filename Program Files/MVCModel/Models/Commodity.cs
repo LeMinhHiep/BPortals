@@ -50,6 +50,7 @@ namespace MVCModel.Models
         public string Specifycation { get; set; }
         public string Remarks { get; set; }
         public Nullable<bool> InActive { get; set; }
+        public string OfficialCode { get; set; }
     
         public virtual CommodityCategory CommodityCategory { get; set; }
         public virtual CommodityType CommodityType { get; set; }

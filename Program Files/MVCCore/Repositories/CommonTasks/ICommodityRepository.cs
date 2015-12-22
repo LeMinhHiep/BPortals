@@ -9,6 +9,8 @@ namespace MVCCore.Repositories.CommonTasks
 {
     public interface ICommodityRepository : IGenericRepository<Commodity>
     {
+        bool InitOfficialCode22DEC15();
+
         IList<Commodity> SearchCommoditiesByName(string searchText, string commodityTypeIDList);
         IList<Commodity> SearchCommoditiesByIndex(int commodityCategoryID, int commodityTypeID);
         IList<CommoditiesInGoodsReceipt> GetCommoditiesInGoodsReceipts(int? locationID, string searchText, int? salesInvoiceID, int? stockTransferID, int? stockAdjustID);

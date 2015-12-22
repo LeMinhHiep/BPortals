@@ -14,23 +14,11 @@
           .Name("CNName")
           .DataTextField("Text")
           .DataValueField("Value")
-          .HtmlAttributes(new { style = "width: 160px; text-align: left;" })
+        .HtmlAttributes(new { @style = "width: 160px; text-align: center; ", @readonly = "readonly" })
           .BindTo(new List<SelectListItem>()
           {
               new SelectListItem() {
-                Text = "Tân Thành 1 [46001]", Value ="46001"
-              },
-              new SelectListItem() {
-                Text = "Tân Thành 2 [46002]", Value ="46002"
-              },
-              new SelectListItem() {
-                Text = "Tân Thành 3 [46003]", Value ="46003"
-              },
-              new SelectListItem() {
-                Text = "Tân Thành 4 [46004]", Value ="46004"
-              },
-              new SelectListItem() {
-                Text = "Tân Thành 5 [46005]", Value ="46005"
+                Text = ViewBag.LocationName, Value = "0"
               }
           })
         )

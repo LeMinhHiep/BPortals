@@ -1,11 +1,13 @@
-﻿using MVCCore.Helpers;
-using MVCCore.Repositories;
-using MVCModel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Entity;
 using System.Threading.Tasks;
+
+using MVCCore.Helpers;
+using MVCCore.Repositories;
+using MVCModel.Models;
 
 namespace MVCData.Helpers
 {   
@@ -30,7 +32,13 @@ namespace MVCData.Helpers
             return module;
         }
 
-  
+        //Cai nay su dung tam thoi, cho cai menu ma thoi. Cach lam nay amatuer qua!!!!
+        public string GetLocationName(int userID)
+        {
+            var organizationalUnitUser = this.totalBikePortalsEntities.OrganizationalUnitUsers.Where(w => w.UserID == userID && !w.InActive).Include(i => i.OrganizationalUnit.Location).First();
+            return organizationalUnitUser.OrganizationalUnit.Location.OfficialName;
+        }
+
 
         public void SaveChanges()
         {

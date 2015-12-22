@@ -30,6 +30,7 @@ namespace MVCModel.Models
         public string Facsimile { get; set; }
         public string Remarks { get; set; }
         public string Code { get; set; }
+        public string OfficialName { get; set; }
     
         public virtual ICollection<Warehouse> Warehouses { get; set; }
         public virtual ICollection<OrganizationalUnit> OrganizationalUnits { get; set; }
