@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="faaa6cfb7e074e95aad329968977f637" Name="Diagram1" ZoomLevel="38">
+      <Diagram DiagramId="faaa6cfb7e074e95aad329968977f637" Name="Diagram1" ZoomLevel="54">
         <EntityTypeShape EntityType="TotalBikePortalsModel.AspNetUser" Width="1.5" PointX="5.75" PointY="6.75" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.CommodityType" Width="1.5" PointX="0.75" PointY="22" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.CustomerType" Width="1.5" PointX="1.5" PointY="27.875" />
@@ -91,12 +91,9 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_QuotationDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_QuotationDetails_Quotations" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" />
-        <EntityTypeShape EntityType="TotalBikePortalsModel.Inventory_30_06_33" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.AccessControl" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TotalBikePortalsModel.RAWDATA_07_2015" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_Locations" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_Locations" />
-        <EntityTypeShape EntityType="TotalBikePortalsModel.VCNB_T07" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.TransferOrder" Width="1.5" PointX="5.25" PointY="46.375" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_TransferOrders_Locations" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransfers_TransferOrders" />

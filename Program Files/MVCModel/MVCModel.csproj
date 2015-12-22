@@ -131,9 +131,6 @@
     <Compile Include="Models\GoodsReceiptViewDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Inventory_30_06_33.cs">
-      <DependentUpon>TotalBikePortals.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Location.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
@@ -224,9 +221,6 @@
     <Compile Include="Models\QuotationViewDetail.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RAWDATA_07_2015.cs">
-      <DependentUpon>TotalBikePortals.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\RelatedPartsInvoiceValue.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
@@ -293,9 +287,6 @@
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TransferOrderDetail.cs">
-      <DependentUpon>TotalBikePortals.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\VCNB_T07.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VehicleAvailable.cs">

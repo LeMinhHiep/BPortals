@@ -206,32 +206,6 @@
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="Inventory_30_06_33">
-          <Key>
-            <PropertyRef Name="AutoID" />
-          </Key>
-          <Property Name="AutoID" Type="int" Nullable="false" />
-          <Property Name="CommodityID" Type="int" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="100" />
-          <Property Name="DescriptionOfficial" Type="nvarchar" MaxLength="100" />
-          <Property Name="OriginalName" Type="nvarchar" MaxLength="60" />
-          <Property Name="UnitSales" Type="nvarchar" MaxLength="60" />
-          <Property Name="WHInputID" Type="int" />
-          <Property Name="WHInputDate" Type="datetime" />
-          <Property Name="SerialNo" Type="nvarchar" MaxLength="60" />
-          <Property Name="FixedAsset" Type="nvarchar" MaxLength="60" />
-          <Property Name="ColorCode" Type="nvarchar" MaxLength="60" />
-          <Property Name="WHLocationID" Type="int" />
-          <Property Name="WarehouseID" Type="int" />
-          <Property Name="WarehouseName" Type="nvarchar" MaxLength="50" />
-          <Property Name="SupplierID" Type="int" />
-          <Property Name="QuantityEnd" Type="float" />
-          <Property Name="UPriceNMDInventory" Type="float" />
-          <Property Name="ItemCategoryID" Type="int" />
-          <Property Name="ItemTypeID" Type="int" />
-          <Property Name="ItemCategoryName1" Type="nvarchar" MaxLength="50" />
-          <Property Name="ItemCategoryName2" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -488,29 +462,6 @@
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="RAWDATA_07_2015">
-          <Key>
-            <PropertyRef Name="AutoID" />
-          </Key>
-          <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="STT" Type="float" />
-          <Property Name="WarehouseID" Type="int" Nullable="false" />
-          <Property Name="CommodityTypeID" Type="int" Nullable="false" />
-          <Property Name="DONHANG" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="LOHANG" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NGAYGIAO" Type="datetime" Nullable="false" />
-          <Property Name="MAHANG" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="TEN_VN" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="TEN_EN" Type="nvarchar" MaxLength="255" />
-          <Property Name="MAUXE" Type="nvarchar" MaxLength="255" />
-          <Property Name="SOKHUNG" Type="nvarchar" MaxLength="255" />
-          <Property Name="SOMAY" Type="nvarchar" MaxLength="255" />
-          <Property Name="SOLUONG" Type="float" Nullable="false" />
-          <Property Name="DONGIA" Type="float" Nullable="false" />
-          <Property Name="CommodityID" Type="int" />
-          <Property Name="CommodityCategoryID" Type="int" />
-          <Property Name="CommodityCategoryName" Type="nvarchar" MaxLength="100" />
-        </EntityType>
         <EntityType Name="SalesInvoiceDetails">
           <Key>
             <PropertyRef Name="SalesInvoiceDetailID" />
@@ -744,28 +695,6 @@
           <Property Name="InActive" Type="bit" Nullable="false" />
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="VCNB_T07">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="STT" Type="float" />
-          <Property Name="WarehouseID" Type="int" />
-          <Property Name="WarehouseCode" Type="nvarchar" MaxLength="255" />
-          <Property Name="SourceLocationID" Type="int" />
-          <Property Name="NGAYGIAO" Type="datetime" />
-          <Property Name="CommodityTypeID" Type="int" />
-          <Property Name="CommodityID" Type="int" />
-          <Property Name="MAHANG" Type="nvarchar" MaxLength="255" />
-          <Property Name="TEN_VN" Type="nvarchar" MaxLength="255" />
-          <Property Name="SOKHUNG" Type="nvarchar" MaxLength="255" />
-          <Property Name="SOMAY" Type="nvarchar" MaxLength="255" />
-          <Property Name="MAUXE" Type="nvarchar" MaxLength="255" />
-          <Property Name="SL" Type="float" />
-          <Property Name="DestinationWarehouseID" Type="int" />
-          <Property Name="KHONHANXE" Type="nvarchar" MaxLength="255" />
-          <Property Name="GHICHU" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Warehouses">
           <Key>
@@ -1840,7 +1769,6 @@
           <EntitySet Name="EntireTerritories" EntityType="Self.EntireTerritories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceiptDetails" EntityType="Self.GoodsReceiptDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceipts" EntityType="Self.GoodsReceipts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Inventory_30_06_33" EntityType="Self.Inventory_30_06_33" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModuleDetails" EntityType="Self.ModuleDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
@@ -1854,7 +1782,6 @@
           <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quotations" EntityType="Self.Quotations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RAWDATA_07_2015" EntityType="Self.RAWDATA_07_2015" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoiceDetails" EntityType="Self.SalesInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoices" EntityType="Self.SalesInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoiceTypes" EntityType="Self.SalesInvoiceTypes" Schema="dbo" store:Type="Tables" />
@@ -1866,7 +1793,6 @@
           <EntitySet Name="Territories" EntityType="Self.Territories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferOrderDetails" EntityType="Self.TransferOrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferOrders" EntityType="Self.TransferOrders" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="VCNB_T07" EntityType="Self.VCNB_T07" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Warehouses" EntityType="Self.Warehouses" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Commodities_CommodityCategories" Association="Self.FK_Commodities_CommodityCategories">
             <End Role="CommodityCategories" EntitySet="CommodityCategories" />
@@ -2507,9 +2433,7 @@
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
             <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
           </AssociationSet>
-          <EntitySet Name="Inventory_30_06_33" EntityType="TotalBikePortalsModel.Inventory_30_06_33" />
           <EntitySet Name="AccessControls" EntityType="TotalBikePortalsModel.AccessControl" />
-          <EntitySet Name="RAWDATA_07_2015" EntityType="TotalBikePortalsModel.RAWDATA_07_2015" />
           <AssociationSet Name="FK_SalesInvoices_Locations" Association="TotalBikePortalsModel.FK_SalesInvoices_Locations">
             <End Role="Location" EntitySet="Locations" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
@@ -2526,7 +2450,6 @@
           <FunctionImport Name="SearchServiceContracts" ReturnType="Collection(TotalBikePortalsModel.ServiceContractResult)">
           <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="VCNB_T07" EntityType="TotalBikePortalsModel.VCNB_T07" />
           <EntitySet Name="TransferOrders" EntityType="TotalBikePortalsModel.TransferOrder" />
           <AssociationSet Name="FK_TransferOrders_Locations" Association="TotalBikePortalsModel.FK_TransferOrders_Locations">
             <End Role="Location" EntitySet="Locations" />
@@ -4448,32 +4371,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Inventory_30_06_33">
-          <Key>
-            <PropertyRef Name="AutoID" />
-          </Key>
-          <Property Name="AutoID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityID" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DescriptionOfficial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="OriginalName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="UnitSales" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="WHInputID" Type="Int32" />
-          <Property Name="WHInputDate" Type="DateTime" Precision="3" />
-          <Property Name="SerialNo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="FixedAsset" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="ColorCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="WHLocationID" Type="Int32" />
-          <Property Name="WarehouseID" Type="Int32" />
-          <Property Name="WarehouseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SupplierID" Type="Int32" />
-          <Property Name="QuantityEnd" Type="Double" />
-          <Property Name="UPriceNMDInventory" Type="Double" />
-          <Property Name="ItemCategoryID" Type="Int32" />
-          <Property Name="ItemTypeID" Type="Int32" />
-          <Property Name="ItemCategoryName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ItemCategoryName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="AccessControl">
           <Key>
             <PropertyRef Name="AccessControlID" />
@@ -4484,29 +4381,6 @@
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
           <Property Name="AccessLevel" Type="Int32" Nullable="false" />
           <Property Name="AccessLevelBACKUP" Type="Int32" />
-        </EntityType>
-        <EntityType Name="RAWDATA_07_2015">
-          <Key>
-            <PropertyRef Name="AutoID" />
-          </Key>
-          <Property Name="AutoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="STT" Type="Double" />
-          <Property Name="WarehouseID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
-          <Property Name="DONHANG" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="LOHANG" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NGAYGIAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MAHANG" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="TEN_VN" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="TEN_EN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="MAUXE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SOKHUNG" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SOMAY" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SOLUONG" Type="Double" Nullable="false" />
-          <Property Name="DONGIA" Type="Double" Nullable="false" />
-          <Property Name="CommodityID" Type="Int32" />
-          <Property Name="CommodityCategoryID" Type="Int32" />
-          <Property Name="CommodityCategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_SalesInvoices_Locations">
           <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
@@ -4560,28 +4434,6 @@
           <Property Type="String" Name="CustomerAddressNo" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
         </ComplexType>
-        <EntityType Name="VCNB_T07">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="STT" Type="Double" />
-          <Property Name="WarehouseID" Type="Int32" />
-          <Property Name="WarehouseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SourceLocationID" Type="Int32" />
-          <Property Name="NGAYGIAO" Type="DateTime" Precision="3" />
-          <Property Name="CommodityTypeID" Type="Int32" />
-          <Property Name="CommodityID" Type="Int32" />
-          <Property Name="MAHANG" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="TEN_VN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SOKHUNG" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SOMAY" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="MAUXE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SL" Type="Double" />
-          <Property Name="DestinationWarehouseID" Type="Int32" />
-          <Property Name="KHONHANXE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="GHICHU" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="TransferOrder">
           <Key>
             <PropertyRef Name="TransferOrderID" />
@@ -6041,33 +5893,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Inventory_30_06_33">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.Inventory_30_06_33">
-              <MappingFragment StoreEntitySet="Inventory_30_06_33">
-                <ScalarProperty Name="ItemCategoryName2" ColumnName="ItemCategoryName2" />
-                <ScalarProperty Name="ItemCategoryName1" ColumnName="ItemCategoryName1" />
-                <ScalarProperty Name="ItemTypeID" ColumnName="ItemTypeID" />
-                <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
-                <ScalarProperty Name="UPriceNMDInventory" ColumnName="UPriceNMDInventory" />
-                <ScalarProperty Name="QuantityEnd" ColumnName="QuantityEnd" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="WHLocationID" ColumnName="WHLocationID" />
-                <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
-                <ScalarProperty Name="FixedAsset" ColumnName="FixedAsset" />
-                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
-                <ScalarProperty Name="WHInputDate" ColumnName="WHInputDate" />
-                <ScalarProperty Name="WHInputID" ColumnName="WHInputID" />
-                <ScalarProperty Name="UnitSales" ColumnName="UnitSales" />
-                <ScalarProperty Name="OriginalName" ColumnName="OriginalName" />
-                <ScalarProperty Name="DescriptionOfficial" ColumnName="DescriptionOfficial" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="AutoID" ColumnName="AutoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AccessControls">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.AccessControl">
               <MappingFragment StoreEntitySet="AccessControls">
@@ -6077,30 +5902,6 @@
                 <ScalarProperty Name="NMVNTaskID" ColumnName="NMVNTaskID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="AccessControlID" ColumnName="AccessControlID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RAWDATA_07_2015">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.RAWDATA_07_2015">
-              <MappingFragment StoreEntitySet="RAWDATA_07_2015">
-                <ScalarProperty Name="CommodityCategoryName" ColumnName="CommodityCategoryName" />
-                <ScalarProperty Name="CommodityCategoryID" ColumnName="CommodityCategoryID" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
-                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
-                <ScalarProperty Name="SOMAY" ColumnName="SOMAY" />
-                <ScalarProperty Name="SOKHUNG" ColumnName="SOKHUNG" />
-                <ScalarProperty Name="MAUXE" ColumnName="MAUXE" />
-                <ScalarProperty Name="TEN_EN" ColumnName="TEN_EN" />
-                <ScalarProperty Name="TEN_VN" ColumnName="TEN_VN" />
-                <ScalarProperty Name="MAHANG" ColumnName="MAHANG" />
-                <ScalarProperty Name="NGAYGIAO" ColumnName="NGAYGIAO" />
-                <ScalarProperty Name="LOHANG" ColumnName="LOHANG" />
-                <ScalarProperty Name="DONHANG" ColumnName="DONHANG" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="STT" ColumnName="STT" />
-                <ScalarProperty Name="AutoID" ColumnName="AutoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6140,29 +5941,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="VCNB_T07">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.VCNB_T07">
-              <MappingFragment StoreEntitySet="VCNB_T07">
-                <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
-                <ScalarProperty Name="KHONHANXE" ColumnName="KHONHANXE" />
-                <ScalarProperty Name="DestinationWarehouseID" ColumnName="DestinationWarehouseID" />
-                <ScalarProperty Name="SL" ColumnName="SL" />
-                <ScalarProperty Name="MAUXE" ColumnName="MAUXE" />
-                <ScalarProperty Name="SOMAY" ColumnName="SOMAY" />
-                <ScalarProperty Name="SOKHUNG" ColumnName="SOKHUNG" />
-                <ScalarProperty Name="TEN_VN" ColumnName="TEN_VN" />
-                <ScalarProperty Name="MAHANG" ColumnName="MAHANG" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="NGAYGIAO" ColumnName="NGAYGIAO" />
-                <ScalarProperty Name="SourceLocationID" ColumnName="SourceLocationID" />
-                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="STT" ColumnName="STT" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TransferOrders">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.TransferOrder">
               <MappingFragment StoreEntitySet="TransferOrders">

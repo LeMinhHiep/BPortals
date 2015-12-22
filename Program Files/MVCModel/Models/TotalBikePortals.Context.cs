@@ -58,10 +58,7 @@ namespace MVCModel.Models
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual DbSet<QuotationDetail> QuotationDetails { get; set; }
-        public virtual DbSet<Inventory_30_06_33> Inventory_30_06_33 { get; set; }
         public virtual DbSet<AccessControl> AccessControls { get; set; }
-        public virtual DbSet<RAWDATA_07_2015> RAWDATA_07_2015 { get; set; }
-        public virtual DbSet<VCNB_T07> VCNB_T07 { get; set; }
         public virtual DbSet<TransferOrder> TransferOrders { get; set; }
         public virtual DbSet<StockTransferType> StockTransferTypes { get; set; }
         public virtual DbSet<ModuleDetail> ModuleDetails { get; set; }
