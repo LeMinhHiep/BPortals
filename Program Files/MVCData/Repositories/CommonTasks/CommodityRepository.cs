@@ -18,18 +18,18 @@ namespace MVCData.Repositories.CommonTasks
 
         public bool InitOfficialCode22DEC15()
         {
-            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
+            //////this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
 
-            List<Commodity> commodities = this.TotalBikePortalsEntities.Commodities.ToList();
+            //////List<Commodity> commodities = this.TotalBikePortalsEntities.Commodities.ToList();
 
-            this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '#'");
+            //////this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '#'");
 
-            foreach (Commodity commodity in commodities)
-            {
-                this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.AlphaNumericString(commodity.Code) + "' WHERE CommodityID = " + commodity.CommodityID); 
-            }
+            //////foreach (Commodity commodity in commodities)
+            //////{
+            //////    this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.AlphaNumericString(commodity.Code) + "' WHERE CommodityID = " + commodity.CommodityID); 
+            //////}
             
-            this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
+            //////this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return true;
         }

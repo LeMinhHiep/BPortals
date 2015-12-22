@@ -51,6 +51,8 @@ namespace MVCClient.Controllers.Init3006
         public ActionResult Import()
         {
             return View();
+            return View();
+            return View();
 
 
 
@@ -299,6 +301,9 @@ namespace MVCClient.Controllers.Init3006
         public ActionResult ImportVCNB()
         {
             return View("Import");
+            return View("Import");
+            return View("Import");
+
 
             //FUNCTION IMPORT NAY HIEN CHUA CHAC DUNG! LY DO: DA TACH TransferOrder THANH VehicleTransferOrder VA PartTransferOrder.
             //NEU CAN SU DUNG: PHAI XEM XET LAI THAT KY
@@ -365,6 +370,7 @@ namespace MVCClient.Controllers.Init3006
 
         public ActionResult InitWarehouseBalance15AUG()
         {
+            return View("Import");
             return View("Import");
 
 

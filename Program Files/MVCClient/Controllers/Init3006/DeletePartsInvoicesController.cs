@@ -35,7 +35,7 @@ namespace MVCClient.Controllers.Init3006
 
         public ActionResult InitOfficialCode22DEC15()
         {
-            this.commodityRepository.InitOfficialCode22DEC15();
+            ////////////////this.commodityRepository.InitOfficialCode22DEC15();
             return View();
         }
         // GET: DeletePartsInvoices
