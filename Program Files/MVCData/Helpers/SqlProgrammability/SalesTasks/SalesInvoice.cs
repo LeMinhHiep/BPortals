@@ -25,7 +25,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         private void SalesInvoiceJournal()
         {
             string queryString = " @WithAccountInvoice bit, @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
