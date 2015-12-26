@@ -138,7 +138,7 @@ namespace MVCDTO.SalesTasks
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
+            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
         }
     }
 
@@ -182,7 +182,7 @@ namespace MVCDTO.SalesTasks
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.CustomerID = this.CustomerID; e.ServiceInvoiceID = this.ServiceInvoiceID; e.LocationID = this.LocationID; });
+            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; e.ServiceInvoiceID = this.ServiceInvoiceID; e.LocationID = this.LocationID; });
         }
     }
 
@@ -233,7 +233,7 @@ namespace MVCDTO.SalesTasks
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
+            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
         }
     }
 
