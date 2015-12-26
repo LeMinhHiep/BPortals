@@ -64,12 +64,12 @@ namespace MVCModel.Models
     
         public virtual PaymentTerm PaymentTerm { get; set; }
         public virtual Quotation Quotation { get; set; }
-        public virtual SalesInvoiceType SalesInvoiceType { get; set; }
         public virtual ServiceContract ServiceContract { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices1 { get; set; }
         public virtual SalesInvoice SalesInvoice1 { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual Location Location { get; set; }
+        public virtual SalesInvoiceType SalesInvoiceType { get; set; }
     }
 }

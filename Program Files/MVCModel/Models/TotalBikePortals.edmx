@@ -545,8 +545,8 @@
             <PropertyRef Name="SalesInvoiceTypeID" />
           </Key>
           <Property Name="SalesInvoiceTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="DescriptionOfficial" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SerialID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ServiceContracts">
@@ -2194,7 +2194,6 @@
           <EntitySet Name="PurchaseOrders" EntityType="TotalBikePortalsModel.PurchaseOrder" />
           <EntitySet Name="Quotations" EntityType="TotalBikePortalsModel.Quotation" />
           <EntitySet Name="SalesInvoices" EntityType="TotalBikePortalsModel.SalesInvoice" />
-          <EntitySet Name="SalesInvoiceTypes" EntityType="TotalBikePortalsModel.SalesInvoiceType" />
           <EntitySet Name="ServiceContracts" EntityType="TotalBikePortalsModel.ServiceContract" />
           <EntitySet Name="ServiceContractTypes" EntityType="TotalBikePortalsModel.ServiceContractType" />
           <EntitySet Name="StockTransferDetails" EntityType="TotalBikePortalsModel.StockTransferDetail" />
@@ -2243,10 +2242,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_Quotations" Association="TotalBikePortalsModel.FK_SalesInvoices_Quotations">
             <End Role="Quotation" EntitySet="Quotations" />
-            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesInvoices_SalesInvoiceTypes" Association="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes">
-            <End Role="SalesInvoiceType" EntitySet="SalesInvoiceTypes" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_ServiceContracts" Association="TotalBikePortalsModel.FK_SalesInvoices_ServiceContracts">
@@ -2623,6 +2618,11 @@
           </FunctionImport>
           <EntitySet Name="ModuleDetails" EntityType="TotalBikePortalsModel.ModuleDetail" />
           <EntitySet Name="Modules" EntityType="TotalBikePortalsModel.Module" />
+          <EntitySet Name="SalesInvoiceTypes" EntityType="TotalBikePortalsModel.SalesInvoiceType" />
+          <AssociationSet Name="FK_SalesInvoices_SalesInvoiceTypes" Association="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes">
+            <End Role="SalesInvoiceType" EntitySet="SalesInvoiceTypes" />
+            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3241,23 +3241,13 @@
           <Property Name="InActiveDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalBikePortalsModel.FK_SalesInvoices_PaymentTerms" FromRole="SalesInvoice" ToRole="PaymentTerm" />
           <NavigationProperty Name="Quotation" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Quotations" FromRole="SalesInvoice" ToRole="Quotation" />
-          <NavigationProperty Name="SalesInvoiceType" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoice" ToRole="SalesInvoiceType" />
           <NavigationProperty Name="ServiceContract" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceContracts" FromRole="SalesInvoice" ToRole="ServiceContract" />
           <NavigationProperty Name="SalesInvoices1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice" ToRole="SalesInvoice1" />
           <NavigationProperty Name="SalesInvoice1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice1" ToRole="SalesInvoice" />
           <NavigationProperty Name="Customer" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Customers" FromRole="SalesInvoice" ToRole="Customer" />
           <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoice" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Locations" FromRole="SalesInvoice" ToRole="Location" />
-        </EntityType>
-        <EntityType Name="SalesInvoiceType">
-          <Key>
-            <PropertyRef Name="SalesInvoiceTypeID" />
-          </Key>
-          <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DescriptionOfficial" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SerialID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoiceType" ToRole="SalesInvoice" />
+          <NavigationProperty Name="SalesInvoiceType" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoice" ToRole="SalesInvoiceType" />
         </EntityType>
         <EntityType Name="ServiceContract">
           <Key>
@@ -3532,18 +3522,6 @@
             </Principal>
             <Dependent Role="SalesInvoice">
               <PropertyRef Name="QuotationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesInvoices_SalesInvoiceTypes">
-          <End Type="TotalBikePortalsModel.SalesInvoiceType" Role="SalesInvoiceType" Multiplicity="1" />
-          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesInvoiceType">
-              <PropertyRef Name="SalesInvoiceTypeID" />
-            </Principal>
-            <Dependent Role="SalesInvoice">
-              <PropertyRef Name="SalesInvoiceTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4803,6 +4781,28 @@
           <Property Name="ImageIndex" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="InActive" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="SalesInvoiceType">
+          <Key>
+            <PropertyRef Name="SalesInvoiceTypeID" />
+          </Key>
+          <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SerialID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoiceType" ToRole="SalesInvoice" />
+        </EntityType>
+        <Association Name="FK_SalesInvoices_SalesInvoiceTypes">
+          <End Type="TotalBikePortalsModel.SalesInvoiceType" Role="SalesInvoiceType" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesInvoiceType">
+              <PropertyRef Name="SalesInvoiceTypeID" />
+            </Principal>
+            <Dependent Role="SalesInvoice">
+              <PropertyRef Name="SalesInvoiceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5488,16 +5488,6 @@
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SalesInvoiceTypes">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceType">
-              <MappingFragment StoreEntitySet="SalesInvoiceTypes">
-                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
-                <ScalarProperty Name="DescriptionOfficial" ColumnName="DescriptionOfficial" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6339,6 +6329,16 @@
                 <ScalarProperty Name="DescriptionEN" ColumnName="DescriptionEN" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesInvoiceTypes">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceType">
+              <MappingFragment StoreEntitySet="SalesInvoiceTypes">
+                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

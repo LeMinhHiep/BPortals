@@ -20,8 +20,8 @@ namespace MVCModel.Models
         }
     
         public int SalesInvoiceTypeID { get; set; }
-        public string Description { get; set; }
-        public string DescriptionOfficial { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
         public int SerialID { get; set; }
     
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
