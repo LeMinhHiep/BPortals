@@ -84,6 +84,7 @@
 
         public enum CommodityTypeID
         {
+            AllTypes = 0,
             Vehicles = 1,
             Parts = 2,
             Consumables = 3,

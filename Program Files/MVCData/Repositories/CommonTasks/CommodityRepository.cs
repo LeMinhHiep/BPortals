@@ -28,17 +28,17 @@ namespace MVCData.Repositories.CommonTasks
             //////{
             //////    this.TotalBikePortalsEntities.Database.ExecuteSqlCommand("UPDATE Commodities SET OfficialCode = '" + MVCBase.CommonExpressions.AlphaNumericString(commodity.Code) + "' WHERE CommodityID = " + commodity.CommodityID); 
             //////}
-            
+
             //////this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return true;
         }
 
-        public IList<Commodity> SearchCommoditiesByName(string searchText, string commodityTypeIDList)
+        public IList<Commodity> SearchCommoditiesByName(string searchText, string commodityTypeIDList, bool? isOnlyAlphaNumericString)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
 
-            searchText = MVCBase.CommonExpressions.AlphaNumericString(searchText);
+            if (isOnlyAlphaNumericString != null && (bool)isOnlyAlphaNumericString) searchText = MVCBase.CommonExpressions.AlphaNumericString(searchText);
 
             var queryable = this.TotalBikePortalsEntities.Commodities.Where(w => w.Code.Contains(searchText) || w.OfficialCode.Contains(searchText) || w.Name.Contains(searchText)).Include(i => i.CommodityCategory);
             if (commodityTypeIDList != null)

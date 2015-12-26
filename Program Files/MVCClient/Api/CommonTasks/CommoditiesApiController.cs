@@ -42,7 +42,7 @@ namespace MVCClient.Api.CommonTasks
             {
                 var commodityResult = new { CommodityID = 0, Code = "", Name = "", CommodityTypeID = 0, VATPercent = new decimal(0) };
 
-                var result = commodityRepository.SearchCommoditiesByName(code, null).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityTypeID, s.CommodityCategory.VATPercent });
+                var result = commodityRepository.SearchCommoditiesByName(code, null, true).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityTypeID, s.CommodityCategory.VATPercent });
                 if (result.Count() > 0)
                     commodityResult = new { CommodityID = result.First().CommodityID, Code = result.First().Code, Name = result.First().Name, CommodityTypeID = result.First().CommodityTypeID, VATPercent = result.First().VATPercent };
                 else
@@ -71,9 +71,9 @@ namespace MVCClient.Api.CommonTasks
         }
 
 
-        public JsonResult SearchCommoditiesByName(string searchText, string commodityTypeIDList)
+        public JsonResult SearchCommoditiesByName(string searchText, string commodityTypeIDList, bool? isOnlyAlphaNumericString)
         {
-            var result = commodityRepository.SearchCommoditiesByName(searchText, commodityTypeIDList).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityTypeID, CommodityCategoryLimitedKilometreWarranty = s.CommodityCategory.LimitedKilometreWarranty, CommodityCategoryLimitedMonthWarranty = s.CommodityCategory.LimitedMonthWarranty, s.GrossPrice, s.CommodityCategory.VATPercent });
+            var result = commodityRepository.SearchCommoditiesByName(searchText, commodityTypeIDList, isOnlyAlphaNumericString).Select(s => new { s.CommodityID, s.Code, s.Name, s.CommodityTypeID, CommodityCategoryLimitedKilometreWarranty = s.CommodityCategory.LimitedKilometreWarranty, CommodityCategoryLimitedMonthWarranty = s.CommodityCategory.LimitedMonthWarranty, s.GrossPrice, s.CommodityCategory.VATPercent });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
