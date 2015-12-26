@@ -1617,6 +1617,7 @@
     <Content Include="Views\GoodsReceipts\_GetPurchaseInvoice.cshtml" />
     <Content Include="Views\GoodsReceipts\_GetStockTransfer.cshtml" />
     <Content Include="Views\Home\Options.cshtml" />
+    <Content Include="Views\Inventories\AccountInvoiceJournal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

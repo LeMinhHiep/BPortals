@@ -33,6 +33,11 @@ namespace MVCClient.Controllers.Analysis
         {
             return View();
         }
-        
+
+        public ActionResult AccountInvoiceJournal()
+        {
+            return View();
+        }
+
     }
 }
