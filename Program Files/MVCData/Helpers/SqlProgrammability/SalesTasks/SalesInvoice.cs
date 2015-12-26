@@ -85,9 +85,9 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
             if (withAccountInvoice)
-                queryString = queryString + "               VATCustomers.Name AS VATCustomerName, VATCustomers.VATCode, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, AccountInvoices.VATInvoiceSeries, AccountInvoices.Description AS VATDescription, " + "\r\n";
+                queryString = queryString + "               AccountInvoices.AccountInvoiceID, VATCustomers.Name AS VATCustomerName, VATCustomers.VATCode, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, AccountInvoices.VATInvoiceSeries, AccountInvoices.Description AS VATDescription, " + "\r\n";
             else
-                queryString = queryString + "               NULL AS VATCustomerName, NULL AS VATCode, NULL AS VATInvoiceNo, NULL AS VATInvoiceDate, NULL AS VATInvoiceSeries, NULL AS VATDescription, " + "\r\n";
+                queryString = queryString + "               NULL AS AccountInvoiceID, NULL AS VATCustomerName, NULL AS VATCode, NULL AS VATInvoiceNo, NULL AS VATInvoiceDate, NULL AS VATInvoiceSeries, NULL AS VATDescription, " + "\r\n";
 
 
 
