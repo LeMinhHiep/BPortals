@@ -64,6 +64,7 @@
 
         public enum SalesInvoiceTypeID
         {
+            AllInvoice = 1,
             VehiclesInvoice = 10,
             PartsInvoice = 20,
             ServicesInvoice = 30
@@ -84,7 +85,6 @@
 
         public enum CommodityTypeID
         {
-            AllTypes = 0,
             Vehicles = 1,
             Parts = 2,
             Consumables = 3,

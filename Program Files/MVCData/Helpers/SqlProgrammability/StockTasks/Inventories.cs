@@ -24,7 +24,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.VehicleJournal();
             this.VehicleCard();
 
-            this.SalesInvoiceJournal();
+            //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
 
 
