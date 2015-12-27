@@ -49,8 +49,8 @@
                                 .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='PartTransferViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
                             columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(200).EditorTemplateName(@Model.TransferOrderID != null && Model.TransferOrderID > 0 ? "StringReadonly" : "NMVN/CommoditiesInWarehousesAutoComplete")
                                 .ClientFooterTemplate("Tổng cộng:")
-                                .ClientTemplate("#= CommodityName #" +
-                                        "<div class = 'multiline-grid'> #= CommodityCode # </div>" +
+                                .ClientTemplate("<div class = 'multiline-grid'> #= CommodityName #</div>" +
+                                        "<div> #= CommodityCode # </div>" +
                                         "<input type='hidden' name='PartTransferViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
 
 

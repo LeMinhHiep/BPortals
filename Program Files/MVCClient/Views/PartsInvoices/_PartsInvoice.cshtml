@@ -84,8 +84,8 @@
                                 .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='PartsInvoiceViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
                             columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(200)
                                 .ClientFooterTemplate("Tổng cộng:")
-                                .ClientTemplate("#= CommodityName #" +
-                                        "<div class = 'multiline-grid'> #= CommodityCode # #= '[' ##= WarehouseCode ##= ']' #</div>" +
+                                .ClientTemplate("<div class = 'multiline-grid'> #= CommodityName #</div>" +
+                                        "<div> #= CommodityCode # #= '[' ##= WarehouseCode ##= ']' #</div>" +
                                         "<div class = 'isWarrantyClaim'> #= (IsWarrantyClaim == true) ? '[Khiếu nại bảo hành]' : '' #</div>" +
                                         "<div class = 'isBonus'> #= (IsWarrantyClaim == false && IsBonus == true) ? '[Quà tặng]' : '' #</div>" +
                                         "<input type='hidden' name='PartsInvoiceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
