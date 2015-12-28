@@ -473,6 +473,7 @@
           <Property Name="SalesInvoiceID" Type="int" Nullable="false" />
           <Property Name="SalesInvoiceTypeID" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="ServiceContractID" Type="int" />
           <Property Name="ServiceInvoiceID" Type="int" />
           <Property Name="GoodsReceiptDetailID" Type="int" />
           <Property Name="QuotationDetailID" Type="int" />
@@ -4073,6 +4074,7 @@
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="ServiceInvoiceID" Type="Int32" />
           <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceContractID" Type="Int32" />
         </EntityType>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Type="TotalBikePortalsModel.CommodityCategory" Role="CommodityCategory" Multiplicity="1" />
@@ -5834,6 +5836,7 @@
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
                 <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
                 <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
