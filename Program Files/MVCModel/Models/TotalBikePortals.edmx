@@ -61,6 +61,7 @@
           <Property Name="Weight" Type="float" />
           <Property Name="LeadTime" Type="float" />
           <Property Name="HSCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsRegularCheckUps" Type="bit" Nullable="false" />
           <Property Name="Discontinue" Type="bit" />
           <Property Name="Specifycation" Type="nvarchar" MaxLength="500" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
@@ -3939,6 +3940,7 @@
           <NavigationProperty Name="TransferOrderDetails" Relationship="TotalBikePortalsModel.FK_TransferOrderDetails_Commodities" FromRole="Commodity" ToRole="TransferOrderDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="TotalBikePortalsModel.FK_QuotationDetails_Commodities" FromRole="Commodity" ToRole="QuotationDetail" />
           <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsRegularCheckUps" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="GoodsReceiptDetail">
           <Key>
@@ -5713,6 +5715,7 @@
           <EntitySetMapping Name="Commodities">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.Commodity">
               <MappingFragment StoreEntitySet="Commodities">
+                <ScalarProperty Name="IsRegularCheckUps" ColumnName="IsRegularCheckUps" />
                 <ScalarProperty Name="OfficialCode" ColumnName="OfficialCode" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
