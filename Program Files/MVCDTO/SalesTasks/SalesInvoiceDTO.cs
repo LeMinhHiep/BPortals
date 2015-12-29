@@ -206,7 +206,7 @@ namespace MVCDTO.SalesTasks
 
         public int ServiceLineID { get; set; }
         [Display(Name = "Số Km")]
-        public double CurrentMeters { get; set; }
+        public int CurrentMeters { get; set; }
 
         [Display(Name = "Tình trạng xe")]
         public string Damages { get; set; }
@@ -233,7 +233,7 @@ namespace MVCDTO.SalesTasks
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.ServiceContractID = this.ServiceContractID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
+            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.ServiceContractID = this.ServiceContractID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; e.CurrentMeters = this.CurrentMeters; });
         }
     }
 

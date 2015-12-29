@@ -39,7 +39,7 @@
                 <div class="form-group1">
                     @Html.LabelFor(model => model.CurrentMeters, htmlAttributes: new { @class = "control-label-left" })
                     <div class="div-input">
-                        @Html.Kendo().NumericTextBoxFor(model => model.CurrentMeters).HtmlAttributes(new { @class = "input-class" })
+                        @Html.Kendo().NumericTextBoxFor(model => model.CurrentMeters).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "input-class" })
                         @Html.ValidationMessageFor(model => model.CurrentMeters, "", new { @class = "text-danger" })
                     </div>
                 </div>

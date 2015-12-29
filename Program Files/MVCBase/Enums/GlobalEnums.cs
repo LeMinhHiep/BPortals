@@ -56,6 +56,7 @@
 
         public enum GoodsReceiptTypeID
         {
+            AllGoodsReceipt = 999,
             PurchaseInvoice = 1,
             GoodsReturn = 2,
             StockTransfer = 3,

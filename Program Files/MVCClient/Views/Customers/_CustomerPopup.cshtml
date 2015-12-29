@@ -128,7 +128,7 @@
                                     <div class="div-row">
                                         @Html.LabelFor(model => model.LimitAmount, htmlAttributes: new { @class = "control-label2" })
                                         <div class="div-input">
-                                            @Html.Kendo().NumericTextBoxFor(model => model.LimitAmount).HtmlAttributes(new { @class = "input-class1" })
+                                            @Html.Kendo().NumericTextBoxFor(model => model.LimitAmount).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "input-class1" })
                                         </div>
                                         <div class="div-validation-message1">
                                             @Html.ValidationMessageFor(model => model.LimitAmount, "", new { @class = "text-danger" })

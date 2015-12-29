@@ -135,5 +135,7 @@ namespace MVCDTO.SalesTasks
     {
         [UIHint("NMVN/CommodityAutoComplete")]
         public override string CommodityName { get; set; }
+
+        public int CurrentMeters { get; set; }
     }
 }

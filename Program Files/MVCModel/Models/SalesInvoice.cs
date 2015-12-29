@@ -32,7 +32,7 @@ namespace MVCModel.Models
         public int ReceiptID { get; set; }
         public int PersonInChargeID { get; set; }
         public int ServiceLineID { get; set; }
-        public int CurrentMeters { get; set; }
+        public Nullable<int> CurrentMeters { get; set; }
         public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }

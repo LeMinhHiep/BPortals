@@ -19,12 +19,16 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         public void RestoreProcedure()
         {
             this.SalesInvoiceJournal();
+
+            this.SalesInvoiceByServiceContract();
+
+            this.GoodsReceiptJournal();
         }
 
 
         private void SalesInvoiceJournal()
         {
-            string queryString = " @WithAccountInvoice bit, @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @WithAccountInvoice bit " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
@@ -151,6 +155,183 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
             return queryString;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void SalesInvoiceByServiceContract()
+        {
+            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @IsRegularCheckUps bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       IF          (@IsRegularCheckUps = 1) " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.AllInvoice, true) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.AllInvoice + ") " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.AllInvoice, false) + "\r\n";
+            queryString = queryString + "       ELSE        " + "\r\n"; //LAY BAT KY GlobalEnums.SalesInvoiceTypeID LAM DAI DIEN, KHONG CO Y NGHIA GI (LAY GlobalEnums.SalesInvoiceTypeID.ServicesInvoice LAM DAI DIEN)
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.ServicesInvoice, false) + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("SalesInvoiceByServiceContract", queryString);
+        }
+
+        private string SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool isRegularCheckUps)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+            queryString = queryString + "       IF          (@LocationID = 0) " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, false, isRegularCheckUps) + "\r\n";
+            queryString = queryString + "       ELSE        " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, true, isRegularCheckUps) + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+
+        }
+
+        private string SalesInvoiceByServiceContractBuildDetail(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool locationFilter, bool isRegularCheckUps)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesInvoiceDetails.SalesInvoiceID, SalesInvoiceDetails.SalesInvoiceDetailID, SalesInvoiceDetails.EntryDate, SalesInvoiceDetails.LocationID, Locations.Code AS LocationCode, SalesInvoiceDetails.SalesInvoiceTypeID, " + "\r\n";
+            queryString = queryString + "                   SalesInvoiceDetails.CommodityID, Commodities.Code, Commodities.Name, SalesInvoiceDetails.Quantity, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, " + "\r\n";
+            queryString = queryString + "                   ServiceContracts.CommodityID AS VehicleID, Vehicles.Code AS VehicleCode, Vehicles.Name AS VehicleName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.ColorCode, ServiceContracts.LicensePlate, SalesInvoiceDetails.CurrentMeters, " + "\r\n";
+            queryString = queryString + "                   ServiceContracts.PurchaseDate, ServiceContracts.AgentName, Customers.Name AS CustomerName, Customers.AddressNo AS CustomerAddressNo " + "\r\n";
+
+            queryString = queryString + "       FROM        SalesInvoiceDetails " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON SalesInvoiceDetails.EntryDate >= @FromDate AND SalesInvoiceDetails.EntryDate <= @ToDate " + (isRegularCheckUps ? " AND Commodities.IsRegularCheckUps = 1" : "") + (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.AllInvoice ? "" : " AND SalesInvoiceDetails.SalesInvoiceTypeID = @SalesInvoiceTypeID") + (locationFilter ? " AND SalesInvoiceDetails.LocationID = @LocationID" : "") + " AND SalesInvoiceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+
+            queryString = queryString + "                   INNER JOIN ServiceContracts ON SalesInvoiceDetails.ServiceContractID = ServiceContracts.ServiceContractID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities AS Vehicles ON ServiceContracts.CommodityID = Vehicles.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON ServiceContracts.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Locations ON SalesInvoiceDetails.LocationID = Locations.LocationID " + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void GoodsReceiptJournal()
+        {
+            string queryString = " @LocationID int, @GoodsReceiptTypeID int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       IF  (@GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.AllGoodsReceipt + ") " + "\r\n";
+            queryString = queryString + "                   " + this.GoodsReceiptJournalBuild(GlobalEnums.GoodsReceiptTypeID.AllGoodsReceipt) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + ") " + "\r\n";
+            queryString = queryString + "                   " + this.GoodsReceiptJournalBuild(GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice) + "\r\n";
+            queryString = queryString + "       ELSE        " + "\r\n"; //GlobalEnums.GoodsReceiptTypeID.StockTransfer
+            queryString = queryString + "                   " + this.GoodsReceiptJournalBuild(GlobalEnums.GoodsReceiptTypeID.StockTransfer) + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GoodsReceiptJournal", queryString);
+        }
+
+        private string GoodsReceiptJournalBuild(GlobalEnums.GoodsReceiptTypeID goodsReceiptTypeID)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+            queryString = queryString + "       IF          (@LocationID = 0) " + "\r\n";
+            queryString = queryString + "                   " + this.GoodsReceiptJournalBuildDetail(goodsReceiptTypeID, false) + "\r\n";
+            queryString = queryString + "       ELSE        " + "\r\n";
+            queryString = queryString + "                   " + this.GoodsReceiptJournalBuildDetail(goodsReceiptTypeID, true) + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+
+        }
+
+        private string GoodsReceiptJournalBuildDetail(GlobalEnums.GoodsReceiptTypeID goodsReceiptTypeID, bool locationFilter)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            if (goodsReceiptTypeID == GlobalEnums.GoodsReceiptTypeID.AllGoodsReceipt || goodsReceiptTypeID == GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice)
+            {
+                queryString = queryString + "       SELECT      GoodsReceiptDetails.GoodsReceiptID, GoodsReceiptDetails.GoodsReceiptDetailID, GoodsReceiptDetails.EntryDate, GoodsReceiptDetails.GoodsReceiptTypeID, GoodsReceiptDetails.VoucherID, GoodsReceiptDetails.LocationID, Locations.Code AS LocationCode, GoodsReceiptDetails.CommodityID, Commodities.Code, Commodities.Name, Commodities.CommodityTypeID, CommodityTypes.Name AS CommodityTypeName, " + "\r\n";
+                queryString = queryString + "                   GoodsReceiptDetails.Quantity, GoodsReceiptDetails.UnitPrice, GoodsReceiptDetails.VATPercent, GoodsReceiptDetails.GrossPrice, GoodsReceiptDetails.Amount, GoodsReceiptDetails.VATAmount, GoodsReceiptDetails.GrossAmount, " + "\r\n";
+                queryString = queryString + "                   PurchaseInvoices.SupplierID AS VoucherOwnerID, Suppliers.OfficialName AS VoucherOwner, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherDate, PurchaseOrders.ConfirmReference AS RootVoucherReference, PurchaseOrders.ConfirmDate AS RootVoucherDate, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode " + "\r\n";
+
+                queryString = queryString + "       FROM        GoodsReceiptDetails " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Commodities ON GoodsReceiptDetails.EntryDate >= @FromDate AND GoodsReceiptDetails.EntryDate <= @ToDate AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + (locationFilter ? " AND GoodsReceiptDetails.LocationID = @LocationID" : "") + " AND GoodsReceiptDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+
+                queryString = queryString + "                   INNER JOIN PurchaseInvoices ON GoodsReceiptDetails.VoucherID = PurchaseInvoices.PurchaseInvoiceID " + "\r\n";
+                queryString = queryString + "                   INNER JOIN CommodityTypes ON Commodities.CommodityTypeID = CommodityTypes.CommodityTypeID  " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Customers Suppliers ON PurchaseInvoices.SupplierID = Suppliers.CustomerID  " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Locations ON GoodsReceiptDetails.LocationID = Locations.LocationID " + "\r\n";
+                queryString = queryString + "                   INNER JOIN PurchaseOrders ON PurchaseInvoices.PurchaseOrderID = PurchaseOrders.PurchaseOrderID  " + "\r\n";
+            }
+
+            if (goodsReceiptTypeID == GlobalEnums.GoodsReceiptTypeID.AllGoodsReceipt)
+                queryString = queryString + "       UNION ALL   " + "\r\n";
+
+            if (goodsReceiptTypeID == GlobalEnums.GoodsReceiptTypeID.AllGoodsReceipt || goodsReceiptTypeID == GlobalEnums.GoodsReceiptTypeID.StockTransfer)
+            {
+                queryString = queryString + "       SELECT      GoodsReceiptDetails.GoodsReceiptID, GoodsReceiptDetails.GoodsReceiptDetailID, GoodsReceiptDetails.EntryDate, GoodsReceiptDetails.GoodsReceiptTypeID, GoodsReceiptDetails.VoucherID, GoodsReceiptDetails.LocationID, Locations.Code AS LocationCode, GoodsReceiptDetails.CommodityID, Commodities.Code, Commodities.Name, Commodities.CommodityTypeID, CommodityTypes.Name AS CommodityTypeName, " + "\r\n";
+                queryString = queryString + "                   GoodsReceiptDetails.Quantity, GoodsReceiptDetails.UnitPrice, GoodsReceiptDetails.VATPercent, GoodsReceiptDetails.GrossPrice, GoodsReceiptDetails.Amount, GoodsReceiptDetails.VATAmount, GoodsReceiptDetails.GrossAmount, " + "\r\n";
+                queryString = queryString + "                   StockTransfers.LocationID AS VoucherOwnerID, StockTransferLocations.Name AS VoucherOwner, StockTransfers.Reference AS VoucherReference, StockTransfers.EntryDate AS VoucherDate, TransferOrders.Reference AS RootVoucherReference, TransferOrders.EntryDate AS RootVoucherDate, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode " + "\r\n";
+
+                queryString = queryString + "       FROM        GoodsReceiptDetails " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Commodities ON GoodsReceiptDetails.EntryDate >= @FromDate AND GoodsReceiptDetails.EntryDate <= @ToDate AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + (locationFilter ? " AND GoodsReceiptDetails.LocationID = @LocationID" : "") + " AND GoodsReceiptDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+
+                queryString = queryString + "                   INNER JOIN StockTransfers ON GoodsReceiptDetails.VoucherID = StockTransfers.StockTransferID " + "\r\n";
+                queryString = queryString + "                   INNER JOIN CommodityTypes ON Commodities.CommodityTypeID = CommodityTypes.CommodityTypeID  " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Locations StockTransferLocations ON StockTransfers.LocationID = StockTransferLocations.LocationID  " + "\r\n";
+                queryString = queryString + "                   INNER JOIN Locations ON GoodsReceiptDetails.LocationID = Locations.LocationID " + "\r\n";
+                queryString = queryString + "                   LEFT JOIN TransferOrders ON StockTransfers.TransferOrderID = TransferOrders.TransferOrderID " + "\r\n";
+            }
+
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
 
     }
 }

@@ -492,6 +492,7 @@
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CurrentMeters" Type="int" />
           <Property Name="IsBonus" Type="bit" />
           <Property Name="IsWarrantyClaim" Type="bit" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
@@ -512,7 +513,7 @@
           <Property Name="ReceiptID" Type="int" Nullable="false" />
           <Property Name="PersonInChargeID" Type="int" Nullable="false" />
           <Property Name="ServiceLineID" Type="int" Nullable="false" />
-          <Property Name="CurrentMeters" Type="int" Nullable="false" />
+          <Property Name="CurrentMeters" Type="int" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
@@ -3212,7 +3213,7 @@
           <Property Name="ReceiptID" Type="Int32" Nullable="false" />
           <Property Name="PersonInChargeID" Type="Int32" Nullable="false" />
           <Property Name="ServiceLineID" Type="Int32" Nullable="false" />
-          <Property Name="CurrentMeters" Type="Int32" Nullable="false" />
+          <Property Name="CurrentMeters" Type="Int32" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
@@ -4075,6 +4076,7 @@
           <Property Name="ServiceInvoiceID" Type="Int32" />
           <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" />
           <Property Name="ServiceContractID" Type="Int32" />
+          <Property Name="CurrentMeters" Type="Int32" />
         </EntityType>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Type="TotalBikePortalsModel.CommodityCategory" Role="CommodityCategory" Multiplicity="1" />
@@ -5836,6 +5838,7 @@
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="CurrentMeters" ColumnName="CurrentMeters" />
                 <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
                 <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
                 <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />

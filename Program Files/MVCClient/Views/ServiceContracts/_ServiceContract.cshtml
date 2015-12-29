@@ -171,7 +171,7 @@
                                     <div class="div-row">
                                         @Html.LabelFor(model => model.BeginningMeters, htmlAttributes: new { @class = "control-label1" })
                                         <div class="div-input">
-                                            @Html.Kendo().NumericTextBoxFor(model => model.BeginningMeters).HtmlAttributes(new { @class = "input-class1" })
+                                            @Html.Kendo().NumericTextBoxFor(model => model.BeginningMeters).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "input-class1" })
                                         </div>
                                         <div class="div-validation-message">
                                             @Html.ValidationMessageFor(model => model.BeginningMeters, "", new { @class = "text-danger" })
@@ -181,7 +181,7 @@
                                     <div class="div-row">
                                         @Html.LabelFor(model => model.EndingMeters, htmlAttributes: new { @class = "control-label1" })
                                         <div class="div-input">
-                                            @Html.Kendo().NumericTextBoxFor(model => model.EndingMeters).HtmlAttributes(new { @class = "input-class1" })
+                                            @Html.Kendo().NumericTextBoxFor(model => model.EndingMeters).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "input-class1" })
                                         </div>
                                         <div class="div-validation-message">
                                             @Html.ValidationMessageFor(model => model.EndingMeters, "", new { @class = "text-danger" })
