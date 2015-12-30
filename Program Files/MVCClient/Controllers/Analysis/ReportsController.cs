@@ -24,6 +24,7 @@ namespace MVCClient.Controllers.Analysis
         private IReportRepository reportRepository;
         public ReportsController(IModuleRepository moduleRepository, IReportRepository reportRepository)
         {
+            this.moduleRepository = moduleRepository;
             this.reportRepository = reportRepository;
         }
 
