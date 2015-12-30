@@ -4,20 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Microsoft.AspNet.Identity;
+
 using MVCCore.Repositories.Analysis;
 using MVCModel.Models;
 using RequireJsNet;
 using MVCClient.Api.SessionTasks;
 using System.Net;
 using MVCClient.ViewModels.Helpers;
+using MVCClient.Models;
+using MVCCore.Helpers;
 
 namespace MVCClient.Controllers.Analysis
 {
     public class ReportsController : CoreController
     {
+        private readonly IModuleRepository moduleRepository;
 
         private IReportRepository reportRepository;
-        public ReportsController(IReportRepository reportRepository)
+        public ReportsController(IModuleRepository moduleRepository, IReportRepository reportRepository)
         {
             this.reportRepository = reportRepository;
         }
@@ -44,7 +49,20 @@ namespace MVCClient.Controllers.Analysis
             if (report == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            PrintViewModel printViewModel = new PrintViewModel() { Id = 1, ReportPath = report.ReportURL};
+
+            //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
+            var Db = new ApplicationDbContext();
+
+            string aspUserID = User.Identity.GetUserId();
+            int userID = Db.Users.Where(w => w.Id == aspUserID).FirstOrDefault().UserID;
+
+
+            int locationID = this.moduleRepository.GetLocationID(userID);
+            //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
+
+
+
+            PrintViewModel printViewModel = new PrintViewModel() { Id = locationID, ReportPath = report.ReportURL };
 
             return View(viewName: "Open", model: printViewModel);
         }

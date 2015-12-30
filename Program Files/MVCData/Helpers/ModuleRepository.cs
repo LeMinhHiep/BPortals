@@ -38,6 +38,15 @@ namespace MVCData.Helpers
             var organizationalUnitUser = this.totalBikePortalsEntities.OrganizationalUnitUsers.Where(w => w.UserID == userID && !w.InActive).Include(i => i.OrganizationalUnit.Location).First();
             return organizationalUnitUser.OrganizationalUnit.Location.OfficialName;
         }
+        public int GetLocationID(int userID)
+        {
+            var organizationalUnitUser = this.totalBikePortalsEntities.OrganizationalUnitUsers.Where(w => w.UserID == userID && !w.InActive).Include(i => i.OrganizationalUnit.Location).First();
+            return organizationalUnitUser.OrganizationalUnit.Location.LocationID;
+        }
+
+
+
+
 
 
         public void SaveChanges()
