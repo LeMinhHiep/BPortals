@@ -765,6 +765,7 @@
     <Content Include="Scripts\Controllers\Root\Quotations\Edit.js" />
     <Content Include="Scripts\Controllers\Root\Quotations\Index.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Index.js" />
+    <Content Include="Scripts\Controllers\Root\Reports\Open.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\Delete.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\Edit.js" />
