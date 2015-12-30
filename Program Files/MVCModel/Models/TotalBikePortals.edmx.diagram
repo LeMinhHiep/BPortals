@@ -103,6 +103,7 @@
         <EntityTypeShape EntityType="TotalBikePortalsModel.Module" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.SalesInvoiceType" Width="1.5" PointX="17.875" PointY="14.625" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.Report" Width="1.5" PointX="8.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

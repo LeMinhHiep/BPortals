@@ -63,6 +63,7 @@ namespace MVCModel.Models
         public virtual DbSet<ModuleDetail> ModuleDetails { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<SalesInvoiceType> SalesInvoiceTypes { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {

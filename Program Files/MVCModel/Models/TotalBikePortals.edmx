@@ -463,6 +463,19 @@
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportUniqueID" Type="int" Nullable="false" />
+          <Property Name="ReportGroupID" Type="int" Nullable="false" />
+          <Property Name="ReportGroupName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReportName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReportURL" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ReportTypeID" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="SalesInvoiceDetails">
           <Key>
             <PropertyRef Name="SalesInvoiceDetailID" />
@@ -1786,6 +1799,7 @@
           <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quotations" EntityType="Self.Quotations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoiceDetails" EntityType="Self.SalesInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoices" EntityType="Self.SalesInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoiceTypes" EntityType="Self.SalesInvoiceTypes" Schema="dbo" store:Type="Tables" />
@@ -2626,6 +2640,7 @@
             <End Role="SalesInvoiceType" EntitySet="SalesInvoiceTypes" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
+          <EntitySet Name="Reports" EntityType="TotalBikePortalsModel.Report" />
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -4809,6 +4824,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportUniqueID" Type="Int32" Nullable="false" />
+          <Property Name="ReportGroupID" Type="Int32" Nullable="false" />
+          <Property Name="ReportGroupName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReportName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReportURL" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6348,6 +6376,20 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.Report">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+                <ScalarProperty Name="ReportURL" ColumnName="ReportURL" />
+                <ScalarProperty Name="ReportName" ColumnName="ReportName" />
+                <ScalarProperty Name="ReportGroupName" ColumnName="ReportGroupName" />
+                <ScalarProperty Name="ReportGroupID" ColumnName="ReportGroupID" />
+                <ScalarProperty Name="ReportUniqueID" ColumnName="ReportUniqueID" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

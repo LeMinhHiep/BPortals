@@ -267,6 +267,7 @@
     <Compile Include="Configuration\SettingsManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Analysis\InventoriesController.cs" />
+    <Compile Include="Controllers\Analysis\ReportsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommonTasks\CommoditiesController.cs" />
     <Compile Include="Controllers\ControllersExtensions.cs" />
@@ -763,6 +764,7 @@
     <Content Include="Scripts\Controllers\Root\Quotations\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\Quotations\Edit.js" />
     <Content Include="Scripts\Controllers\Root\Quotations\Index.js" />
+    <Content Include="Scripts\Controllers\Root\Reports\Index.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\Delete.js" />
     <Content Include="Scripts\Controllers\Root\ServiceContracts\Edit.js" />
@@ -1618,6 +1620,8 @@
     <Content Include="Views\GoodsReceipts\_GetStockTransfer.cshtml" />
     <Content Include="Views\Home\Options.cshtml" />
     <Content Include="Views\Inventories\AccountInvoiceJournal.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Open.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

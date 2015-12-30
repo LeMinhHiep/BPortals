@@ -88,10 +88,17 @@
         $("#MainMenu").find(".k-state-selected_1").removeClass("k-state-selected_1");
         $(e.item).addClass("k-state-selected_1");
 
-        var url = '@Url.Action("TaskMenu", "MenuApi", new { moduleID = "module-id" })';
-        url = url.replace("module-id", $(e.item).attr("NmvnModuleID"));
+        var NmvnModuleID = $(e.item).attr("NmvnModuleID");
 
-        $('#detail-menu').load(url);
+        if (NmvnModuleID === "9") {
+            window.open('@Url.Action("Index", "Reports")', "_self");
+        }
+        else {
+            var url = '@Url.Action("TaskMenu", "MenuApi", new { moduleID = "module-id" })';
+            url = url.replace("module-id", $(e.item).attr("NmvnModuleID"));
+
+            $('#detail-menu').load(url);
+        }
     }
 
 

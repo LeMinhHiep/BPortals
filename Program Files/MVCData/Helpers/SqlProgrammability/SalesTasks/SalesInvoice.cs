@@ -255,7 +255,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         private void GoodsReceiptJournal()
         {
             string queryString = " @LocationID int, @GoodsReceiptTypeID int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -315,7 +315,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             {
                 queryString = queryString + "       SELECT      GoodsReceiptDetails.GoodsReceiptID, GoodsReceiptDetails.GoodsReceiptDetailID, GoodsReceiptDetails.EntryDate, GoodsReceiptDetails.GoodsReceiptTypeID, GoodsReceiptDetails.VoucherID, GoodsReceiptDetails.LocationID, Locations.Code AS LocationCode, GoodsReceiptDetails.CommodityID, Commodities.Code, Commodities.Name, Commodities.CommodityTypeID, CommodityTypes.Name AS CommodityTypeName, " + "\r\n";
                 queryString = queryString + "                   GoodsReceiptDetails.Quantity, GoodsReceiptDetails.UnitPrice, GoodsReceiptDetails.VATPercent, GoodsReceiptDetails.GrossPrice, GoodsReceiptDetails.Amount, GoodsReceiptDetails.VATAmount, GoodsReceiptDetails.GrossAmount, " + "\r\n";
-                queryString = queryString + "                   StockTransfers.LocationID AS VoucherOwnerID, StockTransferLocations.Name AS VoucherOwner, StockTransfers.Reference AS VoucherReference, StockTransfers.EntryDate AS VoucherDate, TransferOrders.Reference AS RootVoucherReference, TransferOrders.EntryDate AS RootVoucherDate, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode " + "\r\n";
+                queryString = queryString + "                   StockTransfers.LocationID AS VoucherOwnerID, StockTransferLocations.OfficialName AS VoucherOwner, StockTransfers.Reference AS VoucherReference, StockTransfers.EntryDate AS VoucherDate, TransferOrders.Reference AS RootVoucherReference, TransferOrders.EntryDate AS RootVoucherDate, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode " + "\r\n";
 
                 queryString = queryString + "       FROM        GoodsReceiptDetails " + "\r\n";
                 queryString = queryString + "                   INNER JOIN Commodities ON GoodsReceiptDetails.EntryDate >= @FromDate AND GoodsReceiptDetails.EntryDate <= @ToDate AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + (locationFilter ? " AND GoodsReceiptDetails.LocationID = @LocationID" : "") + " AND GoodsReceiptDetails.CommodityID = Commodities.CommodityID " + "\r\n";
