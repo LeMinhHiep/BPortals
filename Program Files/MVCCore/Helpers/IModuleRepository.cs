@@ -14,7 +14,7 @@ namespace MVCCore.Helpers
 
         Module GetModuleByID(int moduleID);
         string GetLocationName(int userID);
-        int GetLocationID(int userID)
+        int GetLocationID(int userID);
 
         void SaveChanges();
         void Add(Module module);
