@@ -40,7 +40,7 @@ namespace MVCModel.Models
         public Nullable<bool> IsBonus { get; set; }
     
         public virtual Commodity Commodity { get; set; }
-        public virtual Quotation Quotation { get; set; }
         public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
+        public virtual Quotation Quotation { get; set; }
     }
 }

@@ -8,44 +8,44 @@
     <div class="div-row3">
         <div class="div-input" style="margin-left: 0px;">
             @(Html.Kendo().AutoCompleteFor(model => model.CustomerName)
-                            .Name("CustomerName")
-                            .DataTextField("Name")
-                            .Filter("contains")
-                            .MinLength(SettingsManager.AutoCompleteMinLenght * 2)
-                            .Placeholder("Chọn khách hàng...")
-                            .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
-                                    "<span class=\"k-widget k-header\">Tên</span>" +
-                                    "<span class=\"k-widget k-header\">Ngày sinh</span>" +
-                                    "<span class=\"k-widget k-header\">Điện thoại</span>" +
-                                    "<span class=\"k-widget k-header\">Địa chỉ</span>" +
-                                    "</div>")
-                            .Template("<div class=\"dropdown-body\">" +
-                                    "<span class=\"k-state-default\"><p>#: data.Name #</p></span>" +
-                                    "<span class=\"k-state-default\"><p>#: kendo.toString(new Date(parseInt(data.Birthday.replace(/[A-Za-z$--/]/g, ''))), '" + SettingsManager.DateFormat + "') #</p></span>" +
-                                    "<span class=\"k-state-default\"><p>#: data.Telephone #</p></span>" +
-                                    "<span class=\"k-state-default\"><p>#: data.AddressNo + data.EntireTerritoryEntireName #</p></span>" +
-                                    "</div>")
-                            .DataSource(source =>
-                            {
-                                source.Read(read =>
-                                {
-                                    read.Action("SearchCustomersByName", "CustomersApi").Data(@<text>
+                .Name("CustomerName")
+                .DataTextField("Name")
+                .Filter("contains")
+                .MinLength(SettingsManager.AutoCompleteMinLenght * 2)
+                .Placeholder("Chọn khách hàng, hoặc shift+ để thêm mới...")
+                .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
+                        "<span class=\"k-widget k-header\">Tên</span>" +
+                        "<span class=\"k-widget k-header\">Ngày sinh</span>" +
+                        "<span class=\"k-widget k-header\">Điện thoại</span>" +
+                        "<span class=\"k-widget k-header\">Địa chỉ</span>" +
+                        "</div>")
+                .Template("<div class=\"dropdown-body\">" +
+                        "<span class=\"k-state-default\"><p>#: data.Name #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: kendo.toString(new Date(parseInt(data.Birthday.replace(/[A-Za-z$--/]/g, ''))), '" + SettingsManager.DateFormat + "') #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.Telephone #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.AddressNo + data.EntireTerritoryEntireName #</p></span>" +
+                        "</div>")
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("SearchCustomersByName", "CustomersApi").Data(@<text>
 
-                                        function(e) {
-                                        return {
-                                            searchText: $("#CustomerName").data("kendoAutoComplete").value()       
-                                        };}
+                            function(e) {
+                            return {
+                                searchText: $("#CustomerName").data("kendoAutoComplete").value()       
+                            };}
 
-                                    </text>);//Send parameter to controller search action
-                                })
-                                .ServerFiltering(true);
-                            })
-                            .Events(e =>
-                            {
-                                e.Select("customer_Select");
-                                e.DataBound("customersDataBound");
-                            })
-                            .HtmlAttributes(new { @class = "input-class1" })
+                        </text>);//Send parameter to controller search action
+                    })
+                    .ServerFiltering(true);
+                })
+                .Events(e =>
+                {
+                    e.Select("customer_Select");
+                    e.DataBound("customersDataBound");
+                })
+                .HtmlAttributes(new { @class = "input-class1" })
             )
 
             <input id="CustomerNameTemp" name="CustomerNameTemp" value="@Model.CustomerName" type="hidden" class="k-textbox" />

@@ -59,8 +59,11 @@ namespace MVCDTO.SalesTasks
         public string ServiceContractAgentName { get; set; }
 
 
-        [Display(Name = "Người phụ trách")]
-        public int PersonInChargeID { get; set; }
+        public int EmployeeID { get; set; }
+        [Display(Name = "Nhân viên thực hiện")]
+        [Required(ErrorMessage = "Vui lòng nhập tên nhân viên thực hiện")]
+        public string EmployeeName { get; set; }
+
         [Display(Name = "Người duyệt")]
         public int ApproverID { get; set; }
 

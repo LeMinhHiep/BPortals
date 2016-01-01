@@ -14,6 +14,12 @@ namespace MVCModel.Models
     
     public partial class Employee
     {
+        public Employee()
+        {
+            this.Quotations = new HashSet<Quotation>();
+            this.SalesInvoices = new HashSet<SalesInvoice>();
+        }
+    
         public int EmployeeID { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -25,5 +31,7 @@ namespace MVCModel.Models
         public string Remarks { get; set; }
     
         public virtual Location Location { get; set; }
+        public virtual ICollection<Quotation> Quotations { get; set; }
+        public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
     }
 }

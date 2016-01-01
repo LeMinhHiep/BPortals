@@ -14,7 +14,7 @@ namespace MVCDTO.PurchaseTasks
     {
         public int SupplierID { get; set; }
         [Display(Name = "Nhà cung cấp")]
-        [Required(ErrorMessage = "vui lòng chọn nhà cung cấp")]
+        [Required(ErrorMessage = "Vui lòng nhập nhà cung cấp")]
         public string CustomerName { get; set; }
         [Display(Name = "Người liên hệ")]
         public string CustomerAttentionName { get; set; }

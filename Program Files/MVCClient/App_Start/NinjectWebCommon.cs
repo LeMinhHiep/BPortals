@@ -139,8 +139,10 @@ namespace MVCClient.App_Start
                 kernel.Bind<IPartTransferRepository>().To<PartTransferRepository>();
                 kernel.Bind<IPartTransferAPIRepository>().To<PartTransferAPIRepository>();
 
-                kernel.Bind<IPartTransferHelperService>().To<PartTransferHelperService>(); 
+                kernel.Bind<IPartTransferHelperService>().To<PartTransferHelperService>();
 
+
+                kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
                 kernel.Bind<IPriceTermRepository>().To<PriceTermRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
 

@@ -26,7 +26,6 @@ namespace MVCClient.Builders.SalesTasks
         public void BuildSelectLists(QuotationViewModel quotationViewModel)
         {
             quotationViewModel.PaymentTermDropDown = paymentTermSelectListBuilder.BuildSelectListItemsForPaymentTerms(paymentTermRepository.GetAllPaymentTerms());
-            quotationViewModel.PersonInChargeDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), quotationViewModel.UserID);
             quotationViewModel.ApproverDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), quotationViewModel.UserID);
             quotationViewModel.PreparedPersonDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), quotationViewModel.UserID);
         }

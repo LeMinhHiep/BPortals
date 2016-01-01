@@ -18,9 +18,9 @@ namespace MVCModel.Models
         {
             this.PurchaseInvoices = new HashSet<PurchaseInvoice>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.ServiceContracts = new HashSet<ServiceContract>();
             this.Quotations = new HashSet<Quotation>();
             this.SalesInvoices = new HashSet<SalesInvoice>();
-            this.ServiceContracts = new HashSet<ServiceContract>();
         }
     
         public int CustomerID { get; set; }
@@ -49,8 +49,8 @@ namespace MVCModel.Models
         public virtual Territory Territory { get; set; }
         public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; }
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual ICollection<ServiceContract> ServiceContracts { get; set; }
         public virtual ICollection<Quotation> Quotations { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
-        public virtual ICollection<ServiceContract> ServiceContracts { get; set; }
     }
 }

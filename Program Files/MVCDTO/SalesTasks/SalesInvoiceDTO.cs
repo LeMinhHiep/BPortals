@@ -21,6 +21,7 @@ namespace MVCDTO.SalesTasks
 
         public int CustomerID { get; set; }
         [Display(Name = "Khách hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập tên khách hàng")]
         public string CustomerName { get; set; }
         [Display(Name = "Ngày sinh")]
         public Nullable<System.DateTime> CustomerBirthday { get; set; }
@@ -40,6 +41,7 @@ namespace MVCDTO.SalesTasks
 
         public int EmployeeID { get; set; }
         [Display(Name = "Nhân viên thực hiện")]
+        [Required(ErrorMessage = "Vui lòng nhập tên nhân viên thực hiện")]
         public string EmployeeName { get; set; }
 
         [Display(Name = "Người duyệt")]
@@ -207,7 +209,7 @@ namespace MVCDTO.SalesTasks
         public override int SalesInvoiceTypeID { get { return (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice; } }
 
         public int ServiceLineID { get; set; }
-        [Display(Name = "Số Km")]
+        [Display(Name = "Số km công tơ mét")]
         public int CurrentMeters { get; set; }
 
         [Display(Name = "Tình trạng xe")]

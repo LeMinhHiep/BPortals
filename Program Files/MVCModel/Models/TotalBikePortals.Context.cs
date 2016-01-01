@@ -36,8 +36,6 @@ namespace MVCModel.Models
         public virtual DbSet<PriceTerm> PriceTerms { get; set; }
         public virtual DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public virtual DbSet<Quotation> Quotations { get; set; }
-        public virtual DbSet<SalesInvoice> SalesInvoices { get; set; }
         public virtual DbSet<ServiceContract> ServiceContracts { get; set; }
         public virtual DbSet<ServiceContractType> ServiceContractTypes { get; set; }
         public virtual DbSet<StockTransferDetail> StockTransferDetails { get; set; }
@@ -65,6 +63,8 @@ namespace MVCModel.Models
         public virtual DbSet<SalesInvoiceType> SalesInvoiceTypes { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Quotation> Quotations { get; set; }
+        public virtual DbSet<SalesInvoice> SalesInvoices { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {

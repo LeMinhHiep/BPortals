@@ -30,7 +30,7 @@ namespace MVCDTO.CommonTasks
         public string CommodityTypeName { get; set; }
 
         [Display(Name = "Nhà cung cấp")]
-        [Required(ErrorMessage = "vui lòng chọn nhà cung cấp")]
+        [Required(ErrorMessage = "Vui lòng nhập nhà cung cấp")]
         public Nullable<int> SupplierID { get; set; }
         
         public Nullable<int> PiecePerPack { get; set; }

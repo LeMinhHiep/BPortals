@@ -15,7 +15,6 @@ namespace MVCClient.ViewModels.SalesTasks
     public class VehiclesInvoiceViewModel : VehiclesInvoiceDTO, IViewDetailViewModel<VehiclesInvoiceDetailDTO>, ICustomerAutoCompleteViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
     {
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
-        public IEnumerable<SelectListItem> PersonInChargeDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
     }
@@ -32,18 +31,16 @@ namespace MVCClient.ViewModels.SalesTasks
         public string Title { get; set; }
     }
 
-    public class PartsInvoiceViewModel : PartsInvoiceDTO, IViewDetailViewModel<PartsInvoiceDetailDTO>, IContractibleInvoiceViewModel, ICustomerAutoCompleteViewModel, IPersonInChargeDropDownViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
+    public class PartsInvoiceViewModel : PartsInvoiceDTO, IViewDetailViewModel<PartsInvoiceDetailDTO>, IContractibleInvoiceViewModel, ICustomerAutoCompleteViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
     {
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
-        public IEnumerable<SelectListItem> PersonInChargeDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
     }
 
-    public class ServicesInvoiceViewModel : ServicesInvoiceDTO, ISimpleViewModel, IContractibleInvoiceViewModel, IPersonInChargeDropDownViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
+    public class ServicesInvoiceViewModel : ServicesInvoiceDTO, ISimpleViewModel, IContractibleInvoiceViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
     {
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
-        public IEnumerable<SelectListItem> PersonInChargeDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
 

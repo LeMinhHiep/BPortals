@@ -39,15 +39,14 @@
                     </div>
                 </div>
 
+                @Html.Partial("~/Views/Helpers/Commons/_EmployeeAutoComplete.cshtml")
+
             </div>
 
             <div class="div-right">
                 <div class="contract-separator">
                     @Html.Partial("~/Views/SalesInvoices/_ContractibleInvoice.cshtml")
                 </div>
-
-
-
 
                 <div>
                     @(Html.Kendo().Grid(Model.QuotationViewDetails)
@@ -231,7 +230,6 @@
                                             @Html.Partial("~/Views/Helpers/Commons/_PaymentTermDropDown.cshtml")
                                         </div>
                                         <div class="div-panel-right">
-                                            @Html.Partial("~/Views/Helpers/Commons/_PersonInChargeDropDown.cshtml")
                                             @Html.Partial("~/Views/Helpers/Commons/_PreparedPersonDropDown.cshtml")
                                             @Html.Partial("~/Views/Helpers/Commons/_ApproverDropDown.cshtml")
                                         </div>

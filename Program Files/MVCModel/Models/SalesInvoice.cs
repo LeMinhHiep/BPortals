@@ -16,8 +16,8 @@ namespace MVCModel.Models
     {
         public SalesInvoice()
         {
-            this.SalesInvoices1 = new HashSet<SalesInvoice>();
             this.SalesInvoiceDetails = new HashSet<SalesInvoiceDetail>();
+            this.SalesInvoices1 = new HashSet<SalesInvoice>();
         }
     
         public int SalesInvoiceID { get; set; }
@@ -30,7 +30,7 @@ namespace MVCModel.Models
         public Nullable<int> ServiceInvoiceID { get; set; }
         public Nullable<int> QuotationID { get; set; }
         public int ReceiptID { get; set; }
-        public int PersonInChargeID { get; set; }
+        public int EmployeeID { get; set; }
         public int ServiceLineID { get; set; }
         public Nullable<int> CurrentMeters { get; set; }
         public int UserID { get; set; }
@@ -52,6 +52,7 @@ namespace MVCModel.Models
         public string Solutions { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
+        public Nullable<bool> IsMajorRepair { get; set; }
         public bool IsFinished { get; set; }
         public bool IsAutoReceipt { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -61,16 +62,16 @@ namespace MVCModel.Models
         public bool InActive { get; set; }
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
-        public Nullable<bool> IsMajorRepair { get; set; }
     
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Location Location { get; set; }
         public virtual PaymentTerm PaymentTerm { get; set; }
         public virtual Quotation Quotation { get; set; }
+        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
+        public virtual SalesInvoiceType SalesInvoiceType { get; set; }
         public virtual ServiceContract ServiceContract { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices1 { get; set; }
         public virtual SalesInvoice SalesInvoice1 { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual SalesInvoiceType SalesInvoiceType { get; set; }
     }
 }

@@ -26,7 +26,6 @@ namespace MVCClient.Builders.SalesTasks
         public void BuildSelectLists(VehiclesInvoiceViewModel vehiclesInvoiceViewModel)
         {
             vehiclesInvoiceViewModel.PaymentTermDropDown = paymentTermSelectListBuilder.BuildSelectListItemsForPaymentTerms(paymentTermRepository.GetAllPaymentTerms());
-            vehiclesInvoiceViewModel.PersonInChargeDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), vehiclesInvoiceViewModel.UserID);
             vehiclesInvoiceViewModel.ApproverDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), vehiclesInvoiceViewModel.UserID);
             vehiclesInvoiceViewModel.PreparedPersonDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), vehiclesInvoiceViewModel.UserID);
         }
@@ -54,7 +53,6 @@ namespace MVCClient.Builders.SalesTasks
         public void BuildSelectLists(PartsInvoiceViewModel partsInvoiceViewModel)
         {
             partsInvoiceViewModel.PaymentTermDropDown = paymentTermSelectListBuilder.BuildSelectListItemsForPaymentTerms(paymentTermRepository.GetAllPaymentTerms());
-            partsInvoiceViewModel.PersonInChargeDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), partsInvoiceViewModel.UserID);
             partsInvoiceViewModel.ApproverDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), partsInvoiceViewModel.UserID);
             partsInvoiceViewModel.PreparedPersonDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), partsInvoiceViewModel.UserID);
         }
@@ -83,7 +81,6 @@ namespace MVCClient.Builders.SalesTasks
         public void BuildSelectLists(ServicesInvoiceViewModel servicesInvoiceViewModel)
         {
             servicesInvoiceViewModel.PaymentTermDropDown = paymentTermSelectListBuilder.BuildSelectListItemsForPaymentTerms(paymentTermRepository.GetAllPaymentTerms());
-            servicesInvoiceViewModel.PersonInChargeDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), servicesInvoiceViewModel.UserID);
             servicesInvoiceViewModel.ApproverDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), servicesInvoiceViewModel.UserID);
             servicesInvoiceViewModel.PreparedPersonDropDown = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), servicesInvoiceViewModel.UserID);
         }

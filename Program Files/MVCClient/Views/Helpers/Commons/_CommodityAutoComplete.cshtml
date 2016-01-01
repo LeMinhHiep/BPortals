@@ -8,40 +8,40 @@
     @Html.LabelFor(model => model.CommodityName, htmlAttributes: new { @class = "control-label1" })
     <div class="div-input">
         @(Html.Kendo().AutoCompleteFor(model => model.CommodityName)
-                            .Name("CommodityName")
-                            .DataTextField("Name")
-                            .Filter("contains")
-                            .MinLength(SettingsManager.AutoCompleteMinLenght)
-                            .Placeholder("Chọn...")
-                            .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
-                                    "<span class=\"k-widget k-header\">Mã</span>" +
-                                    "<span class=\"k-widget k-header\">Tên</span>" +
-                                    "</div>")
-                            .Template("<div class=\"dropdown-body\">" +
-                                    "<span class=\"k-state-default\"><p>#: data.Code #</p></span>" +
-                                    "<span class=\"k-state-default\"><p>#: data.Name # </p></span>" +
-                                    "</div>")
-                            .DataSource(source =>
-                            {
-                                source.Read(read =>
-                                {
-                                    read.Action("SearchCommoditiesByName", "CommoditiesApi").Data(@<text>
+            .Name("CommodityName")
+            .DataTextField("Name")
+            .Filter("contains")
+            .MinLength(SettingsManager.AutoCompleteMinLenght)
+            .Placeholder("Chọn...")
+            .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
+                    "<span class=\"k-widget k-header\">Mã</span>" +
+                    "<span class=\"k-widget k-header\">Tên</span>" +
+                    "</div>")
+            .Template("<div class=\"dropdown-body\">" +
+                    "<span class=\"k-state-default\"><p>#: data.Code #</p></span>" +
+                    "<span class=\"k-state-default\"><p>#: data.Name # </p></span>" +
+                    "</div>")
+            .DataSource(source =>
+            {
+                source.Read(read =>
+                {
+                    read.Action("SearchCommoditiesByName", "CommoditiesApi").Data(@<text>
 
-                                        function(e) {
-                                        return {
-                                        searchText: $("#CommodityName").data("kendoAutoComplete").value()
-                                        };}
+                        function(e) {
+                        return {
+                        searchText: $("#CommodityName").data("kendoAutoComplete").value()
+                        };}
 
-                                    </text>);//Send parameter to controller search action
-                                })
-                                .ServerFiltering(true);
-                            })
-                                    .Events(e =>
-                                    {
-                                        e.Select("commodity_Select");
-                                        e.DataBound("commodity_DataBound");
-                                    })
-                                    .HtmlAttributes(new { @class = "input-class1" })
+                    </text>);//Send parameter to controller search action
+                })
+                .ServerFiltering(true);
+            })
+            .Events(e =>
+            {
+                e.Select("commodity_Select");
+                e.DataBound("commodity_DataBound");
+            })
+            .HtmlAttributes(new { @class = "input-class1" })
         )
 
         @Html.ValidationMessageFor(model => model.CommodityName, "", new { @class = "text-danger" })

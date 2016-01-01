@@ -1,40 +1,45 @@
-﻿@model MVCClient.ViewModels.Helpers.IPersonInChargeAutoCompleteViewModel
+﻿@using MVCClient.Configuration
 
-<div class="warehouse-lmargin" style="padding-top: 60px;">
-    <div class="div-row3">
-        <div class="div-input" style="margin-left: 0px;">
-            @(Html.Kendo().AutoCompleteFor(model => model.EmployeeName)
-                    .Name("EmployeeName")
-                    .DataTextField("Name")
-                    .Filter("contains")
-                    .Placeholder("Chọn nhân viên phụ trách ...")
-                    .DataSource(source =>
-                    {
-                        source.Read(read =>
-                        {
-                            read.Action("SearchEmployees", "EmployeesApi").Data(@<text>
+@model MVCClient.ViewModels.Helpers.IEmployeeAutoCompleteViewModel
 
-                                function(e) {
-                                return {
-                                locationID: requireConfig.pageOptions.LocationID,
-                                searchText: $("#EmployeeName").data("kendoAutoComplete").value()
-                                };}
+@Html.HiddenFor(model => model.EmployeeID)
 
-                            </text>);
-                        })
-                        .ServerFiltering(true);
-                    })
-                    .Events(e =>
-                    {
-                        e.Select("employeeName_Select");
-                    })
-                    .HtmlAttributes(new { @class = "input-class1" })
-            )
+<div class="form-group1">
 
-            <input id="EmployeeNameTemp" name="EmployeeNameTemp" value="@Model.EmployeeName" type="hidden" class="k-textbox" />
-        </div>
+    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label-left" })
+    <div class="div-input">
+        @(Html.Kendo().AutoCompleteFor(model => model.EmployeeName)
+            .Name("EmployeeName")
+            .DataTextField("Name")
+            .Filter("contains")
+            .MinLength(SettingsManager.AutoCompleteMinLenght)
+            .Placeholder("Nhập nhân viên thực hiện ...")
+            .DataSource(source =>
+            {
+                source.Read(read =>
+                {
+                    read.Action("SearchEmployees", "EmployeesApi").Data(@<text>
 
+                        function(e) {
+                        return {
+                        locationID: requireConfig.pageOptions.LocationID,
+                        searchText: $("#EmployeeName").data("kendoAutoComplete").value()
+                        };}
+
+                    </text>);
+                })
+                .ServerFiltering(true);
+            })
+            .Events(e =>
+            {
+                e.Select("employeeName_Select");
+            })
+            .HtmlAttributes(new { @class = "input-class" })
+        )
+
+        <input id="EmployeeNameTemp" name="EmployeeNameTemp" value="@Model.EmployeeName" type="hidden" class="k-textbox" />
     </div>
+
 </div>
 
 

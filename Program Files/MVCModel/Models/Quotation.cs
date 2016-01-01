@@ -16,8 +16,8 @@ namespace MVCModel.Models
     {
         public Quotation()
         {
-            this.SalesInvoices = new HashSet<SalesInvoice>();
             this.QuotationDetails = new HashSet<QuotationDetail>();
+            this.SalesInvoices = new HashSet<SalesInvoice>();
         }
     
         public int QuotationID { get; set; }
@@ -26,7 +26,7 @@ namespace MVCModel.Models
         public int CustomerID { get; set; }
         public int PaymentTermID { get; set; }
         public int ServiceContractID { get; set; }
-        public int PersonInChargeID { get; set; }
+        public int EmployeeID { get; set; }
         public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }
@@ -51,9 +51,10 @@ namespace MVCModel.Models
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
     
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
         public virtual ServiceContract ServiceContract { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
     }
 }
