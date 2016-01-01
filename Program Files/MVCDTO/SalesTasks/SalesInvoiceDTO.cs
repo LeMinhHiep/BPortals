@@ -38,8 +38,10 @@ namespace MVCDTO.SalesTasks
 
         public int ReceiptID { get; set; }
 
-        [Display(Name = "Người phụ trách")]
-        public int PersonInChargeID { get; set; }
+        public int EmployeeID { get; set; }
+        [Display(Name = "Nhân viên thực hiện")]
+        public string EmployeeName { get; set; }
+
         [Display(Name = "Người duyệt")]
         public int ApproverID { get; set; }
 
@@ -214,6 +216,9 @@ namespace MVCDTO.SalesTasks
         public string Causes { get; set; }
         [Display(Name = "Biện pháp giải quyết")]
         public string Solutions { get; set; }
+
+        [Display(Name = "Sửa chữa lớn")]
+        public bool IsMajorRepair { get; set; }
 
         public bool IsFinished { get; set; }
     }

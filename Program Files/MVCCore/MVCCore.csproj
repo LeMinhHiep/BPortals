@@ -49,6 +49,7 @@
     <Compile Include="Helpers\ISqlRoutines.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
+    <Compile Include="Repositories\CommonTasks\IEmployeeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ILocationRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ITerritoryRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ICustomerTypeRepository.cs" />

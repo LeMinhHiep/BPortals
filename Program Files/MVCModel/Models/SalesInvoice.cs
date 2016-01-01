@@ -61,6 +61,7 @@ namespace MVCModel.Models
         public bool InActive { get; set; }
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
+        public Nullable<bool> IsMajorRepair { get; set; }
     
         public virtual PaymentTerm PaymentTerm { get; set; }
         public virtual Quotation Quotation { get; set; }

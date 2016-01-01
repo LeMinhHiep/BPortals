@@ -68,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Analysis\ReportRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\CommonTasks\EmployeeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\LocationRepository.cs" />
     <Compile Include="Repositories\CommonTasks\TerritoryRepository.cs" />
     <Compile Include="Repositories\CommonTasks\CustomerTypeRepository.cs" />

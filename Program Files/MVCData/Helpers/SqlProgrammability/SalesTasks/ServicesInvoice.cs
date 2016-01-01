@@ -149,11 +149,11 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         private void SalesInvoicePrint()
         {
             string queryString = " @SalesInvoiceID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT          SalesInvoices.SalesInvoiceID, SalesInvoices.EntryDate, SalesInvoices.Reference, SalesInvoices.VATInvoiceNo, SalesInvoices.VATInvoiceDate, SalesInvoices.VATInvoiceSeries, " + "\r\n";
+            queryString = queryString + "       SELECT          SalesInvoices.SalesInvoiceID, SalesInvoices.EntryDate, GetDate() AS PrintedDate, SalesInvoices.Reference, SalesInvoices.VATInvoiceNo, SalesInvoices.VATInvoiceDate, SalesInvoices.VATInvoiceSeries, " + "\r\n";
             queryString = queryString + "                       SalesInvoices.SalesInvoiceTypeID, SalesInvoiceTypes.Description AS SalesInvoiceTypeDescription, Customers.Name AS CustomerName, Customers.AddressNo, EntireTerritories.EntireName AS EntireTerritoryEntireName, SalesInvoices.Damages, SalesInvoices.Causes, SalesInvoices.Solutions, " + "\r\n";
             queryString = queryString + "                       ServiceContracts.EntryDate AS ServiceContractEntryDate, Vehicles.Name AS VehicleName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.LicensePlate, ServiceContracts.ColorCode, ServiceContracts.AgentName, SalesInvoices.CurrentMeters, ServiceContracts.EndingMeters, ServiceContracts.EndingDate, " + "\r\n";
             queryString = queryString + "                       SalesInvoiceDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, SalesInvoiceDetails.Quantity, SalesInvoiceDetails.ListedPrice, SalesInvoiceDetails.DiscountPercent, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount " + "\r\n";

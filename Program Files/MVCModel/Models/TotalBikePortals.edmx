@@ -135,6 +135,20 @@
           <Property Name="AncestorID" Type="int" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="Birthday" Type="nvarchar" MaxLength="60" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="60" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="EntireTerritories">
           <Key>
             <PropertyRef Name="TerritoryID" />
@@ -546,6 +560,7 @@
           <Property Name="Solutions" Type="nvarchar" MaxLength="300" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsMajorRepair" Type="bit" />
           <Property Name="IsFinished" Type="bit" Nullable="false" />
           <Property Name="IsAutoReceipt" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -844,6 +859,18 @@
             </Principal>
             <Dependent Role="CustomerTypes1">
               <PropertyRef Name="AncestorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="LocationID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1783,6 +1810,7 @@
           <EntitySet Name="CustomerCategories" EntityType="Self.CustomerCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTypes" EntityType="Self.CustomerTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EntireTerritories" EntityType="Self.EntireTerritories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceiptDetails" EntityType="Self.GoodsReceiptDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceipts" EntityType="Self.GoodsReceipts" Schema="dbo" store:Type="Tables" />
@@ -1851,6 +1879,10 @@
           <AssociationSet Name="FK_CustomerTypes_CustomerTypes" Association="Self.FK_CustomerTypes_CustomerTypes">
             <End Role="CustomerTypes" EntitySet="CustomerTypes" />
             <End Role="CustomerTypes1" EntitySet="CustomerTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Locations" Association="Self.FK_Employees_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK_GoodsReceiptDetails_Commodities" Association="Self.FK_GoodsReceiptDetails_Commodities">
             <End Role="Commodities" EntitySet="Commodities" />
@@ -2641,6 +2673,11 @@
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
           <EntitySet Name="Reports" EntityType="TotalBikePortalsModel.Report" />
+          <EntitySet Name="Employees" EntityType="TotalBikePortalsModel.Employee" />
+          <AssociationSet Name="FK_Employees_Locations" Association="TotalBikePortalsModel.FK_Employees_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3071,6 +3108,7 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TransferOrders" Relationship="TotalBikePortalsModel.FK_TransferOrders_Locations" FromRole="Location" ToRole="TransferOrder" />
           <Property Name="OfficialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="TotalBikePortalsModel.FK_Employees_Locations" FromRole="Location" ToRole="Employee" />
           </EntityType>
         <EntityType Name="PaymentTerm">
           <Key>
@@ -3266,6 +3304,7 @@
           <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoice" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Locations" FromRole="SalesInvoice" ToRole="Location" />
           <NavigationProperty Name="SalesInvoiceType" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoice" ToRole="SalesInvoiceType" />
+          <Property Name="IsMajorRepair" Type="Boolean" />
         </EntityType>
         <EntityType Name="ServiceContract">
           <Key>
@@ -4837,6 +4876,33 @@
           <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="Birthday" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_Employees_Locations" FromRole="Employee" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_Employees_Locations">
+          <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5481,6 +5547,7 @@
           <EntitySetMapping Name="SalesInvoices">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoice">
               <MappingFragment StoreEntitySet="SalesInvoices">
+                <ScalarProperty Name="IsMajorRepair" ColumnName="IsMajorRepair" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
@@ -6390,6 +6457,21 @@
                 <ScalarProperty Name="ReportGroupID" ColumnName="ReportGroupID" />
                 <ScalarProperty Name="ReportUniqueID" ColumnName="ReportUniqueID" />
                 <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

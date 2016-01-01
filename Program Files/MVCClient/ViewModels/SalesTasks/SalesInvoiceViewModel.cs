@@ -12,7 +12,7 @@ using MVCClient.ViewModels.Helpers;
 
 namespace MVCClient.ViewModels.SalesTasks
 {
-    public class VehiclesInvoiceViewModel : VehiclesInvoiceDTO, IViewDetailViewModel<VehiclesInvoiceDetailDTO>, ICustomerAutoCompleteViewModel, IPersonInChargeDropDownViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
+    public class VehiclesInvoiceViewModel : VehiclesInvoiceDTO, IViewDetailViewModel<VehiclesInvoiceDetailDTO>, ICustomerAutoCompleteViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel
     {
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
         public IEnumerable<SelectListItem> PersonInChargeDropDown { get; set; }

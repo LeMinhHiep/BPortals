@@ -110,6 +110,9 @@
     <Compile Include="Models\CustomerType.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntireTerritory.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>

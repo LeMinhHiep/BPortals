@@ -196,6 +196,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CommonTasks\EmployeesApiController.cs" />
     <Compile Include="Api\CommonTasks\LocationsApiController.cs" />
     <Compile Include="Api\CommonTasks\TerritoriesApiController.cs" />
     <Compile Include="Api\CommonTasks\CustomerTypesApiController.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="ViewModels\Helpers\ICommodityCategoryDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ICustomerCategoryDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ICustomerTypeDropDownViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\IEmployeeAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ILocationAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ISupplierDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IWarehouseAutoCompleteViewModel.cs" />
@@ -331,8 +333,6 @@
     <Compile Include="ViewModels\Helpers\IPriceTermDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IApproverDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IPaymentTermDropDownViewModel.cs" />
-    <Compile Include="ViewModels\Helpers\IPersonInChargeDropDownViewModel.cs" />
-    <Compile Include="ViewModels\Helpers\IPreparedPersonDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\PrintViewModel.cs" />
     <Compile Include="ViewModels\Home\OptionViewModel.cs" />
     <Compile Include="ViewModels\Menus\ModuleDetailViewModel.cs" />
@@ -1504,7 +1504,6 @@
     <Content Include="Views\Customers\SuccessPopup.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\NMVN\CommoditiesInGoodsReceiptsAutoComplete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\StringReadonly.cshtml" />
-    <Content Include="Views\Helpers\Commons\_PersonInChargeDropDown.cshtml" />
     <Content Include="Views\Helpers\SalesInvoices\_SalesInvoice.cshtml" />
     <Content Include="Views\Helpers\Commons\_PreparedPersonDropDown.cshtml" />
     <Content Include="Views\Helpers\Commons\_ApproverDropDown.cshtml" />
@@ -1623,6 +1622,7 @@
     <Content Include="Views\Inventories\AccountInvoiceJournal.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Open.cshtml" />
+    <Content Include="Views\Helpers\Commons\_EmployeeAutoComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
