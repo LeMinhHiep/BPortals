@@ -321,6 +321,7 @@
     <Compile Include="ViewModels\Helpers\ICustomerTypeDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IEmployeeAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ILocationAutoCompleteViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\IPreparedPersonDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ISupplierDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IWarehouseAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IEntireTerritoryAutoCompleteViewModel.cs" />
