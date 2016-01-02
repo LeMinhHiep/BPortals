@@ -1114,7 +1114,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Quotations_Employees">
+        <Association Name="FK_Quotations_Employee">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Quotations" Type="Self.Quotations" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1988,7 +1988,7 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Quotations" EntitySet="Quotations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Quotations_Employees" Association="Self.FK_Quotations_Employees">
+          <AssociationSet Name="FK_Quotations_Employee" Association="Self.FK_Quotations_Employee">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Quotations" EntitySet="Quotations" />
           </AssociationSet>

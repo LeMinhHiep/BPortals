@@ -40,7 +40,7 @@ namespace MVCData.Repositories.CommonTasks
 
             if (isOnlyAlphaNumericString != null && (bool)isOnlyAlphaNumericString) searchText = MVCBase.CommonExpressions.AlphaNumericString(searchText);
 
-            var queryable = this.TotalBikePortalsEntities.Commodities.Where(w => w.Code.Contains(searchText) || w.OfficialCode.Contains(searchText) || w.Name.Contains(searchText)).Include(i => i.CommodityCategory);
+            var queryable = this.TotalBikePortalsEntities.Commodities.Where(wi => (bool)wi.InActive != true).Where(w => w.Code.Contains(searchText) || w.OfficialCode.Contains(searchText) || w.Name.Contains(searchText)).Include(i => i.CommodityCategory);
             if (commodityTypeIDList != null)
             {
                 List<int> listCommodityTypeID = commodityTypeIDList.Split(',').Select(n => int.Parse(n)).ToList();
