@@ -33,7 +33,7 @@ namespace MVCDTO.SalesTasks
         [Range(0, 99999999999, ErrorMessage = "Số lượng không hợp lệ")]
         public virtual decimal Quantity { get; set; }
         [Display(Name = "Đơn giá")]
-        [UIHint("Decimal")]
+        [UIHint("DecimalReadonly")]
         public decimal ListedPrice { get; set; }
         [Display(Name = "CK")]
         [UIHint("Decimal")]
@@ -42,7 +42,7 @@ namespace MVCDTO.SalesTasks
         [UIHint("Decimal")]
         public decimal UnitPrice { get; set; }
         [Display(Name = "VAT")]
-        [UIHint("Decimal")]
+        [UIHint("DecimalReadonly")]
         public decimal VATPercent { get; set; }
         [Display(Name = "Giá sau thuế")]
         [UIHint("Decimal")]
