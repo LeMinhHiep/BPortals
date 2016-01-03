@@ -259,13 +259,13 @@
                 @if (Model.Editable)
                 {
                     <button id="submitButton" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Save </button>
-                    <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
                     <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/payment-icon.png" alt="SaveFinish" /> Thanh toán </button>
 
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button cancel" />
 
                     <input id="submitEditServiceContract" style="display:none" type="submit" formaction="@Url.Action("EditServiceContract", "ServicesInvoices")" class="k-button custom-button" />
                 }
+                <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
         </div>
