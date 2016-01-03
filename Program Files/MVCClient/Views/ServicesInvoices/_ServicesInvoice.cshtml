@@ -19,20 +19,20 @@
                 @Html.HiddenFor(model => model.IsFinished)
 
                 @*<div class="form-group1">
-                    @Html.LabelFor(model => model.QuotationEntryDate, htmlAttributes: new { @class = "control-label-left" })
-                    <div class="div-input">
-                        @Html.Kendo().DateTimePickerFor(model => model.QuotationEntryDate).HtmlAttributes(new { @class = "input-class", @readonly = "readonly" })
-                        @Html.ValidationMessageFor(model => model.QuotationEntryDate, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.QuotationEntryDate, htmlAttributes: new { @class = "control-label-left" })
+                        <div class="div-input">
+                            @Html.Kendo().DateTimePickerFor(model => model.QuotationEntryDate).HtmlAttributes(new { @class = "input-class", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.QuotationEntryDate, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group1">
-                    @Html.LabelFor(model => model.QuotationReference, htmlAttributes: new { @class = "control-label-left" })
-                    <div class="div-input">
-                        @Html.Kendo().MaskedTextBoxFor(model => model.QuotationReference).HtmlAttributes(new { @class = "input-class", @readonly = "readonly" })
-                        @Html.ValidationMessageFor(model => model.QuotationReference, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+                    <div class="form-group1">
+                        @Html.LabelFor(model => model.QuotationReference, htmlAttributes: new { @class = "control-label-left" })
+                        <div class="div-input">
+                            @Html.Kendo().MaskedTextBoxFor(model => model.QuotationReference).HtmlAttributes(new { @class = "input-class", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.QuotationReference, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
 
 
 
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-group1">
-                    @Html.LabelFor(model => model.IsMajorRepair, htmlAttributes: new { @style = "margin-top: 10px;"})
+                    @Html.LabelFor(model => model.IsMajorRepair, htmlAttributes: new { @style = "margin-top: 10px;" })
                     <div class="div-input">
                         @Html.CheckBoxFor(model => model.IsMajorRepair, new { @style = "margin-top: 12px; margin-right: 3px;" })
                         @Html.ValidationMessageFor(model => model.IsMajorRepair, "", new { @class = "text-danger" })
@@ -208,7 +208,7 @@
                         .Events(events =>
                         {
                             events.DataBinding(@<text> function(e) {rowNumber = 0;} </text>);
-                            @*events.DataBound(@<text>
+                        @*events.DataBound(@<text>
                                 function(e) {
                                     var grid = $("#kendoGridDetails").data("kendoGrid");
                                     var data = grid.dataSource.data();
@@ -221,30 +221,30 @@
                                 }
                             </text>);*@
                         })
-                        .DataSource(dataSource => dataSource
-                            .Ajax()
-                            .Batch(true)
-                            .ServerOperation(false)
-                            .Model(model =>
-                            {
-                                model.Id(x => x.SalesInvoiceDetailID);
-                                model.Field(m => m.SalesInvoiceDetailID).DefaultValue(0);
-                                model.Field(m => m.SalesInvoiceID).DefaultValue(@Model.SalesInvoiceID);
-                                model.Field(m => m.Quantity).DefaultValue(1);
-                                model.Field(m => m.DiscountPercent).DefaultValue(0);
-                                model.Field(m => m.IsBonus).DefaultValue(false);
-                                model.Field(m => m.IsWarrantyClaim).DefaultValue(false);
-                            })
-                            .Events(events =>
-                            {
-                                events.Error("kendGrid_ErrorHandler");
-                            })
-                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                            .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                            .Aggregates(a => a.Add(x => x.Amount).Sum())
-                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                        )
+                                                                                        .DataSource(dataSource => dataSource
+                                                                                            .Ajax()
+                                                                                            .Batch(true)
+                                                                                            .ServerOperation(false)
+                                                                                            .Model(model =>
+                                                                                            {
+                                                                                                model.Id(x => x.SalesInvoiceDetailID);
+                                                                                                model.Field(m => m.SalesInvoiceDetailID).DefaultValue(0);
+                                                                                                model.Field(m => m.SalesInvoiceID).DefaultValue(@Model.SalesInvoiceID);
+                                                                                                model.Field(m => m.Quantity).DefaultValue(1);
+                                                                                                model.Field(m => m.DiscountPercent).DefaultValue(0);
+                                                                                                model.Field(m => m.IsBonus).DefaultValue(false);
+                                                                                                model.Field(m => m.IsWarrantyClaim).DefaultValue(false);
+                                                                                            })
+                                                                                            .Events(events =>
+                                                                                            {
+                                                                                                events.Error("kendGrid_ErrorHandler");
+                                                                                            })
+                                                                                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                                                                                            .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                                                                                            .Aggregates(a => a.Add(x => x.Amount).Sum())
+                                                                                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                                                                                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                                                                                        )
                     )
 
                     @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionB.cshtml")
@@ -258,8 +258,9 @@
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <button id="submitButton" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/EditService.png" alt="Save" /> Save </button>
-                    <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/EditService.png" alt="SaveFinish" /> Thanh Toán </button>
+                    <button id="submitButton" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Save </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
+                    <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/payment-icon.png" alt="SaveFinish" /> Thanh toán </button>
 
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button cancel" />
 

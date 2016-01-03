@@ -399,6 +399,7 @@
     <Content Include="Content\Images\Menu\Vehicle.png" />
     <Content Include="Content\Images\Menu\Work Filled-50.png" />
     <Content Include="Content\Images\Menu\Work-50.png" />
+    <Content Include="Content\Images\New\Apps-printer-icon.png" />
     <Content Include="Content\Images\New\customer_div_bg.png" />
     <Content Include="Content\Images\New\downarrow1xx.png" />
     <Content Include="Content\Images\New\downarrow1xxx.png" />
@@ -418,13 +419,17 @@
     <Content Include="Content\Images\New\menu\Date-search.png" />
     <Content Include="Content\Images\New\menu\icon_suachua.png" />
     <Content Include="Content\Images\New\menu\menu_xemay.png" />
+    <Content Include="Content\Images\New\money-icon.png" />
+    <Content Include="Content\Images\New\money-icon1.png" />
     <Content Include="Content\Images\New\Near-Me.png" />
     <Content Include="Content\Images\New\Near-Me_Gray.png" />
+    <Content Include="Content\Images\New\payment-icon.png" />
     <Content Include="Content\Images\New\PersonIcon.png" />
     <Content Include="Content\Images\New\PersonIconYellow.png" />
     <Content Include="Content\Images\New\person_icon.png" />
     <Content Include="Content\Images\New\Sale2-24.png" />
     <Content Include="Content\Images\New\Sale2-32.png" />
+    <Content Include="Content\Images\New\save-icon.png" />
     <Content Include="Content\Images\New\sprite.png" />
     <Content Include="Content\Images\New\supplier_div_bg.png" />
     <Content Include="Content\Images\New\taxi.png" />
