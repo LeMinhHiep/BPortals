@@ -221,30 +221,30 @@
                                 }
                             </text>);*@
                         })
-                                                                                        .DataSource(dataSource => dataSource
-                                                                                            .Ajax()
-                                                                                            .Batch(true)
-                                                                                            .ServerOperation(false)
-                                                                                            .Model(model =>
-                                                                                            {
-                                                                                                model.Id(x => x.SalesInvoiceDetailID);
-                                                                                                model.Field(m => m.SalesInvoiceDetailID).DefaultValue(0);
-                                                                                                model.Field(m => m.SalesInvoiceID).DefaultValue(@Model.SalesInvoiceID);
-                                                                                                model.Field(m => m.Quantity).DefaultValue(1);
-                                                                                                model.Field(m => m.DiscountPercent).DefaultValue(0);
-                                                                                                model.Field(m => m.IsBonus).DefaultValue(false);
-                                                                                                model.Field(m => m.IsWarrantyClaim).DefaultValue(false);
-                                                                                            })
-                                                                                            .Events(events =>
-                                                                                            {
-                                                                                                events.Error("kendGrid_ErrorHandler");
-                                                                                            })
-                                                                                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                                                                                            .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                                                                                            .Aggregates(a => a.Add(x => x.Amount).Sum())
-                                                                                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                                                                                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                                                                                        )
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Batch(true)
+                            .ServerOperation(false)
+                            .Model(model =>
+                            {
+                                model.Id(x => x.SalesInvoiceDetailID);
+                                model.Field(m => m.SalesInvoiceDetailID).DefaultValue(0);
+                                model.Field(m => m.SalesInvoiceID).DefaultValue(@Model.SalesInvoiceID);
+                                model.Field(m => m.Quantity).DefaultValue(1);
+                                model.Field(m => m.DiscountPercent).DefaultValue(0);
+                                model.Field(m => m.IsBonus).DefaultValue(false);
+                                model.Field(m => m.IsWarrantyClaim).DefaultValue(false);
+                            })
+                            .Events(events =>
+                            {
+                                events.Error("kendGrid_ErrorHandler");
+                            })
+                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                            .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                            .Aggregates(a => a.Add(x => x.Amount).Sum())
+                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                        )
                     )
 
                     @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionB.cshtml")
@@ -259,13 +259,17 @@
                 @if (Model.Editable)
                 {
                     <button id="submitButton" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Save </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
                     <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/payment-icon.png" alt="SaveFinish" /> Thanh toán </button>
 
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button cancel" />
 
                     <input id="submitEditServiceContract" style="display:none" type="submit" formaction="@Url.Action("EditServiceContract", "ServicesInvoices")" class="k-button custom-button" />
                 }
-                <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
+                else
+                {
+                    <button formaction="@Url.Action("Print", "ServicesInvoices", new {id = @Model.SalesInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
+                }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
         </div>
