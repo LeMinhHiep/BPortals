@@ -37,7 +37,6 @@ namespace MVCClient.App_Start
             Mapper.CreateMap<PurchaseInvoice, PurchaseInvoiceDTO>();
             Mapper.CreateMap<PurchaseInvoicePrimitiveDTO, PurchaseInvoice>();
             Mapper.CreateMap<PurchaseInvoiceViewDetail, PurchaseInvoiceDetailDTO>();
-            //Mapper.CreateMap<PurchaseInvoiceDetail, PurchaseInvoiceDetailDTO>();
             Mapper.CreateMap<PurchaseInvoiceDetailDTO, PurchaseInvoiceDetail>();
 
             Mapper.CreateMap<GoodsReceipt, GoodsReceiptViewModel>();
@@ -49,11 +48,9 @@ namespace MVCClient.App_Start
 
             Mapper.CreateMap<SalesInvoice, VehiclesInvoiceViewModel>();
             Mapper.CreateMap<SalesInvoice, VehiclesInvoiceDTO>();
-            
             Mapper.CreateMap<VehiclesInvoiceViewModel, SalesInvoice>();
             Mapper.CreateMap<VehiclesInvoicePrimitiveDTO, SalesInvoice>();
             Mapper.CreateMap<VehiclesInvoiceViewDetail, VehiclesInvoiceDetailDTO>();
-            //Mapper.CreateMap<SalesInvoiceDetail, SalesInvoiceDetailDTO>();
             Mapper.CreateMap<VehiclesInvoiceDetailDTO, SalesInvoiceDetail>();
 
             Mapper.CreateMap<SalesInvoice, PartsInvoiceViewModel>()
@@ -80,7 +77,13 @@ namespace MVCClient.App_Start
             Mapper.CreateMap<QuotationViewDetail, QuotationDetailDTO>();
             Mapper.CreateMap<QuotationDetailDTO, QuotationDetail>();
             Mapper.CreateMap<QuotationViewDetail, QuotationDetailPopupDTO>();
-
+            
+            Mapper.CreateMap<AccountInvoice, AccountInvoiceViewModel>();
+            Mapper.CreateMap<AccountInvoiceViewModel, AccountInvoice>();
+            Mapper.CreateMap<AccountInvoice, AccountInvoiceDTO>();
+            Mapper.CreateMap<AccountInvoicePrimitiveDTO, AccountInvoice>();
+            Mapper.CreateMap<AccountInvoiceViewDetail, AccountInvoiceDetailDTO>();
+            Mapper.CreateMap<AccountInvoiceDetailDTO, AccountInvoiceDetail>();
 
             Mapper.CreateMap<Customer, CustomerViewModel>();
             Mapper.CreateMap<CustomerViewModel, Customer>();

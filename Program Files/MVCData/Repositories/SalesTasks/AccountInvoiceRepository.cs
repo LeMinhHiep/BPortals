@@ -16,4 +16,14 @@ namespace MVCData.Repositories.SalesTasks
         public AccountInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities) { }
     }
+
+
+    public class AccountInvoiceAPIRepository : GenericAPIRepository, IAccountInvoiceAPIRepository
+    {
+        public AccountInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, "GetAccountInvoiceIndexes")
+        {
+        }
+    }
+
 }

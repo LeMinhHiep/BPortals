@@ -113,6 +113,10 @@ namespace MVCClient.App_Start
                 kernel.Bind<IQuotationService>().To<QuotationService>();
                 kernel.Bind<IQuotationRepository>().To<QuotationRepository>();
 
+                kernel.Bind<IAccountInvoiceService>().To<AccountInvoiceService>();
+                kernel.Bind<IAccountInvoiceRepository>().To<AccountInvoiceRepository>();
+                kernel.Bind<IAccountInvoiceAPIRepository>().To<AccountInvoiceAPIRepository>();
+
                 kernel.Bind<ICustomerService>().To<CustomerService>();
                 kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
 
@@ -167,6 +171,7 @@ namespace MVCClient.App_Start
                 kernel.Bind<IPartsInvoiceViewModelSelectListBuilder>().To<PartsInvoiceViewModelSelectListBuilder>();
                 kernel.Bind<IServicesInvoiceViewModelSelectListBuilder>().To<ServicesInvoiceViewModelSelectListBuilder>();
                 kernel.Bind<IQuotationViewModelSelectListBuilder>().To<QuotationViewModelSelectListBuilder>();
+                kernel.Bind<IAccountInvoiceViewModelSelectListBuilder>().To<AccountInvoiceViewModelSelectListBuilder>();
 
                 kernel.Bind<ICommodityViewModelSelectListBuilder>().To<CommodityViewModelSelectListBuilder>();
                 kernel.Bind<ICommodityCategorySelectListBuilder>().To<CommodityCategorySelectListBuilder>();
