@@ -23,6 +23,8 @@ namespace MVCDTO.SalesTasks
         [UIHint("StringReadonly")]
         public string CommodityCode { get; set; }
 
+        public int CommodityTypeID { get; set; }
+
         [Display(Name = "SL")]
         [UIHint("DecimalReadonly")]
         public virtual decimal Quantity { get; set; }

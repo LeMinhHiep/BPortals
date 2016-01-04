@@ -737,6 +737,9 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chatbox.js" />
     <Content Include="Scripts\CommonTasks\Customer.js" />
+    <Content Include="Scripts\Controllers\Root\AccountInvoices\Create.js" />
+    <Content Include="Scripts\Controllers\Root\AccountInvoices\Delete.js" />
+    <Content Include="Scripts\Controllers\Root\AccountInvoices\Edit.js" />
     <Content Include="Scripts\Controllers\Root\AccountInvoices\Index.js" />
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\GoodsReceipts\Delete.js" />
@@ -1636,6 +1639,10 @@
     <Content Include="Views\Reports\Open.cshtml" />
     <Content Include="Views\Helpers\Commons\_EmployeeAutoComplete.cshtml" />
     <Content Include="Views\AccountInvoices\Index.cshtml" />
+    <Content Include="Views\AccountInvoices\_AccountInvoice.cshtml" />
+    <Content Include="Views\AccountInvoices\Create.cshtml" />
+    <Content Include="Views\AccountInvoices\Edit.cshtml" />
+    <Content Include="Views\AccountInvoices\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
