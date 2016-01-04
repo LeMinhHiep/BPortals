@@ -114,7 +114,7 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

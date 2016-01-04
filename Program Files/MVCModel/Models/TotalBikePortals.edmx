@@ -546,7 +546,7 @@
           <Property Name="ServiceInvoiceID" Type="int" />
           <Property Name="GoodsReceiptDetailID" Type="int" />
           <Property Name="QuotationDetailID" Type="int" />
-          <Property Name="AccountInvoiceID" Type="bit" />
+          <Property Name="AccountInvoiceID" Type="int" />
           <Property Name="CommodityID" Type="int" Nullable="false" />
           <Property Name="CommodityTypeID" Type="int" Nullable="false" />
           <Property Name="WarehouseID" Type="int" />
@@ -2833,6 +2833,21 @@
             <End Role="Location" EntitySet="Locations" />
             <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
+          <FunctionImport Name="GetAccountInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetAccountInvoiceViewDetails" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceViewDetail)">
+          <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AccountInvoicePostSaveValidate" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AccountInvoiceSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="SalesInvoiceDetails" EntityType="TotalBikePortalsModel.SalesInvoiceDetail" />
           <AssociationSet Name="FK_AccountInvoiceDetails_SalesInvoiceDetails" Association="TotalBikePortalsModel.FK_AccountInvoiceDetails_SalesInvoiceDetails">
             <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
@@ -2858,21 +2873,6 @@
             <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
             <End Role="ServiceContract" EntitySet="ServiceContracts" />
           </AssociationSet>
-          <FunctionImport Name="GetAccountInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceIndex)">
-            <Parameter Name="AspUserID" Mode="In" Type="String" />
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="GetAccountInvoiceViewDetails" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceViewDetail)">
-          <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="AccountInvoicePostSaveValidate" ReturnType="Collection(String)">
-          <Parameter Name="EntityID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="AccountInvoiceSaveRelative">
-            <Parameter Name="EntityID" Mode="In" Type="Int32" />
-            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -5112,6 +5112,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="AccountInvoiceIndex">
+          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="VATInvoiceNo" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CustomerDescription" Nullable="false" MaxLength="305" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="AccountInvoiceViewDetail">
+          <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
+          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="SalesInvoiceDetailID" Nullable="false" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="IsBonus" Nullable="true" />
+          <Property Type="Boolean" Name="IsWarrantyClaim" Nullable="true" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+        </ComplexType>
         <EntityType Name="SalesInvoiceDetail">
           <Key>
             <PropertyRef Name="SalesInvoiceDetailID" />
@@ -5126,7 +5159,7 @@
           <Property Name="ServiceInvoiceID" Type="Int32" />
           <Property Name="GoodsReceiptDetailID" Type="Int32" />
           <Property Name="QuotationDetailID" Type="Int32" />
-          <Property Name="AccountInvoiceID" Type="Boolean" />
+          <Property Name="AccountInvoiceID" Type="Int32" />
           <Property Name="CommodityID" Type="Int32" Nullable="false" />
           <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
           <Property Name="WarehouseID" Type="Int32" />
@@ -5223,39 +5256,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="AccountInvoiceIndex">
-          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
-          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
-          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="VATInvoiceNo" Nullable="false" MaxLength="60" />
-          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CustomerDescription" Nullable="false" MaxLength="305" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
-        </ComplexType>
-        <ComplexType Name="AccountInvoiceViewDetail">
-          <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
-          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
-          <Property Type="Int32" Name="SalesInvoiceDetailID" Nullable="false" />
-          <Property Type="Int32" Name="CommodityID" Nullable="false" />
-          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="ChassisCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ColorCode" Nullable="true" MaxLength="60" />
-          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
-          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Boolean" Name="IsBonus" Nullable="true" />
-          <Property Type="Boolean" Name="IsWarrantyClaim" Nullable="true" />
-          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6837,40 +6837,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SalesInvoiceDetails">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
-              <MappingFragment StoreEntitySet="SalesInvoiceDetails">
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
-                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
-                <ScalarProperty Name="CurrentMeters" ColumnName="CurrentMeters" />
-                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
-                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
-                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
-                <ScalarProperty Name="QuantityContract" ColumnName="QuantityContract" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
-                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
-                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
-                <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />
-                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
-                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetAccountInvoiceIndexes" FunctionName="TotalBikePortalsModel.Store.GetAccountInvoiceIndexes">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TotalBikePortalsModel.AccountInvoiceIndex">
@@ -6914,6 +6880,40 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="AccountInvoicePostSaveValidate" FunctionName="TotalBikePortalsModel.Store.AccountInvoicePostSaveValidate" />
           <FunctionImportMapping FunctionImportName="AccountInvoiceSaveRelative" FunctionName="TotalBikePortalsModel.Store.AccountInvoiceSaveRelative" />
+          <EntitySetMapping Name="SalesInvoiceDetails">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
+              <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
+                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
+                <ScalarProperty Name="CurrentMeters" ColumnName="CurrentMeters" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="QuantityContract" ColumnName="QuantityContract" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
+                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
+                <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />
+                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

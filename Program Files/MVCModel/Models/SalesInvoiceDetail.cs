@@ -30,7 +30,7 @@ namespace MVCModel.Models
         public Nullable<int> ServiceInvoiceID { get; set; }
         public Nullable<int> GoodsReceiptDetailID { get; set; }
         public Nullable<int> QuotationDetailID { get; set; }
-        public Nullable<bool> AccountInvoiceID { get; set; }
+        public Nullable<int> AccountInvoiceID { get; set; }
         public int CommodityID { get; set; }
         public int CommodityTypeID { get; set; }
         public Nullable<int> WarehouseID { get; set; }
