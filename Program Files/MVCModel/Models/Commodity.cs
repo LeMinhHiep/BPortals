@@ -19,11 +19,11 @@ namespace MVCModel.Models
             this.GoodsReceiptDetails = new HashSet<GoodsReceiptDetail>();
             this.PurchaseInvoiceDetails = new HashSet<PurchaseInvoiceDetail>();
             this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
-            this.SalesInvoiceDetails = new HashSet<SalesInvoiceDetail>();
             this.ServiceContracts = new HashSet<ServiceContract>();
             this.StockTransferDetails = new HashSet<StockTransferDetail>();
             this.TransferOrderDetails = new HashSet<TransferOrderDetail>();
             this.QuotationDetails = new HashSet<QuotationDetail>();
+            this.SalesInvoiceDetails = new HashSet<SalesInvoiceDetail>();
         }
     
         public int CommodityID { get; set; }
@@ -58,10 +58,10 @@ namespace MVCModel.Models
         public virtual ICollection<GoodsReceiptDetail> GoodsReceiptDetails { get; set; }
         public virtual ICollection<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual ICollection<ServiceContract> ServiceContracts { get; set; }
         public virtual ICollection<StockTransferDetail> StockTransferDetails { get; set; }
         public virtual ICollection<TransferOrderDetail> TransferOrderDetails { get; set; }
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
+        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
     }
 }

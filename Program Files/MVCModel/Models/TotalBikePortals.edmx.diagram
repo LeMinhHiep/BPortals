@@ -57,27 +57,22 @@
         <EntityTypeShape EntityType="TotalBikePortalsModel.GoodsReceiptDetail" Width="1.5" PointX="8.25" PointY="35.875" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.PurchaseInvoiceDetail" Width="1.5" PointX="10.25" PointY="21.625" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.PurchaseOrderDetail" Width="1.5" PointX="5.25" PointY="12" />
-        <EntityTypeShape EntityType="TotalBikePortalsModel.SalesInvoiceDetail" Width="1.5" PointX="22.5" PointY="26.75" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_Commodities_CommodityCategories" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_Commodities_CommodityTypes" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_GoodsReceiptDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_PurchaseInvoiceDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_PurchaseOrderDetails_Commodities" />
-        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransferDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_TransferOrderDetails_Commodities" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_GoodsReceiptDetails_GoodsReceipts" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_GoodsReceiptDetails_Warehouses" />
-        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_StockTransferDetails_GoodsReceiptDetails" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_PurchaseInvoiceDetails_PurchaseInvoices" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_PurchaseInvoiceDetails_PurchaseOrderDetails" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_PurchaseOrderDetails_PurchaseOrders" />
-        <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.QuotationDetail" Width="1.5" PointX="20.25" PointY="19.75" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_QuotationDetails_Commodities" />
-        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.AccessControl" Width="1.5" PointX="5.75" PointY="0.75" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_Locations" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.TransferOrder" Width="1.5" PointX="5.25" PointY="46.375" />
@@ -104,10 +99,21 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_QuotationDetails_Quotations" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_Quotations_ServiceContracts" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_Quotations" />
-        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_ServiceContracts" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.AccountInvoiceDetail" Width="1.5" PointX="24.75" PointY="29.25" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.AccountInvoice" Width="1.5" PointX="17.875" PointY="28" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_AccountInvoiceDetails_AccountInvoices" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_AccountInvoices_Customers" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_AccountInvoices_Locations" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.SalesInvoiceDetail" Width="1.5" PointX="22.5" PointY="26.125" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_AccountInvoiceDetails_SalesInvoiceDetails" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,6 +21,7 @@ namespace MVCModel.Models
             this.ServiceContracts = new HashSet<ServiceContract>();
             this.Quotations = new HashSet<Quotation>();
             this.SalesInvoices = new HashSet<SalesInvoice>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int CustomerID { get; set; }
@@ -52,5 +53,6 @@ namespace MVCModel.Models
         public virtual ICollection<ServiceContract> ServiceContracts { get; set; }
         public virtual ICollection<Quotation> Quotations { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

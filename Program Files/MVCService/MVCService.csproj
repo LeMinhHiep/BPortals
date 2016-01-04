@@ -60,6 +60,7 @@
     <Compile Include="GenericWithViewDetailService.cs" />
     <Compile Include="Helpers\HelperService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalesTasks\AccountInvoiceService.cs" />
     <Compile Include="StockTasks\GoodsReceiptService.cs" />
     <Compile Include="PurchaseTasks\PurchaseInvoiceService.cs" />
     <Compile Include="CommonTasks\CustomerService.cs" />

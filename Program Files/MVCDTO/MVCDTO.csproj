@@ -72,6 +72,8 @@
     <Compile Include="CustomValidation.cs" />
     <Compile Include="IPrimitiveDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalesTasks\AccountInvoiceDetailDTO.cs" />
+    <Compile Include="SalesTasks\AccountInvoiceDTO.cs" />
     <Compile Include="StockTasks\GoodsReceiptDetailDTO.cs" />
     <Compile Include="StockTasks\GoodsReceiptDTO.cs" />
     <Compile Include="PurchaseTasks\PurchaseInvoiceDetailDTO.cs" />

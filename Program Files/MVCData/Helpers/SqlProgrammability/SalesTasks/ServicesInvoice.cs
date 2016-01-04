@@ -85,9 +85,10 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         private void ServicesInvoiceEditable()
         {
-            string[] queryArray = new string[1];
+            string[] queryArray = new string[2];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoices WHERE SalesInvoiceID = @EntityID AND IsFinished = 1 ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID AND NOT AccountInvoiceID IS NULL ";
 
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("ServicesInvoiceEditable", queryArray);
         }

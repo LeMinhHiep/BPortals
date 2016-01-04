@@ -77,6 +77,18 @@
     <Compile Include="Models\AccessControl.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountInvoice.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountInvoiceDetail.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountInvoiceIndex.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountInvoiceViewDetail.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AdditionalGoodsReceiptVoucherText.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>

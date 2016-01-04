@@ -12,27 +12,17 @@ namespace MVCModel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesInvoice
+    public partial class AccountInvoice
     {
-        public SalesInvoice()
+        public AccountInvoice()
         {
-            this.SalesInvoices1 = new HashSet<SalesInvoice>();
-            this.SalesInvoiceDetails = new HashSet<SalesInvoiceDetail>();
+            this.AccountInvoiceDetails = new HashSet<AccountInvoiceDetail>();
         }
     
-        public int SalesInvoiceID { get; set; }
+        public int AccountInvoiceID { get; set; }
         public System.DateTime EntryDate { get; set; }
         public string Reference { get; set; }
         public int CustomerID { get; set; }
-        public int SalesInvoiceTypeID { get; set; }
-        public int PaymentTermID { get; set; }
-        public Nullable<int> ServiceContractID { get; set; }
-        public Nullable<int> ServiceInvoiceID { get; set; }
-        public Nullable<int> QuotationID { get; set; }
-        public int ReceiptID { get; set; }
-        public int EmployeeID { get; set; }
-        public int ServiceLineID { get; set; }
-        public Nullable<int> CurrentMeters { get; set; }
         public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }
@@ -42,19 +32,11 @@ namespace MVCModel.Models
         public decimal TotalAmount { get; set; }
         public decimal TotalVATAmount { get; set; }
         public decimal TotalGrossAmount { get; set; }
-        public decimal AverageDiscountPercent { get; set; }
-        public decimal ReceiptAmount { get; set; }
         public string VATInvoiceNo { get; set; }
-        public Nullable<System.DateTime> VATInvoiceDate { get; set; }
+        public System.DateTime VATInvoiceDate { get; set; }
         public string VATInvoiceSeries { get; set; }
-        public string Damages { get; set; }
-        public string Causes { get; set; }
-        public string Solutions { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
-        public Nullable<bool> IsMajorRepair { get; set; }
-        public bool IsFinished { get; set; }
-        public bool IsAutoReceipt { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime EditedDate { get; set; }
         public bool Approved { get; set; }
@@ -63,15 +45,8 @@ namespace MVCModel.Models
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
     
+        public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual Location Location { get; set; }
-        public virtual PaymentTerm PaymentTerm { get; set; }
-        public virtual Quotation Quotation { get; set; }
-        public virtual SalesInvoiceType SalesInvoiceType { get; set; }
-        public virtual ServiceContract ServiceContract { get; set; }
-        public virtual ICollection<SalesInvoice> SalesInvoices1 { get; set; }
-        public virtual SalesInvoice SalesInvoice1 { get; set; }
-        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="EntityFrameworkExtension.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\AccessControl.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\Commons.cs" />
+    <Compile Include="Helpers\SqlProgrammability\SalesTasks\AccountInvoice.cs" />
     <Compile Include="Helpers\SqlProgrammability\SalesTasks\SalesInvoice.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\BackupInventory14DEC.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\BackupInventory15DEC.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Repositories\GenericAPIRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\GenericWithDetailRepository.cs" />
+    <Compile Include="Repositories\SalesTasks\AccountInvoiceRepository.cs" />
     <Compile Include="Repositories\StockTasks\GoodsReceiptRepository.cs" />
     <Compile Include="Repositories\PurchaseTasks\PurchaseInvoiceRepository.cs" />
     <Compile Include="Repositories\SalesTasks\QuotationRepository.cs" />

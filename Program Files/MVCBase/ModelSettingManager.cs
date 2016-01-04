@@ -33,6 +33,8 @@ namespace MVCBase
                                     " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + @" THEN 'S' ELSE '#' END
                              END END";
 
+                case GlobalEnums.NmvnTaskID.AccountInvoice:
+                    return "V";
                 case GlobalEnums.NmvnTaskID.GoodsReceipt:
                     return "N";
 

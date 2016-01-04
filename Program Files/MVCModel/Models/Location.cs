@@ -22,6 +22,7 @@ namespace MVCModel.Models
             this.TransferOrders = new HashSet<TransferOrder>();
             this.Employees = new HashSet<Employee>();
             this.SalesInvoices = new HashSet<SalesInvoice>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int LocationID { get; set; }
@@ -39,5 +40,6 @@ namespace MVCModel.Models
         public virtual ICollection<TransferOrder> TransferOrders { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

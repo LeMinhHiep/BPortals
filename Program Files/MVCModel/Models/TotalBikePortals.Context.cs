@@ -53,7 +53,6 @@ namespace MVCModel.Models
         public virtual DbSet<GoodsReceiptDetail> GoodsReceiptDetails { get; set; }
         public virtual DbSet<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual DbSet<QuotationDetail> QuotationDetails { get; set; }
         public virtual DbSet<AccessControl> AccessControls { get; set; }
         public virtual DbSet<TransferOrder> TransferOrders { get; set; }
@@ -65,6 +64,9 @@ namespace MVCModel.Models
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Quotation> Quotations { get; set; }
         public virtual DbSet<SalesInvoice> SalesInvoices { get; set; }
+        public virtual DbSet<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
+        public virtual DbSet<AccountInvoice> AccountInvoices { get; set; }
+        public virtual DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {
@@ -1018,6 +1020,32 @@ namespace MVCModel.Models
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PurchaseOrderIndex>("GetPurchaseOrderIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<AccountInvoiceIndex> GetAccountInvoiceIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AccountInvoiceIndex>("GetAccountInvoiceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<AccountInvoiceViewDetail> GetAccountInvoiceViewDetails(Nullable<int> accountInvoiceID)
+        {
+            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
+                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
+                new ObjectParameter("AccountInvoiceID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AccountInvoiceViewDetail>("GetAccountInvoiceViewDetails", accountInvoiceIDParameter);
         }
     }
 }

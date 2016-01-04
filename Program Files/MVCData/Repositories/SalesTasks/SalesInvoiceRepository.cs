@@ -73,6 +73,9 @@ namespace MVCData.Repositories.SalesTasks
             Helpers.SqlProgrammability.SalesTasks.ServiceContracts n = new Helpers.SqlProgrammability.SalesTasks.ServiceContracts(totalBikePortalsEntities);
             n.RestoreProcedure();
 
+            Helpers.SqlProgrammability.SalesTasks.AccountInvoice vat = new Helpers.SqlProgrammability.SalesTasks.AccountInvoice(totalBikePortalsEntities);
+            vat.RestoreProcedure();
+
 
             Helpers.SqlProgrammability.StockTasks.TransferOrder to = new Helpers.SqlProgrammability.StockTasks.TransferOrder(totalBikePortalsEntities);
             to.RestoreProcedure();

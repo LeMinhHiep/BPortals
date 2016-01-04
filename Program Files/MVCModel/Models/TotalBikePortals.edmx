@@ -16,6 +16,48 @@
           <Property Name="AccessLevel" Type="int" Nullable="false" />
           <Property Name="AccessLevelBACKUP" Type="int" />
         </EntityType>
+        <EntityType Name="AccountInvoiceDetails">
+          <Key>
+            <PropertyRef Name="AccountInvoiceDetailID" />
+          </Key>
+          <Property Name="AccountInvoiceDetailID" Type="int" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="AccountInvoiceID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="SalesInvoiceDetailID" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="AccountInvoices">
+          <Key>
+            <PropertyRef Name="AccountInvoiceID" />
+          </Key>
+          <Property Name="AccountInvoiceID" Type="int" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="int" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
+          <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="EditedDate" Type="datetime" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDate" Type="datetime" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
+          <Property Name="InActivePartial" Type="bit" Nullable="false" />
+          <Property Name="InActiveDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -504,13 +546,12 @@
           <Property Name="ServiceInvoiceID" Type="int" />
           <Property Name="GoodsReceiptDetailID" Type="int" />
           <Property Name="QuotationDetailID" Type="int" />
+          <Property Name="AccountInvoiceID" Type="bit" />
           <Property Name="CommodityID" Type="int" Nullable="false" />
           <Property Name="CommodityTypeID" Type="int" Nullable="false" />
           <Property Name="WarehouseID" Type="int" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="QuantityContract" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="QuantityVAT" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="QuantityReturn" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -742,6 +783,54 @@
           <Property Name="IsDefault" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <Association Name="FK_AccountInvoiceDetails_AccountInvoices">
+          <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="1" />
+          <End Role="AccountInvoiceDetails" Type="Self.AccountInvoiceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountInvoices">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetails">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoiceDetails_SalesInvoiceDetails">
+          <End Role="SalesInvoiceDetails" Type="Self.SalesInvoiceDetails" Multiplicity="1" />
+          <End Role="AccountInvoiceDetails" Type="Self.AccountInvoiceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesInvoiceDetails">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetails">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoices">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AccountInvoices">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Role="CommodityCategories" Type="Self.CommodityCategories" Multiplicity="1" />
           <End Role="Commodities" Type="Self.Commodities" Multiplicity="*" />
@@ -1527,6 +1616,14 @@
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
           <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetAccountInvoiceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetAccountInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetAdditionalGoodsReceiptVoucherText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GoodsReceiptTypeID" Type="int" Mode="In" />
           <Parameter Name="VoucherID" Type="int" Mode="In" />
@@ -1827,6 +1924,8 @@
         </Function>
         <EntityContainer Name="TotalBikePortalsModelStoreContainer">
           <EntitySet Name="AccessControls" EntityType="Self.AccessControls" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountInvoiceDetails" EntityType="Self.AccountInvoiceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountInvoices" EntityType="Self.AccountInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Commodities" EntityType="Self.Commodities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityCategories" EntityType="Self.CommodityCategories" Schema="dbo" store:Type="Tables" />
@@ -1864,6 +1963,22 @@
           <EntitySet Name="TransferOrderDetails" EntityType="Self.TransferOrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransferOrders" EntityType="Self.TransferOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Warehouses" EntityType="Self.Warehouses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccountInvoiceDetails_AccountInvoices" Association="Self.FK_AccountInvoiceDetails_AccountInvoices">
+            <End Role="AccountInvoices" EntitySet="AccountInvoices" />
+            <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoiceDetails_SalesInvoiceDetails" Association="Self.FK_AccountInvoiceDetails_SalesInvoiceDetails">
+            <End Role="SalesInvoiceDetails" EntitySet="SalesInvoiceDetails" />
+            <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers" Association="Self.FK_AccountInvoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="AccountInvoices" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Locations" Association="Self.FK_AccountInvoices_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="AccountInvoices" EntitySet="AccountInvoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_Commodities_CommodityCategories" Association="Self.FK_Commodities_CommodityCategories">
             <End Role="CommodityCategories" EntitySet="CommodityCategories" />
             <End Role="Commodities" EntitySet="Commodities" />
@@ -2394,7 +2509,6 @@
           <EntitySet Name="GoodsReceiptDetails" EntityType="TotalBikePortalsModel.GoodsReceiptDetail" />
           <EntitySet Name="PurchaseInvoiceDetails" EntityType="TotalBikePortalsModel.PurchaseInvoiceDetail" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="TotalBikePortalsModel.PurchaseOrderDetail" />
-          <EntitySet Name="SalesInvoiceDetails" EntityType="TotalBikePortalsModel.SalesInvoiceDetail" />
           <AssociationSet Name="FK_Commodities_CommodityCategories" Association="TotalBikePortalsModel.FK_Commodities_CommodityCategories">
             <End Role="CommodityCategory" EntitySet="CommodityCategories" />
             <End Role="Commodity" EntitySet="Commodities" />
@@ -2414,10 +2528,6 @@
           <AssociationSet Name="FK_PurchaseOrderDetails_Commodities" Association="TotalBikePortalsModel.FK_PurchaseOrderDetails_Commodities">
             <End Role="Commodity" EntitySet="Commodities" />
             <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesInvoiceDetails_Commodities" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities">
-            <End Role="Commodity" EntitySet="Commodities" />
-            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_ServiceContracts_Commodities" Association="TotalBikePortalsModel.FK_ServiceContracts_Commodities">
             <End Role="Commodity" EntitySet="Commodities" />
@@ -2439,10 +2549,6 @@
             <End Role="Warehouse" EntitySet="Warehouses" />
             <End Role="GoodsReceiptDetail" EntitySet="GoodsReceiptDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_SalesInvoiceDetails_GoodsReceiptDetails" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails">
-            <End Role="GoodsReceiptDetail" EntitySet="GoodsReceiptDetails" />
-            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockTransferDetails_GoodsReceiptDetails" Association="TotalBikePortalsModel.FK_StockTransferDetails_GoodsReceiptDetails">
             <End Role="GoodsReceiptDetail" EntitySet="GoodsReceiptDetails" />
             <End Role="StockTransferDetail" EntitySet="StockTransferDetails" />
@@ -2459,18 +2565,10 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServiceContracts_SalesInvoiceDetails" Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails">
-            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
-            <End Role="ServiceContract" EntitySet="ServiceContracts" />
-          </AssociationSet>
           <EntitySet Name="QuotationDetails" EntityType="TotalBikePortalsModel.QuotationDetail" />
           <AssociationSet Name="FK_QuotationDetails_Commodities" Association="TotalBikePortalsModel.FK_QuotationDetails_Commodities">
             <End Role="Commodity" EntitySet="Commodities" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesInvoiceDetails_QuotationDetails" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails">
-            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
           </AssociationSet>
           <EntitySet Name="AccessControls" EntityType="TotalBikePortalsModel.AccessControl" />
           <AssociationSet Name="FK_ServiceContracts_Locations" Association="TotalBikePortalsModel.FK_ServiceContracts_Locations">
@@ -2702,10 +2800,6 @@
             <End Role="Quotation" EntitySet="Quotations" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_SalesInvoiceDetails_SalesInvoices" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices">
-            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
-            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_SalesInvoiceTypes" Association="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes">
             <End Role="SalesInvoiceType" EntitySet="SalesInvoiceTypes" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
@@ -2718,6 +2812,53 @@
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
             <End Role="SalesInvoice1" EntitySet="SalesInvoices" />
           </AssociationSet>
+          <EntitySet Name="AccountInvoiceDetails" EntityType="TotalBikePortalsModel.AccountInvoiceDetail" />
+          <EntitySet Name="AccountInvoices" EntityType="TotalBikePortalsModel.AccountInvoice" />
+          <AssociationSet Name="FK_AccountInvoiceDetails_AccountInvoices" Association="TotalBikePortalsModel.FK_AccountInvoiceDetails_AccountInvoices">
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+            <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers" Association="TotalBikePortalsModel.FK_AccountInvoices_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Locations" Association="TotalBikePortalsModel.FK_AccountInvoices_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <EntitySet Name="SalesInvoiceDetails" EntityType="TotalBikePortalsModel.SalesInvoiceDetail" />
+          <AssociationSet Name="FK_AccountInvoiceDetails_SalesInvoiceDetails" Association="TotalBikePortalsModel.FK_AccountInvoiceDetails_SalesInvoiceDetails">
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+            <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoiceDetails_Commodities" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoiceDetails_GoodsReceiptDetails" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails">
+            <End Role="GoodsReceiptDetail" EntitySet="GoodsReceiptDetails" />
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoiceDetails_QuotationDetails" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails">
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoiceDetails_SalesInvoices" Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices">
+            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceContracts_SalesInvoiceDetails" Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails">
+            <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
+            <End Role="ServiceContract" EntitySet="ServiceContracts" />
+          </AssociationSet>
+          <FunctionImport Name="GetAccountInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetAccountInvoiceViewDetails" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceViewDetail)">
+            <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3149,6 +3290,7 @@
           <Property Name="OfficialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="TotalBikePortalsModel.FK_Employees_Locations" FromRole="Location" ToRole="Employee" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Locations" FromRole="Location" ToRole="SalesInvoice" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Locations" FromRole="Location" ToRole="AccountInvoice" />
           </EntityType>
         <EntityType Name="PaymentTerm">
           <Key>
@@ -3289,10 +3431,10 @@
           <NavigationProperty Name="ServiceContractType" Relationship="TotalBikePortalsModel.FK_ServiceContracts_ServiceContractTypes" FromRole="ServiceContract" ToRole="ServiceContractType" />
           <NavigationProperty Name="Customer" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Customers" FromRole="ServiceContract" ToRole="Customer" />
           <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Commodities" FromRole="ServiceContract" ToRole="Commodity" />
-          <NavigationProperty Name="SalesInvoiceDetail" Relationship="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" FromRole="ServiceContract" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Locations" FromRole="ServiceContract" ToRole="Location" />
           <NavigationProperty Name="Quotations" Relationship="TotalBikePortalsModel.FK_Quotations_ServiceContracts" FromRole="ServiceContract" ToRole="Quotation" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceContracts" FromRole="ServiceContract" ToRole="SalesInvoice" />
+          <NavigationProperty Name="SalesInvoiceDetail" Relationship="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" FromRole="ServiceContract" ToRole="SalesInvoiceDetail" />
         </EntityType>
         <EntityType Name="ServiceContractType">
           <Key>
@@ -3682,6 +3824,7 @@
           <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Customers" FromRole="Customer" ToRole="ServiceContract" />
           <NavigationProperty Name="Quotations" Relationship="TotalBikePortalsModel.FK_Quotations_Customers" FromRole="Customer" ToRole="Quotation" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Customers" FromRole="Customer" ToRole="SalesInvoice" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Customers" FromRole="Customer" ToRole="AccountInvoice" />
         </EntityType>
         <EntityType Name="EntireTerritory">
           <Key>
@@ -3851,13 +3994,13 @@
           <NavigationProperty Name="GoodsReceiptDetails" Relationship="TotalBikePortalsModel.FK_GoodsReceiptDetails_Commodities" FromRole="Commodity" ToRole="GoodsReceiptDetail" />
           <NavigationProperty Name="PurchaseInvoiceDetails" Relationship="TotalBikePortalsModel.FK_PurchaseInvoiceDetails_Commodities" FromRole="Commodity" ToRole="PurchaseInvoiceDetail" />
           <NavigationProperty Name="PurchaseOrderDetails" Relationship="TotalBikePortalsModel.FK_PurchaseOrderDetails_Commodities" FromRole="Commodity" ToRole="PurchaseOrderDetail" />
-          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" FromRole="Commodity" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_Commodities" FromRole="Commodity" ToRole="ServiceContract" />
           <NavigationProperty Name="StockTransferDetails" Relationship="TotalBikePortalsModel.FK_StockTransferDetails_Commodities" FromRole="Commodity" ToRole="StockTransferDetail" />
           <NavigationProperty Name="TransferOrderDetails" Relationship="TotalBikePortalsModel.FK_TransferOrderDetails_Commodities" FromRole="Commodity" ToRole="TransferOrderDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="TotalBikePortalsModel.FK_QuotationDetails_Commodities" FromRole="Commodity" ToRole="QuotationDetail" />
           <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsRegularCheckUps" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" FromRole="Commodity" ToRole="SalesInvoiceDetail" />
         </EntityType>
         <EntityType Name="GoodsReceiptDetail">
           <Key>
@@ -3890,9 +4033,9 @@
           <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_GoodsReceiptDetails_Commodities" FromRole="GoodsReceiptDetail" ToRole="Commodity" />
           <NavigationProperty Name="GoodsReceipt" Relationship="TotalBikePortalsModel.FK_GoodsReceiptDetails_GoodsReceipts" FromRole="GoodsReceiptDetail" ToRole="GoodsReceipt" />
           <NavigationProperty Name="Warehouse" Relationship="TotalBikePortalsModel.FK_GoodsReceiptDetails_Warehouses" FromRole="GoodsReceiptDetail" ToRole="Warehouse" />
-          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="StockTransferDetails" Relationship="TotalBikePortalsModel.FK_StockTransferDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="StockTransferDetail" />
           <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="SalesInvoiceDetail" />
         </EntityType>
         <EntityType Name="PurchaseInvoiceDetail">
           <Key>
@@ -3954,45 +4097,6 @@
           <NavigationProperty Name="PurchaseOrder" Relationship="TotalBikePortalsModel.FK_PurchaseOrderDetails_PurchaseOrders" FromRole="PurchaseOrderDetail" ToRole="PurchaseOrder" />
           <Property Name="LocationID" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="SalesInvoiceDetail">
-          <Key>
-            <PropertyRef Name="SalesInvoiceDetailID" />
-          </Key>
-          <Property Name="SalesInvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SalesInvoiceID" Type="Int32" Nullable="false" />
-          <Property Name="GoodsReceiptDetailID" Type="Int32" />
-          <Property Name="QuotationDetailID" Type="Int32" />
-          <Property Name="CommodityID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
-          <Property Name="WarehouseID" Type="Int32" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="QuantityContract" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="QuantityVAT" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="QuantityReturn" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="IsWarrantyClaim" Type="Boolean" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" FromRole="SalesInvoiceDetail" ToRole="Commodity" />
-          <NavigationProperty Name="GoodsReceiptDetail" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" FromRole="SalesInvoiceDetail" ToRole="GoodsReceiptDetail" />
-          <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" FromRole="SalesInvoiceDetail" ToRole="ServiceContract" />
-          <NavigationProperty Name="QuotationDetail" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" FromRole="SalesInvoiceDetail" ToRole="QuotationDetail" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-          <Property Name="IsBonus" Type="Boolean" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="ServiceInvoiceID" Type="Int32" />
-          <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" />
-          <Property Name="ServiceContractID" Type="Int32" />
-          <Property Name="CurrentMeters" Type="Int32" />
-          <NavigationProperty Name="SalesInvoice" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoiceDetail" ToRole="SalesInvoice" />
-        </EntityType>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Type="TotalBikePortalsModel.CommodityCategory" Role="CommodityCategory" Multiplicity="1" />
           <End Type="TotalBikePortalsModel.Commodity" Role="Commodity" Multiplicity="*" />
@@ -4049,18 +4153,6 @@
               <PropertyRef Name="CommodityID" />
             </Principal>
             <Dependent Role="PurchaseOrderDetail">
-              <PropertyRef Name="CommodityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesInvoiceDetails_Commodities">
-          <End Type="TotalBikePortalsModel.Commodity" Role="Commodity" Multiplicity="1" />
-          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Commodity">
-              <PropertyRef Name="CommodityID" />
-            </Principal>
-            <Dependent Role="SalesInvoiceDetail">
               <PropertyRef Name="CommodityID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4125,18 +4217,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SalesInvoiceDetails_GoodsReceiptDetails">
-          <End Type="TotalBikePortalsModel.GoodsReceiptDetail" Role="GoodsReceiptDetail" Multiplicity="0..1" />
-          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GoodsReceiptDetail">
-              <PropertyRef Name="GoodsReceiptDetailID" />
-            </Principal>
-            <Dependent Role="SalesInvoiceDetail">
-              <PropertyRef Name="GoodsReceiptDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_StockTransferDetails_GoodsReceiptDetails">
           <End Type="TotalBikePortalsModel.GoodsReceiptDetail" Role="GoodsReceiptDetail" Multiplicity="0..1" />
           <End Type="TotalBikePortalsModel.StockTransferDetail" Role="StockTransferDetail" Multiplicity="*" />
@@ -4185,18 +4265,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServiceContracts_SalesInvoiceDetails">
-          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="0..1" />
-          <End Type="TotalBikePortalsModel.ServiceContract" Role="ServiceContract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesInvoiceDetail">
-              <PropertyRef Name="SalesInvoiceDetailID" />
-            </Principal>
-            <Dependent Role="ServiceContract">
-              <PropertyRef Name="SalesInvoiceDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="QuotationDetail">
           <Key>
             <PropertyRef Name="QuotationDetailID" />
@@ -4219,10 +4287,10 @@
           <Property Name="IsWarrantyClaim" Type="Boolean" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_QuotationDetails_Commodities" FromRole="QuotationDetail" ToRole="Commodity" />
-          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" FromRole="QuotationDetail" ToRole="SalesInvoiceDetail" />
           <Property Name="LocationID" Type="Int32" Nullable="false" />
           <Property Name="IsBonus" Type="Boolean" />
           <NavigationProperty Name="Quotation" Relationship="TotalBikePortalsModel.FK_QuotationDetails_Quotations" FromRole="QuotationDetail" ToRole="Quotation" />
+          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" FromRole="QuotationDetail" ToRole="SalesInvoiceDetail" />
         </EntityType>
         <Association Name="FK_QuotationDetails_Commodities">
           <End Type="TotalBikePortalsModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -4233,18 +4301,6 @@
             </Principal>
             <Dependent Role="QuotationDetail">
               <PropertyRef Name="CommodityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesInvoiceDetails_QuotationDetails">
-          <End Type="TotalBikePortalsModel.QuotationDetail" Role="QuotationDetail" Multiplicity="0..1" />
-          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QuotationDetail">
-              <PropertyRef Name="QuotationDetailID" />
-            </Principal>
-            <Dependent Role="SalesInvoiceDetail">
-              <PropertyRef Name="QuotationDetailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4809,11 +4865,11 @@
           <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Locations" FromRole="SalesInvoice" ToRole="Location" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalBikePortalsModel.FK_SalesInvoices_PaymentTerms" FromRole="SalesInvoice" ToRole="PaymentTerm" />
           <NavigationProperty Name="Quotation" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Quotations" FromRole="SalesInvoice" ToRole="Quotation" />
-          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoice" ToRole="SalesInvoiceDetail" />
           <NavigationProperty Name="SalesInvoiceType" Relationship="TotalBikePortalsModel.FK_SalesInvoices_SalesInvoiceTypes" FromRole="SalesInvoice" ToRole="SalesInvoiceType" />
           <NavigationProperty Name="ServiceContract" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceContracts" FromRole="SalesInvoice" ToRole="ServiceContract" />
           <NavigationProperty Name="SalesInvoices1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice" ToRole="SalesInvoice1" />
           <NavigationProperty Name="SalesInvoice1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice1" ToRole="SalesInvoice" />
+          <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoice" ToRole="SalesInvoiceDetail" />
         </EntityType>
         <Association Name="FK_Quotations_Customers">
           <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
@@ -4923,18 +4979,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SalesInvoiceDetails_SalesInvoices">
-          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="1" />
-          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesInvoice">
-              <PropertyRef Name="SalesInvoiceID" />
-            </Principal>
-            <Dependent Role="SalesInvoiceDetail">
-              <PropertyRef Name="SalesInvoiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SalesInvoices_SalesInvoiceTypes">
           <End Type="TotalBikePortalsModel.SalesInvoiceType" Role="SalesInvoiceType" Multiplicity="1" />
           <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="*" />
@@ -4971,6 +5015,233 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AccountInvoiceDetail">
+          <Key>
+            <PropertyRef Name="AccountInvoiceDetailID" />
+          </Key>
+          <Property Name="AccountInvoiceDetailID" Type="Int32" Nullable="false" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="AccountInvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="SalesInvoiceDetailID" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountInvoice" Relationship="TotalBikePortalsModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoiceDetail" ToRole="AccountInvoice" />
+          <NavigationProperty Name="SalesInvoiceDetail" Relationship="TotalBikePortalsModel.FK_AccountInvoiceDetails_SalesInvoiceDetails" FromRole="AccountInvoiceDetail" ToRole="SalesInvoiceDetail" />
+        </EntityType>
+        <EntityType Name="AccountInvoice">
+          <Key>
+            <PropertyRef Name="AccountInvoiceID" />
+          </Key>
+          <Property Name="AccountInvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATInvoiceNo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="VATInvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VATInvoiceSeries" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalBikePortalsModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoice" ToRole="AccountInvoiceDetail" />
+          <NavigationProperty Name="Customer" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Customers" FromRole="AccountInvoice" ToRole="Customer" />
+          <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Locations" FromRole="AccountInvoice" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_AccountInvoiceDetails_AccountInvoices">
+          <End Type="TotalBikePortalsModel.AccountInvoice" Role="AccountInvoice" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountInvoice">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetail">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers">
+          <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Locations">
+          <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesInvoiceDetail">
+          <Key>
+            <PropertyRef Name="SalesInvoiceDetailID" />
+          </Key>
+          <Property Name="SalesInvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="SalesInvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="SalesInvoiceTypeID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceContractID" Type="Int32" />
+          <Property Name="ServiceInvoiceID" Type="Int32" />
+          <Property Name="GoodsReceiptDetailID" Type="Int32" />
+          <Property Name="QuotationDetailID" Type="Int32" />
+          <Property Name="AccountInvoiceID" Type="Boolean" />
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="QuantityContract" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CurrentMeters" Type="Int32" />
+          <Property Name="IsBonus" Type="Boolean" />
+          <Property Name="IsWarrantyClaim" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalBikePortalsModel.FK_AccountInvoiceDetails_SalesInvoiceDetails" FromRole="SalesInvoiceDetail" ToRole="AccountInvoiceDetail" />
+          <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" FromRole="SalesInvoiceDetail" ToRole="Commodity" />
+          <NavigationProperty Name="GoodsReceiptDetail" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" FromRole="SalesInvoiceDetail" ToRole="GoodsReceiptDetail" />
+          <NavigationProperty Name="QuotationDetail" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" FromRole="SalesInvoiceDetail" ToRole="QuotationDetail" />
+          <NavigationProperty Name="SalesInvoice" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoiceDetail" ToRole="SalesInvoice" />
+          <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" FromRole="SalesInvoiceDetail" ToRole="ServiceContract" />
+        </EntityType>
+        <Association Name="FK_AccountInvoiceDetails_SalesInvoiceDetails">
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesInvoiceDetail">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetail">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoiceDetails_Commodities">
+          <End Type="TotalBikePortalsModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="SalesInvoiceDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoiceDetails_GoodsReceiptDetails">
+          <End Type="TotalBikePortalsModel.GoodsReceiptDetail" Role="GoodsReceiptDetail" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsReceiptDetail">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Principal>
+            <Dependent Role="SalesInvoiceDetail">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoiceDetails_QuotationDetails">
+          <End Type="TotalBikePortalsModel.QuotationDetail" Role="QuotationDetail" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationDetail">
+              <PropertyRef Name="QuotationDetailID" />
+            </Principal>
+            <Dependent Role="SalesInvoiceDetail">
+              <PropertyRef Name="QuotationDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoiceDetails_SalesInvoices">
+          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesInvoice">
+              <PropertyRef Name="SalesInvoiceID" />
+            </Principal>
+            <Dependent Role="SalesInvoiceDetail">
+              <PropertyRef Name="SalesInvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceContracts_SalesInvoiceDetails">
+          <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.ServiceContract" Role="ServiceContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesInvoiceDetail">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Principal>
+            <Dependent Role="ServiceContract">
+              <PropertyRef Name="SalesInvoiceDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="AccountInvoiceIndex">
+          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="VATInvoiceNo" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CustomerDescription" Nullable="false" MaxLength="305" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="AccountInvoiceViewDetail">
+          <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
+          <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="SalesInvoiceDetailID" Nullable="false" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="IsBonus" Nullable="true" />
+          <Property Type="Boolean" Name="IsWarrantyClaim" Nullable="true" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5914,41 +6185,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SalesInvoiceDetails">
-            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
-              <MappingFragment StoreEntitySet="SalesInvoiceDetails">
-                <ScalarProperty Name="CurrentMeters" ColumnName="CurrentMeters" />
-                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
-                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
-                <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
-                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
-                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
-                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
-                <ScalarProperty Name="QuantityReturn" ColumnName="QuantityReturn" />
-                <ScalarProperty Name="QuantityVAT" ColumnName="QuantityVAT" />
-                <ScalarProperty Name="QuantityContract" ColumnName="QuantityContract" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
-                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
-                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="QuotationDetails">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.QuotationDetail">
               <MappingFragment StoreEntitySet="QuotationDetails">
@@ -6543,6 +6779,125 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AccountInvoiceDetails">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.AccountInvoiceDetail">
+              <MappingFragment StoreEntitySet="AccountInvoiceDetails">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="AccountInvoiceDetailID" ColumnName="AccountInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountInvoices">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.AccountInvoice">
+              <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VATInvoiceSeries" ColumnName="VATInvoiceSeries" />
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesInvoiceDetails">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
+              <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
+                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
+                <ScalarProperty Name="CurrentMeters" ColumnName="CurrentMeters" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="QuantityContract" ColumnName="QuantityContract" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
+                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
+                <ScalarProperty Name="ServiceInvoiceID" ColumnName="ServiceInvoiceID" />
+                <ScalarProperty Name="ServiceContractID" ColumnName="ServiceContractID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SalesInvoiceTypeID" ColumnName="SalesInvoiceTypeID" />
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAccountInvoiceIndexes" FunctionName="TotalBikePortalsModel.Store.GetAccountInvoiceIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.AccountInvoiceIndex">
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="CustomerDescription" ColumnName="CustomerDescription" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAccountInvoiceViewDetails" FunctionName="TotalBikePortalsModel.Store.GetAccountInvoiceViewDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.AccountInvoiceViewDetail">
+                <ScalarProperty Name="AccountInvoiceDetailID" ColumnName="AccountInvoiceDetailID" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="ChassisCode" ColumnName="ChassisCode" />
+                <ScalarProperty Name="EngineCode" ColumnName="EngineCode" />
+                <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
+                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

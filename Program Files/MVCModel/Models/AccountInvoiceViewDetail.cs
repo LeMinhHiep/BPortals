@@ -10,22 +10,19 @@
 namespace MVCModel.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QuotationDetail
+    public partial class AccountInvoiceViewDetail
     {
-        public QuotationDetail()
-        {
-            this.SalesInvoiceDetails = new HashSet<SalesInvoiceDetail>();
-        }
-    
-        public int QuotationDetailID { get; set; }
-        public System.DateTime EntryDate { get; set; }
-        public int QuotationID { get; set; }
+        public int AccountInvoiceDetailID { get; set; }
+        public int AccountInvoiceID { get; set; }
+        public int SalesInvoiceDetailID { get; set; }
         public int CommodityID { get; set; }
-        public int CommodityTypeID { get; set; }
+        public string CommodityCode { get; set; }
+        public string CommodityName { get; set; }
+        public string ChassisCode { get; set; }
+        public string EngineCode { get; set; }
+        public string ColorCode { get; set; }
         public decimal Quantity { get; set; }
-        public decimal QuantityInvoice { get; set; }
         public decimal ListedPrice { get; set; }
         public decimal DiscountPercent { get; set; }
         public decimal UnitPrice { get; set; }
@@ -34,13 +31,8 @@ namespace MVCModel.Models
         public decimal Amount { get; set; }
         public decimal VATAmount { get; set; }
         public decimal GrossAmount { get; set; }
+        public Nullable<bool> IsBonus { get; set; }
         public Nullable<bool> IsWarrantyClaim { get; set; }
         public string Remarks { get; set; }
-        public int LocationID { get; set; }
-        public Nullable<bool> IsBonus { get; set; }
-    
-        public virtual Commodity Commodity { get; set; }
-        public virtual Quotation Quotation { get; set; }
-        public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
     }
 }

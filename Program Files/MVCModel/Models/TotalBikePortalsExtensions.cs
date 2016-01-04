@@ -67,6 +67,19 @@ namespace MVCModel.Models
     }
 
 
+    public partial class AccountInvoice : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<AccountInvoiceDetail>
+    {
+        public int GetID() { return this.AccountInvoiceID; }
+
+        public ICollection<AccountInvoiceDetail> GetDetails() { return this.AccountInvoiceDetails; }
+    }
+
+
+    public partial class AccountInvoiceDetail : IPrimitiveEntity, IHelperEntryDate
+    {
+        public int GetID() { return this.AccountInvoiceDetailID; }
+    }
+
 
     public partial class Quotation : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<QuotationDetail>
     {

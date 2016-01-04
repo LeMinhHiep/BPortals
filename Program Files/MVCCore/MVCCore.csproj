@@ -71,6 +71,7 @@
     <Compile Include="Repositories\IGenericAPIRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\IGenericWithDetailRepository.cs" />
+    <Compile Include="Repositories\SalesTasks\IAccountInvoiceRepository.cs" />
     <Compile Include="Repositories\StockTasks\IGoodsReceiptRepository.cs" />
     <Compile Include="Repositories\PurchaseTasks\IPurchaseInvoiceRepository.cs" />
     <Compile Include="Repositories\SalesTasks\IQuotationRepository.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Services\IGenericService.cs" />
     <Compile Include="Services\IGenericWithDetailService.cs" />
     <Compile Include="Services\IGenericWithViewDetailService.cs" />
+    <Compile Include="Services\SalesTasks\IAccountInvoiceService.cs" />
     <Compile Include="Services\StockTasks\IGoodsReceiptService.cs" />
     <Compile Include="Services\PurchaseTasks\IPurchaseInvoiceService.cs" />
     <Compile Include="Services\CommonTasks\ICustomerService.cs" />
