@@ -1047,5 +1047,27 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AccountInvoiceViewDetail>("GetAccountInvoiceViewDetails", accountInvoiceIDParameter);
         }
+    
+        public virtual ObjectResult<string> AccountInvoicePostSaveValidate(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("AccountInvoicePostSaveValidate", entityIDParameter);
+        }
+    
+        public virtual int AccountInvoiceSaveRelative(Nullable<int> entityID, Nullable<int> saveRelativeOption)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var saveRelativeOptionParameter = saveRelativeOption.HasValue ?
+                new ObjectParameter("SaveRelativeOption", saveRelativeOption) :
+                new ObjectParameter("SaveRelativeOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AccountInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
+        }
     }
 }

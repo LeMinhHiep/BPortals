@@ -1611,6 +1611,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AccountInvoicePostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AccountInvoiceSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetAccessLevel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -2857,7 +2864,14 @@
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GetAccountInvoiceViewDetails" ReturnType="Collection(TotalBikePortalsModel.AccountInvoiceViewDetail)">
-            <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AccountInvoicePostSaveValidate" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AccountInvoiceSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -6898,6 +6912,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AccountInvoicePostSaveValidate" FunctionName="TotalBikePortalsModel.Store.AccountInvoicePostSaveValidate" />
+          <FunctionImportMapping FunctionImportName="AccountInvoiceSaveRelative" FunctionName="TotalBikePortalsModel.Store.AccountInvoiceSaveRelative" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
