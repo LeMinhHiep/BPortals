@@ -36,7 +36,7 @@
                     .BindTo(new List<SelectListItem>()
                       {
                               
-                              new SelectListItem { Text = "Xe", Value = "1"},
+                            new SelectListItem { Text = "Xe", Value = "1"},
                             new SelectListItem { Text = "pt", Value = "2"},
                             new SelectListItem { Text = "vt", Value = "3"},
                             new SelectListItem { Text = "DV", Value = "6"},
@@ -52,12 +52,16 @@
     .DataSource(ds => ds.Ajax()
     .Read(read => read.Action("GetPendingSalesInvoices", "AccountInvoiceApi").Data(@<text>
             function(e) {
+
+                var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+                
                 return {
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
                     accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
                     commodityTypeID: $("#CommodityTypeID").val(),
                     fromDate: $("#FromDate").val(),
-                    toDate: $("#ToDate").val()
+                    toDate: $("#ToDate").val(),
+                    salesInvoiceDetailIDs : accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
             };}
 
     </text>))
@@ -91,6 +95,40 @@
 
 
 <script>
+
+    @*@<text>
+            function(e) {
+
+                var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+                
+                return {
+                    locationID: window.parent.requireConfig.pageOptions.LocationID,
+                    accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
+                    commodityTypeID: $("#CommodityTypeID").val(),
+                    fromDate: $("#FromDate").val(),
+                    toDate: $("#ToDate").val(),
+                    salesInvoiceDetailIDs = accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
+                };}
+
+    </text>*@
+
+
+    
+            //function ABC (e) {
+
+            //    var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+                
+            //    return {
+            //        locationID: window.parent.requireConfig.pageOptions.LocationID,
+            //        accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
+            //        commodityTypeID: $("#CommodityTypeID").val(),
+            //        fromDate: $("#FromDate").val(),
+            //        toDate: $("#ToDate").val(),
+            //        salesInvoiceDetailIDs = accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
+            //    };}
+
+    
+
     function reReadPendingSalesInvoices() { $("#gridPendingSalesInvoices").data("kendoGrid").dataSource.read() }
 
     function onFilterTextKeyUp() {

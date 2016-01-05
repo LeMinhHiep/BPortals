@@ -1070,7 +1070,7 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AccountInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> accountInvoiceID, Nullable<int> commodityTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> accountInvoiceID, Nullable<int> commodityTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string salesInvoiceDetailIDs)
         {
             var aspUserIDParameter = aspUserID != null ?
                 new ObjectParameter("AspUserID", aspUserID) :
@@ -1096,7 +1096,11 @@ namespace MVCModel.Models
                 new ObjectParameter("ToDate", toDate) :
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, accountInvoiceIDParameter, commodityTypeIDParameter, fromDateParameter, toDateParameter);
+            var salesInvoiceDetailIDsParameter = salesInvoiceDetailIDs != null ?
+                new ObjectParameter("SalesInvoiceDetailIDs", salesInvoiceDetailIDs) :
+                new ObjectParameter("SalesInvoiceDetailIDs", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, accountInvoiceIDParameter, commodityTypeIDParameter, fromDateParameter, toDateParameter, salesInvoiceDetailIDsParameter);
         }
     }
 }

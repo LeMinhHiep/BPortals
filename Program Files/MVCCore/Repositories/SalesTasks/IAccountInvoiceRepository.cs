@@ -14,6 +14,6 @@ namespace MVCCore.Repositories.SalesTasks
 
     public interface IAccountInvoiceAPIRepository : IGenericAPIRepository
     {
-        IEnumerable<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, int locationID, int accountInvoiceID, int commodityTypeID, DateTime fromDate, DateTime toDate);
+        IEnumerable<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, int locationID, int accountInvoiceID, int commodityTypeID, DateTime fromDate, DateTime toDate, string salesInvoiceDetailIDs);
     }
 }

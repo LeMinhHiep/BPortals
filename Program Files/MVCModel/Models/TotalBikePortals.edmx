@@ -1724,6 +1724,7 @@
           <Parameter Name="CommodityTypeID" Type="int" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="SalesInvoiceDetailIDs" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetPendingVehicleTransferOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -2888,6 +2889,7 @@
             <Parameter Name="CommodityTypeID" Mode="In" Type="Int32" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="SalesInvoiceDetailIDs" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
