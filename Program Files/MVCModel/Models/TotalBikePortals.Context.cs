@@ -1069,5 +1069,34 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AccountInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
+    
+        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> accountInvoiceID, Nullable<int> commodityTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
+                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
+                new ObjectParameter("AccountInvoiceID", typeof(int));
+    
+            var commodityTypeIDParameter = commodityTypeID.HasValue ?
+                new ObjectParameter("CommodityTypeID", commodityTypeID) :
+                new ObjectParameter("CommodityTypeID", typeof(int));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, accountInvoiceIDParameter, commodityTypeIDParameter, fromDateParameter, toDateParameter);
+        }
     }
 }

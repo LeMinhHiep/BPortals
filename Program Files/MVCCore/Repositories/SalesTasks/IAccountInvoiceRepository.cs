@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using MVCModel.Models;
 using MVCBase.Enums;
+using System;
 
 
 namespace MVCCore.Repositories.SalesTasks
@@ -13,5 +14,6 @@ namespace MVCCore.Repositories.SalesTasks
 
     public interface IAccountInvoiceAPIRepository : IGenericAPIRepository
     {
+        IEnumerable<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, int locationID, int accountInvoiceID, int commodityTypeID, DateTime fromDate, DateTime toDate);
     }
 }

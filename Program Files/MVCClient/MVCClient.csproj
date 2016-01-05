@@ -834,6 +834,7 @@
     <Content Include="Scripts\Controllers\Root\VehiclesInvoices\Index.js" />
     <Content Include="Scripts\flash.js" />
     <Content Include="Scripts\Helpers\KendoGrid\gridHelper.js" />
+    <Content Include="Scripts\Helpers\SalesTasks\accountInvoiceAddPendingSalesInvoice.js" />
     <Content Include="Scripts\Helpers\StockTasks\goodsReceiptCreateWizard.js" />
     <Content Include="Scripts\Helpers\PurchaseTasks\purchasesCreateWizard.js" />
     <Content Include="Scripts\Helpers\SalesTasks\salesInvoiceAddFromQuotation.js" />
@@ -1643,6 +1644,7 @@
     <Content Include="Views\AccountInvoices\Create.cshtml" />
     <Content Include="Views\AccountInvoices\Edit.cshtml" />
     <Content Include="Views\AccountInvoices\Delete.cshtml" />
+    <Content Include="Views\AccountInvoices\GetPendingSalesInvoices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

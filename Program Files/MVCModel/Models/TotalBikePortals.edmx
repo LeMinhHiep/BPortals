@@ -20,7 +20,7 @@
           <Key>
             <PropertyRef Name="AccountInvoiceDetailID" />
           </Key>
-          <Property Name="AccountInvoiceDetailID" Type="int" Nullable="false" />
+          <Property Name="AccountInvoiceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="AccountInvoiceID" Type="int" Nullable="false" />
@@ -32,7 +32,7 @@
           <Key>
             <PropertyRef Name="AccountInvoiceID" />
           </Key>
-          <Property Name="AccountInvoiceID" Type="int" Nullable="false" />
+          <Property Name="AccountInvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
@@ -1717,6 +1717,14 @@
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="TransferOrderID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPendingSalesInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
+          <Parameter Name="CommodityTypeID" Type="int" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetPendingVehicleTransferOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="TransferOrderID" Type="int" Mode="In" />
@@ -2873,6 +2881,14 @@
             <End Role="SalesInvoiceDetail" EntitySet="SalesInvoiceDetails" />
             <End Role="ServiceContract" EntitySet="ServiceContracts" />
           </AssociationSet>
+          <FunctionImport Name="GetPendingSalesInvoices" ReturnType="Collection(TotalBikePortalsModel.PendingSalesInvoice)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="CommodityTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -5144,6 +5160,7 @@
           <Property Type="Boolean" Name="IsBonus" Nullable="true" />
           <Property Type="Boolean" Name="IsWarrantyClaim" Nullable="true" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
         </ComplexType>
         <EntityType Name="SalesInvoiceDetail">
           <Key>
@@ -5256,6 +5273,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="PendingSalesInvoice">
+          <Property Type="Int32" Name="SalesInvoiceDetailID" Nullable="false" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
+          <Property Type="String" Name="ChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="IsBonus" Nullable="true" />
+          <Property Type="Boolean" Name="IsWarrantyClaim" Nullable="true" />
+          <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6875,6 +6914,7 @@
                 <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
                 <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6914,6 +6954,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPendingSalesInvoices" FunctionName="TotalBikePortalsModel.Store.GetPendingSalesInvoices">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PendingSalesInvoice">
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="ChassisCode" ColumnName="ChassisCode" />
+                <ScalarProperty Name="EngineCode" ColumnName="EngineCode" />
+                <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
+                <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

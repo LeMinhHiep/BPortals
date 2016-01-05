@@ -10,7 +10,7 @@ namespace MVCClient.Api.SessionTasks
         public static DateTime GetGlobalFromDate(HttpContextBase context)
         {
             if (context.Session["GlobalFromDate"] == null)
-                return DateTime.Today.AddDays(-10);
+                return DateTime.Today.AddDays(-1);
             else
                 return (DateTime)context.Session["GlobalFromDate"];
         }

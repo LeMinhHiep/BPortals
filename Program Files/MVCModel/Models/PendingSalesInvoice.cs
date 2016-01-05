@@ -11,14 +11,13 @@ namespace MVCModel.Models
 {
     using System;
     
-    public partial class AccountInvoiceViewDetail
+    public partial class PendingSalesInvoice
     {
-        public int AccountInvoiceDetailID { get; set; }
-        public int AccountInvoiceID { get; set; }
         public int SalesInvoiceDetailID { get; set; }
         public int CommodityID { get; set; }
         public string CommodityCode { get; set; }
         public string CommodityName { get; set; }
+        public int CommodityTypeID { get; set; }
         public string ChassisCode { get; set; }
         public string EngineCode { get; set; }
         public string ColorCode { get; set; }
@@ -33,7 +32,6 @@ namespace MVCModel.Models
         public decimal GrossAmount { get; set; }
         public Nullable<bool> IsBonus { get; set; }
         public Nullable<bool> IsWarrantyClaim { get; set; }
-        public string Remarks { get; set; }
-        public int CommodityTypeID { get; set; }
+        public Nullable<bool> IsSelected { get; set; }
     }
 }

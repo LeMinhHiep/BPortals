@@ -18,6 +18,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.GetAccountInvoiceIndexes();
 
             this.GetAccountInvoiceViewDetails();
+            this.GetPendingSalesInvoices();
+
             this.AccountInvoiceSaveRelative();
             this.AccountInvoicePostSaveValidate();
 
@@ -53,7 +55,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      AccountInvoiceDetails.AccountInvoiceDetailID, AccountInvoiceDetails.AccountInvoiceID, AccountInvoiceDetails.SalesInvoiceDetailID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode, " + "\r\n";
+            queryString = queryString + "       SELECT      AccountInvoiceDetails.AccountInvoiceDetailID, AccountInvoiceDetails.AccountInvoiceID, AccountInvoiceDetails.SalesInvoiceDetailID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode, " + "\r\n";
             queryString = queryString + "                   SalesInvoiceDetails.Quantity, SalesInvoiceDetails.ListedPrice, SalesInvoiceDetails.DiscountPercent, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, SalesInvoiceDetails.IsBonus, SalesInvoiceDetails.IsWarrantyClaim, AccountInvoiceDetails.Remarks" + "\r\n";
             queryString = queryString + "       FROM        AccountInvoiceDetails INNER JOIN" + "\r\n";
             queryString = queryString + "                   SalesInvoiceDetails ON AccountInvoiceDetails.AccountInvoiceID = @AccountInvoiceID AND AccountInvoiceDetails.SalesInvoiceDetailID = SalesInvoiceDetails.SalesInvoiceDetailID INNER JOIN" + "\r\n";
@@ -66,6 +68,25 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.totalBikePortalsEntities.CreateStoredProcedure("GetAccountInvoiceViewDetails", queryString);
         }
 
+        private void GetPendingSalesInvoices()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @LocationID Int, @AccountInvoiceID Int, @CommodityTypeID Int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesInvoiceDetails.SalesInvoiceDetailID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode, " + "\r\n";
+            queryString = queryString + "                   SalesInvoiceDetails.Quantity, SalesInvoiceDetails.ListedPrice, SalesInvoiceDetails.DiscountPercent, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, SalesInvoiceDetails.IsBonus, SalesInvoiceDetails.IsWarrantyClaim, CAST(1 AS bit) AS IsSelected " + "\r\n";
+            queryString = queryString + "       FROM        SalesInvoiceDetails INNER JOIN" + "\r\n";
+            queryString = queryString + "                   Commodities ON SalesInvoiceDetails.EntryDate >= @FromDate AND SalesInvoiceDetails.EntryDate <= @ToDate AND SalesInvoiceDetails.LocationID = @LocationID AND            SalesInvoiceDetails.SalesInvoiceID IN (SELECT SalesInvoiceID FROM SalesInvoices WHERE OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID IN (" + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.VehiclesInvoice + ", " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.PartsInvoice + ", " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.ServicesInvoice + ") AND AccessControls.AccessLevel = 2))            AND (SalesInvoiceDetails.AccountInvoiceID IS NULL OR SalesInvoiceDetails.AccountInvoiceID = @AccountInvoiceID) AND (@CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.All + " OR SalesInvoiceDetails.CommodityTypeID = @CommodityTypeID) AND SalesInvoiceDetails.CommodityID = Commodities.CommodityID LEFT JOIN " + "\r\n";
+            queryString = queryString + "                   GoodsReceiptDetails ON SalesInvoiceDetails.GoodsReceiptDetailID = GoodsReceiptDetails.GoodsReceiptDetailID" + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetPendingSalesInvoices", queryString);
+        }
 
         private void AccountInvoiceSaveRelative()
         {

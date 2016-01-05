@@ -43,6 +43,14 @@ namespace MVCClient.Api.SalesTasks
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult GetPendingSalesInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int accountInvoiceID, int? commodityTypeID, DateTime? fromDate, DateTime? toDate)
+        {
+            var result = this.accountInvoiceAPIRepository.GetPendingSalesInvoices(User.Identity.GetUserId(), locationID, accountInvoiceID, (int)commodityTypeID, (DateTime)fromDate, (DateTime)toDate);
+            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 
 }

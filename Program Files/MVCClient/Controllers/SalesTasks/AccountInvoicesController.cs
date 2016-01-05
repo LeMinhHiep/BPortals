@@ -1,4 +1,5 @@
-﻿using MVCModel.Models;
+﻿using System.Web.Mvc;
+using MVCModel.Models;
 
 using MVCCore.Services.SalesTasks;
 
@@ -15,6 +16,11 @@ namespace MVCClient.Controllers.SalesTasks
         public AccountInvoicesController(IAccountInvoiceService accountInvoiceService, IAccountInvoiceViewModelSelectListBuilder accountInvoiceViewModelSelectListBuilder)
             : base(accountInvoiceService, accountInvoiceViewModelSelectListBuilder)
         {
+        }
+
+        public virtual ActionResult GetPendingSalesInvoices()
+        {
+            return View();
         }
     }  
 }

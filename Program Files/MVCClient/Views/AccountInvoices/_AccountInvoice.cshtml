@@ -97,9 +97,9 @@
                                 .ClientFooterTemplate("Tổng cộng:")
                                 .ClientTemplate("<div class = 'multiline-grid'> #= CommodityName #</div>" +
                                         "<div> #= CommodityCode #</div>" +
-                                        "<div> #= ChassisCode #</div>" +
-                                        "<div class = 'multiline-grid'> #= EngineCode #</div>" +
-                                        "<div class = 'multiline-grid'> #= ColorCode #</div>" +
+                                        //"<div> #= ChassisCode #</div>" +
+                                        //"<div class = 'multiline-grid'> #= EngineCode #</div>" +
+                                        //"<div class = 'multiline-grid'> #= ColorCode #</div>" +
                                         "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
 
                             columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
@@ -165,7 +165,7 @@
                         {
                             if (Model.Editable)
                             {
-                                toolbar.Create();
+                                toolbar.Custom().Text("Chọn phiếu bán hàng").Url("#").HtmlAttributes(new { onclick = "GetPendingSalesInvoices()" });
                             }
                             else
                             {//Add a functionless button for display purpose only
@@ -288,6 +288,17 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script type="text/javascript">
+
+    function GetPendingSalesInvoices() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingSalesInvoices", "AccountInvoices")", "Chọn phiếu bán hàng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeight");
+        });
+    }
+
+</script>
 
 <style type="text/css">
     .k-event {
