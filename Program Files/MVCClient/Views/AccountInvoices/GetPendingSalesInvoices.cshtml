@@ -25,8 +25,7 @@
             <div class="toolbar" style="float: right;">
                 <label class="category-label" for="category">Nhập xe, phụ tùng, số khung, số máy:</label>
                 <input id="filterText" class="k-textbox" style="text-align: center;" onkeyup="onFilterTextKeyUp()" />
-                @Html.Kendo().DateTimePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingSalesInvoices")).HtmlAttributes(new { @class = "input-class" })
-                @Html.Kendo().DateTimePicker().Name("ToDate").Value(DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59)).Events(e => e.Change("reReadPendingSalesInvoices")).HtmlAttributes(new { @class = "input-class" })
+                @Html.Kendo().DatePicker().Name("EntryDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingSalesInvoices")).HtmlAttributes(new { @class = "input-class" })
 
                 @(Html.Kendo().DropDownList()
                     .Name("CommodityTypeID")
@@ -59,8 +58,7 @@
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
                     accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
                     commodityTypeID: $("#CommodityTypeID").val(),
-                    fromDate: $("#FromDate").val(),
-                    toDate: $("#ToDate").val(),
+                    entryDate: $("#EntryDate").val(),
                     salesInvoiceDetailIDs : accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
             };}
 
@@ -95,40 +93,6 @@
 
 
 <script>
-
-    @*@<text>
-            function(e) {
-
-                var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
-                
-                return {
-                    locationID: window.parent.requireConfig.pageOptions.LocationID,
-                    accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
-                    commodityTypeID: $("#CommodityTypeID").val(),
-                    fromDate: $("#FromDate").val(),
-                    toDate: $("#ToDate").val(),
-                    salesInvoiceDetailIDs = accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
-                };}
-
-    </text>*@
-
-
-    
-            //function ABC (e) {
-
-            //    var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
-                
-            //    return {
-            //        locationID: window.parent.requireConfig.pageOptions.LocationID,
-            //        accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
-            //        commodityTypeID: $("#CommodityTypeID").val(),
-            //        fromDate: $("#FromDate").val(),
-            //        toDate: $("#ToDate").val(),
-            //        salesInvoiceDetailIDs = accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
-            //    };}
-
-    
-
     function reReadPendingSalesInvoices() { $("#gridPendingSalesInvoices").data("kendoGrid").dataSource.read() }
 
     function onFilterTextKeyUp() {
