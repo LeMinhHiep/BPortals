@@ -25,10 +25,10 @@ namespace MVCData.Repositories.SalesTasks
             : base(totalBikePortalsEntities, "GetAccountInvoiceIndexes")
         {
         }
-        public IEnumerable<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, int locationID, int accountInvoiceID, int commodityTypeID, DateTime fromDate, DateTime toDate, string salesInvoiceDetailIDs)
+        public IEnumerable<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, int locationID, int salesInvoiceTypeID, DateTime fromDate, DateTime toDate, int accountInvoiceID, string salesInvoiceDetailIDs)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<PendingSalesInvoice> pendingSalesInvoices = base.TotalBikePortalsEntities.GetPendingSalesInvoices(aspUserID, locationID, accountInvoiceID, commodityTypeID, fromDate, toDate, salesInvoiceDetailIDs).ToList();
+            IEnumerable<PendingSalesInvoice> pendingSalesInvoices = base.TotalBikePortalsEntities.GetPendingSalesInvoices(aspUserID, locationID, salesInvoiceTypeID, fromDate, toDate, accountInvoiceID, salesInvoiceDetailIDs).ToList();
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingSalesInvoices;

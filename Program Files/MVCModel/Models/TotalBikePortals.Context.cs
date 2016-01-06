@@ -1070,7 +1070,7 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AccountInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> accountInvoiceID, Nullable<int> commodityTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string salesInvoiceDetailIDs)
+        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> salesInvoiceTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> accountInvoiceID, string salesInvoiceDetailIDs)
         {
             var aspUserIDParameter = aspUserID != null ?
                 new ObjectParameter("AspUserID", aspUserID) :
@@ -1080,13 +1080,9 @@ namespace MVCModel.Models
                 new ObjectParameter("LocationID", locationID) :
                 new ObjectParameter("LocationID", typeof(int));
     
-            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
-                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
-                new ObjectParameter("AccountInvoiceID", typeof(int));
-    
-            var commodityTypeIDParameter = commodityTypeID.HasValue ?
-                new ObjectParameter("CommodityTypeID", commodityTypeID) :
-                new ObjectParameter("CommodityTypeID", typeof(int));
+            var salesInvoiceTypeIDParameter = salesInvoiceTypeID.HasValue ?
+                new ObjectParameter("SalesInvoiceTypeID", salesInvoiceTypeID) :
+                new ObjectParameter("SalesInvoiceTypeID", typeof(int));
     
             var fromDateParameter = fromDate.HasValue ?
                 new ObjectParameter("FromDate", fromDate) :
@@ -1096,11 +1092,15 @@ namespace MVCModel.Models
                 new ObjectParameter("ToDate", toDate) :
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
+            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
+                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
+                new ObjectParameter("AccountInvoiceID", typeof(int));
+    
             var salesInvoiceDetailIDsParameter = salesInvoiceDetailIDs != null ?
                 new ObjectParameter("SalesInvoiceDetailIDs", salesInvoiceDetailIDs) :
                 new ObjectParameter("SalesInvoiceDetailIDs", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, accountInvoiceIDParameter, commodityTypeIDParameter, fromDateParameter, toDateParameter, salesInvoiceDetailIDsParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, salesInvoiceTypeIDParameter, fromDateParameter, toDateParameter, accountInvoiceIDParameter, salesInvoiceDetailIDsParameter);
         }
     }
 }

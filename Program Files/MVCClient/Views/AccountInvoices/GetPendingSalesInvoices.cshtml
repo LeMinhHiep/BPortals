@@ -8,6 +8,7 @@
     .Name("gridPendingSalesInvoices")
     .Columns(columns =>
     {
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(15);
         columns.Bound(c => c.CommodityCode).Title("Mã xe, phụ tùng, dv").Width(15);
         columns.Bound(c => c.CommodityName).Title("Tên xe, phụ tùng, dv").Width(22);
         columns.Bound(c => c.ChassisCode).Title("Số khung").Width(15);
@@ -23,25 +24,23 @@
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label class="category-label" for="category">Nhập xe, phụ tùng, số khung, số máy:</label>
+                <label class="category-label" for="category">Tìm khách hàng, xe, phụ tùng, hoặc số khung, số máy:</label>
                 <input id="filterText" class="k-textbox" style="text-align: center;" onkeyup="onFilterTextKeyUp()" />
-                @Html.Kendo().DatePicker().Name("EntryDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingSalesInvoices")).HtmlAttributes(new { @class = "input-class" })
+                @Html.Kendo().DatePicker().Name("EntryDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingSalesInvoices")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:105px" })
 
                 @(Html.Kendo().DropDownList()
-                    .Name("CommodityTypeID")
+                    .Name("SalesInvoiceTypeID")
                     .DataTextField("Text")
                     .DataValueField("Value")
-                    //.HtmlAttributes(new { @style = "width: 160px; text-align: center; ", @readonly = "readonly" })
+                    .HtmlAttributes(new { @style = "width: 125px; text-align: center; " })
                     .BindTo(new List<SelectListItem>()
                       {
-                              
-                            new SelectListItem { Text = "Xe", Value = "1"},
-                            new SelectListItem { Text = "pt", Value = "2"},
-                            new SelectListItem { Text = "vt", Value = "3"},
-                            new SelectListItem { Text = "DV", Value = "6"},
-                            new SelectListItem() {Text = "TT", Value = "999"}
+                            new SelectListItem { Text = "[Tất cả]", Value = "1"},
+                            new SelectListItem { Text = "Xe máy", Value = "10"},
+                            new SelectListItem { Text = "Phụ tùng", Value = "20"},
+                            new SelectListItem { Text = "Dịch vụ", Value = "30"}
                       })
-                              .Events(e => e.Change("reReadPendingSalesInvoices"))
+                    .Events(e => e.Change("reReadPendingSalesInvoices"))
                 )
 
             </div>
@@ -56,9 +55,9 @@
                 
                 return {
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
-                    accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
-                    commodityTypeID: $("#CommodityTypeID").val(),
+                    salesInvoiceTypeID: $("#SalesInvoiceTypeID").val(),
                     entryDate: $("#EntryDate").val(),
+                    accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),                    
                     salesInvoiceDetailIDs : accountInvoiceJSON.map(function(elem){return elem.SalesInvoiceDetailID;}).join(",")
             };}
 
@@ -103,10 +102,11 @@
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
-                  { field: "CommodityCode", operator: "contains", value: filterText },
-                  { field: "CommodityName", operator: "contains", value: filterText },
-                  { field: "ChassisCode", operator: "contains", value: filterText },
-                  { field: "EngineCode", operator: "contains", value: filterText }
+                    { field: "CustomerName", operator: "contains", value: filterText },
+                    { field: "CommodityCode", operator: "contains", value: filterText },
+                    { field: "CommodityName", operator: "contains", value: filterText },
+                    { field: "ChassisCode", operator: "contains", value: filterText },
+                    { field: "EngineCode", operator: "contains", value: filterText }
                   //{ field: "IsSelected", operator: "eq", value: true }
                 ]
             });

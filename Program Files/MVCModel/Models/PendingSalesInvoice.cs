@@ -33,5 +33,7 @@ namespace MVCModel.Models
         public Nullable<bool> IsBonus { get; set; }
         public Nullable<bool> IsWarrantyClaim { get; set; }
         public Nullable<bool> IsSelected { get; set; }
+        public string CustomerName { get; set; }
+        public string AddressNo { get; set; }
     }
 }

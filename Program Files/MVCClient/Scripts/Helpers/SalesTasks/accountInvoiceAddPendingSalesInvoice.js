@@ -4,7 +4,7 @@
 
 function handleOKEvent(accountInvoiceGridDataSource, pendingSalesInvoiceGridDataSource) {
     if (accountInvoiceGridDataSource != undefined && pendingSalesInvoiceGridDataSource != undefined) {
-        var pendingSalesInvoiceGridDataItems = pendingSalesInvoiceGridDataSource.data();
+        var pendingSalesInvoiceGridDataItems = pendingSalesInvoiceGridDataSource.view();
         var accountInvoiceJSON = accountInvoiceGridDataSource.data().toJSON();
         for (var i = 0; i < pendingSalesInvoiceGridDataItems.length; i++) {
             if (pendingSalesInvoiceGridDataItems[i].IsSelected === true)
