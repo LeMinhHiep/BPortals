@@ -1646,6 +1646,7 @@
     <Content Include="Views\AccountInvoices\Delete.cshtml" />
     <Content Include="Views\AccountInvoices\GetPendingSalesInvoices.cshtml" />
     <Content Include="Views\PartsInvoices\Print.cshtml" />
+    <Content Include="Views\AccountInvoices\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

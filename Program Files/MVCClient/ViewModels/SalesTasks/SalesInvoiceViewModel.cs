@@ -36,8 +36,6 @@ namespace MVCClient.ViewModels.SalesTasks
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
-
-        public override bool PrintAfterClosedSubmit { get { return true; } }
     }
 
     public class ServicesInvoiceViewModel : ServicesInvoiceDTO, ISimpleViewModel, IContractibleInvoiceViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel

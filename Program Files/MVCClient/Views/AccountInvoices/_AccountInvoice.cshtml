@@ -271,7 +271,13 @@
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <input id="closedSubmitButton" type="submit" value="Save" class="k-button custom-button" />
+                    @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                    <input id="closedSubmitButton" type="submit" value="Lưu phiếu" class="k-button custom-button"/>  @*style="background: url(../Content/Images/New/save-icon.png)"*@ 
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
+                }
+                else
+                {
+                    <button formaction="@Url.Action("Print", "AccountInvoices", new { id = @Model.AccountInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
                 }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")

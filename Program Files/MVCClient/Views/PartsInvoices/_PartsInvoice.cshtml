@@ -242,8 +242,9 @@
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <button id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "PartsInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Save </button>
-                    @*<button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" formaction="@Url.Action("Edit", "PartsInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In HĐ bán lẻ</button>*@
+                    @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                    <button id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "PartsInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu phiếu </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" formaction="@Url.Action("Edit", "PartsInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In HĐ bán lẻ</button>
 
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "PartsInvoices")" class="k-button custom-button cancel" />
 
