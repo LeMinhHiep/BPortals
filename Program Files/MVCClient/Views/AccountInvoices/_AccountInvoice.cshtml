@@ -272,7 +272,8 @@
                 @if (Model.Editable)
                 {
                     @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
-                    <input id="closedSubmitButton" type="submit" value="Lưu phiếu" class="k-button custom-button"/>  @*style="background: url(../Content/Images/New/save-icon.png)"*@ 
+                    <button id="closedSubmitButton" type="submit" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu hóa đơn </button>
+                    @*<input id="closedSubmitButton" type="submit" value="Lưu phiếu" class="k-button custom-button"/>*@  @*style="background: url(../Content/Images/New/save-icon.png)"*@ 
                     <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
                 }
                 else
