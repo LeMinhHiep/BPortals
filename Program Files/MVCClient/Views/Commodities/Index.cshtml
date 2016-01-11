@@ -15,21 +15,23 @@
                       .HtmlAttributes(new { style = "width: 210px; text-align: left;" })
                       .BindTo(new List<SelectListItem>()
                       {                          
-                          new SelectListItem() {
-                            Text = "Phân loại xe, phụ tùng", Value ="00001"
-                          },
+                          
                           new SelectListItem() {
                             Text = "Phân loại hàng hóa", Value ="00002"
+                          },
+                          
+                          new SelectListItem() {
+                            Text = "Phân loại xe, phụ tùng", Value ="00001"
                           }
                       })
                     .Events(events => events.Change("filterCommodity_Change"))
                 )
             </div>
 
-            <div id="div-category" >
+            <div id="div-category" style="display: none">
                 @(Html.Kendo().TreeView()
                 .Name("treeviewCategory")
-                 //.HtmlAttributes(new { @class = "" })
+        //.HtmlAttributes(new { @class = "" })
                 .ExpandAll(false)
                 .DataTextField("Name")
                 .DataSource(dataSource => dataSource
@@ -41,10 +43,12 @@
                 )
 
                 <input id="texttreeviewCategory" value="0" style="display:none" />
-                
+
             </div>
 
-            <div id="div-type" style="display: none">
+
+
+            <div id="div-type">
                 @(Html.Kendo().TreeView()
                 .Name("treeviewType")
                 //.HtmlAttributes(new { @class = "" })

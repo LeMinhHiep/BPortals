@@ -14,6 +14,7 @@
         <div class="div-main">
 
             @Html.HiddenFor(model => model.CommodityID)
+            @Html.HiddenFor(model => model.SubmitTypeOption)
 
             <div class="div-left">
 
@@ -188,6 +189,16 @@
                                         </div>
                                         <div class="div-validation-message">
                                             @Html.ValidationMessageFor(model => model.Discontinue, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="div-row">
+                                        @Html.LabelFor(model => model.IsRegularCheckUps, htmlAttributes: new { @class = "control-label1" })
+                                        <div class="div-input">
+                                            @Html.EditorFor(model => model.IsRegularCheckUps)
+                                        </div>
+                                        <div class="div-validation-message">
+                                            @Html.ValidationMessageFor(model => model.IsRegularCheckUps, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 

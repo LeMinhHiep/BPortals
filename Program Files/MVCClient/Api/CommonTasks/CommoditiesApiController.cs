@@ -58,6 +58,8 @@ namespace MVCClient.Api.CommonTasks
                     CommodityService commodityService = new CommodityService(this.commodityRepository);
                     commodityService.UserID = 2; //Ai cung co quyen add Commodity, boi viec add can cu theo UserID = 2: tanthanhhotel@gmail.com
 
+                    commodityDTO.PreparedPersonID = commodityService.UserID;
+
                     if (commodityService.Save(commodityDTO))
                         commodityResult = new { CommodityID = commodityDTO.CommodityID, Code = commodityDTO.Code, Name = commodityDTO.Name, CommodityTypeID = commodityDTO.CommodityTypeID, VATPercent = new decimal(10) };
                 }

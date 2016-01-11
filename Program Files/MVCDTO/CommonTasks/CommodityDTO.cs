@@ -22,7 +22,9 @@ namespace MVCDTO.CommonTasks
         public string Name { get; set; }
         public string OfficialName { get; set; }
         public string OriginalName { get; set; }
+        
         public Nullable<int> PreviousCommodityID { get; set; }
+        
         public int CommodityCategoryID { get; set; }
         public string CommodityCategoryName { get; set; }
 
@@ -41,10 +43,14 @@ namespace MVCDTO.CommonTasks
         public string SalesUnit { get; set; }
         public string Packing { get; set; }
         public string Origin { get; set; }
+
         public Nullable<double> Weight { get; set; }
         public Nullable<double> LeadTime { get; set; }
-        public string HSCode { get; set; }
+
+        public bool IsRegularCheckUps { get; set; }
         public Nullable<bool> Discontinue { get; set; }
+
+        public string HSCode { get; set; }
         public string Specifycation { get; set; }
 
         [Display(Name = "Ghi chú")]
@@ -55,9 +61,5 @@ namespace MVCDTO.CommonTasks
 
     public class CommodityDTO : CommodityPrimitiveDTO
     {
-        public CommodityDTO()
-        {
-
-        }
     }
 }

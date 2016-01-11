@@ -181,6 +181,19 @@ namespace MVCService
             OrganizationalUnitUser organizationalUnitUser = this.genericRepository.GetEntity<OrganizationalUnitUser>(w => w.UserID == dto.PreparedPersonID && !w.InActive, i => i.OrganizationalUnit);
             if (organizationalUnitUser != null)
             {
+                //Hien tai, cac van de security da duoc xem xet OK (tuc la: this.UserID duoc quyen lap du lieu cho dto.PreparedPersonID hay khong can cu vao phan quyen trong table AccessControls, va viec kiem tra phan quyen nay da duoc thuc hien day du khi Save.New va Save.Edit)
+                //Dieu do co nghia la this.UserID duoc quyen modify du lieu cho bat ky dto.PreparedPersonID nao (KE CA this.UserID.LocationID <> dto.PreparedPersonID.LocationID), mien la duoc phan quyen trong table AccessControls
+                //TUY NHIEN, can phai luu y la: CAC MODULE LIEN QUAN DEN Warehouse. CAC MODULE NAY CHO PHEP Get Data TU Warehouse CO LocationID = this.LocationID (TUC LA LocationID CUA this.UserID) (VI DU: LAY SO LIEU TON KHO CUA 1 MAT HANG CO Warehouse.LocationID = this.LocationID, ...)
+                //VI LY DO TREN, TRONG table AccessControls, KHI PHAN QUYEN CAN LUU Y: CHI PHAN QUYEN Editable CHO OrganizationalUnit.LocationID CUNG this.LocationID (*)
+                //VA DE CHO AN TOAN, NEU CO KHAI BAO NHAM LAN TRONG table AccessControls THI SE BI PHAT HIEN KHI SAVE, TAI DAY BO SUNG CAU LENH KIEM TRA this.LocationID != organizationalUnitUser.OrganizationalUnit.LocationID DE DAM BAO YEU CAU NEU TREN (TUC YEU CAU DA DUOC DANH DAU * NGAY BEN TREN)
+                //CAU LENH NAY: CHI NHAM MUC DICH KIEM TRA NHU VAY MA THOI
+                //SAU NAY, NEU CAN PHAI BO CAU LENH NAY DE PHAN QUYEN LINH DONG HON, TUC LA CO THE CAN CU TRONG table AccessControls MA THOI (CHANG HAN, this.UserID duoc quyen modify du lieu cho bat ky dto.PreparedPersonID nao, KE CA this.LocationID <> dto.PreparedPersonID.LocationID) 
+                //KHI DO, CAU LENH NAY HOAN TOAN CO THE BO DI, VA KHI DO, CAC MODULE LIEN QUAN DEN Warehouse SE DUOC KIEM SOAT BANG 1 CACH THUC KHAC, DE DAM BAO RANG: DOI VOI MODULE LIEN QUAN DEN Warehouse THI this.LocationID = organizationalUnitUser.OrganizationalUnit.LocationID
+                if (this.LocationID != organizationalUnitUser.OrganizationalUnit.LocationID) throw new System.ArgumentException("Lỗi lưu dữ liệu", "Vui lòng chọn lại người lập hợp lệ.");
+
+
+
+
                 dto.UserID = this.UserID;
                 dto.OrganizationalUnitID = organizationalUnitUser.OrganizationalUnitID;
                 dto.LocationID = organizationalUnitUser.OrganizationalUnit.LocationID;

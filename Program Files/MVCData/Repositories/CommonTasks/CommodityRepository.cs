@@ -11,7 +11,7 @@ namespace MVCData.Repositories.CommonTasks
     public class CommodityRepository : GenericRepository<Commodity>, ICommodityRepository
     {
         public CommodityRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities)
+            : base(totalBikePortalsEntities, null, "CommodityDeletable")
         {
         }
 
@@ -57,7 +57,7 @@ namespace MVCData.Repositories.CommonTasks
         public IList<Commodity> SearchCommoditiesByIndex(int commodityCategoryID, int commodityTypeID)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
-            List<Commodity> commodities = this.TotalBikePortalsEntities.Commodities.Where(w => w.CommodityCategoryID == commodityCategoryID || w.CommodityTypeID == commodityTypeID).ToList();
+            List<Commodity> commodities = this.TotalBikePortalsEntities.Commodities.Where(w => w.InActive != true && (w.CommodityCategoryID == commodityCategoryID || w.CommodityTypeID == commodityTypeID)).ToList();
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return commodities;

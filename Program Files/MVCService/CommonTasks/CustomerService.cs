@@ -8,12 +8,9 @@ namespace MVCService.CommonTasks
 {
     public class CustomerService : GenericService<Customer, CustomerDTO, CustomerPrimitiveDTO>, ICustomerService
     {
-        private readonly ICustomerRepository customerRepository;
-
         public CustomerService(ICustomerRepository customerRepository)
             : base(customerRepository)
         {
-            this.customerRepository = customerRepository;
         }
 
     }

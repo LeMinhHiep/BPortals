@@ -8,12 +8,9 @@ namespace MVCService.CommonTasks
 {
     public class CommodityService : GenericService<Commodity, CommodityDTO, CommodityPrimitiveDTO>, ICommodityService
     {
-        private readonly ICommodityRepository CommodityRepository;
-
-        public CommodityService(ICommodityRepository CommodityRepository)
-            : base(CommodityRepository)
+        public CommodityService(ICommodityRepository commodityRepository)
+            : base(commodityRepository)
         {
-            this.CommodityRepository = CommodityRepository;
         }
 
     }

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="EntityFrameworkExtension.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\AccessControl.cs" />
+    <Compile Include="Helpers\SqlProgrammability\CommonTasks\Commodity.cs" />
     <Compile Include="Helpers\SqlProgrammability\CommonTasks\Commons.cs" />
     <Compile Include="Helpers\SqlProgrammability\SalesTasks\AccountInvoice.cs" />
     <Compile Include="Helpers\SqlProgrammability\SalesTasks\SalesInvoice.cs" />
