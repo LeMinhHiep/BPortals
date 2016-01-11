@@ -148,8 +148,15 @@
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <input id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "PartTransfers")" value="Save" class="k-button custom-button" />
+                    @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                    <button id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "PartTransfers")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu phiếu </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" formaction="@Url.Action("Edit", "PartTransfers")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu chuyển kho</button>
+                    
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "PartTransfers")" class="k-button custom-button cancel" />
+                }
+                else
+                {
+                    <button formaction="@Url.Action("Print", "PartTransfers", new { id = @Model.StockTransferID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu chuyển kho </button>
                 }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
