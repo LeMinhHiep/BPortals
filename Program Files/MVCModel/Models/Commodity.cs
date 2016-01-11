@@ -34,7 +34,7 @@ namespace MVCModel.Models
         public Nullable<int> PreviousCommodityID { get; set; }
         public int CommodityCategoryID { get; set; }
         public int CommodityTypeID { get; set; }
-        public Nullable<int> SupplierID { get; set; }
+        public int SupplierID { get; set; }
         public Nullable<int> PiecePerPack { get; set; }
         public Nullable<int> QuantityAlert { get; set; }
         public decimal ListedPrice { get; set; }

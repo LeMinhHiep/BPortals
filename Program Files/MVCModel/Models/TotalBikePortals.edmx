@@ -91,7 +91,7 @@
           <Property Name="PreviousCommodityID" Type="int" />
           <Property Name="CommodityCategoryID" Type="int" Nullable="false" />
           <Property Name="CommodityTypeID" Type="int" Nullable="false" />
-          <Property Name="SupplierID" Type="int" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
           <Property Name="PiecePerPack" Type="int" />
           <Property Name="QuantityAlert" Type="int" />
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -4005,7 +4005,7 @@
           <Property Name="PreviousCommodityID" Type="Int32" />
           <Property Name="CommodityCategoryID" Type="Int32" Nullable="false" />
           <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
-          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
           <Property Name="PiecePerPack" Type="Int32" />
           <Property Name="QuantityAlert" Type="Int32" />
           <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
