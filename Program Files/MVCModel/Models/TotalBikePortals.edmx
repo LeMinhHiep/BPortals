@@ -4558,6 +4558,7 @@
           <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="LicensePlate" Nullable="true" MaxLength="60" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="IsFinished" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ServiceContractIndex">
           <Property Type="Int32" Name="ServiceContractID" Nullable="false" />
@@ -6485,6 +6486,7 @@
                 <ScalarProperty Name="EngineCode" ColumnName="EngineCode" />
                 <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

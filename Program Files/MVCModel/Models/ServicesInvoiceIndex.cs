@@ -23,5 +23,6 @@ namespace MVCModel.Models
         public string EngineCode { get; set; }
         public string LicensePlate { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public bool IsFinished { get; set; }
     }
 }
