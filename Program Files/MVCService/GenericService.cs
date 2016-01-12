@@ -189,7 +189,7 @@ namespace MVCService
                 //CAU LENH NAY: CHI NHAM MUC DICH KIEM TRA NHU VAY MA THOI
                 //SAU NAY, NEU CAN PHAI BO CAU LENH NAY DE PHAN QUYEN LINH DONG HON, TUC LA CO THE CAN CU TRONG table AccessControls MA THOI (CHANG HAN, this.UserID duoc quyen modify du lieu cho bat ky dto.PreparedPersonID nao, KE CA this.LocationID <> dto.PreparedPersonID.LocationID) 
                 //KHI DO, CAU LENH NAY HOAN TOAN CO THE BO DI, VA KHI DO, CAC MODULE LIEN QUAN DEN Warehouse SE DUOC KIEM SOAT BANG 1 CACH THUC KHAC, DE DAM BAO RANG: DOI VOI MODULE LIEN QUAN DEN Warehouse THI this.LocationID = organizationalUnitUser.OrganizationalUnit.LocationID
-                if (this.LocationID != organizationalUnitUser.OrganizationalUnit.LocationID) throw new System.ArgumentException("Lỗi lưu dữ liệu", "Vui lòng chọn lại người lập hợp lệ.");
+                //if (this.LocationID != organizationalUnitUser.OrganizationalUnit.LocationID) throw new System.ArgumentException("Lỗi lưu dữ liệu", "Vui lòng chọn lại người lập hợp lệ.");
 
 
 
