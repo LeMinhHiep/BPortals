@@ -97,7 +97,7 @@ namespace MVCService
         {
             StringBuilder invalidMessage = new StringBuilder();
 
-            if (dto.EntryDate < new DateTime(2015, 7, 1) || dto.EntryDate > DateTime.Today.AddDays(2)) invalidMessage.Append(" Ngày không hợp lệ;");
+            //if (dto.EntryDate < new DateTime(2015, 7, 1) || dto.EntryDate > DateTime.Today.AddDays(2)) invalidMessage.Append(" Ngày không hợp lệ;");
 
             if (invalidMessage.ToString().Length > 0) throw new System.ArgumentException("Lỗi dữ liệu", invalidMessage.ToString());
 
