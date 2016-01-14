@@ -19,15 +19,23 @@ namespace MVCService.SalesTasks
     public class VehiclesInvoiceService : GenericWithViewDetailService<SalesInvoice, SalesInvoiceDetail, VehiclesInvoiceViewDetail, VehiclesInvoiceDTO, VehiclesInvoicePrimitiveDTO, VehiclesInvoiceDetailDTO>, IVehiclesInvoiceService
     {
         private readonly IServiceContractRepository serviceContractRepository;
+        private readonly IAccountInvoiceAPIRepository accountInvoiceAPIRepository;
+
         private readonly IServiceContractService serviceContractService;
+        private readonly IAccountInvoiceService accountInvoiceService;
 
         public VehiclesInvoiceService(IVehiclesInvoiceRepository vehiclesInvoiceRepository,
                                       IServiceContractRepository serviceContractRepository,
-                                      IServiceContractService serviceContractService)
+                                      IAccountInvoiceAPIRepository accountInvoiceAPIRepository,
+                                      IServiceContractService serviceContractService,
+                                      IAccountInvoiceService accountInvoiceService)
             : base(vehiclesInvoiceRepository, "VehiclesInvoicePostSaveValidate", "VehiclesInvoiceSaveRelative", "GetVehiclesInvoiceViewDetails")
         {
             this.serviceContractRepository = serviceContractRepository;
+            this.accountInvoiceAPIRepository = accountInvoiceAPIRepository;
+
             this.serviceContractService = serviceContractService;
+            this.accountInvoiceService = accountInvoiceService;
         }
 
         public override ICollection<VehiclesInvoiceViewDetail> GetViewDetails(int salesInvoiceID)
@@ -51,31 +59,65 @@ namespace MVCService.SalesTasks
             foreach (ServiceContractGetVehiclesInvoice serviceContractGetVehiclesInvoice in serviceContractGetVehiclesInvoices)
             {
 
-                ServiceContractDTO serviceContract = new ServiceContractDTO();
+                ServiceContractDTO serviceContractDTO = new ServiceContractDTO();
 
-                serviceContract.EntryDate = serviceContractGetVehiclesInvoice.EntryDate;
-                serviceContract.SalesInvoiceDetailID = serviceContractGetVehiclesInvoice.SalesInvoiceDetailID;
-                serviceContract.PurchaseDate = serviceContractGetVehiclesInvoice.EntryDate;
+                serviceContractDTO.EntryDate = serviceContractGetVehiclesInvoice.EntryDate;
+                serviceContractDTO.SalesInvoiceDetailID = serviceContractGetVehiclesInvoice.SalesInvoiceDetailID;
+                serviceContractDTO.PurchaseDate = serviceContractGetVehiclesInvoice.EntryDate;
 
-                serviceContract.ServiceContractTypeID = (int)GlobalEnums.ServiceContractTypeID.Warranty;
+                serviceContractDTO.ServiceContractTypeID = (int)GlobalEnums.ServiceContractTypeID.Warranty;
 
-                serviceContract.CustomerID = serviceContractGetVehiclesInvoice.CustomerID;
-                serviceContract.CommodityID = serviceContractGetVehiclesInvoice.CommodityID;
-                serviceContract.ChassisCode = serviceContractGetVehiclesInvoice.ChassisCode;
-                serviceContract.EngineCode = serviceContractGetVehiclesInvoice.EngineCode;
-                serviceContract.ColorCode = serviceContractGetVehiclesInvoice.ColorCode;
+                serviceContractDTO.CustomerID = serviceContractGetVehiclesInvoice.CustomerID;
+                serviceContractDTO.CommodityID = serviceContractGetVehiclesInvoice.CommodityID;
+                serviceContractDTO.ChassisCode = serviceContractGetVehiclesInvoice.ChassisCode;
+                serviceContractDTO.EngineCode = serviceContractGetVehiclesInvoice.EngineCode;
+                serviceContractDTO.ColorCode = serviceContractGetVehiclesInvoice.ColorCode;
 
-                serviceContract.BeginningDate = serviceContractGetVehiclesInvoice.BeginningDate;
-                serviceContract.EndingDate = serviceContractGetVehiclesInvoice.EndingDate;
+                serviceContractDTO.BeginningDate = serviceContractGetVehiclesInvoice.BeginningDate;
+                serviceContractDTO.EndingDate = serviceContractGetVehiclesInvoice.EndingDate;
 
-                serviceContract.BeginningMeters = 0;
-                serviceContract.EndingMeters = serviceContractGetVehiclesInvoice.LimitedKilometreWarranty;
+                serviceContractDTO.BeginningMeters = 0;
+                serviceContractDTO.EndingMeters = serviceContractGetVehiclesInvoice.LimitedKilometreWarranty;
 
-                serviceContract.PreparedPersonID = vehiclesInvoiceDTO.PreparedPersonID;
-                serviceContract.ApproverID = vehiclesInvoiceDTO.ApproverID;
+                serviceContractDTO.PreparedPersonID = vehiclesInvoiceDTO.PreparedPersonID;
+                serviceContractDTO.ApproverID = vehiclesInvoiceDTO.ApproverID;
 
-                this.serviceContractService.UserID = this.UserID;
-                this.serviceContractService.Save(serviceContract, true);
+                this.serviceContractService.UserID = this.UserID; //THE BaseService.UserID IS AUTOMATICALLY SET BY CustomControllerAttribute OF CONTROLLER, ONLY WHEN BaseService IS INITIALIZED BY CONTROLLER. BUT HERE, THE this.serviceContractService IS INITIALIZED BY VehiclesInvoiceService => SO SHOULD SET serviceContractService.UserID = this.UserID
+                this.serviceContractService.Save(serviceContractDTO, true);
+            }
+
+
+            if (vehiclesInvoiceDTO.VATInvoiceNo != null && vehiclesInvoiceDTO.VATInvoiceNo.Trim() != "")
+            {
+                AccountInvoiceDTO accountInvoiceDTO = new AccountInvoiceDTO();
+
+                accountInvoiceDTO.EntryDate = vehiclesInvoiceDTO.EntryDate;
+                accountInvoiceDTO.CustomerID = vehiclesInvoiceDTO.CustomerID;
+
+                accountInvoiceDTO.VATInvoiceNo = vehiclesInvoiceDTO.VATInvoiceNo;
+                accountInvoiceDTO.VATInvoiceSeries = vehiclesInvoiceDTO.VATInvoiceSeries;
+                accountInvoiceDTO.VATInvoiceDate = vehiclesInvoiceDTO.VATInvoiceDate;
+
+                accountInvoiceDTO.PreparedPersonID = vehiclesInvoiceDTO.PreparedPersonID;
+                accountInvoiceDTO.ApproverID = vehiclesInvoiceDTO.ApproverID;
+
+                accountInvoiceDTO.TotalQuantity = vehiclesInvoiceDTO.TotalQuantity;
+                accountInvoiceDTO.TotalAmount = vehiclesInvoiceDTO.TotalAmount;
+                accountInvoiceDTO.TotalVATAmount = vehiclesInvoiceDTO.TotalVATAmount;
+                accountInvoiceDTO.TotalGrossAmount = vehiclesInvoiceDTO.TotalGrossAmount;
+                accountInvoiceDTO.AverageDiscountPercent = vehiclesInvoiceDTO.AverageDiscountPercent;
+
+                accountInvoiceDTO.Description = vehiclesInvoiceDTO.Description;
+                accountInvoiceDTO.Remarks = vehiclesInvoiceDTO.Remarks;
+
+                IEnumerable<PendingSalesInvoice> pendingSalesInvoices = this.accountInvoiceAPIRepository.GetPendingSalesInvoices(salesInvoice.SalesInvoiceID, "", salesInvoice.LocationID, 0, DateTime.Now, DateTime.Now, 0, "");
+                foreach (PendingSalesInvoice pendingSalesInvoice in pendingSalesInvoices)
+                {
+                    accountInvoiceDTO.ViewDetails.Add(new AccountInvoiceDetailDTO { SalesInvoiceDetailID = pendingSalesInvoice.SalesInvoiceDetailID, CommodityID = pendingSalesInvoice.CommodityID, CommodityTypeID = pendingSalesInvoice.CommodityTypeID, Quantity = pendingSalesInvoice.Quantity, ListedPrice = pendingSalesInvoice.ListedPrice, DiscountPercent = pendingSalesInvoice.DiscountPercent, UnitPrice = pendingSalesInvoice.UnitPrice, VATPercent = pendingSalesInvoice.VATPercent, GrossPrice = pendingSalesInvoice.GrossPrice, Amount = pendingSalesInvoice.Amount, VATAmount = pendingSalesInvoice.VATAmount, GrossAmount = pendingSalesInvoice.GrossAmount, IsBonus = pendingSalesInvoice.IsBonus, IsWarrantyClaim = pendingSalesInvoice.IsWarrantyClaim });
+                }
+
+                this.accountInvoiceService.UserID = this.UserID; //THE BaseService.UserID IS AUTOMATICALLY SET BY CustomControllerAttribute OF CONTROLLER, ONLY WHEN BaseService IS INITIALIZED BY CONTROLLER. BUT HERE, THE this.accountInvoiceService IS INITIALIZED BY VehiclesInvoiceService => SO SHOULD SET accountInvoiceService.UserID = this.UserID
+                this.accountInvoiceService.Save(accountInvoiceDTO, true);
             }
 
             return salesInvoice;
@@ -101,7 +143,7 @@ namespace MVCService.SalesTasks
 
         private readonly IInventoryRepository inventoryRepository;
         private readonly IPartsInvoiceHelperService partsInvoiceHelperService;
-        
+
 
         public PartsInvoiceService(IPartsInvoiceRepository partsInvoiceRepository, IInventoryRepository inventoryRepository, IPartsInvoiceHelperService partsInvoiceHelperService)
             : base(partsInvoiceRepository, "PartsInvoicePostSaveValidate", "PartsInvoiceSaveRelative", "GetPartsInvoiceViewDetails")

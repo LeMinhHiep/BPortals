@@ -280,6 +280,7 @@
     <Compile Include="Controllers\GenericSimpleController.cs" />
     <Compile Include="Controllers\GenericViewDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Init3006\AutoAddAccountInvoiceController.cs" />
     <Compile Include="Controllers\Init3006\DeletePartsInvoicesController.cs" />
     <Compile Include="Controllers\Init3006\Init3006Controller.cs" />
     <Compile Include="Controllers\SalesTasks\AccountInvoicesController.cs" />

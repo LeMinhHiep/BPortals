@@ -54,6 +54,7 @@
                 var accountInvoiceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
                 
                 return {
+                    salesInvoiceID: 0,
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
                     salesInvoiceTypeID: $("#SalesInvoiceTypeID").val(),
                     entryDate: $("#EntryDate").val(),

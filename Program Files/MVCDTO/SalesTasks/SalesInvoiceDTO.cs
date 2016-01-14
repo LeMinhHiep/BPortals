@@ -118,10 +118,13 @@ namespace MVCDTO.SalesTasks
         public override int SalesInvoiceTypeID { get { return (int)GlobalEnums.SalesInvoiceTypeID.VehiclesInvoice; } }
 
         [Display(Name = "Số hóa đơn")]
+        [Required(ErrorMessage = "Vui lòng nhập Số hóa đơn")]
         public string VATInvoiceNo { get; set; }
         [Display(Name = "Số seri")]
+        [Required(ErrorMessage = "Vui lòng nhập Số seri")]
         public string VATInvoiceSeries { get; set; }
         [Display(Name = "Ngày hóa đơn")]
+        [Required(ErrorMessage = "Vui lòng Ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
 
     }

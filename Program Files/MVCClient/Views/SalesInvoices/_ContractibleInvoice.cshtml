@@ -16,7 +16,7 @@
     <div class="div-row2">
         @Html.Partial("~/Views/Helpers/Commons/_CustomerMaskedTextBox.cshtml")
     </div>
-    <div class="div-row2 customer-lmargin" style="padding-top: 20px;">
+    <div class="div-row2 customer-lmargin" style="padding-top: 20px; ">
         @{string serviceContractPurchaseDate = "";}
         @if (Model.ServiceContractPurchaseDate != null)
         {
@@ -25,9 +25,10 @@
                 serviceContractPurchaseDate = Model.ServiceContractPurchaseDate.Value.ToShortDateString();
             }
         }
-        <label id="CommodityDescription" class="label-description" style=" margin-top: 10px;">@Model.ServiceContractCommodityName / @Model.ServiceContractCommodityCode / @Model.ServiceContractLicensePlate / @serviceContractPurchaseDate / @Model.ServiceContractChassisCode / @Model.ServiceContractEngineCode</label>
+        <div class="label-description" style="margin-top: 10px;">
+            <a style="color: #0026ff;" href="@Url.Action("Edit", "ServiceContracts", new { id = @Model.ServiceContractID })" target="_blank"> @Model.ServiceContractCommodityName / @Model.ServiceContractCommodityCode / @Model.ServiceContractLicensePlate / @serviceContractPurchaseDate / @Model.ServiceContractChassisCode / @Model.ServiceContractEngineCode </a>
+        </div>
     </div>
-
 </div>
 
 <script type="text/javascript">

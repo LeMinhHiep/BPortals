@@ -16,6 +16,11 @@ namespace MVCService.SalesTasks
         {
         }
 
+        public new bool Save(AccountInvoiceDTO dto, bool useExistingTransaction)
+        {
+            return base.Save(dto, true);
+        }
+
         public override ICollection<AccountInvoiceViewDetail> GetViewDetails(int accountInvoiceID)
         {
             ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("AccountInvoiceID", accountInvoiceID) };

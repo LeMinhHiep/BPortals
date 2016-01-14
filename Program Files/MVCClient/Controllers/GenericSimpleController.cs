@@ -15,6 +15,7 @@ using MVCCore.Services;
 
 using MVCClient.Builders;
 using MVCClient.ViewModels.Helpers;
+using MVCClient.ViewModels.SalesTasks;
 
 
 namespace MVCClient.Controllers
@@ -289,10 +290,13 @@ namespace MVCClient.Controllers
 
         protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel, bool forDelete)
         {
-            if (forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE
-                simpleViewModel.Deletable = this.genericService.Deletable(simpleViewModel);
-            else
+            
+            if (!forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE               (THE CONDITIONAL CLAUSE: if (!forDelete) MEAN: WHEN SHOW VIEW FOR DELETE, NO NEED TO CHECK Editable => Editable SHOULD BE FALSE)
                 simpleViewModel.Editable = this.genericService.Editable(simpleViewModel);
+
+            if (forDelete || simpleViewModel is ServiceContractViewModel)//WHEN forDelete, IT SHOULD BE CHECK FOR Deletable ATTRIBUTE, SURELY.          BUT, WHEN OPEN VIEW FOR EDIT, NOW: ONLY VIEW ServiceContract NEED TO USE Deletable ATTRIBUTE ONLY. SO, THIS CODE IS CORRECT FOR NOW, BUT LATER, IF THERE IS MORE VIEWS NEED THIS Deletable ATTRIBUTE, THIS CODE SHOULD MODIFY MORE GENERIC!!!
+                simpleViewModel.Deletable = this.genericService.Deletable(simpleViewModel);
+
 
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);

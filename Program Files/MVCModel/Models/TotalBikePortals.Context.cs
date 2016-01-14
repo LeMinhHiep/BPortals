@@ -1070,8 +1070,12 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AccountInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(string aspUserID, Nullable<int> locationID, Nullable<int> salesInvoiceTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> accountInvoiceID, string salesInvoiceDetailIDs)
+        public virtual ObjectResult<PendingSalesInvoice> GetPendingSalesInvoices(Nullable<int> salesInvoiceID, string aspUserID, Nullable<int> locationID, Nullable<int> salesInvoiceTypeID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> accountInvoiceID, string salesInvoiceDetailIDs)
         {
+            var salesInvoiceIDParameter = salesInvoiceID.HasValue ?
+                new ObjectParameter("SalesInvoiceID", salesInvoiceID) :
+                new ObjectParameter("SalesInvoiceID", typeof(int));
+    
             var aspUserIDParameter = aspUserID != null ?
                 new ObjectParameter("AspUserID", aspUserID) :
                 new ObjectParameter("AspUserID", typeof(string));
@@ -1100,7 +1104,7 @@ namespace MVCModel.Models
                 new ObjectParameter("SalesInvoiceDetailIDs", salesInvoiceDetailIDs) :
                 new ObjectParameter("SalesInvoiceDetailIDs", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", aspUserIDParameter, locationIDParameter, salesInvoiceTypeIDParameter, fromDateParameter, toDateParameter, accountInvoiceIDParameter, salesInvoiceDetailIDsParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingSalesInvoice>("GetPendingSalesInvoices", salesInvoiceIDParameter, aspUserIDParameter, locationIDParameter, salesInvoiceTypeIDParameter, fromDateParameter, toDateParameter, accountInvoiceIDParameter, salesInvoiceDetailIDsParameter);
         }
     }
 }

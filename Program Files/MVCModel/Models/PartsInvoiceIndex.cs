@@ -23,5 +23,6 @@ namespace MVCModel.Models
         public Nullable<System.DateTime> ServiceDate { get; set; }
         public string ServiceReference { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public bool IsFinished { get; set; }
     }
 }

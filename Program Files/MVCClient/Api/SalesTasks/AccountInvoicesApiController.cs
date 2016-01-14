@@ -44,9 +44,9 @@ namespace MVCClient.Api.SalesTasks
         }
 
 
-        public JsonResult GetPendingSalesInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int locationID, int salesInvoiceTypeID, DateTime entryDate, int accountInvoiceID, string salesInvoiceDetailIDs)
+        public JsonResult GetPendingSalesInvoices([DataSourceRequest] DataSourceRequest dataSourceRequest, int salesInvoiceID, int locationID, int salesInvoiceTypeID, DateTime entryDate, int accountInvoiceID, string salesInvoiceDetailIDs)
         {
-            var result = this.accountInvoiceAPIRepository.GetPendingSalesInvoices(User.Identity.GetUserId(), locationID, salesInvoiceTypeID, entryDate, entryDate.AddHours(23).AddMinutes(59).AddSeconds(59), accountInvoiceID, salesInvoiceDetailIDs);
+            var result = this.accountInvoiceAPIRepository.GetPendingSalesInvoices(salesInvoiceID, User.Identity.GetUserId(), locationID, salesInvoiceTypeID, entryDate, entryDate.AddHours(23).AddMinutes(59).AddSeconds(59), accountInvoiceID, salesInvoiceDetailIDs);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

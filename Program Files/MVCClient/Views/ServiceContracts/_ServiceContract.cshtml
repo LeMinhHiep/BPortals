@@ -76,7 +76,7 @@
             <div class="div-right">
                 <div class="contract-separator">
                     <div id="customer-div" class="customer-background">
-                        @if (@Model.SalesInvoiceDetailID > 0)
+                        @if (@Model.SalesInvoiceDetailID > 0 || !@Model.Deletable)
                         {
                             @Html.Partial("~/Views/Helpers/Commons/_CustomerMaskedTextBox.cshtml")}
                         else
@@ -96,7 +96,7 @@
                             .Content(@<text>
 
                                 <div class="div-panel-left">
-                                    @if (@Model.SalesInvoiceDetailID > 0)
+                                    @if (@Model.SalesInvoiceDetailID > 0 || !@Model.Deletable)
                                     {
                                         @Html.Partial("~/Views/Helpers/Commons/_CommodityMaskedTextBox.cshtml")}
                                     else
@@ -251,10 +251,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        if ('@Model.SalesInvoiceDetailID' == 0) {
-            SetReadony(false);
-        }
-        else {
+        if ('@Model.SalesInvoiceDetailID' != 0) {
             SetReadony(true);
         }
     });
