@@ -8,7 +8,7 @@ using MVCBase.Enums;
 
 namespace MVCDTO
 {
-    public abstract class BaseDTO : IAccessControlAttribute //: BaseModel
+    public abstract class BaseDTO : BaseModel, IAccessControlAttribute 
     {
         protected BaseDTO()
         {
@@ -23,12 +23,9 @@ namespace MVCDTO
                     propertyInfo.SetValue(this, attribute.Value, null);
                 }
             }
-            this.EntryDate = DateTime.Now;
         }
 
-        [Display(Name = "Ngày lập")]
-        [Required]
-        public DateTime? EntryDate { get; set; }
+        
         [Display(Name = "Số phiếu")]
         public string Reference { get; set; }
 
@@ -39,7 +36,6 @@ namespace MVCDTO
         [Display(Name = "Người lập")]
         public virtual int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }
-        public int LocationID { get; set; }
 
 
 
@@ -58,6 +54,34 @@ namespace MVCDTO
         //These properties are used as an implementation preservation of ISimpleViewModel for these ________ViewModel class (Those class ________ViewModel which is BOTH inheritance from this BaseDTO AND implementation of ISimpleViewModel)
         public virtual bool PrintAfterClosedSubmit { get; set; }
         public GlobalEnums.SubmitTypeOption SubmitTypeOption { get; set; }
+
+
+
+
+
+        
+//trunk/Program Files/MVCDTO/BaseWithDetailDTO.cs
+//trunk/Program Files/MVCDTO/Helpers
+//trunk/Program Files/MVCDTO/Helpers/AmountDetailDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/AmountDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/DiscountAmountDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/DiscountVATAmountDetailDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/DiscountVATAmountDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/QuantityDetailDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/QuantityDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/VATAmountDetailDTO.cs
+//trunk/Program Files/MVCDTO/Helpers/VATAmountDTO.cs
+//trunk/Program Files/MVCDTO/MVCDTO.csproj
+//trunk/Program Files/MVCDTO/SalesTasks/SalesInvoiceDetailDTO.cs
+//trunk/Program Files/MVCDTO/SalesTasks/SalesInvoiceDTO.cs
+
+
+
+
+//trunk/Program Files/MVCModel/BaseModel.cs
+//trunk/Program Files/MVCDTO/BaseDTO.cs
+
+
 
 
 

@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCModel.Helpers;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.SalesTasks
 {
-    public abstract class SalesInvoiceDetailDTO : BaseModel, IPrimitiveEntity
+    public abstract class SalesInvoiceDetailDTO : DiscountVATAmountDetailDTO, IPrimitiveEntity
     {
         public int GetID() { return this.SalesInvoiceDetailID; }
 
@@ -26,36 +27,9 @@ namespace MVCDTO.SalesTasks
         [UIHint("StringReadonly")]
         public string CommodityCode { get; set; }
 
+        [Required(ErrorMessage = "Lỗi bắt buộc phải có loại hàng hóa")]
         public int CommodityTypeID { get; set; }
 
-        [Display(Name = "SL")]
-        [UIHint("Decimal")]
-        [Range(0, 99999999999, ErrorMessage = "Số lượng không hợp lệ")]
-        public virtual decimal Quantity { get; set; }
-        [Display(Name = "Đơn giá")]
-        [UIHint("DecimalReadonly")]
-        public decimal ListedPrice { get; set; }
-        [Display(Name = "CK")]
-        [UIHint("Decimal")]
-        public decimal DiscountPercent { get; set; }
-        [Display(Name = "Giá bán")]
-        [UIHint("Decimal")]
-        public decimal UnitPrice { get; set; }
-        [Display(Name = "VAT")]
-        [UIHint("DecimalReadonly")]
-        public decimal VATPercent { get; set; }
-        [Display(Name = "Giá sau thuế")]
-        [UIHint("Decimal")]
-        public decimal GrossPrice { get; set; }
-        [Display(Name = "Thành tiền")]
-        [UIHint("DecimalReadonly")]
-        public decimal Amount { get; set; }
-        [Display(Name = "Thuế VAT")]
-        [UIHint("DecimalReadonly")]
-        public decimal VATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        [UIHint("DecimalReadonly")]
-        public decimal GrossAmount { get; set; }
         [Display(Name = "Ghi chú")]
         public string Remarks { get; set; }
 

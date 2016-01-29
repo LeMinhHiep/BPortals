@@ -205,9 +205,6 @@
                                 model.Id(x => x.GoodsReceiptDetailID);
                                 model.Field(m => m.GoodsReceiptDetailID).DefaultValue(0);
                                 model.Field(m => m.GoodsReceiptID).DefaultValue(@Model.GoodsReceiptID);
-                                model.Field(m => m.QuantityRemains).DefaultValue(0);
-                                model.Field(m => m.Quantity).DefaultValue(0);
-                                model.Field(m => m.QuantityIssue).DefaultValue(0);
                             })
                             .Events(events =>
                             {

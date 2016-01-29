@@ -129,7 +129,10 @@ namespace MVCData.Repositories
 
         public DateTime GetEditLockedDate(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID)
         {
-            return DateTime.Now.AddYears(-10);
+            if (nmvnTaskID == GlobalEnums.NmvnTaskID.ServiceContract)
+                return DateTime.Now.AddYears(-20);
+            else
+                return new DateTime(2016, 1, 1);
         }
 
 

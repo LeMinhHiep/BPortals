@@ -68,8 +68,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDTO.cs" />
+    <Compile Include="BaseWithDetailDTO.cs" />
     <Compile Include="CommonTasks\CommodityDTO.cs" />
     <Compile Include="CustomValidation.cs" />
+    <Compile Include="Helpers\AmountDetailDTO.cs" />
+    <Compile Include="Helpers\AmountDTO.cs" />
+    <Compile Include="Helpers\DiscountVATAmountDetailDTO.cs" />
+    <Compile Include="Helpers\DiscountVATAmountDTO.cs" />
+    <Compile Include="Helpers\QuantityDetailDTO.cs" />
+    <Compile Include="Helpers\QuantityDTO.cs" />
+    <Compile Include="Helpers\VATAmountDetailDTO.cs" />
+    <Compile Include="Helpers\VATAmountDTO.cs" />
     <Compile Include="IPrimitiveDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalesTasks\AccountInvoiceDetailDTO.cs" />

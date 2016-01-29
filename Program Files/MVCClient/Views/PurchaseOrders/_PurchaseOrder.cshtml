@@ -199,7 +199,6 @@
                                 model.Id(x => x.PurchaseOrderDetailID);
                                 model.Field(m => m.PurchaseOrderDetailID).DefaultValue(0);
                                 model.Field(m => m.PurchaseOrderID).DefaultValue(@Model.PurchaseOrderID);
-                                model.Field(m => m.Quantity).DefaultValue(0);
                             })
                             .Events(events =>
                             {

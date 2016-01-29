@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.SalesTasks
 {
-    public abstract class SalesInvoicePrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public abstract class SalesInvoicePrimitiveDTO : DiscountVATAmountDTO<SalesInvoiceDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public virtual GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.SalesInvoice; } }
 
@@ -47,21 +48,17 @@ namespace MVCDTO.SalesTasks
         [Display(Name = "Người duyệt")]
         public int ApproverID { get; set; }
 
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Tổng tiền")]
-        public decimal TotalAmount { get; set; }
-        [Display(Name = "Tổng thuế")]
-        public decimal TotalVATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        public decimal TotalGrossAmount { get; set; }
-        [Display(Name = "Bình quân CK")]
-        public decimal AverageDiscountPercent { get; set; }
-
         [Display(Name = "Diễn giải")]
         public string Description { get; set; }
         [Display(Name = "Ghi chú")]
         public string Remarks { get; set; }
+
+
+        public override void PerformPresaveRule()
+        {
+            base.PerformPresaveRule();
+            this.DtoDetails().ToList().ForEach(e => { e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; });
+        }
 
     }
 
@@ -88,6 +85,13 @@ namespace MVCDTO.SalesTasks
         public string ServiceContractColorCode { get; set; }
         [Display(Name = "Tên đại lý")]
         public string ServiceContractAgentName { get; set; }
+
+
+        public override void PerformPresaveRule()
+        {
+            base.PerformPresaveRule();
+            this.DtoDetails().ToList().ForEach(e => { e.ServiceContractID = this.ServiceContractID; });
+        }
     }
 
     public class QuotationalInvoicePrimitiveDTO : ContractibleInvoicePrimitiveDTO //this class should abstract to prevent instantiation, BUT then it can not be used with kendo HTML extention: DisplayNameTitle(). SO WE OMIT MODIFIER: abstract 
@@ -142,11 +146,7 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<VehiclesInvoiceDetailDTO> GetDetails() { return this.VehiclesInvoiceViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
-        }
+        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.VehiclesInvoiceViewDetails; }
     }
 
 
@@ -186,10 +186,12 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<PartsInvoiceDetailDTO> GetDetails() { return this.PartsInvoiceViewDetails; }
 
+        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.PartsInvoiceViewDetails; }
+
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.ServiceContractID = this.ServiceContractID; e.CustomerID = this.CustomerID; e.ServiceInvoiceID = this.ServiceInvoiceID; e.LocationID = this.LocationID; });
+            this.GetDetails().ToList().ForEach(e => { e.ServiceInvoiceID = this.ServiceInvoiceID; });
         }
     }
 
@@ -240,10 +242,12 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<ServicesInvoiceDetailDTO> GetDetails() { return this.SalesInvoiceDetails; }
 
+        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.SalesInvoiceDetails; }
+
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.ServiceContractID = this.ServiceContractID; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; e.CurrentMeters = this.CurrentMeters; });
+            this.GetDetails().ToList().ForEach(e => { e.CurrentMeters = this.CurrentMeters; });
         }
     }
 

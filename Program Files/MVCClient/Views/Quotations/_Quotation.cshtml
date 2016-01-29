@@ -173,10 +173,6 @@
                                 model.Id(x => x.QuotationDetailID);
                                 model.Field(m => m.QuotationDetailID).DefaultValue(0);
                                 model.Field(m => m.QuotationID).DefaultValue(@Model.QuotationID);
-                                model.Field(m => m.Quantity).DefaultValue(1);
-                                model.Field(m => m.DiscountPercent).DefaultValue(0);
-                                model.Field(m => m.IsBonus).DefaultValue(false);
-                                model.Field(m => m.IsWarrantyClaim).DefaultValue(false);
                             })
                             .Events(events =>
                             {

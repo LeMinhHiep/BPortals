@@ -186,8 +186,6 @@
                                 model.Id(x => x.SalesInvoiceDetailID);
                                 model.Field(m => m.SalesInvoiceDetailID).DefaultValue(0);
                                 model.Field(m => m.SalesInvoiceID).DefaultValue(@Model.SalesInvoiceID);
-                                model.Field(m => m.Quantity).DefaultValue(0);
-                                model.Field(m => m.DiscountPercent).DefaultValue(0);
                             })
                             .Events(events =>
                             {
