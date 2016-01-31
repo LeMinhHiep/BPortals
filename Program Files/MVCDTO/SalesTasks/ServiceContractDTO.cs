@@ -37,6 +37,7 @@ namespace MVCDTO.SalesTasks
         public int CommodityID { get; set; }
         public string CommodityCode { get; set; }
         [Display(Name = "Hàng hóa")]
+        [Required(ErrorMessage = "Vui lòng nhập tên xe")]
         public string CommodityName { get; set; }
 
         [Display(Name = "Ngày mua")]
@@ -63,13 +64,6 @@ namespace MVCDTO.SalesTasks
         [Display(Name = "Ngày kết thúc")]
         public Nullable<System.DateTime> EndingDate { get; set; }
 
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
     }
 
     public class ServiceContractDTO : ServiceContractPrimitiveDTO

@@ -28,13 +28,13 @@ namespace MVCDTO.PurchaseTasks
         public string PurchaseOrderReference { get; set; }
         [Display(Name = "Ngày mua")]
         public Nullable<System.DateTime> PurchaseOrderEntryDate { get; set; }
+
         public string PurchaseOrderAttentionName { get; set; }
         public string PurchaseOrderDescription { get; set; }
         public string PurchaseOrderRemarks { get; set; }
 
         [Display(Name = "Thời hạn thanh toán")]
         public Nullable<System.DateTime> DueDate { get; set; }
-
     }
 
     public class PurchaseInvoiceDTO : PurchaseInvoicePrimitiveDTO, IBaseDetailEntity<PurchaseInvoiceDetailDTO>
@@ -50,10 +50,6 @@ namespace MVCDTO.PurchaseTasks
 
         public ICollection<PurchaseInvoiceDetailDTO> GetDetails() { return this.PurchaseInvoiceViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; e.SupplierID = this.SupplierID; });
-        }
+        protected override IEnumerable<PurchaseDetailDTO> DtoDetails() { return this.PurchaseInvoiceViewDetails; }
     }
 }

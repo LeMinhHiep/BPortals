@@ -244,7 +244,7 @@ namespace MVCClient.Controllers.Init3006
                         detailDTO.GrossAmount = Math.Round(detailDTO.Quantity * detailDTO.GrossPrice, 0);
                         detailDTO.VATAmount = Math.Round(detailDTO.GrossAmount - detailDTO.Amount, 0);
 
-                        detailDTO.QuantityReceipt = 0;
+                        //detailDTO.QuantityReceipt = 0;
 
                         purchaseInvoiceDTO.TotalQuantity = Math.Round(purchaseInvoiceDTO.TotalQuantity + detailDTO.Quantity, 0);
                         purchaseInvoiceDTO.TotalAmount = Math.Round(purchaseInvoiceDTO.TotalAmount + detailDTO.Amount, 0);
@@ -279,7 +279,7 @@ namespace MVCClient.Controllers.Init3006
                             detailDTO.GrossAmount = Math.Round(detailDTO.Quantity * detailDTO.GrossPrice, 0);
                             detailDTO.VATAmount = Math.Round(detailDTO.GrossAmount - detailDTO.Amount, 0);
 
-                            detailDTO.QuantityIssue = 0;
+                            //detailDTO.QuantityIssue = 0;
 
                             goodsReceiptDTO.TotalQuantity = Math.Round(goodsReceiptDTO.TotalQuantity + detailDTO.Quantity, 0);
                             goodsReceiptDTO.TotalAmount = Math.Round(goodsReceiptDTO.TotalAmount + detailDTO.Amount, 0);

@@ -116,9 +116,7 @@
                                 .Format("{0:n0}")
                                 .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                                 .ClientTemplate("#= Quantity #" + "<input type='hidden' name='GoodsReceiptViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
-                            columns.Bound(p => p.QuantityIssue).DisplayNameTitle().Width(50).Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Hidden()
-                                .Format("{0:n0}")
-                                .ClientTemplate("#= kendo.toString(QuantityIssue, 'n0') #" + "<input type='hidden' name='GoodsReceiptViewDetails[#= index(data) #].QuantityIssue' value='#= QuantityIssue #' />");
+                            
 
 
                             columns.Bound(p => p.UnitPrice).DisplayNameTitle().Width(90).Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Hidden()

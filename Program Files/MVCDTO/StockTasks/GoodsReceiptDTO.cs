@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.StockTasks
 {
-    public class GoodsReceiptPrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public class GoodsReceiptPrimitiveDTO : VATAmountDTO<GoodsReceiptDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.GoodsReceipt; } }
 
@@ -19,26 +20,16 @@ namespace MVCDTO.StockTasks
 
         public int GoodsReceiptID { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng nhập nhà cung cấp")]
         public int GoodsReceiptTypeID { get; set; }
         public int VoucherID { get; set; }
 
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
 
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Tổng tiền")]
-        public decimal TotalAmount { get; set; }
-        [Display(Name = "Tổng thuế")]
-        public decimal TotalVATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        public decimal TotalGrossAmount { get; set; }
-
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
-
+        public override void PerformPresaveRule()
+        {
+            base.PerformPresaveRule();
+            this.DtoDetails().ToList().ForEach(e => { e.GoodsReceiptTypeID = this.GoodsReceiptTypeID; });
+        }
     }
 
     public class GoodsReceiptDTO : GoodsReceiptPrimitiveDTO, IBaseDetailEntity<GoodsReceiptDetailDTO>
@@ -54,10 +45,6 @@ namespace MVCDTO.StockTasks
 
         public ICollection<GoodsReceiptDetailDTO> GetDetails() { return this.GoodsReceiptViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.GoodsReceiptTypeID = this.GoodsReceiptTypeID; e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<GoodsReceiptDetailDTO> DtoDetails() { return this.GoodsReceiptViewDetails; }
     }
 }

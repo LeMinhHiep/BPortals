@@ -53,9 +53,6 @@ namespace MVCDTO.CommonTasks
         public string HSCode { get; set; }
         public string Specifycation { get; set; }
 
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
-
         public override int PreparedPersonID { get { return 1; } }
     }
 

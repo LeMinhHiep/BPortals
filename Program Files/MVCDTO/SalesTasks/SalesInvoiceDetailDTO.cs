@@ -20,19 +20,6 @@ namespace MVCDTO.SalesTasks
 
         public Nullable<int> QuotationDetailID { get; set; }
 
-        public int CommodityID { get; set; }
-        [Display(Name = "Hàng hóa")]
-        [Required(ErrorMessage = "Vui lòng chọn hàng hóa")]
-        public virtual string CommodityName { get; set; }
-        [UIHint("StringReadonly")]
-        public string CommodityCode { get; set; }
-
-        [Required(ErrorMessage = "Lỗi bắt buộc phải có loại hàng hóa")]
-        public int CommodityTypeID { get; set; }
-
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
-
         public Nullable<bool> IsBonus { get; set; }
         public Nullable<bool> IsWarrantyClaim { get; set; }
     }

@@ -38,6 +38,12 @@ namespace MVCDTO
         public int OrganizationalUnitID { get; set; }
 
 
+        [Display(Name = "Người duyệt")]
+        public int ApproverID { get; set; }
+
+
+        [Display(Name = "Diễn giải")]
+        public string Description { get; set; }
 
         public bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
@@ -56,36 +62,7 @@ namespace MVCDTO
         public GlobalEnums.SubmitTypeOption SubmitTypeOption { get; set; }
 
 
-
-
-
         
-//trunk/Program Files/MVCDTO/BaseWithDetailDTO.cs
-//trunk/Program Files/MVCDTO/Helpers
-//trunk/Program Files/MVCDTO/Helpers/AmountDetailDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/AmountDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/DiscountAmountDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/DiscountVATAmountDetailDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/DiscountVATAmountDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/QuantityDetailDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/QuantityDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/VATAmountDetailDTO.cs
-//trunk/Program Files/MVCDTO/Helpers/VATAmountDTO.cs
-//trunk/Program Files/MVCDTO/MVCDTO.csproj
-//trunk/Program Files/MVCDTO/SalesTasks/SalesInvoiceDetailDTO.cs
-//trunk/Program Files/MVCDTO/SalesTasks/SalesInvoiceDTO.cs
-
-
-
-
-//trunk/Program Files/MVCModel/BaseModel.cs
-//trunk/Program Files/MVCDTO/BaseDTO.cs
-
-
-
-
-
-
         public virtual void PerformPresaveRule() { }
     }
 }

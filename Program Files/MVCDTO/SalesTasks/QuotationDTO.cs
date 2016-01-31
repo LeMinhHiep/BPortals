@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.SalesTasks
 {
-    public class QuotationPrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public class QuotationPrimitiveDTO : DiscountVATAmountDTO<QuotationDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.Quotation; } }
 
@@ -64,28 +65,10 @@ namespace MVCDTO.SalesTasks
         [Required(ErrorMessage = "Vui lòng nhập tên nhân viên thực hiện")]
         public string EmployeeName { get; set; }
 
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Tổng tiền")]
-        public decimal TotalAmount { get; set; }
-        [Display(Name = "Tổng thuế")]
-        public decimal TotalVATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        public decimal TotalGrossAmount { get; set; }
-        [Display(Name = "Bình quân CK")]
-        public decimal AverageDiscountPercent { get; set; }
-
+        
         public string Damages { get; set; }
         public string Causes { get; set; }
         public string Solutions { get; set; }
-
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
 
         public bool IsFinished { get; set; }
     }
@@ -104,11 +87,7 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<QuotationDetailDTO> GetDetails() { return this.QuotationViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<QuotationDetailDTO> DtoDetails() { return this.QuotationViewDetails; }
     }
 
 

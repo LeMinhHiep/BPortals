@@ -52,8 +52,6 @@ namespace MVCDTO.CommonTasks
         public Nullable<System.DateTime> Birthday { get; set; }
         [Display(Name = "Hạn mức tín dụng")]
         public Nullable<double> LimitAmount { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
 
         [Display(Name = "Khách hàng")]
         public bool IsCustomer { get; set; }

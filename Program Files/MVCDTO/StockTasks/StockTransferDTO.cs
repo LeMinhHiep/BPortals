@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCBase.Enums;
 using MVCModel;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.StockTasks
 {
-    public abstract class StockTransferPrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public abstract class StockTransferPrimitiveDTO : QuantityDTO<StockTransferDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public virtual GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.StockTransfer; } }
 
@@ -40,16 +41,6 @@ namespace MVCDTO.StockTasks
         public string WarehouseLocationFacsimile { get; set; }
         public string WarehouseLocationName { get; set; }
         public string WarehouseLocationAddress { get; set; }
-
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
     }
 
 
@@ -71,11 +62,7 @@ namespace MVCDTO.StockTasks
 
         public ICollection<VehicleTransferDetailDTO> GetDetails() { return this.VehicleTransferViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<StockTransferDetailDTO> DtoDetails() { return this.VehicleTransferViewDetails; }
     }
 
 
@@ -101,10 +88,6 @@ namespace MVCDTO.StockTasks
 
         public ICollection<PartTransferDetailDTO> GetDetails() { return this.PartTransferViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<StockTransferDetailDTO> DtoDetails() { return this.PartTransferViewDetails; }
     }
 }

@@ -16,6 +16,6 @@ namespace MVCDTO.Helpers
 
         [Display(Name = "CK")]
         [UIHint("Decimal")]
-        public decimal DiscountPercent { get; set; }
+        public virtual decimal DiscountPercent { get; set; }
     }
 }

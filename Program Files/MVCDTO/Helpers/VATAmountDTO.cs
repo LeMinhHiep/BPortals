@@ -7,7 +7,7 @@ namespace MVCDTO.Helpers
     public abstract class VATAmountDTO<TVATAmountDetailDTO> : AmountDTO<TVATAmountDetailDTO>
         where TVATAmountDetailDTO : class, IVATAmountDetailDTO
     {
-        [Display(Name = "Tổng thuế")]
+        [Display(Name = "Tổng tiền thuế")]
         public decimal TotalVATAmount { get; set; }
         [Display(Name = "Tổng cộng")]
         public decimal TotalGrossAmount { get; set; }

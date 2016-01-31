@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.StockTasks
 {
-    public abstract class TransferOrderPrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public abstract class TransferOrderPrimitiveDTO : QuantityDTO<TransferOrderDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public virtual GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.TransferOrder; } }
 
@@ -38,16 +39,6 @@ namespace MVCDTO.StockTasks
         public string WarehouseLocationFacsimile { get; set; }
         public string WarehouseLocationName { get; set; }
         public string WarehouseLocationAddress { get; set; }
-
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
     }
 
 
@@ -70,11 +61,7 @@ namespace MVCDTO.StockTasks
 
         public ICollection<VehicleTransferOrderDetailDTO> GetDetails() { return this.VehicleTransferOrderViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<TransferOrderDetailDTO> DtoDetails() { return this.VehicleTransferOrderViewDetails; }
     }
 
 
@@ -100,10 +87,6 @@ namespace MVCDTO.StockTasks
 
         public ICollection<PartTransferOrderDetailDTO> GetDetails() { return this.PartTransferOrderViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<TransferOrderDetailDTO> DtoDetails() { return this.PartTransferOrderViewDetails; }
     }
 }

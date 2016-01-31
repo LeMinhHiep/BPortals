@@ -21,6 +21,9 @@ namespace MVCModel
 
         public int LocationID { get; set; }
 
+        [Display(Name = "Ghi chú")]
+        public string Remarks { get; set; }
+
         #region Implementation of IValidatableObject
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

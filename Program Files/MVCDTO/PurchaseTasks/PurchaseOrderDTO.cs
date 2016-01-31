@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.PurchaseTasks
 {
-    public abstract class PurchasePrimitiveDTO : BaseDTO
+    public abstract class PurchasePrimitiveDTO : VATAmountDTO<PurchaseDetailDTO>
     {
         public int SupplierID { get; set; }
         [Display(Name = "Nhà cung cấp")]
@@ -33,20 +34,14 @@ namespace MVCDTO.PurchaseTasks
         [Display(Name = "Phương thức thanh toán")]
         [Required]
         public int PaymentTermID { get; set; }
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Tổng tiền")]
-        public decimal TotalAmount { get; set; }
-        [Display(Name = "Tổng thuế")]
-        public decimal TotalVATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        public decimal TotalGrossAmount { get; set; }
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
+        
+        
+        public override void PerformPresaveRule()
+        {
+            base.PerformPresaveRule();
+            this.DtoDetails().ToList().ForEach(e => { e.SupplierID = this.SupplierID; });
+        }
+
     }
 
     public class PurchaseOrderPrimitiveDTO : PurchasePrimitiveDTO, IPrimitiveEntity, IPrimitiveDTO
@@ -78,10 +73,6 @@ namespace MVCDTO.PurchaseTasks
 
         public ICollection<PurchaseOrderDetailDTO> GetDetails() { return this.PurchaseOrderDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.LocationID = this.LocationID; e.SupplierID = this.SupplierID; });
-        }
+        protected override IEnumerable<PurchaseDetailDTO> DtoDetails() { return this.PurchaseOrderDetails; }
     }
 }

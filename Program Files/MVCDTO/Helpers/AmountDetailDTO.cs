@@ -14,7 +14,7 @@ namespace MVCDTO.Helpers
     {
         [Display(Name = "Đơn giá")]
         [UIHint("Decimal")]
-        public decimal UnitPrice { get; set; }
+        public virtual decimal UnitPrice { get; set; }
 
         [Display(Name = "Thành tiền")]
         [UIHint("DecimalReadonly")]

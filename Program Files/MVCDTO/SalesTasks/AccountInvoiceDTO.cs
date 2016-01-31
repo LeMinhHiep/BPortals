@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 using MVCModel;
 using MVCBase.Enums;
+using MVCDTO.Helpers;
 
 namespace MVCDTO.SalesTasks
 {
-    public class AccountInvoicePrimitiveDTO : BaseDTO, IPrimitiveEntity, IPrimitiveDTO
+    public class AccountInvoicePrimitiveDTO : DiscountVATAmountDTO<AccountInvoiceDetailDTO>, IPrimitiveEntity, IPrimitiveDTO
     {
         public GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.AccountInvoice; } }
 
@@ -42,24 +43,11 @@ namespace MVCDTO.SalesTasks
         [Required(ErrorMessage = "Vui lòng Ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
 
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Tổng SL")]
-        public decimal TotalQuantity { get; set; }
-        [Display(Name = "Tổng tiền")]
-        public decimal TotalAmount { get; set; }
-        [Display(Name = "Tổng thuế")]
-        public decimal TotalVATAmount { get; set; }
-        [Display(Name = "Tổng cộng")]
-        public decimal TotalGrossAmount { get; set; }
-        [Display(Name = "Bình quân CK")]
-        public decimal AverageDiscountPercent { get; set; }
-
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
+        public override void PerformPresaveRule()
+        {
+            base.PerformPresaveRule();
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; });
+        }
     }
 
     public class AccountInvoiceDTO : AccountInvoicePrimitiveDTO, IBaseDetailEntity<AccountInvoiceDetailDTO>
@@ -69,17 +57,12 @@ namespace MVCDTO.SalesTasks
             this.AccountInvoiceViewDetails = new List<AccountInvoiceDetailDTO>();
         }
 
-
         public List<AccountInvoiceDetailDTO> AccountInvoiceViewDetails { get; set; }
         public List<AccountInvoiceDetailDTO> ViewDetails { get { return this.AccountInvoiceViewDetails; } set { this.AccountInvoiceViewDetails = value; } }
 
         public ICollection<AccountInvoiceDetailDTO> GetDetails() { return this.AccountInvoiceViewDetails; }
 
-        public override void PerformPresaveRule()
-        {
-            base.PerformPresaveRule();
-            this.GetDetails().ToList().ForEach(e => { e.EntryDate = this.EntryDate; e.CustomerID = this.CustomerID; e.LocationID = this.LocationID; });
-        }
+        protected override IEnumerable<AccountInvoiceDetailDTO> DtoDetails() { return this.AccountInvoiceViewDetails; }
     }
 
 }

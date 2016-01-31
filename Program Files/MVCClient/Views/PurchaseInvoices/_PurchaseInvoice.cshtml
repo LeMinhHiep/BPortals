@@ -115,12 +115,6 @@
                                 .ClientTemplate("#= (Packing == null) ? '' : Packing #" + "<input type='hidden' name='PurchaseInvoiceViewDetails[#= index(data) #].Packing' value='#= (Packing == null) ? '' : Packing #' />");
 
 
-
-                            columns.Bound(p => p.QuantityReceipt).DisplayNameTitle().Filterable(false).Hidden()
-                                .ClientTemplate("#= QuantityReceipt #" + "<input type='hidden' name='PurchaseInvoiceViewDetails[#= index(data) #].QuantityReceipt' value='#= QuantityReceipt #' />");
-
-
-
                             columns.Bound(p => p.QuantityRemains).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" })
                                 .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                                 .ClientTemplate("#= QuantityRemains #" + "<input type='hidden' name='PurchaseInvoiceViewDetails[#= index(data) #].QuantityRemains' value='#= QuantityRemains #' />");

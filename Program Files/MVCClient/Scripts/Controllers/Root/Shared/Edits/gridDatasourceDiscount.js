@@ -24,6 +24,16 @@
 
 
 
+    definedExemplar.prototype._changeCommodityID = function (dataRow) {
+        if (dataRow.ListedPrice != undefined) {
+            dataRow.set("ListedPrice", 0);
+        }
+    }
+
+
+
+
+
 
     definedExemplar.prototype._changeListedPrice = function (dataRow) {
         this._updateRowUnitPriceByListedPrice(dataRow);

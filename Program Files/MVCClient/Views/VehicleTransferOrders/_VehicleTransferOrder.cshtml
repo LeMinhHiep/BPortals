@@ -53,10 +53,6 @@
                                 .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                                 .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='VehicleTransferOrderViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
-                            columns.Bound(p => p.QuantityTransfer).DisplayNameTitle().Filterable(false).Hidden().Width(50).HtmlAttributes(new { @class = "grid-number-column" })
-                                .Format("{0:n0}")
-                                .ClientTemplate("#= kendo.format('{0:n0}', QuantityTransfer) #" + "<input type='hidden' name='VehicleTransferOrderViewDetails[#= index(data) #].QuantityTransfer' value='#= QuantityTransfer #' />");
-
                             columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false)
                                 .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='VehicleTransferOrderViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 

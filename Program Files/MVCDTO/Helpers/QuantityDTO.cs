@@ -16,7 +16,7 @@ namespace MVCDTO.Helpers
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
-            if (this.TotalQuantity != this.GetTotalQuantity()) yield return new ValidationResult("Lỗi tổng thành tiền", new[] { "TotalQuantity" });
+            if (this.TotalQuantity != this.GetTotalQuantity()) yield return new ValidationResult("Lỗi tổng số lượng", new[] { "TotalQuantity" });
         }
 
         protected virtual decimal GetTotalQuantity() { return this.DtoDetails().Select(o => o.Quantity).Sum(); }

@@ -45,13 +45,6 @@ namespace MVCDTO.SalesTasks
         [Required(ErrorMessage = "Vui lòng nhập tên nhân viên thực hiện")]
         public string EmployeeName { get; set; }
 
-        [Display(Name = "Người duyệt")]
-        public int ApproverID { get; set; }
-
-        [Display(Name = "Diễn giải")]
-        public string Description { get; set; }
-        [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
 
 
         public override void PerformPresaveRule()
@@ -146,7 +139,7 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<VehiclesInvoiceDetailDTO> GetDetails() { return this.VehiclesInvoiceViewDetails; }
 
-        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.VehiclesInvoiceViewDetails; }
+        protected override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.VehiclesInvoiceViewDetails; }
     }
 
 
@@ -186,7 +179,7 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<PartsInvoiceDetailDTO> GetDetails() { return this.PartsInvoiceViewDetails; }
 
-        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.PartsInvoiceViewDetails; }
+        protected override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.PartsInvoiceViewDetails; }
 
         public override void PerformPresaveRule()
         {
@@ -242,7 +235,7 @@ namespace MVCDTO.SalesTasks
 
         public ICollection<ServicesInvoiceDetailDTO> GetDetails() { return this.SalesInvoiceDetails; }
 
-        public override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.SalesInvoiceDetails; }
+        protected override IEnumerable<SalesInvoiceDetailDTO> DtoDetails() { return this.SalesInvoiceDetails; }
 
         public override void PerformPresaveRule()
         {
