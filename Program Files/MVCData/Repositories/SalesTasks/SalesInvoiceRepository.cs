@@ -41,7 +41,7 @@ namespace MVCData.Repositories.SalesTasks
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
-            
+            /*
             Helpers.SqlProgrammability.SalesTasks.AccountInvoice vat = new Helpers.SqlProgrammability.SalesTasks.AccountInvoice(totalBikePortalsEntities);
             vat.RestoreProcedure();
 
@@ -73,7 +73,7 @@ namespace MVCData.Repositories.SalesTasks
 
             Helpers.SqlProgrammability.SalesTasks.ServicesInvoice t = new Helpers.SqlProgrammability.SalesTasks.ServicesInvoice(totalBikePortalsEntities);
             t.RestoreProcedure();
-            /*
+            
             Helpers.SqlProgrammability.SalesTasks.ServiceContracts n = new Helpers.SqlProgrammability.SalesTasks.ServiceContracts(totalBikePortalsEntities);
             n.RestoreProcedure();
 
