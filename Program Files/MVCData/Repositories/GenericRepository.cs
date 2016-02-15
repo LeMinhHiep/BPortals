@@ -127,13 +127,13 @@ namespace MVCData.Repositories
 
 
 
-        public DateTime GetEditLockedDate(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID)
+        public DateTime GetEditLockedDate(int? locationID, GlobalEnums.NmvnTaskID nmvnTaskID)
         {
             if (nmvnTaskID == GlobalEnums.NmvnTaskID.ServiceContract)
                 return DateTime.Now.AddYears(-20);
             else
             {
-                DateTime? lockedDate = this.TotalBikePortalsEntities.Locations.Where(w => w.LocationID == userID).FirstOrDefault().LockedDate;
+                DateTime? lockedDate = this.TotalBikePortalsEntities.Locations.Where(w => w.LocationID == locationID).FirstOrDefault().LockedDate;
                 if (lockedDate == null || lockedDate <= new DateTime(2016, 1, 1)) lockedDate = new DateTime(2016, 1, 1);
 
                 return (DateTime)lockedDate;

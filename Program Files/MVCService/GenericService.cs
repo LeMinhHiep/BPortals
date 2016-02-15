@@ -74,7 +74,7 @@ namespace MVCService
 
         public virtual bool Approvable(TDto dto)
         {
-            if (dto.EntryDate <= this.genericRepository.GetEditLockedDate(this.UserID, this.nmvnTaskID)) return false;
+            if (dto.EntryDate <= this.genericRepository.GetEditLockedDate(this.LocationID, this.nmvnTaskID)) return false;
             if (this.GetAccessLevel(dto.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) return false;
 
             return this.genericRepository.GetApprovable(dto.GetID());
