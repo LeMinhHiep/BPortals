@@ -132,7 +132,12 @@ namespace MVCData.Repositories
             if (nmvnTaskID == GlobalEnums.NmvnTaskID.ServiceContract)
                 return DateTime.Now.AddYears(-20);
             else
-                return new DateTime(2016, 1, 1);
+            {
+                DateTime? lockedDate = this.TotalBikePortalsEntities.Locations.Where(w => w.LocationID == userID).FirstOrDefault().LockedDate;
+                if (lockedDate == null || lockedDate <= new DateTime(2016, 1, 1)) lockedDate = new DateTime(2016, 1, 1);
+
+                return (DateTime)lockedDate;
+            }
         }
 
 
