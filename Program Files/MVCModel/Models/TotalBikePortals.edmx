@@ -275,6 +275,9 @@
           <Property Name="Telephone" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Facsimile" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="LockedDate" Type="datetime" Nullable="false" />
+          <Property Name="AspUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EditedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ModuleDetails">
           <Key>
@@ -1908,6 +1911,11 @@
         <Function Name="TransferOrderEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateLockedDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="LockedDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="UpdateWarehouseBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UpdateWarehouseBalanceOption" Type="int" Mode="In" />
           <Parameter Name="GoodsReceiptID" Type="int" Mode="In" />
@@ -2893,6 +2901,11 @@
             <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="SalesInvoiceDetailIDs" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="UpdateLockedDate">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="LockedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3325,6 +3338,9 @@
           <NavigationProperty Name="Employees" Relationship="TotalBikePortalsModel.FK_Employees_Locations" FromRole="Location" ToRole="Employee" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Locations" FromRole="Location" ToRole="SalesInvoice" />
           <NavigationProperty Name="AccountInvoices" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Locations" FromRole="Location" ToRole="AccountInvoice" />
+          <Property Name="LockedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AspUserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
           </EntityType>
         <EntityType Name="PaymentTerm">
           <Key>
@@ -5807,6 +5823,9 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.Location">
               <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="AspUserID" ColumnName="AspUserID" />
+                <ScalarProperty Name="LockedDate" ColumnName="LockedDate" />
                 <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -6992,6 +7011,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateLockedDate" FunctionName="TotalBikePortalsModel.Store.UpdateLockedDate" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

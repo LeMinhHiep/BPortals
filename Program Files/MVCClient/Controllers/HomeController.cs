@@ -9,11 +9,20 @@ using Microsoft.AspNet.Identity;
 using MVCClient.Models;
 using MVCClient.ViewModels.Home;
 using MVCClient.Api.SessionTasks;
+using MVCModel.Models;
+using MVCCore.Repositories;
+using System.Data.Entity.Core.Objects;
 
 namespace MVCClient.Controllers
 {
     public class HomeController : CoreController
     {
+        private readonly IBaseRepository baseRepository;
+        public HomeController(IBaseRepository baseRepository)
+        {
+            this.baseRepository = baseRepository;
+        }
+
         // GET: Home
         public ActionResult Index()
         {
@@ -49,6 +58,27 @@ namespace MVCClient.Controllers
             HomeSession.SetGlobalToDate(this.HttpContext, optionViewModel.GlobalToDate);
 
             return View("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult LockedDate()
+        {
+            List<Location> Locations = this.baseRepository.GetEntities<Location>().ToList();
+
+            return View(Locations);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public JsonResult LockedDate(int locationID, DateTime lockedDate)
+        {
+            int x = locationID;
+            DateTime d = lockedDate;
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("AspUserID", User.Identity.GetUserId()), new ObjectParameter("LocationID", locationID), new ObjectParameter("LockedDate", lockedDate) };
+            this.baseRepository.ExecuteFunction("UpdateLockedDate", parameters);
+
+            return Json(new { Success = true });
         }
 
     }

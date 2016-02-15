@@ -44,6 +44,8 @@ namespace MVCClient.App_Start
     using MVCService.Helpers;
     using MVCCore.Repositories.Analysis;
     using MVCData.Repositories.Analysis;
+    using MVCCore.Repositories;
+    using MVCData.Repositories;
        
 
     public static class NinjectWebCommon 
@@ -82,6 +84,7 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<TotalBikePortalsEntities>().ToSelf().InRequestScope();
 
+                kernel.Bind<IBaseRepository>().To<BaseRepository>();
                 kernel.Bind<IReportRepository>().To<ReportRepository>();
 
                 kernel.Bind<IPurchaseOrderService>().To<PurchaseOrderService>();

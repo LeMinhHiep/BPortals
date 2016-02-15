@@ -16,6 +16,7 @@ namespace MVCData.Helpers.SqlProgrammability.CommonTasks
         public void RestoreProcedure()
         {
             this.GetAccessLevel();
+            this.UpdateLockedDate();
         }
 
         /// <summary>
@@ -43,6 +44,20 @@ namespace MVCData.Helpers.SqlProgrammability.CommonTasks
             queryString = queryString + "       WHERE       UserID = @UserID AND NMVNTaskID = @NMVNTaskID AND (@OrganizationalUnitID <= 0 OR (@OrganizationalUnitID > 0 AND OrganizationalUnitID = @OrganizationalUnitID)) " + "\r\n";
 
             this.totalBikePortalsEntities.CreateStoredProcedure("GetAccessLevel", queryString);
+        }
+
+
+        private void UpdateLockedDate()
+        {
+            string queryString = " @AspUserID nvarchar(128), @LocationID Int, @LockedDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       UPDATE      Locations " + "\r\n";
+            queryString = queryString + "       SET         LockedDate = @LockedDate, AspUserID = @AspUserID, EditedDate = GetDate() " + "\r\n";
+            queryString = queryString + "       WHERE       LocationID = @LocationID " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("UpdateLockedDate", queryString);
         }
     }
 }

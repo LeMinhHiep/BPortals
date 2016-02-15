@@ -7,6 +7,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink("User Guide", "UserGuide", "Home")</li>
+            <li>@Html.ActionLink("Lock Data", "LockedDate", "Home")</li>
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
