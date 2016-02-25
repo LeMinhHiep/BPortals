@@ -83,7 +83,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             #endregion
 
 
-
+            #region FIRST CALCULATE FOR QUANTITY
             queryString = queryString + "       DECLARE @EntryDateEveryMonth DateTime, @EntryDateMAX DateTime" + "\r\n";
 
             queryString = queryString + "       DECLARE         CursorWarehouseBalance CURSOR LOCAL FOR SELECT MAX(EntryDate) AS EntryDate FROM WarehouseBalanceDetail" + "\r\n";
@@ -148,7 +148,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             queryString = queryString + "       DELETE FROM WarehouseBalanceDetail WHERE Quantity = 0 " + "\r\n";
 
-
+            #endregion
 
             #region Update Warehouse balance average price + ending amount
 
@@ -226,12 +226,14 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                                       SELECT      StockTransferDetails.CommodityID, ROUND(StockTransferDetails.Quantity - StockTransferDetails.QuantityReceipt, " + (int)GlobalEnums.rndAmount + ") AS Quantity, ROUND((StockTransferDetails.Quantity - StockTransferDetails.QuantityReceipt) * WarehouseBalancePrice.UnitPrice, " + (int)GlobalEnums.rndAmount + ") AS AmountCost " + "\r\n";
             queryString = queryString + "                                       FROM        StockTransferDetails INNER JOIN " + "\r\n";
             queryString = queryString + "                                                   WarehouseBalancePrice ON StockTransferDetails.EntryDate <= @LastDayOfPreviousMonth AND ROUND(StockTransferDetails.Quantity - StockTransferDetails.QuantityReceipt, " + (int)GlobalEnums.rndAmount + ") > 0 AND StockTransferDetails.CommodityID IN (SELECT CommodityID FROM @ActionTable) AND WarehouseBalancePrice.EntryDate = @LastDayOfPreviousMonth AND StockTransferDetails.CommodityID = WarehouseBalancePrice.CommodityID " + "\r\n";
+            queryString = queryString + "                                       WHERE       @UpdateWarehouseBalanceOption = " + (int)GlobalEnums.UpdateWarehouseBalanceOption.Minus + " OR StockTransferDetails.StockTransferID <> @StockTransferID " + "\r\n";
 
             queryString = queryString + "                                       UNION ALL" + "\r\n";
             queryString = queryString + "                                       SELECT      GoodsReceiptDetails.CommodityID, GoodsReceiptDetails.Quantity, ROUND(GoodsReceiptDetails.Quantity * WarehouseBalancePrice.UnitPrice, " + (int)GlobalEnums.rndAmount + ") AS AmountCost " + "\r\n";
             queryString = queryString + "                                       FROM        StockTransfers INNER JOIN " + "\r\n";
             queryString = queryString + "                                                   GoodsReceiptDetails ON StockTransfers.EntryDate <= @LastDayOfPreviousMonth AND GoodsReceiptDetails.EntryDate > @LastDayOfPreviousMonth AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AND GoodsReceiptDetails.CommodityID IN (SELECT CommodityID FROM @ActionTable) AND StockTransfers.StockTransferID = GoodsReceiptDetails.VoucherID INNER JOIN " + "\r\n";
             queryString = queryString + "                                                   WarehouseBalancePrice ON WarehouseBalancePrice.EntryDate = @LastDayOfPreviousMonth AND GoodsReceiptDetails.CommodityID = WarehouseBalancePrice.CommodityID " + "\r\n";
+            //queryString = queryString + "                                     WHERE       @UpdateWarehouseBalanceOption = " + (int)GlobalEnums.UpdateWarehouseBalanceOption.Minus + " OR StockTransfers.StockTransferID <> @StockTransferID " + "\r\n"; THAT RA, DIEU KIEN NAY LA KHONG CAN THIET, VI NEU StockTransfers.StockTransferID = @StockTransferID, TUC LA StockTransfers EDITABLE -> KHI DO: INNER JOIN GoodsReceiptDetails: SE RETURN NOTHING
             // --OPENNING: PENDING STOCKTRANSFER (STOCKTRANSFER BUT NOT GOODSRECEIPT YET)  //END
             queryString = queryString + "                                       )WarehouseInputAveragePriceUnion" + "\r\n";
             queryString = queryString + "                       GROUP BY        CommodityID " + "\r\n";
@@ -289,12 +291,14 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                                               SELECT      WarehouseInputCollection.WarehouseID, WarehouseInputCollection.CommodityID, -SalesInvoiceDetails.Quantity AS Quantity, -SalesInvoiceDetails.Quantity * WarehouseInputCollection.UnitPrice AS AmountCost" + "\r\n";
             queryString = queryString + "                                               FROM        @WarehouseInputCollection WarehouseInputCollection INNER JOIN " + "\r\n";
             queryString = queryString + "                                                           SalesInvoiceDetails ON WarehouseInputCollection.WarehouseID = SalesInvoiceDetails.WarehouseID AND WarehouseInputCollection.CommodityID = SalesInvoiceDetails.CommodityID AND SalesInvoiceDetails.EntryDate > @LastDayOfPreviousMonth AND SalesInvoiceDetails.EntryDate <= @EntryDateEveryMonth " + "\r\n";
+            queryString = queryString + "                                               WHERE       @UpdateWarehouseBalanceOption = " + (int)GlobalEnums.UpdateWarehouseBalanceOption.Minus + " OR SalesInvoiceDetails.SalesInvoiceID <> @SalesInvoiceID " + "\r\n";
 
             queryString = queryString + "                                               UNION ALL " + "\r\n";
 
             queryString = queryString + "                                               SELECT      WarehouseInputCollection.WarehouseID, WarehouseInputCollection.CommodityID, -StockTransferDetails.Quantity AS Quantity, -StockTransferDetails.Quantity * WarehouseInputCollection.UnitPrice AS AmountCost" + "\r\n";
             queryString = queryString + "                                               FROM        @WarehouseInputCollection WarehouseInputCollection INNER JOIN " + "\r\n";
             queryString = queryString + "                                                           StockTransferDetails ON WarehouseInputCollection.WarehouseID = StockTransferDetails.WarehouseID AND WarehouseInputCollection.CommodityID = StockTransferDetails.CommodityID AND StockTransferDetails.EntryDate > @LastDayOfPreviousMonth AND StockTransferDetails.EntryDate <= @EntryDateEveryMonth " + "\r\n";
+            queryString = queryString + "                                               WHERE       @UpdateWarehouseBalanceOption = " + (int)GlobalEnums.UpdateWarehouseBalanceOption.Minus + " OR StockTransferDetails.StockTransferID <> @StockTransferID " + "\r\n";
             queryString = queryString + "                                              )WarehouseBalanceUnion" + "\r\n";
 
             queryString = queryString + "                               GROUP BY        WarehouseID, CommodityID " + "\r\n";
@@ -440,14 +444,14 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
         }
 
 
-        
+
 
 
         #region WarehouseJournal
         private void WarehouseJournal()
         {
             string queryString = " @FromDate DateTime, @ToDate DateTime, @WarehouseIDList varchar(35), @CommodityIDList varchar(3999), @isFullJournal bit, @IsAmountIncluded bit " + "\r\n";
-            
+
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
@@ -706,18 +710,18 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
         #endregion
 
 
-        
+
 
         private void VehicleJournal()
         {
             string queryString = " @WarehouseID int, @FromDate DateTime, @ToDate DateTime " + "\r\n"; //Filter by @LocalWarehouseID to make this stored procedure run faster, but it may be removed without any effect the algorithm
-            
+
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       DECLARE     @LocalWarehouseID int, @LocalFromDate DateTime, @LocalToDate DateTime " + "\r\n";
-            queryString = queryString + "       SET         @LocalWarehouseID = @WarehouseID    SET @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n"; 
+            queryString = queryString + "       SET         @LocalWarehouseID = @WarehouseID    SET @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n";
 
             queryString = queryString + "       DECLARE     @LocationID int " + "\r\n";
             queryString = queryString + "       SET         @LocationID = (SELECT LocationID FROM Warehouses WHERE WarehouseID = @LocalWarehouseID) " + "\r\n";
@@ -876,7 +880,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       DECLARE     @LocalWarehouseID int, @LocalFromDate DateTime, @LocalToDate DateTime " + "\r\n";
-            queryString = queryString + "       SET         @LocalWarehouseID = @WarehouseID    SET @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n"; 
+            queryString = queryString + "       SET         @LocalWarehouseID = @WarehouseID    SET @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n";
 
             queryString = queryString + "       DECLARE     @LocationID int " + "\r\n";
             queryString = queryString + "       SET         @LocationID = (SELECT LocationID FROM Warehouses WHERE WarehouseID = @LocalWarehouseID) " + "\r\n";
