@@ -54,6 +54,13 @@ namespace MVCBase
                              CASE WHEN @StockTransferTypeID = 
                                     " + (int)GlobalEnums.StockTransferTypeID.PartTransfer + @" THEN 'DP' ELSE '#' END 
                              END";
+                case GlobalEnums.NmvnTaskID.InventoryAdjustment:
+                    return @"CASE WHEN @InventoryAdjustmentTypeID = 
+                                    " + (int)GlobalEnums.InventoryAdjustmentTypeID.VehicleAdjustment + @" THEN 'AX' ELSE 
+                             CASE WHEN @InventoryAdjustmentTypeID = 
+                                    " + (int)GlobalEnums.InventoryAdjustmentTypeID.PartAdjustment + @" THEN 'AP' ELSE '#' END 
+                             END";
+
                 default:
                     return "";
             }

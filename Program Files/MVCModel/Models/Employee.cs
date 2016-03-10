@@ -18,6 +18,7 @@ namespace MVCModel.Models
         {
             this.Quotations = new HashSet<Quotation>();
             this.SalesInvoices = new HashSet<SalesInvoice>();
+            this.InventoryAdjustments = new HashSet<InventoryAdjustment>();
         }
     
         public int EmployeeID { get; set; }
@@ -33,5 +34,6 @@ namespace MVCModel.Models
         public virtual Location Location { get; set; }
         public virtual ICollection<Quotation> Quotations { get; set; }
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
+        public virtual ICollection<InventoryAdjustment> InventoryAdjustments { get; set; }
     }
 }

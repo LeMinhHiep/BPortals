@@ -31,7 +31,7 @@ namespace MVCDTO.Helpers
 
 
         [Display(Name = "SL")]
-        [UIHint("Decimal")]
+        [UIHint("DecimalWithMinus")]
         [Range(0, 99999999999, ErrorMessage = "Số lượng không hợp lệ")]
         [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         public virtual decimal Quantity { get; set; }

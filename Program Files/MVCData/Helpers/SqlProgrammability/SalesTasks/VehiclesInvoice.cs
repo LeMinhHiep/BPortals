@@ -57,7 +57,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         /// </summary>
         private void GetCommoditiesInGoodsReceipts()
         {
-            string queryString = " @LocationID int, @SearchText nvarchar(60), @SalesInvoiceID int, @StockTransferID int, @StockAdjustID int " + "\r\n";
+            string queryString = " @LocationID int, @SearchText nvarchar(60), @SalesInvoiceID int, @StockTransferID int, @InventoryAdjustmentID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
@@ -117,7 +117,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "                               SET             @HasSavedData = @@ROWCOUNT " + "\r\n";
             queryString = queryString + "                   END " + "\r\n";
 
-            //queryString = queryString + "               IF (@StockAdjustID > 0) " + "\r\n";
+            //queryString = queryString + "               IF (@InventoryAdjustmentID > 0) " + "\r\n";
 
             return queryString;
         }

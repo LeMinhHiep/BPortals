@@ -217,6 +217,7 @@
     <Compile Include="Api\SalesTasks\SalesInvoicesApiController.cs" />
     <Compile Include="Api\PurchaseTasks\PurchaseOrdersApiController.cs" />
     <Compile Include="Api\SessionTasks\MenuSession.cs" />
+    <Compile Include="Api\StockTasks\PartAdjustmentApiController.cs" />
     <Compile Include="Api\StockTasks\StockTransfersApiController.cs" />
     <Compile Include="Api\StockTasks\TransferOrdersApiController.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
@@ -263,6 +264,8 @@
     <Compile Include="Builders\PurchaseTasks\PurchaseInvoiceViewModelSelectListBuilder.cs" />
     <Compile Include="Builders\SalesTasks\SalesInvoiceViewModelSelectListBuilder.cs" />
     <Compile Include="Builders\PurchaseTasks\PurchaseOrderViewModelSelectListBuilder.cs" />
+    <Compile Include="Builders\StockTasks\IInventoryAdjustmentViewModelSelectListBuilder.cs" />
+    <Compile Include="Builders\StockTasks\InventoryAdjustmentViewModelSelectListBuilder.cs" />
     <Compile Include="Builders\StockTasks\IStockTransferViewModelSelectListBuilder.cs" />
     <Compile Include="Builders\StockTasks\ITransferOrderViewModelSelectListBuilder.cs" />
     <Compile Include="Builders\StockTasks\StockTransferViewModelSelectListBuilder.cs" />
@@ -293,8 +296,10 @@
     <Compile Include="Controllers\SalesTasks\ServiceContractsController.cs" />
     <Compile Include="Controllers\SalesTasks\VehiclesInvoicesController.cs" />
     <Compile Include="Controllers\SalesTasks\PartsInvoicesController.cs" />
+    <Compile Include="Controllers\StockTasks\PartAdjustmentsController.cs" />
     <Compile Include="Controllers\StockTasks\PartTransferOrdersController.cs" />
     <Compile Include="Controllers\StockTasks\PartTransfersController.cs" />
+    <Compile Include="Controllers\StockTasks\VehicleAdjustmentsController.cs" />
     <Compile Include="Controllers\StockTasks\VehicleTransferOrdersController.cs" />
     <Compile Include="Controllers\StockTasks\VehicleTransfersController.cs" />
     <Compile Include="Converters\IConverter.cs" />
@@ -353,6 +358,7 @@
     <Compile Include="ViewModels\PurchaseTasks\PurchaseOrderViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\StockTasks\InventoryAdjustmentViewModel.cs" />
     <Compile Include="ViewModels\StockTasks\StockTransferViewModel.cs" />
     <Compile Include="ViewModels\StockTasks\TransferOrderViewModel.cs" />
   </ItemGroup>
@@ -754,6 +760,10 @@
     <Content Include="Scripts\Controllers\Root\Inventories\VehicleJournal.js" />
     <Content Include="Scripts\Controllers\Root\Inventories\WarehouseCard.js" />
     <Content Include="Scripts\Controllers\Root\Inventories\WarehouseJournal.js" />
+    <Content Include="Scripts\Controllers\Root\PartAdjustments\Create.js" />
+    <Content Include="Scripts\Controllers\Root\PartAdjustments\Delete.js" />
+    <Content Include="Scripts\Controllers\Root\PartAdjustments\Edit.js" />
+    <Content Include="Scripts\Controllers\Root\PartAdjustments\Index.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Delete.js" />
@@ -1652,6 +1662,15 @@
     <Content Include="Views\PartTransfers\Print.cshtml" />
     <Content Include="Views\VehicleTransfers\Print.cshtml" />
     <Content Include="Views\Home\LockedDate.cshtml" />
+    <Content Include="Views\PartAdjustments\_PartAdjustment.cshtml" />
+    <Content Include="Views\InventoryAdjustments\_InventoryAdjustmentSectionA.cshtml" />
+    <Content Include="Views\InventoryAdjustments\_InventoryAdjustmentSectionB.cshtml" />
+    <Content Include="Views\PartAdjustments\Create.cshtml" />
+    <Content Include="Views\PartAdjustments\Edit.cshtml" />
+    <Content Include="Views\PartAdjustments\Delete.cshtml" />
+    <Content Include="Views\PartAdjustments\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DecimalWithMinus.cshtml" />
+    <Content Include="Views\VehicleAdjustments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

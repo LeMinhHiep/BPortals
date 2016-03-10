@@ -107,7 +107,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "       EXEC        StockTransferUpdateTransferOrder @EntityID, @SaveRelativeOption " + "\r\n";
 
             queryString = queryString + "       SET         @SaveRelativeOption = -@SaveRelativeOption" + "\r\n";
-            queryString = queryString + "       EXEC        UpdateWarehouseBalance @SaveRelativeOption, 0, 0, @EntityID ";
+            queryString = queryString + "       EXEC        UpdateWarehouseBalance @SaveRelativeOption, 0, 0, @EntityID, 0 ";
 
             this.totalBikePortalsEntities.CreateStoredProcedure("PartTransferSaveRelative", queryString);
         }

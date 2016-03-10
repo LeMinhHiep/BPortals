@@ -149,6 +149,12 @@ namespace MVCClient.App_Start
                 kernel.Bind<IPartTransferHelperService>().To<PartTransferHelperService>();
 
 
+                kernel.Bind<IPartAdjustmentService>().To<PartAdjustmentService>();
+                kernel.Bind<IPartAdjustmentRepository>().To<PartAdjustmentRepository>();
+                kernel.Bind<IPartAdjustmentAPIRepository>().To<PartAdjustmentAPIRepository>();
+                kernel.Bind<IPartAdjustmentHelperService>().To<PartAdjustmentHelperService>();
+
+
                 kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
                 kernel.Bind<IPriceTermRepository>().To<PriceTermRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
@@ -185,6 +191,8 @@ namespace MVCClient.App_Start
 
                 kernel.Bind<IVehicleTransferViewModelSelectListBuilder>().To<VehicleTransferViewModelSelectListBuilder>();
                 kernel.Bind<IPartTransferViewModelSelectListBuilder>().To<PartTransferViewModelSelectListBuilder>();
+
+                kernel.Bind<IPartAdjustmentViewModelSelectListBuilder>().To<PartAdjustmentViewModelSelectListBuilder>();
 
                 kernel.Bind<IPriceTermSelectListBuilder>().To<PriceTermSelectListBuilder>();
                 kernel.Bind<IPaymentTermSelectListBuilder>().To<PaymentTermSelectListBuilder>();

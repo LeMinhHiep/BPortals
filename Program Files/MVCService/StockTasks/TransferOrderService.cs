@@ -41,32 +41,32 @@ namespace MVCService.StockTasks
             ICollection<GoodsReceipt> goodsReceipts = this.GenericWithDetailRepository.GetEntities<GoodsReceipt>().OrderBy(o => o.EntryDate).ToList();
             foreach (GoodsReceipt goodsReceipt in goodsReceipts)
             {
-                this.CallUpdateWarehouseBalance15AUG(1, goodsReceipt.GoodsReceiptID, 0, 0);
+                this.CallUpdateWarehouseBalance15AUG(1, goodsReceipt.GoodsReceiptID, 0, 0,0);
             }
 
             ICollection<SalesInvoice> salesInvoices = this.GenericWithDetailRepository.GetEntities<SalesInvoice>().Where(w => w.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.PartsInvoice).OrderBy(o => o.EntryDate).ToList();
             foreach (SalesInvoice salesInvoice in salesInvoices)
             {
-                this.CallUpdateWarehouseBalance15AUG(-1, 0, salesInvoice.SalesInvoiceID, 0);
+                this.CallUpdateWarehouseBalance15AUG(-1, 0, salesInvoice.SalesInvoiceID, 0, 0);
             }
 
             ICollection<StockTransfer> stockTransfers = this.GenericWithDetailRepository.GetEntities<StockTransfer>().Where(w => w.StockTransferTypeID == (int)GlobalEnums.StockTransferTypeID.PartTransfer).OrderBy(o => o.EntryDate).ToList();
             foreach (StockTransfer stockTransfer in stockTransfers)
             {
-                this.CallUpdateWarehouseBalance15AUG(-1, 0, 0, stockTransfer.StockTransferID);
+                this.CallUpdateWarehouseBalance15AUG(-1, 0, 0, stockTransfer.StockTransferID, 0);
             }
 
             return true;
         }
 
 
-        private void CallUpdateWarehouseBalance15AUG(int updateWarehouseBalanceOption, int goodsReceiptID, int salesInvoiceID, int stockTransferID)
+        private void CallUpdateWarehouseBalance15AUG(int updateWarehouseBalanceOption, int goodsReceiptID, int salesInvoiceID, int stockTransferID, int inventoryAdjustmentID)
         {
             using (var dbContextTransaction = this.GenericWithDetailRepository.BeginTransaction())
             {
                 try
                 {
-                    ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("UpdateWarehouseBalanceOption", updateWarehouseBalanceOption), new ObjectParameter("GoodsReceiptID", goodsReceiptID), new ObjectParameter("SalesInvoiceID", salesInvoiceID), new ObjectParameter("StockTransferID", stockTransferID) };
+                    ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("UpdateWarehouseBalanceOption", updateWarehouseBalanceOption), new ObjectParameter("GoodsReceiptID", goodsReceiptID), new ObjectParameter("SalesInvoiceID", salesInvoiceID), new ObjectParameter("StockTransferID", stockTransferID), new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) };
                     this.GenericWithDetailRepository.ExecuteFunction("UpdateWarehouseBalance", parameters);
 
                     dbContextTransaction.Commit();

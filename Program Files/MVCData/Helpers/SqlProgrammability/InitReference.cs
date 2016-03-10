@@ -142,4 +142,33 @@
         }
     }
 
+
+    public class InventoryAdjustmentInitReference : SimpleInitReference
+    {
+        public InventoryAdjustmentInitReference(string tableName, string identityName, string referenceName, int referenceLength, string prefixLetter)
+            : base(tableName, identityName, referenceName, referenceLength, prefixLetter)
+        { }
+
+        protected override string QueryDeclare()
+        {
+            string queryString = base.QueryDeclare() + "\r\n";
+            queryString = queryString + "   DECLARE     @InventoryAdjustmentTypeID int           SET @InventoryAdjustmentTypeID = (SELECT InventoryAdjustmentTypeID FROM Inserted) " + "\r\n";
+
+            return queryString;
+        }
+
+        protected override string QueryPrefix()
+        {
+            return "          DECLARE     @PrefixLetter varchar(10)   SET @PrefixLetter = " + this.prefixLetter + "\r\n";
+        }
+
+        protected override string QueryWhere()
+        {
+            string queryString = base.QueryWhere() + "\r\n";
+            queryString = queryString + "   AND     InventoryAdjustmentTypeID = @InventoryAdjustmentTypeID " + "\r\n";
+            return queryString;
+        }
+    }
+
+
 }

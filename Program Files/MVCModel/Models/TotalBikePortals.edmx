@@ -263,6 +263,70 @@
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="InventoryAdjustmentDetails">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentDetailID" />
+          </Key>
+          <Property Name="InventoryAdjustmentDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="InventoryAdjustmentID" Type="int" Nullable="false" />
+          <Property Name="InventoryAdjustmentTypeID" Type="int" Nullable="false" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="GoodsReceiptDetailID" Type="int" />
+          <Property Name="CommodityID" Type="int" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="int" Nullable="false" />
+          <Property Name="WarehouseID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="InventoryAdjustments">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentID" />
+          </Key>
+          <Property Name="InventoryAdjustmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="InventoryAdjustmentTypeID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="int" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MemoNo" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="MemoDate" Type="datetime" Nullable="false" />
+          <Property Name="MemoJob" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="EditedDate" Type="datetime" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDate" Type="datetime" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
+          <Property Name="InActivePartial" Type="bit" Nullable="false" />
+          <Property Name="InActiveDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InventoryAdjustmentTypes">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentTypeID" />
+          </Key>
+          <Property Name="InventoryAdjustmentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SerialID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -1002,6 +1066,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_InventoryAdjustmentDetails_Commodities">
+          <End Role="Commodities" Type="Self.Commodities" Multiplicity="1" />
+          <End Role="InventoryAdjustmentDetails" Type="Self.InventoryAdjustmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodities">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetails">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustmentDetails_GoodsReceiptDetails">
+          <End Role="GoodsReceiptDetails" Type="Self.GoodsReceiptDetails" Multiplicity="0..1" />
+          <End Role="InventoryAdjustmentDetails" Type="Self.InventoryAdjustmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsReceiptDetails">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetails">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustmentDetails_InventoryAdjustments">
+          <End Role="InventoryAdjustments" Type="Self.InventoryAdjustments" Multiplicity="1" />
+          <End Role="InventoryAdjustmentDetails" Type="Self.InventoryAdjustmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryAdjustments">
+              <PropertyRef Name="InventoryAdjustmentID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetails">
+              <PropertyRef Name="InventoryAdjustmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="InventoryAdjustments" Type="Self.InventoryAdjustments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustments">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="InventoryAdjustments" Type="Self.InventoryAdjustments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustments">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_InventoryAdjustmentTypes">
+          <End Role="InventoryAdjustmentTypes" Type="Self.InventoryAdjustmentTypes" Multiplicity="1" />
+          <End Role="InventoryAdjustments" Type="Self.InventoryAdjustments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryAdjustmentTypes">
+              <PropertyRef Name="InventoryAdjustmentTypeID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustments">
+              <PropertyRef Name="InventoryAdjustmentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="InventoryAdjustments" Type="Self.InventoryAdjustments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustments">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrganizationalUnitIUsers_OrganizationalUnits">
           <End Role="OrganizationalUnits" Type="Self.OrganizationalUnits" Multiplicity="1" />
           <End Role="OrganizationalUnitUsers" Type="Self.OrganizationalUnitUsers" Multiplicity="*" />
@@ -1648,7 +1796,7 @@
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
           <Parameter Name="StockTransferID" Type="int" Mode="In" />
-          <Parameter Name="StockAdjustID" Type="int" Mode="In" />
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetCommoditiesInWarehouses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -1656,7 +1804,7 @@
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
           <Parameter Name="StockTransferID" Type="int" Mode="In" />
-          <Parameter Name="StockAdjustID" Type="int" Mode="In" />
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetGoodsReceiptIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
@@ -1686,6 +1834,14 @@
               </RowType>
             </CollectionType>
           </ReturnType>
+        </Function>
+        <Function Name="GetPartAdjustmentIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetPartAdjustmentViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPartAvailables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -1766,6 +1922,14 @@
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="GetVehicleAdjustmentIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetVehicleAdjustmentViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetVehicleAvailables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
@@ -1812,6 +1976,16 @@
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
         <Function Name="GoodsReceiptSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PartAdjustmentEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PartAdjustmentPostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PartAdjustmentSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
@@ -1921,6 +2095,17 @@
           <Parameter Name="GoodsReceiptID" Type="int" Mode="In" />
           <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
           <Parameter Name="StockTransferID" Type="int" Mode="In" />
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="VehicleAdjustmentEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="VehicleAdjustmentPostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="VehicleAdjustmentSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
         <Function Name="VehiclesInvoiceEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
@@ -1962,6 +2147,9 @@
           <EntitySet Name="EntireTerritories" EntityType="Self.EntireTerritories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceiptDetails" EntityType="Self.GoodsReceiptDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoodsReceipts" EntityType="Self.GoodsReceipts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoryAdjustmentDetails" EntityType="Self.InventoryAdjustmentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoryAdjustments" EntityType="Self.InventoryAdjustments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoryAdjustmentTypes" EntityType="Self.InventoryAdjustmentTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModuleDetails" EntityType="Self.ModuleDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
@@ -2059,6 +2247,34 @@
           <AssociationSet Name="FK_GoodsReceiptDetails_Warehouses" Association="Self.FK_GoodsReceiptDetails_Warehouses">
             <End Role="Warehouses" EntitySet="Warehouses" />
             <End Role="GoodsReceiptDetails" EntitySet="GoodsReceiptDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_Commodities" Association="Self.FK_InventoryAdjustmentDetails_Commodities">
+            <End Role="Commodities" EntitySet="Commodities" />
+            <End Role="InventoryAdjustmentDetails" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_GoodsReceiptDetails" Association="Self.FK_InventoryAdjustmentDetails_GoodsReceiptDetails">
+            <End Role="GoodsReceiptDetails" EntitySet="GoodsReceiptDetails" />
+            <End Role="InventoryAdjustmentDetails" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_InventoryAdjustments" Association="Self.FK_InventoryAdjustmentDetails_InventoryAdjustments">
+            <End Role="InventoryAdjustments" EntitySet="InventoryAdjustments" />
+            <End Role="InventoryAdjustmentDetails" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_Customers" Association="Self.FK_InventoryAdjustments_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="InventoryAdjustments" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_Employees" Association="Self.FK_InventoryAdjustments_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="InventoryAdjustments" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_InventoryAdjustmentTypes" Association="Self.FK_InventoryAdjustments_InventoryAdjustmentTypes">
+            <End Role="InventoryAdjustmentTypes" EntitySet="InventoryAdjustmentTypes" />
+            <End Role="InventoryAdjustments" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_Locations" Association="Self.FK_InventoryAdjustments_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="InventoryAdjustments" EntitySet="InventoryAdjustments" />
           </AssociationSet>
           <AssociationSet Name="FK_OrganizationalUnitIUsers_OrganizationalUnits" Association="Self.FK_OrganizationalUnitIUsers_OrganizationalUnits">
             <End Role="OrganizationalUnits" EntitySet="OrganizationalUnits" />
@@ -2317,7 +2533,7 @@
             <Parameter Name="SearchText" Mode="In" Type="String" />
             <Parameter Name="SalesInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="StockTransferID" Mode="In" Type="Int32" />
-            <Parameter Name="StockAdjustID" Mode="In" Type="Int32" />
+            <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetPartsInvoiceViewDetails" ReturnType="Collection(TotalBikePortalsModel.PartsInvoiceViewDetail)">
           <Parameter Name="SalesInvoiceID" Mode="In" Type="Int32" />
@@ -2342,7 +2558,7 @@
             <Parameter Name="SearchText" Mode="In" Type="String" />
             <Parameter Name="SalesInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="StockTransferID" Mode="In" Type="Int32" />
-            <Parameter Name="StockAdjustID" Mode="In" Type="Int32" />
+            <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="WarehouseJournal" ReturnType="Collection(TotalBikePortalsModel.WarehouseJournal)">
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -2383,6 +2599,7 @@
             <Parameter Name="GoodsReceiptID" Mode="In" Type="Int32" />
             <Parameter Name="SalesInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="StockTransferID" Mode="In" Type="Int32" />
+            <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetQuotationViewDetails" ReturnType="Collection(TotalBikePortalsModel.QuotationViewDetail)">
           <Parameter Name="QuotationID" Mode="In" Type="Int32" />
@@ -2906,6 +3123,73 @@
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
             <Parameter Name="LockedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="InventoryAdjustmentDetails" EntityType="TotalBikePortalsModel.InventoryAdjustmentDetail" />
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_Commodities" Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="InventoryAdjustmentDetail" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_GoodsReceiptDetails" Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_GoodsReceiptDetails">
+            <End Role="GoodsReceiptDetail" EntitySet="GoodsReceiptDetails" />
+            <End Role="InventoryAdjustmentDetail" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <EntitySet Name="InventoryAdjustments" EntityType="TotalBikePortalsModel.InventoryAdjustment" />
+          <EntitySet Name="InventoryAdjustmentTypes" EntityType="TotalBikePortalsModel.InventoryAdjustmentType" />
+          <AssociationSet Name="FK_InventoryAdjustments_Employees" Association="TotalBikePortalsModel.FK_InventoryAdjustments_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustmentDetails_InventoryAdjustments" Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_InventoryAdjustments">
+            <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+            <End Role="InventoryAdjustmentDetail" EntitySet="InventoryAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_InventoryAdjustmentTypes" Association="TotalBikePortalsModel.FK_InventoryAdjustments_InventoryAdjustmentTypes">
+            <End Role="InventoryAdjustmentType" EntitySet="InventoryAdjustmentTypes" />
+            <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryAdjustments_Locations" Association="TotalBikePortalsModel.FK_InventoryAdjustments_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <FunctionImport Name="GetPartAdjustmentIndexes" ReturnType="Collection(TotalBikePortalsModel.PartAdjustmentIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPartAdjustmentViewDetails" ReturnType="Collection(TotalBikePortalsModel.PartAdjustmentViewDetail)">
+          <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PartAdjustmentEditable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PartAdjustmentPostSaveValidate" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PartAdjustmentSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehicleAdjustmentIndexes" ReturnType="Collection(TotalBikePortalsModel.VehicleAdjustmentIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehicleAdjustmentViewDetails" ReturnType="Collection(TotalBikePortalsModel.VehicleAdjustmentViewDetail)">
+          <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="VehicleAdjustmentEditable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="VehicleAdjustmentPostSaveValidate" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="VehicleAdjustmentSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK_InventoryAdjustments_Customers" Association="TotalBikePortalsModel.FK_InventoryAdjustments_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3341,6 +3625,7 @@
           <Property Name="LockedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AspUserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="InventoryAdjustments" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Locations" FromRole="Location" ToRole="InventoryAdjustment" />
           </EntityType>
         <EntityType Name="PaymentTerm">
           <Key>
@@ -3875,6 +4160,7 @@
           <NavigationProperty Name="Quotations" Relationship="TotalBikePortalsModel.FK_Quotations_Customers" FromRole="Customer" ToRole="Quotation" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Customers" FromRole="Customer" ToRole="SalesInvoice" />
           <NavigationProperty Name="AccountInvoices" Relationship="TotalBikePortalsModel.FK_AccountInvoices_Customers" FromRole="Customer" ToRole="AccountInvoice" />
+          <NavigationProperty Name="InventoryAdjustments" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Customers" FromRole="Customer" ToRole="InventoryAdjustment" />
         </EntityType>
         <EntityType Name="EntireTerritory">
           <Key>
@@ -4051,6 +4337,7 @@
           <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsRegularCheckUps" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_Commodities" FromRole="Commodity" ToRole="SalesInvoiceDetail" />
+          <NavigationProperty Name="InventoryAdjustmentDetails" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_Commodities" FromRole="Commodity" ToRole="InventoryAdjustmentDetail" />
         </EntityType>
         <EntityType Name="GoodsReceiptDetail">
           <Key>
@@ -4086,6 +4373,7 @@
           <NavigationProperty Name="StockTransferDetails" Relationship="TotalBikePortalsModel.FK_StockTransferDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="StockTransferDetail" />
           <Property Name="LocationID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="SalesInvoiceDetail" />
+          <NavigationProperty Name="InventoryAdjustmentDetails" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_GoodsReceiptDetails" FromRole="GoodsReceiptDetail" ToRole="InventoryAdjustmentDetail" />
         </EntityType>
         <EntityType Name="PurchaseInvoiceDetail">
           <Key>
@@ -4813,6 +5101,7 @@
           <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_Employees_Locations" FromRole="Employee" ToRole="Location" />
           <NavigationProperty Name="Quotations" Relationship="TotalBikePortalsModel.FK_Quotations_Employees" FromRole="Employee" ToRole="Quotation" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Employees" FromRole="Employee" ToRole="SalesInvoice" />
+          <NavigationProperty Name="InventoryAdjustments" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Employees" FromRole="Employee" ToRole="InventoryAdjustment" />
         </EntityType>
         <Association Name="FK_Employees_Locations">
           <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
@@ -5319,6 +5608,223 @@
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="AddressNo" Nullable="false" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="InventoryAdjustmentDetail">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentDetailID" />
+          </Key>
+          <Property Name="InventoryAdjustmentDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="InventoryAdjustmentID" Type="Int32" Nullable="false" />
+          <Property Name="InventoryAdjustmentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="GoodsReceiptDetailID" Type="Int32" />
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Commodity" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_Commodities" FromRole="InventoryAdjustmentDetail" ToRole="Commodity" />
+          <NavigationProperty Name="GoodsReceiptDetail" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_GoodsReceiptDetails" FromRole="InventoryAdjustmentDetail" ToRole="GoodsReceiptDetail" />
+          <NavigationProperty Name="InventoryAdjustment" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_InventoryAdjustments" FromRole="InventoryAdjustmentDetail" ToRole="InventoryAdjustment" />
+        </EntityType>
+        <Association Name="FK_InventoryAdjustmentDetails_Commodities">
+          <End Type="TotalBikePortalsModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustmentDetail" Role="InventoryAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustmentDetails_GoodsReceiptDetails">
+          <End Type="TotalBikePortalsModel.GoodsReceiptDetail" Role="GoodsReceiptDetail" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustmentDetail" Role="InventoryAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsReceiptDetail">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetail">
+              <PropertyRef Name="GoodsReceiptDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InventoryAdjustment">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentID" />
+          </Key>
+          <Property Name="InventoryAdjustmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="InventoryAdjustmentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MemoNo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="MemoDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MemoJob" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Employees" FromRole="InventoryAdjustment" ToRole="Employee" />
+          <NavigationProperty Name="InventoryAdjustmentDetails" Relationship="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_InventoryAdjustments" FromRole="InventoryAdjustment" ToRole="InventoryAdjustmentDetail" />
+          <NavigationProperty Name="InventoryAdjustmentType" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_InventoryAdjustmentTypes" FromRole="InventoryAdjustment" ToRole="InventoryAdjustmentType" />
+          <NavigationProperty Name="Location" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Locations" FromRole="InventoryAdjustment" ToRole="Location" />
+          <NavigationProperty Name="Customer" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Customers" FromRole="InventoryAdjustment" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="InventoryAdjustmentType">
+          <Key>
+            <PropertyRef Name="InventoryAdjustmentTypeID" />
+          </Key>
+          <Property Name="InventoryAdjustmentTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SerialID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InventoryAdjustments" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_InventoryAdjustmentTypes" FromRole="InventoryAdjustmentType" ToRole="InventoryAdjustment" />
+        </EntityType>
+        <Association Name="FK_InventoryAdjustments_Employees">
+          <End Type="TotalBikePortalsModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustment" Role="InventoryAdjustment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustment">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustmentDetails_InventoryAdjustments">
+          <End Type="TotalBikePortalsModel.InventoryAdjustment" Role="InventoryAdjustment" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustmentDetail" Role="InventoryAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryAdjustment">
+              <PropertyRef Name="InventoryAdjustmentID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustmentDetail">
+              <PropertyRef Name="InventoryAdjustmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_InventoryAdjustmentTypes">
+          <End Type="TotalBikePortalsModel.InventoryAdjustmentType" Role="InventoryAdjustmentType" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustment" Role="InventoryAdjustment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryAdjustmentType">
+              <PropertyRef Name="InventoryAdjustmentTypeID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustment">
+              <PropertyRef Name="InventoryAdjustmentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryAdjustments_Locations">
+          <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustment" Role="InventoryAdjustment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustment">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="PartAdjustmentIndex">
+          <Property Type="Int32" Name="InventoryAdjustmentID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SupplierDescription" Nullable="false" MaxLength="305" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="PartAdjustmentViewDetail">
+          <Property Type="Int32" Name="InventoryAdjustmentDetailID" Nullable="false" />
+          <Property Type="Int32" Name="InventoryAdjustmentID" Nullable="false" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="false" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="VehicleAdjustmentIndex">
+          <Property Type="Int32" Name="InventoryAdjustmentID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="MemoNo" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SupplierDescription" Nullable="false" MaxLength="305" />
+          <Property Type="String" Name="CommodityName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="VehicleAdjustmentViewDetail">
+          <Property Type="Int32" Name="InventoryAdjustmentDetailID" Nullable="false" />
+          <Property Type="Int32" Name="InventoryAdjustmentID" Nullable="false" />
+          <Property Type="Int32" Name="GoodsReceiptDetailID" Nullable="true" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="false" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="ChassisCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="EngineCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ColorCode" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="VATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <Association Name="FK_InventoryAdjustments_Customers">
+          <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalBikePortalsModel.InventoryAdjustment" Role="InventoryAdjustment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="InventoryAdjustment">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7012,6 +7518,155 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateLockedDate" FunctionName="TotalBikePortalsModel.Store.UpdateLockedDate" />
+          <EntitySetMapping Name="InventoryAdjustmentDetails">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.InventoryAdjustmentDetail">
+              <MappingFragment StoreEntitySet="InventoryAdjustmentDetails">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="InventoryAdjustmentTypeID" ColumnName="InventoryAdjustmentTypeID" />
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="InventoryAdjustmentDetailID" ColumnName="InventoryAdjustmentDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoryAdjustments">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.InventoryAdjustment">
+              <MappingFragment StoreEntitySet="InventoryAdjustments">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MemoJob" ColumnName="MemoJob" />
+                <ScalarProperty Name="MemoDate" ColumnName="MemoDate" />
+                <ScalarProperty Name="MemoNo" ColumnName="MemoNo" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="InventoryAdjustmentTypeID" ColumnName="InventoryAdjustmentTypeID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoryAdjustmentTypes">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.InventoryAdjustmentType">
+              <MappingFragment StoreEntitySet="InventoryAdjustmentTypes">
+                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="InventoryAdjustmentTypeID" ColumnName="InventoryAdjustmentTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPartAdjustmentIndexes" FunctionName="TotalBikePortalsModel.Store.GetPartAdjustmentIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PartAdjustmentIndex">
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="SupplierDescription" ColumnName="SupplierDescription" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPartAdjustmentViewDetails" FunctionName="TotalBikePortalsModel.Store.GetPartAdjustmentViewDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.PartAdjustmentViewDetail">
+                <ScalarProperty Name="InventoryAdjustmentDetailID" ColumnName="InventoryAdjustmentDetailID" />
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PartAdjustmentEditable" FunctionName="TotalBikePortalsModel.Store.PartAdjustmentEditable" />
+          <FunctionImportMapping FunctionImportName="PartAdjustmentPostSaveValidate" FunctionName="TotalBikePortalsModel.Store.PartAdjustmentPostSaveValidate" />
+          <FunctionImportMapping FunctionImportName="PartAdjustmentSaveRelative" FunctionName="TotalBikePortalsModel.Store.PartAdjustmentSaveRelative" />
+          <FunctionImportMapping FunctionImportName="GetVehicleAdjustmentIndexes" FunctionName="TotalBikePortalsModel.Store.GetVehicleAdjustmentIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.VehicleAdjustmentIndex">
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="MemoNo" ColumnName="MemoNo" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="SupplierDescription" ColumnName="SupplierDescription" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetVehicleAdjustmentViewDetails" FunctionName="TotalBikePortalsModel.Store.GetVehicleAdjustmentViewDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.VehicleAdjustmentViewDetail">
+                <ScalarProperty Name="InventoryAdjustmentDetailID" ColumnName="InventoryAdjustmentDetailID" />
+                <ScalarProperty Name="InventoryAdjustmentID" ColumnName="InventoryAdjustmentID" />
+                <ScalarProperty Name="GoodsReceiptDetailID" ColumnName="GoodsReceiptDetailID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="ChassisCode" ColumnName="ChassisCode" />
+                <ScalarProperty Name="EngineCode" ColumnName="EngineCode" />
+                <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VehicleAdjustmentEditable" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentEditable" />
+          <FunctionImportMapping FunctionImportName="VehicleAdjustmentPostSaveValidate" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentPostSaveValidate" />
+          <FunctionImportMapping FunctionImportName="VehicleAdjustmentSaveRelative" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentSaveRelative" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

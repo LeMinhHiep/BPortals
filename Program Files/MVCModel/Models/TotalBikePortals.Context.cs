@@ -67,6 +67,9 @@ namespace MVCModel.Models
         public virtual DbSet<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
         public virtual DbSet<AccountInvoice> AccountInvoices { get; set; }
         public virtual DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
+        public virtual DbSet<InventoryAdjustmentDetail> InventoryAdjustmentDetails { get; set; }
+        public virtual DbSet<InventoryAdjustment> InventoryAdjustments { get; set; }
+        public virtual DbSet<InventoryAdjustmentType> InventoryAdjustmentTypes { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {
@@ -209,7 +212,7 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VehiclesInvoiceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<CommoditiesInGoodsReceipt> GetCommoditiesInGoodsReceipts(Nullable<int> locationID, string searchText, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> stockAdjustID)
+        public virtual ObjectResult<CommoditiesInGoodsReceipt> GetCommoditiesInGoodsReceipts(Nullable<int> locationID, string searchText, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> inventoryAdjustmentID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -227,11 +230,11 @@ namespace MVCModel.Models
                 new ObjectParameter("StockTransferID", stockTransferID) :
                 new ObjectParameter("StockTransferID", typeof(int));
     
-            var stockAdjustIDParameter = stockAdjustID.HasValue ?
-                new ObjectParameter("StockAdjustID", stockAdjustID) :
-                new ObjectParameter("StockAdjustID", typeof(int));
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInGoodsReceipt>("GetCommoditiesInGoodsReceipts", locationIDParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, stockAdjustIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInGoodsReceipt>("GetCommoditiesInGoodsReceipts", locationIDParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, inventoryAdjustmentIDParameter);
         }
     
         public virtual ObjectResult<PartsInvoiceViewDetail> GetPartsInvoiceViewDetails(Nullable<int> salesInvoiceID)
@@ -290,7 +293,7 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ServiceContractSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<CommoditiesInWarehouse> GetCommoditiesInWarehouses(Nullable<int> locationID, Nullable<System.DateTime> entryDate, string searchText, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> stockAdjustID)
+        public virtual ObjectResult<CommoditiesInWarehouse> GetCommoditiesInWarehouses(Nullable<int> locationID, Nullable<System.DateTime> entryDate, string searchText, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> inventoryAdjustmentID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -312,11 +315,11 @@ namespace MVCModel.Models
                 new ObjectParameter("StockTransferID", stockTransferID) :
                 new ObjectParameter("StockTransferID", typeof(int));
     
-            var stockAdjustIDParameter = stockAdjustID.HasValue ?
-                new ObjectParameter("StockAdjustID", stockAdjustID) :
-                new ObjectParameter("StockAdjustID", typeof(int));
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInWarehouse>("GetCommoditiesInWarehouses", locationIDParameter, entryDateParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, stockAdjustIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInWarehouse>("GetCommoditiesInWarehouses", locationIDParameter, entryDateParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, inventoryAdjustmentIDParameter);
         }
     
         public virtual ObjectResult<WarehouseJournal> WarehouseJournal(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string warehouseIDList, string commodityIDList, Nullable<bool> isFullJournal, Nullable<bool> isAmountIncluded)
@@ -431,7 +434,7 @@ namespace MVCModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AdditionalGoodsReceiptVoucherText>("GetAdditionalGoodsReceiptVoucherText", goodsReceiptTypeIDParameter, voucherIDParameter);
         }
     
-        public virtual int UpdateWarehouseBalance(Nullable<int> updateWarehouseBalanceOption, Nullable<int> goodsReceiptID, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID)
+        public virtual int UpdateWarehouseBalance(Nullable<int> updateWarehouseBalanceOption, Nullable<int> goodsReceiptID, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> inventoryAdjustmentID)
         {
             var updateWarehouseBalanceOptionParameter = updateWarehouseBalanceOption.HasValue ?
                 new ObjectParameter("UpdateWarehouseBalanceOption", updateWarehouseBalanceOption) :
@@ -449,7 +452,11 @@ namespace MVCModel.Models
                 new ObjectParameter("StockTransferID", stockTransferID) :
                 new ObjectParameter("StockTransferID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateWarehouseBalance", updateWarehouseBalanceOptionParameter, goodsReceiptIDParameter, salesInvoiceIDParameter, stockTransferIDParameter);
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateWarehouseBalance", updateWarehouseBalanceOptionParameter, goodsReceiptIDParameter, salesInvoiceIDParameter, stockTransferIDParameter, inventoryAdjustmentIDParameter);
         }
     
         public virtual ObjectResult<QuotationViewDetail> GetQuotationViewDetails(Nullable<int> quotationID)
@@ -1122,6 +1129,120 @@ namespace MVCModel.Models
                 new ObjectParameter("LockedDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateLockedDate", aspUserIDParameter, locationIDParameter, lockedDateParameter);
+        }
+    
+        public virtual ObjectResult<PartAdjustmentIndex> GetPartAdjustmentIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PartAdjustmentIndex>("GetPartAdjustmentIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<PartAdjustmentViewDetail> GetPartAdjustmentViewDetails(Nullable<int> inventoryAdjustmentID)
+        {
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PartAdjustmentViewDetail>("GetPartAdjustmentViewDetails", inventoryAdjustmentIDParameter);
+        }
+    
+        public virtual ObjectResult<string> PartAdjustmentEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PartAdjustmentEditable", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> PartAdjustmentPostSaveValidate(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PartAdjustmentPostSaveValidate", entityIDParameter);
+        }
+    
+        public virtual int PartAdjustmentSaveRelative(Nullable<int> entityID, Nullable<int> saveRelativeOption)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var saveRelativeOptionParameter = saveRelativeOption.HasValue ?
+                new ObjectParameter("SaveRelativeOption", saveRelativeOption) :
+                new ObjectParameter("SaveRelativeOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PartAdjustmentSaveRelative", entityIDParameter, saveRelativeOptionParameter);
+        }
+    
+        public virtual ObjectResult<VehicleAdjustmentIndex> GetVehicleAdjustmentIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VehicleAdjustmentIndex>("GetVehicleAdjustmentIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<VehicleAdjustmentViewDetail> GetVehicleAdjustmentViewDetails(Nullable<int> inventoryAdjustmentID)
+        {
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VehicleAdjustmentViewDetail>("GetVehicleAdjustmentViewDetails", inventoryAdjustmentIDParameter);
+        }
+    
+        public virtual ObjectResult<string> VehicleAdjustmentEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("VehicleAdjustmentEditable", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> VehicleAdjustmentPostSaveValidate(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("VehicleAdjustmentPostSaveValidate", entityIDParameter);
+        }
+    
+        public virtual int VehicleAdjustmentSaveRelative(Nullable<int> entityID, Nullable<int> saveRelativeOption)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var saveRelativeOptionParameter = saveRelativeOption.HasValue ?
+                new ObjectParameter("SaveRelativeOption", saveRelativeOption) :
+                new ObjectParameter("SaveRelativeOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VehicleAdjustmentSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     }
 }

@@ -78,6 +78,7 @@
     <Compile Include="Repositories\SalesTasks\IServiceContractRepository.cs" />
     <Compile Include="Repositories\SalesTasks\ISalesInvoiceRepository.cs" />
     <Compile Include="Repositories\PurchaseTasks\IPurchaseOrderRepository.cs" />
+    <Compile Include="Repositories\StockTasks\IInventoryAdjustmentRepository.cs" />
     <Compile Include="Repositories\StockTasks\IStockTransferRepository.cs" />
     <Compile Include="Repositories\StockTasks\ITransferOrderRepository.cs" />
     <Compile Include="Services\CommonTasks\ICommodityService.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Services\SalesTasks\IServiceContractService.cs" />
     <Compile Include="Services\SalesTasks\ISalesInvoiceService.cs" />
     <Compile Include="Services\PurchaseTasks\IPurchaseOrderService.cs" />
+    <Compile Include="Services\StockTasks\IInventoryAdjustmentService.cs" />
     <Compile Include="Services\StockTasks\IStockTransferService.cs" />
     <Compile Include="Services\StockTasks\ITransferOrderService.cs" />
   </ItemGroup>

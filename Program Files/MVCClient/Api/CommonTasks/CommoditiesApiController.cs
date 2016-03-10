@@ -82,17 +82,17 @@ namespace MVCClient.Api.CommonTasks
 
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetCommoditiesInGoodsReceipts(int? locationID, string searchText, int? salesInvoiceID, int? stockTransferID, int? stockAdjustID)
+        public JsonResult GetCommoditiesInGoodsReceipts(int? locationID, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            var result = commodityRepository.GetCommoditiesInGoodsReceipts(locationID, searchText, salesInvoiceID, stockTransferID, stockAdjustID).Select(s => new { s.GoodsReceiptDetailID, s.SupplierID, s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.ChassisCode, s.EngineCode, s.ColorCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
+            var result = commodityRepository.GetCommoditiesInGoodsReceipts(locationID, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).Select(s => new { s.GoodsReceiptDetailID, s.SupplierID, s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.ChassisCode, s.EngineCode, s.ColorCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? stockAdjustID)
+        public JsonResult GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            var result = commodityRepository.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, stockAdjustID).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
+            var result = commodityRepository.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

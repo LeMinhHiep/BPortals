@@ -68,6 +68,7 @@
     <Compile Include="SalesTasks\ServiceContractService.cs" />
     <Compile Include="SalesTasks\SalesInvoiceService.cs" />
     <Compile Include="PurchaseTasks\PurchaseOrderService.cs" />
+    <Compile Include="StockTasks\InventoryAdjustmentService.cs" />
     <Compile Include="StockTasks\StockTransferService.cs" />
     <Compile Include="StockTasks\TransferOrderService.cs" />
   </ItemGroup>

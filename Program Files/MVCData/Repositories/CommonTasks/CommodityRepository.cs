@@ -63,16 +63,16 @@ namespace MVCData.Repositories.CommonTasks
             return commodities;
         }
 
-        public IList<CommoditiesInGoodsReceipt> GetCommoditiesInGoodsReceipts(int? locationID, string searchText, int? salesInvoiceID, int? stockTransferID, int? stockAdjustID)
+        public IList<CommoditiesInGoodsReceipt> GetCommoditiesInGoodsReceipts(int? locationID, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            List<CommoditiesInGoodsReceipt> commoditiesInGoodsReceipts = this.TotalBikePortalsEntities.GetCommoditiesInGoodsReceipts(locationID, searchText, salesInvoiceID, stockTransferID, stockAdjustID).ToList();
+            List<CommoditiesInGoodsReceipt> commoditiesInGoodsReceipts = this.TotalBikePortalsEntities.GetCommoditiesInGoodsReceipts(locationID, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).ToList();
 
             return commoditiesInGoodsReceipts;
         }
 
-        public IList<CommoditiesInWarehouse> GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? stockAdjustID)
+        public IList<CommoditiesInWarehouse> GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            List<CommoditiesInWarehouse> commoditiesInWarehouses = this.TotalBikePortalsEntities.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, stockAdjustID).ToList();
+            List<CommoditiesInWarehouse> commoditiesInWarehouses = this.TotalBikePortalsEntities.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).ToList();
 
             return commoditiesInWarehouses;
         }

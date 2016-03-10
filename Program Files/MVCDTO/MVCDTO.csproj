@@ -95,6 +95,8 @@
     <Compile Include="CommonTasks\CustomerDTO.cs" />
     <Compile Include="SalesTasks\SalesInvoiceDTO.cs" />
     <Compile Include="PurchaseTasks\PurchaseOrderDTO.cs" />
+    <Compile Include="StockTasks\InventoryAdjustmentDetailDTO.cs" />
+    <Compile Include="StockTasks\InventoryAdjustmentDTO.cs" />
     <Compile Include="StockTasks\StockTransferDetailDTO.cs" />
     <Compile Include="StockTasks\StockTransferDTO.cs" />
     <Compile Include="StockTasks\TransferOrderDTO.cs" />

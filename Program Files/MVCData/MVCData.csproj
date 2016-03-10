@@ -64,8 +64,10 @@
     <Compile Include="Helpers\SqlProgrammability\SalesTasks\VehiclesInvoice.cs" />
     <Compile Include="Helpers\SqlProgrammability\InitReference.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\Inventories.cs" />
+    <Compile Include="Helpers\SqlProgrammability\StockTasks\PartAdjustment.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\PartTransfer.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\TransferOrder.cs" />
+    <Compile Include="Helpers\SqlProgrammability\StockTasks\VehicleAdjustment.cs" />
     <Compile Include="Helpers\SqlProgrammability\StockTasks\VehicleTransfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Analysis\ReportRepository.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Repositories\SalesTasks\ServiceContractRepository.cs" />
     <Compile Include="Repositories\SalesTasks\SalesInvoiceRepository.cs" />
     <Compile Include="Repositories\PurchaseTasks\PurchaseOrderRepository.cs" />
+    <Compile Include="Repositories\StockTasks\InventoryAdjustmentRepository.cs" />
     <Compile Include="Repositories\StockTasks\StockTransferRepository.cs" />
     <Compile Include="Repositories\StockTasks\TransferOrderRepository.cs" />
   </ItemGroup>

@@ -230,7 +230,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "       " + this.GoodsReceiptSaveRelativeBuildSQL(GlobalEnums.GoodsReceiptTypeID.StockTransfer);
 
 
-            queryString = queryString + "       EXEC UpdateWarehouseBalance @SaveRelativeOption, @EntityID, 0, 0 ";
+            queryString = queryString + "       EXEC UpdateWarehouseBalance @SaveRelativeOption, @EntityID, 0, 0, 0 ";
 
             queryString = queryString + "    END " + "\r\n";
 

@@ -114,6 +114,16 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.InventoryAdjustmentDetail" Width="1.5" PointX="0.75" PointY="8.75" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_Commodities" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_GoodsReceiptDetails" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.InventoryAdjustment" Width="1.5" PointX="8.25" PointY="48.5" />
+        <EntityTypeShape EntityType="TotalBikePortalsModel.InventoryAdjustmentType" Width="1.5" PointX="6" PointY="43" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustments_Employees" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustmentDetails_InventoryAdjustments" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustments_InventoryAdjustmentTypes" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustments_Locations" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustments_Customers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

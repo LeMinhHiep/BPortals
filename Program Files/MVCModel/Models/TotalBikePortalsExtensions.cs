@@ -124,6 +124,20 @@ namespace MVCModel.Models
         public int GetWarehouseID() { return this.WarehouseID; }
     }
 
+    public partial class InventoryAdjustment : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<InventoryAdjustmentDetail>
+    {
+        public int GetID() { return this.InventoryAdjustmentID; }
+
+        public ICollection<InventoryAdjustmentDetail> GetDetails() { return this.InventoryAdjustmentDetails; }
+    }
+
+
+    public partial class InventoryAdjustmentDetail : IPrimitiveEntity, IHelperEntryDate, IHelperWarehouseID, IHelperCommodityID, IHelperCommodityTypeID
+    {
+        public int GetID() { return this.InventoryAdjustmentDetailID; }
+        public int GetWarehouseID() { return (int)this.WarehouseID; }
+    }
+
 
     public partial class Customer : IPrimitiveEntity, IBaseEntity
     {

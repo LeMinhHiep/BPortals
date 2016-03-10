@@ -127,7 +127,31 @@ namespace MVCClient.App_Start
             Mapper.CreateMap<PartTransferPrimitiveDTO, StockTransfer>();
             Mapper.CreateMap<PartTransferViewDetail, PartTransferDetailDTO>();
             Mapper.CreateMap<PartTransferDetailDTO, StockTransferDetail>();
-             
+
+
+
+
+
+
+
+            Mapper.CreateMap<InventoryAdjustment, VehicleAdjustmentViewModel>();
+            Mapper.CreateMap<InventoryAdjustment, VehicleAdjustmentDTO>();
+            Mapper.CreateMap<VehicleAdjustmentViewModel, InventoryAdjustment>();
+            Mapper.CreateMap<VehicleAdjustmentPrimitiveDTO, InventoryAdjustment>();
+            Mapper.CreateMap<VehicleAdjustmentViewDetail, VehicleAdjustmentDetailDTO>();
+            Mapper.CreateMap<VehicleAdjustmentDetailDTO, InventoryAdjustmentDetail>();
+
+            Mapper.CreateMap<InventoryAdjustment, PartAdjustmentViewModel>();
+            Mapper.CreateMap<InventoryAdjustment, PartAdjustmentDTO>();
+            Mapper.CreateMap<PartAdjustmentViewModel, InventoryAdjustment>();
+            Mapper.CreateMap<PartAdjustmentPrimitiveDTO, InventoryAdjustment>();
+            Mapper.CreateMap<PartAdjustmentViewDetail, PartAdjustmentDetailDTO>();
+            Mapper.CreateMap<PartAdjustmentDetailDTO, InventoryAdjustmentDetail>();
+
+
+
+
+
             Mapper.CreateMap<Module, ModuleViewModel>();
             Mapper.CreateMap<ModuleDetail, ModuleDetailViewModel>();
         }

@@ -40,9 +40,9 @@
 
 
             GoodsReceipt = 8077,
-            StockAdjustment = 8078,
-            VehicleAdjustment = 8078,
-            PartAdjustment = 8078,
+            InventoryAdjustment = 8078,
+            VehicleAdjustment = 8078008,
+            PartAdjustment = 8078009,
 
 
             TransferOrder = 8071,
@@ -84,6 +84,14 @@
             Repair = 2,
             Maintenance = 3
         };
+
+        public enum InventoryAdjustmentTypeID
+        {
+            AllAdjustment = 1,
+            VehicleAdjustment = 10,
+            PartAdjustment = 20
+        };
+        
 
         public enum CommodityTypeID
         {
