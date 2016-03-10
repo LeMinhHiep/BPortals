@@ -1671,6 +1671,7 @@
     <Content Include="Views\PartAdjustments\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DecimalWithMinus.cshtml" />
     <Content Include="Views\VehicleAdjustments\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NMVN\ReadonlyMaskedTextBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
