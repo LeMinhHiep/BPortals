@@ -198,6 +198,7 @@
   <ItemGroup>
     <Compile Include="Api\CommonTasks\EmployeesApiController.cs" />
     <Compile Include="Api\CommonTasks\LocationsApiController.cs" />
+    <Compile Include="Api\CommonTasks\PromotionsApiController.cs" />
     <Compile Include="Api\CommonTasks\TerritoriesApiController.cs" />
     <Compile Include="Api\CommonTasks\CustomerTypesApiController.cs" />
     <Compile Include="Api\CommonTasks\CustomerCategoriesApiController.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="ViewModels\Helpers\IEmployeeAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ILocationAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IPreparedPersonDropDownViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\IPromotionAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\ISupplierDropDownViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IWarehouseAutoCompleteViewModel.cs" />
     <Compile Include="ViewModels\Helpers\IEntireTerritoryAutoCompleteViewModel.cs" />
@@ -1672,6 +1674,8 @@
     <Content Include="Views\Shared\EditorTemplates\DecimalWithMinus.cshtml" />
     <Content Include="Views\VehicleAdjustments\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\NMVN\ReadonlyMaskedTextBox.cshtml" />
+    <Content Include="Views\Helpers\Commons\_PromotionAutoComplete.cshtml" />
+    <Content Include="Views\SalesInvoices\_SalesInvoiceSectionC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

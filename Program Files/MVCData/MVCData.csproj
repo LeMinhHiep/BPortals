@@ -74,6 +74,7 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\CommonTasks\EmployeeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\LocationRepository.cs" />
+    <Compile Include="Repositories\CommonTasks\PromotionRepository.cs" />
     <Compile Include="Repositories\CommonTasks\TerritoryRepository.cs" />
     <Compile Include="Repositories\CommonTasks\CustomerTypeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\CustomerCategoryRepository.cs" />

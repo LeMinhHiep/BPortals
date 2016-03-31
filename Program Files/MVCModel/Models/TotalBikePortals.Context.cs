@@ -70,6 +70,7 @@ namespace MVCModel.Models
         public virtual DbSet<InventoryAdjustmentDetail> InventoryAdjustmentDetails { get; set; }
         public virtual DbSet<InventoryAdjustment> InventoryAdjustments { get; set; }
         public virtual DbSet<InventoryAdjustmentType> InventoryAdjustmentTypes { get; set; }
+        public virtual DbSet<Promotion> Promotions { get; set; }
     
         public virtual ObjectResult<PurchaseInvoiceViewDetail> GetPurchaseInvoiceViewDetails(Nullable<int> purchaseInvoiceID, Nullable<int> purchaseOrderID, Nullable<int> supplierID, Nullable<bool> isReadonly)
         {

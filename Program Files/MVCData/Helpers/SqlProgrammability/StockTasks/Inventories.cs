@@ -21,8 +21,11 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.UpdateWarehouseBalance();
             this.GetOverStockItems();
             this.WarehouseJournal();
+            this.WarehouseJournalTESTSummary();
             this.VehicleJournal();
             this.VehicleCard();
+
+            
 
             //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
@@ -486,7 +489,23 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
         }
 
 
+        public void WarehouseJournalTESTSummary()
+        {
+            string queryString = " @FromDate DateTime, @ToDate DateTime " + "\r\n";
 
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       " + this.GET_WarehouseJournal_BUILD_SQL("@WarehouseJournalTable", "@FromDate", "@ToDate", "''", "''", "1", "1") + "\r\n";
+            queryString = queryString + "       SELECT SUM(QuantityBeginREC) AS QuantityBeginREC, SUM(QuantityBeginTRA) AS QuantityBeginTRA, SUM(AmountBegin) AS AmountBegin, SUM(QuantityInputINV) AS QuantityInputINV, SUM(AmountInputINV) AS AmountInputINV, SUM(QuantityInputTRA) AS QuantityInputTRA, SUM(AmountInputTRA) AS AmountInputTRA, SUM(QuantityInputADJ) AS QuantityInputADJ, SUM(AmountInputADJ) AS AmountInputADJ, SUM(QuantityOutputINV) AS QuantityOutputINV, SUM(AmountOutputINV) AS AmountOutputINV, SUM(QuantityOutputTRA) AS QuantityOutputTRA, SUM(AmountOutputTRA) AS AmountOutputTRA, SUM(QuantityOutputADJ) AS QuantityOutputADJ, SUM(AmountOutputADJ) AS AmountOutputADJ, SUM(QuantityEndREC) AS QuantityEndREC, SUM(QuantityEndTRA) AS QuantityEndTRA, SUM(AmountEnd) AS AmountEnd FROM @WarehouseJournalTable " + "\r\n";
+            queryString = queryString + "       SELECT CommodityID, SUM(AmountBegin) + SUM(AmountInputINV) + SUM(AmountInputTRA) + SUM(AmountInputADJ) - SUM(AmountOutputINV) - SUM(AmountOutputTRA) - SUM(QuantityOutputADJ) - SUM(AmountOutputADJ) AS AMTEND, SUM(AmountEnd) AS AmountEnd, SUM(AmountBegin) + SUM(AmountInputINV) + SUM(AmountInputTRA) + SUM(AmountInputADJ) - SUM(AmountOutputINV) - SUM(AmountOutputTRA) - SUM(QuantityOutputADJ) - SUM(AmountOutputADJ) - SUM(AmountEnd) AS AMTDIFF FROM @WarehouseJournalTable GROUP BY CommodityID order by AMTDIFF " + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("WarehouseJournalTESTSummary", queryString);
+        }
 
 
         #region WarehouseJournal

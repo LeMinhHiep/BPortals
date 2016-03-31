@@ -40,6 +40,14 @@ namespace MVCDTO.SalesTasks
 
         public int ReceiptID { get; set; }
 
+
+        public int PromotionID { get; set; }
+        [Display(Name = "Chương trình khuyến mãi")]
+        public string PromotionCode { get; set; }
+        [Display(Name = "Chứng từ khuyến mãi")]
+        public string PromotionVouchers { get; set; }
+
+
         public int EmployeeID { get; set; }
         [Display(Name = "Nhân viên thực hiện")]
         [Required(ErrorMessage = "Vui lòng nhập tên nhân viên thực hiện")]

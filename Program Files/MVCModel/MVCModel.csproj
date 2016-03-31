@@ -215,6 +215,9 @@
     <Compile Include="Models\PriceTerm.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Promotion.cs">
+      <DependentUpon>TotalBikePortals.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PurchaseInvoice.cs">
       <DependentUpon>TotalBikePortals.tt</DependentUpon>
     </Compile>

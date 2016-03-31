@@ -51,6 +51,7 @@
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
     <Compile Include="Repositories\CommonTasks\IEmployeeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ILocationRepository.cs" />
+    <Compile Include="Repositories\CommonTasks\IPromotionRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ITerritoryRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ICustomerTypeRepository.cs" />
     <Compile Include="Repositories\CommonTasks\ICustomerCategoryRepository.cs" />

@@ -407,6 +407,16 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Promotions">
+          <Key>
+            <PropertyRef Name="PromotionID" />
+          </Key>
+          <Property Name="PromotionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="PurchaseInvoiceDetails">
           <Key>
             <PropertyRef Name="PurchaseInvoiceDetailID" />
@@ -646,6 +656,8 @@
           <Property Name="ServiceInvoiceID" Type="int" />
           <Property Name="QuotationID" Type="int" />
           <Property Name="ReceiptID" Type="int" Nullable="false" />
+          <Property Name="PromotionID" Type="int" />
+          <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="ServiceLineID" Type="int" Nullable="false" />
           <Property Name="CurrentMeters" Type="int" />
@@ -1474,6 +1486,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesInvoices_Promotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="0..1" />
+          <End Role="SalesInvoices" Type="Self.SalesInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesInvoices">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SalesInvoices_Quotations">
           <End Role="Quotations" Type="Self.Quotations" Multiplicity="0..1" />
           <End Role="SalesInvoices" Type="Self.SalesInvoices" Multiplicity="*" />
@@ -2157,6 +2181,7 @@
           <EntitySet Name="OrganizationalUnitUsers" EntityType="Self.OrganizationalUnitUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentTerms" EntityType="Self.PaymentTerms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceTerms" EntityType="Self.PriceTerms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Promotions" EntityType="Self.Promotions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseInvoiceDetails" EntityType="Self.PurchaseInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseInvoices" EntityType="Self.PurchaseInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="Self.PurchaseOrderDetails" Schema="dbo" store:Type="Tables" />
@@ -2382,6 +2407,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_PaymentTerms" Association="Self.FK_SalesInvoices_PaymentTerms">
             <End Role="PaymentTerms" EntitySet="PaymentTerms" />
+            <End Role="SalesInvoices" EntitySet="SalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoices_Promotions" Association="Self.FK_SalesInvoices_Promotions">
+            <End Role="Promotions" EntitySet="Promotions" />
             <End Role="SalesInvoices" EntitySet="SalesInvoices" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_Quotations" Association="Self.FK_SalesInvoices_Quotations">
@@ -3189,6 +3218,11 @@
           <AssociationSet Name="FK_InventoryAdjustments_Customers" Association="TotalBikePortalsModel.FK_InventoryAdjustments_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="InventoryAdjustment" EntitySet="InventoryAdjustments" />
+          </AssociationSet>
+          <EntitySet Name="Promotions" EntityType="TotalBikePortalsModel.Promotion" />
+          <AssociationSet Name="FK_SalesInvoices_Promotions" Association="TotalBikePortalsModel.FK_SalesInvoices_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -5211,6 +5245,9 @@
           <NavigationProperty Name="SalesInvoices1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice" ToRole="SalesInvoice1" />
           <NavigationProperty Name="SalesInvoice1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_ServiceInvoices" FromRole="SalesInvoice1" ToRole="SalesInvoice" />
           <NavigationProperty Name="SalesInvoiceDetails" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoice" ToRole="SalesInvoiceDetail" />
+          <Property Name="PromotionID" Type="Int32" />
+          <Property Name="PromotionVouchers" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Promotion" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Promotions" FromRole="SalesInvoice" ToRole="Promotion" />
         </EntityType>
         <Association Name="FK_Quotations_Customers">
           <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
@@ -5822,6 +5859,29 @@
             </Principal>
             <Dependent Role="InventoryAdjustment">
               <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Promotion">
+          <Key>
+            <PropertyRef Name="PromotionID" />
+          </Key>
+          <Property Name="PromotionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Promotions" FromRole="Promotion" ToRole="SalesInvoice" />
+        </EntityType>
+        <Association Name="FK_SalesInvoices_Promotions">
+          <End Type="TotalBikePortalsModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesInvoice">
+              <PropertyRef Name="PromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7322,6 +7382,8 @@
           <EntitySetMapping Name="SalesInvoices">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoice">
               <MappingFragment StoreEntitySet="SalesInvoices">
+                <ScalarProperty Name="PromotionVouchers" ColumnName="PromotionVouchers" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
@@ -7667,6 +7729,17 @@
           <FunctionImportMapping FunctionImportName="VehicleAdjustmentEditable" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentEditable" />
           <FunctionImportMapping FunctionImportName="VehicleAdjustmentPostSaveValidate" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentPostSaveValidate" />
           <FunctionImportMapping FunctionImportName="VehicleAdjustmentSaveRelative" FunctionName="TotalBikePortalsModel.Store.VehicleAdjustmentSaveRelative" />
+          <EntitySetMapping Name="Promotions">
+            <EntityTypeMapping TypeName="TotalBikePortalsModel.Promotion">
+              <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

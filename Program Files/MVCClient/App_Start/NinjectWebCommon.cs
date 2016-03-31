@@ -158,6 +158,7 @@ namespace MVCClient.App_Start
                 kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
                 kernel.Bind<IPriceTermRepository>().To<PriceTermRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
+                kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
 
                 kernel.Bind<IEntireTerritoryRepository>().To<EntireTerritoryRepository>();
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
