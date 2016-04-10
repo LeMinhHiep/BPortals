@@ -25,7 +25,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.VehicleJournal();
             this.VehicleCard();
 
-            
+
 
             //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
@@ -81,7 +81,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "           FROM        InventoryAdjustmentDetails " + "\r\n";
             queryString = queryString + "           WHERE       InventoryAdjustmentID = @InventoryAdjustmentID " + "\r\n";
             queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
-            
+
             //INIT DATA TO BE INPUT OR OUTPUT.END
 
 
@@ -802,11 +802,33 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE     @LocalWarehouseID int, @LocalFromDate DateTime, @LocalToDate DateTime " + "\r\n";
-            queryString = queryString + "       SET         @LocalWarehouseID = @WarehouseID    SET @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n";
+            queryString = queryString + "       DECLARE     @LocalFromDate DateTime, @LocalToDate DateTime " + "\r\n";
+            queryString = queryString + "       SET         @LocalFromDate = @FromDate      SET @LocalToDate = @ToDate " + "\r\n";
 
-            queryString = queryString + "       DECLARE     @LocationID int " + "\r\n";
-            queryString = queryString + "       SET         @LocationID = (SELECT LocationID FROM Warehouses WHERE WarehouseID = @LocalWarehouseID) " + "\r\n";
+            queryString = queryString + "       IF         (@WarehouseID <= 0 ) " + "\r\n";
+            queryString = queryString + "                   " + this.VehicleJournalBUILD(true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "                   " + this.VehicleJournalBUILD(false) + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("VehicleJournal", queryString);
+
+        }
+
+
+        private string VehicleJournalBUILD(bool isAllWarehouses)
+        {
+            string queryString = "" + "\r\n";
+
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            if (!isAllWarehouses)
+            {
+                queryString = queryString + "   DECLARE     @LocalWarehouseID int, @LocationID int " + "\r\n";
+                queryString = queryString + "   SET         @LocalWarehouseID = @WarehouseID    " + "\r\n";
+                queryString = queryString + "   SET         @LocationID = (SELECT LocationID FROM Warehouses WHERE WarehouseID = @LocalWarehouseID) " + "\r\n";
+            }
 
             queryString = queryString + "       SELECT      Commodities.CommodityID, Commodities.Code, Commodities.Name, Commodities.SalesUnit, Commodities.LeadTime, " + "\r\n";
             queryString = queryString + "                   VehicleJournalMaster.GoodsReceiptDetailID, VehicleJournalMaster.EntryDate, VehicleJournalMaster.ChassisCode, VehicleJournalMaster.EngineCode, VehicleJournalMaster.ColorCode, " + "\r\n";
@@ -844,20 +866,20 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             //WHINPUT
             queryString = queryString + "                                   SELECT      GoodsReceiptDetails.GoodsReceiptDetailID, ROUND(GoodsReceiptDetails.Quantity - GoodsReceiptDetails.QuantityIssue, " + (int)GlobalEnums.rndQuantity + ") AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, NULL AS MovementDate " + "\r\n";
             queryString = queryString + "                                   FROM        GoodsReceiptDetails " + "\r\n";
-            queryString = queryString + "                                   WHERE       GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND GoodsReceiptDetails.Quantity > GoodsReceiptDetails.QuantityIssue " + "\r\n";
+            queryString = queryString + "                                   WHERE       GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID ") + " AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND GoodsReceiptDetails.Quantity > GoodsReceiptDetails.QuantityIssue " + "\r\n";
 
             queryString = queryString + "                                   UNION ALL " + "\r\n";
             //UNDO (CAC CAU SQL CHO INVOICE, StockTransferDetails, WHADJUST, WHASSEMBLY LA HOAN TOAN GIONG NHAU. LUU Y T/H DAT BIET: WHADJUST.QUANTITY < 0)
             //UNDO SalesInvoiceDetails
             queryString = queryString + "                                   SELECT      GoodsReceiptDetails.GoodsReceiptDetailID, SalesInvoiceDetails.Quantity AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, NULL AS MovementDate " + "\r\n";
             queryString = queryString + "                                   FROM        GoodsReceiptDetails INNER JOIN " + "\r\n";
-            queryString = queryString + "                                               SalesInvoiceDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID AND GoodsReceiptDetails.GoodsReceiptDetailID = SalesInvoiceDetails.GoodsReceiptDetailID AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND SalesInvoiceDetails.EntryDate >= @LocalFromDate " + "\r\n";
+            queryString = queryString + "                                               SalesInvoiceDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID ") + " AND GoodsReceiptDetails.GoodsReceiptDetailID = SalesInvoiceDetails.GoodsReceiptDetailID AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND SalesInvoiceDetails.EntryDate >= @LocalFromDate " + "\r\n";
 
             queryString = queryString + "                                   UNION ALL " + "\r\n";
             //UNDO StockTransferDetails
             queryString = queryString + "                                   SELECT      GoodsReceiptDetails.GoodsReceiptDetailID, StockTransferDetails.Quantity AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, NULL AS MovementDate " + "\r\n";
             queryString = queryString + "                                   FROM        GoodsReceiptDetails INNER JOIN " + "\r\n";
-            queryString = queryString + "                                               StockTransferDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID AND GoodsReceiptDetails.GoodsReceiptDetailID = StockTransferDetails.GoodsReceiptDetailID AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND StockTransferDetails.EntryDate >= @LocalFromDate " + "\r\n";
+            queryString = queryString + "                                               StockTransferDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID ") + " AND GoodsReceiptDetails.GoodsReceiptDetailID = StockTransferDetails.GoodsReceiptDetailID AND GoodsReceiptDetails.EntryDate < @LocalFromDate AND StockTransferDetails.EntryDate >= @LocalFromDate " + "\r\n";
 
 
 
@@ -870,20 +892,20 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                                               CASE WHEN GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.InventoryAdjustment + " THEN GoodsReceiptDetails.Quantity ELSE 0 END AS QuantityInputADJ, " + "\r\n";
             queryString = queryString + "                                               0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, NULL AS MovementDate " + "\r\n";
             queryString = queryString + "                                   FROM        GoodsReceiptDetails " + "\r\n";
-            queryString = queryString + "                                   WHERE       GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID AND GoodsReceiptDetails.EntryDate >= @LocalFromDate AND GoodsReceiptDetails.EntryDate <= @LocalToDate " + "\r\n";
+            queryString = queryString + "                                   WHERE       GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND GoodsReceiptDetails.WarehouseID = @LocalWarehouseID ") + " AND GoodsReceiptDetails.EntryDate >= @LocalFromDate AND GoodsReceiptDetails.EntryDate <= @LocalToDate " + "\r\n";
 
             //OUTPUT (CAC CAU SQL CHO INVOICE, StockTransferDetails, WHADJUST, WHASSEMBLY LA HOAN TOAN GIONG NHAU. LUU Y T/H DAT BIET: WHADJUST.QUANTITY < 0)
             queryString = queryString + "                                   UNION ALL " + "\r\n";
             //SalesInvoiceDetails + "\r\n";
             queryString = queryString + "                                   SELECT      SalesInvoiceDetails.GoodsReceiptDetailID, 0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, SalesInvoiceDetails.Quantity AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS MovementDate " + "\r\n"; //DATEDIFF(DAY, GoodsReceiptDetails.EntryDate, SalesInvoiceDetails.EntryDate) AS MovementDate
             queryString = queryString + "                                   FROM        SalesInvoiceDetails " + "\r\n";
-            queryString = queryString + "                                   WHERE       SalesInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND SalesInvoiceDetails.WarehouseID = @LocalWarehouseID AND SalesInvoiceDetails.EntryDate >= @LocalFromDate AND SalesInvoiceDetails.EntryDate <= @LocalToDate " + "\r\n";
+            queryString = queryString + "                                   WHERE       SalesInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND SalesInvoiceDetails.WarehouseID = @LocalWarehouseID ") + " AND SalesInvoiceDetails.EntryDate >= @LocalFromDate AND SalesInvoiceDetails.EntryDate <= @LocalToDate " + "\r\n";
 
             queryString = queryString + "                                   UNION ALL " + "\r\n";
             //StockTransferDetails
             queryString = queryString + "                                   SELECT      StockTransferDetails.GoodsReceiptDetailID, 0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, StockTransferDetails.Quantity AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS MovementDate " + "\r\n"; //DATEDIFF(DAY, GoodsReceiptDetails.EntryDate, StockTransferDetails.EntryDate) AS MovementDate
             queryString = queryString + "                                   FROM        StockTransferDetails " + "\r\n";
-            queryString = queryString + "                                   WHERE       StockTransferDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND StockTransferDetails.WarehouseID = @LocalWarehouseID AND StockTransferDetails.EntryDate >= @LocalFromDate AND StockTransferDetails.EntryDate <= @LocalToDate " + "\r\n";
+            queryString = queryString + "                                   WHERE       StockTransferDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND StockTransferDetails.WarehouseID = @LocalWarehouseID ") + " AND StockTransferDetails.EntryDate >= @LocalFromDate AND StockTransferDetails.EntryDate <= @LocalToDate " + "\r\n";
 
             queryString = queryString + "                                   ) AS GoodsReceiptDetailUnion " + "\r\n";
             queryString = queryString + "                           GROUP BY GoodsReceiptDetailUnion.GoodsReceiptDetailID " + "\r\n";
@@ -897,14 +919,14 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, PurchaseOrderDetails.CommodityID, PurchaseOrderDetails.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, (PurchaseOrderDetails.Quantity - PurchaseOrderDetails.QuantityInvoice) AS QuantityOnPurchasing, 0 AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    PurchaseOrderDetails " + "\r\n";
-            queryString = queryString + "                   WHERE   PurchaseOrderDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND PurchaseOrderDetails.LocationID = @LocationID AND PurchaseOrderDetails.EntryDate <= @LocalToDate AND PurchaseOrderDetails.Quantity > PurchaseOrderDetails.QuantityInvoice " + "\r\n";
+            queryString = queryString + "                   WHERE   PurchaseOrderDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND PurchaseOrderDetails.LocationID = @LocationID ") + " AND PurchaseOrderDetails.EntryDate <= @LocalToDate AND PurchaseOrderDetails.Quantity > PurchaseOrderDetails.QuantityInvoice " + "\r\n";
 
             queryString = queryString + "                   UNION ALL " + "\r\n";
 
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, PurchaseInvoiceDetails.CommodityID, PurchaseOrders.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, PurchaseInvoiceDetails.Quantity AS QuantityOnPurchasing, 0 AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    PurchaseOrders INNER JOIN " + "\r\n";
-            queryString = queryString + "                           PurchaseInvoiceDetails ON PurchaseInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND PurchaseOrders.LocationID = @LocationID AND PurchaseOrders.PurchaseOrderID = PurchaseInvoiceDetails.PurchaseOrderID " + "\r\n";
+            queryString = queryString + "                           PurchaseInvoiceDetails ON PurchaseInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND PurchaseOrders.LocationID = @LocationID ") + " AND PurchaseOrders.PurchaseOrderID = PurchaseInvoiceDetails.PurchaseOrderID " + "\r\n";
             queryString = queryString + "                   WHERE   PurchaseOrders.EntryDate <= @LocalToDate AND PurchaseInvoiceDetails.EntryDate > @LocalToDate  " + "\r\n";
             //--ON SHIP.END
 
@@ -914,28 +936,28 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, PurchaseInvoiceDetails.CommodityID, PurchaseInvoiceDetails.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS QuantityOnPurchasing, (PurchaseInvoiceDetails.Quantity - PurchaseInvoiceDetails.QuantityReceipt) AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    PurchaseInvoiceDetails " + "\r\n";
-            queryString = queryString + "                   WHERE   PurchaseInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND PurchaseInvoiceDetails.LocationID = @LocationID AND PurchaseInvoiceDetails.EntryDate <= @LocalToDate AND PurchaseInvoiceDetails.Quantity > PurchaseInvoiceDetails.QuantityReceipt " + "\r\n";
+            queryString = queryString + "                   WHERE   PurchaseInvoiceDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND PurchaseInvoiceDetails.LocationID = @LocationID ") + " AND PurchaseInvoiceDetails.EntryDate <= @LocalToDate AND PurchaseInvoiceDetails.Quantity > PurchaseInvoiceDetails.QuantityReceipt " + "\r\n";
 
             queryString = queryString + "                   UNION ALL " + "\r\n";
 
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, GoodsReceiptDetails.CommodityID, GoodsReceiptDetails.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS QuantityOnPurchasing, GoodsReceiptDetails.Quantity AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    PurchaseInvoices INNER JOIN " + "\r\n";
-            queryString = queryString + "                           GoodsReceiptDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND PurchaseInvoices.LocationID = @LocationID AND PurchaseInvoices.PurchaseInvoiceID = GoodsReceiptDetails.VoucherID AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND PurchaseInvoices.EntryDate <= @LocalToDate AND GoodsReceiptDetails.EntryDate > @LocalToDate " + "\r\n";
+            queryString = queryString + "                           GoodsReceiptDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND PurchaseInvoices.LocationID = @LocationID ") + " AND PurchaseInvoices.PurchaseInvoiceID = GoodsReceiptDetails.VoucherID AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND PurchaseInvoices.EntryDate <= @LocalToDate AND GoodsReceiptDetails.EntryDate > @LocalToDate " + "\r\n";
 
             queryString = queryString + "                   UNION ALL " + "\r\n";
             //EWHInputVoucherTypeID.EWHTransfer
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, StockTransferDetails.CommodityID, StockTransferDetails.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS QuantityOnPurchasing, (StockTransferDetails.Quantity - StockTransferDetails.QuantityReceipt) AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    StockTransfers INNER JOIN " + "\r\n";
-            queryString = queryString + "                           StockTransferDetails ON StockTransfers.StockTransferID = StockTransferDetails.StockTransferID AND StockTransferDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND StockTransfers.WarehouseID = @LocalWarehouseID AND StockTransferDetails.EntryDate <= @LocalToDate AND StockTransferDetails.Quantity > StockTransferDetails.QuantityReceipt " + "\r\n";
+            queryString = queryString + "                           StockTransferDetails ON StockTransfers.StockTransferID = StockTransferDetails.StockTransferID AND StockTransferDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND StockTransfers.WarehouseID = @LocalWarehouseID ") + " AND StockTransferDetails.EntryDate <= @LocalToDate AND StockTransferDetails.Quantity > StockTransferDetails.QuantityReceipt " + "\r\n";
 
             queryString = queryString + "                   UNION ALL " + "\r\n";
 
             queryString = queryString + "                   SELECT  CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "', 103) AS EntryDate, 0 AS GoodsReceiptDetailID, GoodsReceiptDetails.CommodityID, GoodsReceiptDetails.SupplierID, '' AS ChassisCode, '' AS EngineCode, '' AS ColorCode, 0 AS WarehouseID, " + "\r\n";
             queryString = queryString + "                           0 AS QuantityBegin, 0 AS QuantityInputINV, 0 AS QuantityInputRTN, 0 AS QuantityInputTRF, 0 AS QuantityInputADJ, 0 AS QuantityIssueINV, 0 AS QuantityIssueTRF, 0 AS QuantityIssueADJ, 0 AS QuantityOnPurchasing, GoodsReceiptDetails.Quantity AS QuantityOnReceipt, 0 AS UnitPrice, 0 AS MovementMIN, 0 AS MovementMAX, 0 AS MovementAVG " + "\r\n";
             queryString = queryString + "                   FROM    StockTransfers INNER JOIN " + "\r\n";
-            queryString = queryString + "                           GoodsReceiptDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND StockTransfers.WarehouseID = @LocalWarehouseID AND StockTransfers.StockTransferID = GoodsReceiptDetails.VoucherID AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AND StockTransfers.EntryDate <= @LocalToDate AND GoodsReceiptDetails.EntryDate > @LocalToDate " + "\r\n";
+            queryString = queryString + "                           GoodsReceiptDetails ON GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + (isAllWarehouses ? "" : " AND StockTransfers.WarehouseID = @LocalWarehouseID ") + " AND StockTransfers.StockTransferID = GoodsReceiptDetails.VoucherID AND GoodsReceiptDetails.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.StockTransfer + " AND StockTransfers.EntryDate <= @LocalToDate AND GoodsReceiptDetails.EntryDate > @LocalToDate " + "\r\n";
             //--ON INPUT.END
 
             queryString = queryString + "                   ) AS VehicleJournalMaster INNER JOIN " + "\r\n";
@@ -948,7 +970,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             queryString = queryString + "    END " + "\r\n";
 
-            this.totalBikePortalsEntities.CreateStoredProcedure("VehicleJournal", queryString);
+            return queryString;
 
         }
 

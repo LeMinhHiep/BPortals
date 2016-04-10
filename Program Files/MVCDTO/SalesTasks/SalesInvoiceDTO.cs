@@ -41,7 +41,7 @@ namespace MVCDTO.SalesTasks
         public int ReceiptID { get; set; }
 
 
-        public int PromotionID { get; set; }
+        public Nullable<int> PromotionID { get; set; }
         [Display(Name = "Chương trình khuyến mãi")]
         public string PromotionCode { get; set; }
         [Display(Name = "Chứng từ khuyến mãi")]
