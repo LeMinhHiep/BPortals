@@ -18,11 +18,11 @@ namespace MVCDTO.Helpers
     {
         public int CommodityID { get; set; }
         [Display(Name = "Mã hàng")]
-        //[UIHint("StringReadonly")]
+        [UIHint("StringReadonly")]
         public string CommodityCode { get; set; }
         [Display(Name = "Hàng hóa")]
         [Required(ErrorMessage = "Vui lòng chọn hàng hóa")]
-        [UIHint("StringReadonly")]
+        //[UIHint("StringReadonly")]
         public virtual string CommodityName { get; set; }
 
         [Range(1, 99999999999, ErrorMessage = "Lỗi bắt buộc phải có id loại hàng hóa")]
