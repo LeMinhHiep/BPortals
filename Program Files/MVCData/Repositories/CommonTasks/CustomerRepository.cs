@@ -16,7 +16,7 @@ namespace MVCData.Repositories.CommonTasks
         public IList<Customer> SearchSuppliersByName(string name)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
-            List<Customer> suppliers = this.TotalBikePortalsEntities.Customers.Include("EntireTerritory").Where(w => w.IsSupplier && (w.Name.Contains(name))).ToList();
+            List<Customer> suppliers = this.TotalBikePortalsEntities.Customers.Include("EntireTerritory").Where(w => w.IsSupplier && (w.Name.Contains(name) || w.VATCode.Contains(name))).ToList();
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return suppliers;
@@ -25,7 +25,7 @@ namespace MVCData.Repositories.CommonTasks
         public IList<Customer> SearchCustomersByName(string name)
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
-            List<Customer> customers = this.TotalBikePortalsEntities.Customers.Include("EntireTerritory").Where(w => w.IsCustomer && (w.Name.Contains(name))).OrderBy(or => or.Name).Take(20).ToList();
+            List<Customer> customers = this.TotalBikePortalsEntities.Customers.Include("EntireTerritory").Where(w => w.IsCustomer && (w.Name.Contains(name) || w.VATCode.Contains(name))).OrderByDescending(or => or.CustomerID).Take(20).ToList();
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = true;
 
             return customers;

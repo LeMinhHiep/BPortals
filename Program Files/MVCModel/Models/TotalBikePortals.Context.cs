@@ -1245,5 +1245,18 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VehicleAdjustmentSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
+    
+        public virtual int TransferOrderVoid(Nullable<int> entityID, Nullable<bool> inActive)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var inActiveParameter = inActive.HasValue ?
+                new ObjectParameter("InActive", inActive) :
+                new ObjectParameter("InActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TransferOrderVoid", entityIDParameter, inActiveParameter);
+        }
     }
 }

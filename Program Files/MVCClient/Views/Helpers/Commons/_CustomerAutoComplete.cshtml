@@ -66,14 +66,14 @@
             $("#CustomerPopupName").val($("#CustomerName").val());
 
             //if (confirm("Bạn có muốn thêm mới khách hàng không?")) {
-                var popupWindow = $("#popupWindow");
-                var mywindow = CreatePopUp("Thêm khách hàng", "500px", "600px", popupWindow);
+            var popupWindow = $("#popupWindow");
+            var mywindow = CreatePopUp("Thêm khách hàng", "500px", "600px", popupWindow);
 
-                if (mywindow != null) {
-                    var url = '@Url.Action("CreatePopup", "Customers")';
-                    mywindow.center().open();
-                    mywindow.refresh(url);
-                }
+            if (mywindow != null) {
+                var url = '@Url.Action("CreatePopup", "Customers")';
+                mywindow.center().open();
+                mywindow.refresh(url);
+            }
             //}
             return false;
         }
@@ -88,13 +88,14 @@
 
         $("#CustomerID").val(dataItem.CustomerID);
         $("#CustomerBirthday").val(kendo.toString(new Date(parseInt(dataItem.Birthday.replace(/[A-Za-z$--/]/g, ''))), "@SettingsManager.DateFormat"));
+        $("#CustomerVATCode").val(dataItem.VATCode);
         $("#CustomerTelephone").val(dataItem.Telephone);
         $("#CustomerAddressNo").val(dataItem.AddressNo);
         $("#CustomerEntireTerritoryEntireName").val(dataItem.EntireTerritoryEntireName);
 
         $("#label-birthday").text($("#CustomerBirthday").val());
         $("#label-telephone").text(dataItem.Telephone);
-        $("#TerritoriesDescriptions").text(dataItem.AddressNo + ", " + dataItem.EntireTerritoryEntireName);
+        $("#TerritoriesDescriptions").text((dataItem.VATCode != null && dataItem.VATCode != "" ? "MST: " + dataItem.VATCode : "") + " Đ/C: " + dataItem.AddressNo + ", " + dataItem.EntireTerritoryEntireName);
 
         $("#CustomerNameTemp").val(dataItem.Name);
     }
@@ -104,5 +105,5 @@
         $("#CustomerName-list").css("width", "743");
         $("#CustomerName-list").css("height", $("#CustomerName-list").height() + 1);
     }
-   
+
 </script>

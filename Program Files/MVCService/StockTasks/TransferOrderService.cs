@@ -18,6 +18,7 @@ namespace MVCService.StockTasks
         public VehicleTransferOrderService(IVehicleTransferOrderRepository vehicleTransferOrderRepository)
             : base(vehicleTransferOrderRepository, null, null, "GetVehicleTransferOrderViewDetails")
         {
+            this.EFFunctionNameVoid = "TransferOrderVoid";
         }
 
         public override ICollection<VehicleTransferOrderViewDetail> GetViewDetails(int transferOrderID)
@@ -41,7 +42,7 @@ namespace MVCService.StockTasks
             ICollection<GoodsReceipt> goodsReceipts = this.GenericWithDetailRepository.GetEntities<GoodsReceipt>().OrderBy(o => o.EntryDate).ToList();
             foreach (GoodsReceipt goodsReceipt in goodsReceipts)
             {
-                this.CallUpdateWarehouseBalance15AUG(1, goodsReceipt.GoodsReceiptID, 0, 0,0);
+                this.CallUpdateWarehouseBalance15AUG(1, goodsReceipt.GoodsReceiptID, 0, 0, 0);
             }
 
             ICollection<SalesInvoice> salesInvoices = this.GenericWithDetailRepository.GetEntities<SalesInvoice>().Where(w => w.SalesInvoiceTypeID == (int)GlobalEnums.SalesInvoiceTypeID.PartsInvoice).OrderBy(o => o.EntryDate).ToList();

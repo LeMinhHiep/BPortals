@@ -25,14 +25,14 @@ namespace MVCClient.Api.CommonTasks
 
         public JsonResult SearchSuppliersByName(string searchText)
         {
-            var result = customerRepository.SearchSuppliersByName(searchText).Select(s => new { s.CustomerID, s.Name, s.AttentionName, s.Birthday, s.Telephone, s.AddressNo, EntireTerritoryEntireName = s.EntireTerritory.EntireName });                    
+            var result = customerRepository.SearchSuppliersByName(searchText).Select(s => new { s.CustomerID, s.Name, s.AttentionName, s.Birthday, s.VATCode, s.Telephone, s.AddressNo, EntireTerritoryEntireName = s.EntireTerritory.EntireName });                    
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SearchCustomersByName(string searchText)
         {
-            var result = customerRepository.SearchCustomersByName(searchText).Select(s => new { s.CustomerID, s.Name, s.Birthday, s.Telephone, s.AddressNo, EntireTerritoryEntireName = s.EntireTerritory.EntireName });
+            var result = customerRepository.SearchCustomersByName(searchText).Select(s => new { s.CustomerID, s.Name, s.Birthday, s.VATCode, s.Telephone, s.AddressNo, EntireTerritoryEntireName = s.EntireTerritory.EntireName });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

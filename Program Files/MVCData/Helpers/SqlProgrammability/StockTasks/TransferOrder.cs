@@ -22,6 +22,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             this.TransferOrderEditable();
 
+            this.TransferOrderVoid();
+
             this.TransferOrderInitReference();
         }
 
@@ -129,6 +131,19 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("TransferOrderEditable", queryArray);
         }
+
+
+        private void TransferOrderVoid()
+        {
+            string queryString = " @EntityID int, @InActive bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       UPDATE      TransferOrders  SET InActive = @InActive, InActiveDate = GetDate() WHERE TransferOrderID = @EntityID " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("TransferOrderVoid", queryString);
+        }
+
 
         private void TransferOrderInitReference()
         {

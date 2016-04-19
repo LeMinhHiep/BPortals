@@ -217,6 +217,37 @@ namespace MVCClient.Controllers
 
 
 
+        [AccessLevelAuthorize, ImportModelStateFromTempData]
+        public virtual ActionResult Void(int? id)
+        {
+            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
+            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            return View(this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), true));
+        }
+
+
+        [HttpPost, ActionName("Void")]
+        [ValidateAntiForgeryToken, ExportModelStateToTempData]
+        public virtual ActionResult VoidConfirmed(int id, bool inActive)
+        {
+            try
+            {
+                if (this.genericService.Void(id, inActive))
+                    return RedirectToAction("Index");
+                else
+                    throw new System.ArgumentException("Lỗi vô hiệu dữ liệu", "Dữ liệu này không thể vô hiệu.");
+
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddValidationErrors(exception);
+                return RedirectToAction("Void", id);
+            }
+        }
+
+
+
 
 
 

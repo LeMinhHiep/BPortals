@@ -415,6 +415,10 @@
     <Content Include="Content\Images\Menu\Work-50.png" />
     <Content Include="Content\Images\New\Apps-printer-icon.png" />
     <Content Include="Content\Images\New\customer_div_bg.png" />
+    <Content Include="Content\Images\New\Delete-icon32.png" />
+    <Content Include="Content\Images\New\Delete-icon32Small.png" />
+    <Content Include="Content\Images\New\Delete32.png" />
+    <Content Include="Content\Images\New\Delete32m.png" />
     <Content Include="Content\Images\New\downarrow1xx.png" />
     <Content Include="Content\Images\New\downarrow1xxx.png" />
     <Content Include="Content\Images\New\EditService.png" />
@@ -450,10 +454,13 @@
     <Content Include="Content\Images\New\taxi_bg.png" />
     <Content Include="Content\Images\New\Telephone.png" />
     <Content Include="Content\Images\New\Truck-32.png" />
+    <Content Include="Content\Images\New\Undo-icon32.png" />
     <Content Include="Content\Images\New\uparrow.png" />
     <Content Include="Content\Images\New\uparrow1.png" />
     <Content Include="Content\Images\New\uparrow111.png" />
     <Content Include="Content\Images\New\uparrow1xxx.png" />
+    <Content Include="Content\Images\New\Void32.png" />
+    <Content Include="Content\Images\New\Void32m.png" />
     <Content Include="Content\Images\New\warehouse_div_bg.png" />
     <Content Include="Content\Images\Old\ChangeRoom.png" />
     <Content Include="Content\Images\Old\Cleanup.png" />
@@ -839,6 +846,7 @@
     <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Edit.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Index.js" />
     <Content Include="Scripts\Controllers\Root\VehiclesInvoices\Delete.js" />
+    <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Void.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransfers\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransfers\Delete.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransfers\Edit.js" />
@@ -1676,6 +1684,8 @@
     <Content Include="Views\Shared\EditorTemplates\NMVN\ReadonlyMaskedTextBox.cshtml" />
     <Content Include="Views\Helpers\Commons\_PromotionAutoComplete.cshtml" />
     <Content Include="Views\SalesInvoices\_SalesInvoiceSectionC.cshtml" />
+    <Content Include="Views\VehicleTransferOrders\Void.cshtml" />
+    <Content Include="Views\Helpers\Commons\_VoidConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

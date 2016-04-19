@@ -2109,6 +2109,10 @@
         <Function Name="TransferOrderEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="TransferOrderVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="InActive" Type="bit" Mode="In" />
+        </Function>
         <Function Name="UpdateLockedDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -3224,6 +3228,10 @@
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
+          <FunctionImport Name="TransferOrderVoid">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="InActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -7740,6 +7748,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TransferOrderVoid" FunctionName="TotalBikePortalsModel.Store.TransferOrderVoid" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

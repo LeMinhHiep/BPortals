@@ -174,6 +174,37 @@ namespace MVCService
             }
         }
 
+
+        protected string EFFunctionNameVoid { get; set; }
+
+        public virtual bool Void(int id, bool inActive)
+        {
+            if (id <= 0 || this.EFFunctionNameVoid == null || this.EFFunctionNameVoid == "") return false;
+
+            using (var dbContextTransaction = this.genericRepository.BeginTransaction())
+            {
+                try
+                {
+                    TEntity entity = this.genericRepository.GetByID(id);
+                    if (this.GetAccessLevel(entity.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) throw new System.ArgumentException("", "Lưu ý: Bạn không có quyền vô hiệu dữ liệu này.");
+
+                    ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("EntityID", entity.GetID()), new ObjectParameter("InActive", !inActive) };
+                    this.genericRepository.ExecuteFunction(this.EFFunctionNameVoid, parameters);
+
+                    dbContextTransaction.Commit();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        
+
         public virtual void PreSaveRoutines(TDto dto)
         {
             if (dto.PreparedPersonID <= 0) throw new System.ArgumentException("Lỗi lưu dữ liệu", "Vui lòng chọn người lập.");

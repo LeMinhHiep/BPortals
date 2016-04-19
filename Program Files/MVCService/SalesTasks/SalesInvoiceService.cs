@@ -107,14 +107,17 @@ namespace MVCService.SalesTasks
                 accountInvoiceDTO.TotalGrossAmount = vehiclesInvoiceDTO.TotalGrossAmount;
                 accountInvoiceDTO.AverageDiscountPercent = vehiclesInvoiceDTO.AverageDiscountPercent;
 
-                accountInvoiceDTO.Description = vehiclesInvoiceDTO.Description;
                 accountInvoiceDTO.Remarks = vehiclesInvoiceDTO.Remarks;
 
+                string lDescription = "";
                 IEnumerable<PendingSalesInvoice> pendingSalesInvoices = this.accountInvoiceAPIRepository.GetPendingSalesInvoices(salesInvoice.SalesInvoiceID, "", salesInvoice.LocationID, 0, DateTime.Now, DateTime.Now, 0, "");
                 foreach (PendingSalesInvoice pendingSalesInvoice in pendingSalesInvoices)
                 {
+                    if (lDescription.IndexOf(pendingSalesInvoice.CommodityName) < 0) lDescription = lDescription + (lDescription != "" ? ", " : "") + pendingSalesInvoice.CommodityName;
                     accountInvoiceDTO.ViewDetails.Add(new AccountInvoiceDetailDTO { SalesInvoiceDetailID = pendingSalesInvoice.SalesInvoiceDetailID, CommodityID = pendingSalesInvoice.CommodityID, CommodityTypeID = pendingSalesInvoice.CommodityTypeID, Quantity = pendingSalesInvoice.Quantity, ListedPrice = pendingSalesInvoice.ListedPrice, DiscountPercent = pendingSalesInvoice.DiscountPercent, UnitPrice = pendingSalesInvoice.UnitPrice, VATPercent = pendingSalesInvoice.VATPercent, GrossPrice = pendingSalesInvoice.GrossPrice, Amount = pendingSalesInvoice.Amount, VATAmount = pendingSalesInvoice.VATAmount, GrossAmount = pendingSalesInvoice.GrossAmount, IsBonus = pendingSalesInvoice.IsBonus, IsWarrantyClaim = pendingSalesInvoice.IsWarrantyClaim });
                 }
+
+                accountInvoiceDTO.Description = lDescription.Length > 99 ? lDescription.Substring(0, 98) : lDescription;
 
                 this.accountInvoiceService.UserID = this.UserID; //THE BaseService.UserID IS AUTOMATICALLY SET BY CustomControllerAttribute OF CONTROLLER, ONLY WHEN BaseService IS INITIALIZED BY CONTROLLER. BUT HERE, THE this.accountInvoiceService IS INITIALIZED BY VehiclesInvoiceService => SO SHOULD SET accountInvoiceService.UserID = this.UserID
                 this.accountInvoiceService.Save(accountInvoiceDTO, true);

@@ -18,6 +18,7 @@ namespace MVCCore.Services
 
         bool Save(TDto dto);
         bool Delete(int id);
+        bool Void(int id, bool inActive);
 
         void PreSaveRoutines(TDto dto);
     }

@@ -59,6 +59,18 @@
                 @Html.Partial("~/Views/Helpers/Commons/_CustomerTypeDropDown.cshtml")
 
                 <div class="div-row">
+                    <div class="div-label">
+                        @Html.LabelFor(model => model.VATCode, htmlAttributes: new { @class = "control-label2" })
+                    </div>
+                    <div class="div-input">
+                        @Html.Kendo().MaskedTextBoxFor(model => model.VATCode).HtmlAttributes(new { @class = "input-class1" })
+                    </div>
+                    <div class="div-validation-message1">
+                        @Html.ValidationMessageFor(model => model.VATCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="div-row">
                     @Html.LabelFor(model => model.AttentionName, htmlAttributes: new { @class = "control-label1" })
                     <div class="div-input">
                         @Html.Kendo().MaskedTextBoxFor(model => model.AttentionName).HtmlAttributes(new { @class = "input-class" })
@@ -90,17 +102,7 @@
                             .Expanded(false)
                             .Content(@<text>
                                 <div class="div-panel-left">
-                                    <div class="div-row">
-                                        <div class="div-label">
-                                            @Html.LabelFor(model => model.VATCode, htmlAttributes: new { @class = "control-label2" })
-                                        </div>
-                                        <div class="div-input">
-                                            @Html.Kendo().MaskedTextBoxFor(model => model.VATCode).HtmlAttributes(new { @class = "input-class1" })
-                                        </div>
-                                        <div class="div-validation-message1">
-                                            @Html.ValidationMessageFor(model => model.VATCode, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+                                    
 
                                     <div class="div-row">
                                         @Html.LabelFor(model => model.OfficialName, htmlAttributes: new { @class = "control-label2" })

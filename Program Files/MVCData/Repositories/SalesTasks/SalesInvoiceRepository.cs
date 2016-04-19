@@ -41,10 +41,17 @@ namespace MVCData.Repositories.SalesTasks
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
+            Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
+            si.RestoreProcedure();
+
+
             /*
+            Helpers.SqlProgrammability.StockTasks.TransferOrder to = new Helpers.SqlProgrammability.StockTasks.TransferOrder(totalBikePortalsEntities);
+            to.RestoreProcedure();
+
+            
             Helpers.SqlProgrammability.SalesTasks.ServiceContracts n = new Helpers.SqlProgrammability.SalesTasks.ServiceContracts(totalBikePortalsEntities);
             n.RestoreProcedure();
-
 
             
             Helpers.SqlProgrammability.StockTasks.PartAdjustment pa = new Helpers.SqlProgrammability.StockTasks.PartAdjustment(totalBikePortalsEntities);
@@ -66,9 +73,7 @@ namespace MVCData.Repositories.SalesTasks
             vat.RestoreProcedure();
 
             
-            Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
-            si.RestoreProcedure();
-
+            
             
             
 
@@ -97,9 +102,7 @@ namespace MVCData.Repositories.SalesTasks
            
 
 
-            Helpers.SqlProgrammability.StockTasks.TransferOrder to = new Helpers.SqlProgrammability.StockTasks.TransferOrder(totalBikePortalsEntities);
-            to.RestoreProcedure();
-
+            
             Helpers.SqlProgrammability.StockTasks.GoodsReceipt a = new Helpers.SqlProgrammability.StockTasks.GoodsReceipt(totalBikePortalsEntities);
             a.RestoreProcedure();
 

@@ -23,13 +23,15 @@ namespace MVCDTO.SalesTasks
         public string CustomerName { get; set; }
         [Display(Name = "Ngày sinh")]
         public Nullable<System.DateTime> CustomerBirthday { get; set; }
+        [Display(Name = "Mã số thuế")]
+        public string CustomerVATCode { get; set; }
+        [Display(Name = "Điện thoại")]
+        public string CustomerTelephone { get; set; }
         [Display(Name = "Địa chỉ")]
         public string CustomerAddressNo { get; set; }
         [Display(Name = "Khu vực")]
         public string CustomerEntireTerritoryEntireName { get; set; }
-        [Display(Name = "Điện thoại")]
-        public string CustomerTelephone { get; set; }
-
+        
 
         public int ServiceContractTypeID { get; set; }
         public Nullable<int> SalesInvoiceDetailID { get; set; }
