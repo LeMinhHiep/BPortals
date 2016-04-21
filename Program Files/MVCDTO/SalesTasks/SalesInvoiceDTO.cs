@@ -60,7 +60,7 @@ namespace MVCDTO.SalesTasks
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            this.DtoDetails().ToList().ForEach(e => { e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; });
+            this.DtoDetails().ToList().ForEach(e => { e.SalesInvoiceTypeID = this.SalesInvoiceTypeID; e.CustomerID = this.CustomerID; e.PromotionID = this.PromotionID; });
         }
 
     }

@@ -25,17 +25,17 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.GoodsReceiptJournal();
         }
 
-        
+
         #region SalesInvoiceJournal
         private void SalesInvoiceJournal()
         {
-            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @WithAccountInvoice bit " + "\r\n";
+            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @WithAccountInvoice bit, @IncludePromotionID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE     @LocalLocationID int, @LocalSalesInvoiceTypeID int, @LocalFromDate DateTime, @LocalToDate DateTime, @LocalWithAccountInvoice bit " + "\r\n";
-            queryString = queryString + "       SET         @LocalLocationID = @LocationID  SET @LocalSalesInvoiceTypeID = @SalesInvoiceTypeID  SET @LocalFromDate = @FromDate  SET @LocalToDate = @ToDate  SET @LocalWithAccountInvoice = @WithAccountInvoice " + "\r\n";
+            queryString = queryString + "       DECLARE     @LocalLocationID int, @LocalSalesInvoiceTypeID int, @LocalFromDate DateTime, @LocalToDate DateTime, @LocalWithAccountInvoice bit, @LocalIncludePromotionID int " + "\r\n";
+            queryString = queryString + "       SET         @LocalLocationID = @LocationID  SET @LocalSalesInvoiceTypeID = @SalesInvoiceTypeID  SET @LocalFromDate = @FromDate  SET @LocalToDate = @ToDate  SET @LocalWithAccountInvoice = @WithAccountInvoice   SET @LocalIncludePromotionID = @IncludePromotionID " + "\r\n";
 
             queryString = queryString + "       IF          (@LocalSalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.AllInvoice + ") " + "\r\n";
             queryString = queryString + "                   " + this.SalesInvoiceJournalBuild(GlobalEnums.SalesInvoiceTypeID.AllInvoice) + "\r\n";
@@ -106,7 +106,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                 queryString = queryString + "               NULL AS ChassisCode, NULL AS EngineCode, NULL AS ColorCode, " + "\r\n";
 
 
-
+            queryString = queryString + "                   SalesInvoiceDetails.PromotionID, Promotions.Code AS PromotionCode, Promotions.Name AS PromotionName, " + "\r\n";
             queryString = queryString + "                   SalesInvoiceDetails.Quantity, SalesInvoiceDetails.DiscountPercent, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, " + "\r\n";
 
 
@@ -155,6 +155,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
 
+            queryString = queryString + "                   LEFT JOIN Promotions ON (@LocalIncludePromotionID = 0 OR (@LocalIncludePromotionID = -1 AND SalesInvoiceDetails.PromotionID IS NULL) OR (@LocalIncludePromotionID = 1 AND NOT SalesInvoiceDetails.PromotionID IS NULL)) AND SalesInvoiceDetails.PromotionID = Promotions.PromotionID " + "\r\n";
+
             queryString = queryString + "   END " + "\r\n";
 
             return queryString;
@@ -170,14 +172,14 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
 
-        
+
 
         #region SalesInvoiceByServiceContract
 
         private void SalesInvoiceByServiceContract()
         {
             string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @IsRegularCheckUps bit " + "\r\n";
-            
+
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";

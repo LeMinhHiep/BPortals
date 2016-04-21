@@ -627,6 +627,7 @@
           <Property Name="CommodityID" Type="int" Nullable="false" />
           <Property Name="CommodityTypeID" Type="int" Nullable="false" />
           <Property Name="WarehouseID" Type="int" />
+          <Property Name="PromotionID" Type="int" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="QuantityContract" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -5556,6 +5557,7 @@
           <NavigationProperty Name="QuotationDetail" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_QuotationDetails" FromRole="SalesInvoiceDetail" ToRole="QuotationDetail" />
           <NavigationProperty Name="SalesInvoice" Relationship="TotalBikePortalsModel.FK_SalesInvoiceDetails_SalesInvoices" FromRole="SalesInvoiceDetail" ToRole="SalesInvoice" />
           <NavigationProperty Name="ServiceContracts" Relationship="TotalBikePortalsModel.FK_ServiceContracts_SalesInvoiceDetails" FromRole="SalesInvoiceDetail" ToRole="ServiceContract" />
+          <Property Name="PromotionID" Type="Int32" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_SalesInvoiceDetails">
           <End Type="TotalBikePortalsModel.SalesInvoiceDetail" Role="SalesInvoiceDetail" Multiplicity="1" />
@@ -7528,6 +7530,7 @@
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IsWarrantyClaim" ColumnName="IsWarrantyClaim" />
                 <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />

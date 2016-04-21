@@ -20,6 +20,8 @@ namespace MVCDTO.SalesTasks
 
         public Nullable<int> QuotationDetailID { get; set; }
 
+        public Nullable<int> PromotionID { get; set; }
+
         public Nullable<bool> IsBonus { get; set; }
         public Nullable<bool> IsWarrantyClaim { get; set; }
     }
