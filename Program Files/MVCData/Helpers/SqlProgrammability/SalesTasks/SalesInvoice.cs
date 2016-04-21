@@ -155,7 +155,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
 
-            queryString = queryString + "                   LEFT JOIN Promotions ON (@LocalIncludePromotionID = 0 OR (@LocalIncludePromotionID = -1 AND SalesInvoiceDetails.PromotionID IS NULL) OR (@LocalIncludePromotionID = 1 AND NOT SalesInvoiceDetails.PromotionID IS NULL)) AND SalesInvoiceDetails.PromotionID = Promotions.PromotionID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN Promotions ON (@LocalIncludePromotionID = 0 OR (@LocalIncludePromotionID = -1 AND SalesInvoiceDetails.PromotionID IS NULL) OR (@LocalIncludePromotionID = 1 AND SalesInvoiceDetails.PromotionID IS NOT NULL)) AND SalesInvoiceDetails.PromotionID = Promotions.PromotionID " + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
 
