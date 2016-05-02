@@ -49,6 +49,7 @@ namespace MVCModel.Models
         public Nullable<bool> IsWarrantyClaim { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> PromotionID { get; set; }
+        public int EmployeeID { get; set; }
     
         public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
         public virtual Commodity Commodity { get; set; }

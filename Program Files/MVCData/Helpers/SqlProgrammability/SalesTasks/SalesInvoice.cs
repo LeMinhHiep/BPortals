@@ -30,7 +30,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         private void SalesInvoiceJournal()
         {
             string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @WithAccountInvoice bit, @IncludePromotionID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -73,16 +73,34 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
             queryString = queryString + "   BEGIN " + "\r\n";
             queryString = queryString + "       IF          (@LocalWithAccountInvoice = 0) " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, false) + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "                   IF          (@LocalIncludePromotionID = 0) " + "\r\n";
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, false, 0) + "\r\n";
+            queryString = queryString + "                   ELSE    IF  (@LocalIncludePromotionID = -1) " + "\r\n";
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, false, -1) + "\r\n";
+            queryString = queryString + "                   ELSE    " + "\r\n"; //(@LocalIncludePromotionID = 1)
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, false, 1) + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
             queryString = queryString + "       ELSE        " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, true) + "\r\n";
+
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "                   IF          (@LocalIncludePromotionID = 0) " + "\r\n";
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, true, 0) + "\r\n";
+            queryString = queryString + "                   ELSE    IF  (@LocalIncludePromotionID = -1) " + "\r\n";
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, true, -1) + "\r\n";
+            queryString = queryString + "                   ELSE    " + "\r\n"; //(@LocalIncludePromotionID = 1)
+            queryString = queryString + "                           " + this.SalesInvoiceJournalBuildDetail(salesInvoiceTypeID, locationFilter, true, 1) + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+
             queryString = queryString + "   END " + "\r\n";
 
             return queryString;
 
         }
 
-        private string SalesInvoiceJournalBuildDetail(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool locationFilter, bool withAccountInvoice)
+        private string SalesInvoiceJournalBuildDetail(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool locationFilter, bool withAccountInvoice, int includePromotionID)
         {
             string queryString = "";
 
@@ -106,7 +124,8 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                 queryString = queryString + "               NULL AS ChassisCode, NULL AS EngineCode, NULL AS ColorCode, " + "\r\n";
 
 
-            queryString = queryString + "                   SalesInvoiceDetails.PromotionID, Promotions.Code AS PromotionCode, Promotions.Name AS PromotionName, " + "\r\n";
+            queryString = queryString + "                   SalesInvoiceDetails.PromotionID, " + (includePromotionID == 1 ? " Promotions.Code AS PromotionCode, Promotions.Name AS PromotionName, " : " NULL AS PromotionCode, NULL AS PromotionName, ") + "\r\n";
+
             queryString = queryString + "                   SalesInvoiceDetails.Quantity, SalesInvoiceDetails.DiscountPercent, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, " + "\r\n";
 
 
@@ -126,7 +145,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
             queryString = queryString + "       FROM        SalesInvoiceDetails " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON SalesInvoiceDetails.EntryDate >= @LocalFromDate AND SalesInvoiceDetails.EntryDate <= @LocalToDate " + (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.AllInvoice ? "" : " AND SalesInvoiceDetails.SalesInvoiceTypeID = @LocalSalesInvoiceTypeID") + (locationFilter ? " AND SalesInvoiceDetails.LocationID = @LocalLocationID" : "") + " AND SalesInvoiceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON " + (includePromotionID == -1 ? "(SalesInvoiceDetails.IsBonus IS NULL OR SalesInvoiceDetails.IsBonus = 0) AND " : "") + " SalesInvoiceDetails.EntryDate >= @LocalFromDate AND SalesInvoiceDetails.EntryDate <= @LocalToDate " + (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.AllInvoice ? "" : " AND SalesInvoiceDetails.SalesInvoiceTypeID = @LocalSalesInvoiceTypeID") + (locationFilter ? " AND SalesInvoiceDetails.LocationID = @LocalLocationID" : "") + " AND SalesInvoiceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
 
             if (withAccountInvoice)
             {
@@ -134,6 +153,9 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                 queryString = queryString + "               INNER JOIN AccountInvoices ON AccountInvoiceDetails.AccountInvoiceID = AccountInvoices.AccountInvoiceID " + "\r\n";
                 queryString = queryString + "               INNER JOIN Customers VATCustomers ON AccountInvoices.CustomerID = VATCustomers.CustomerID " + "\r\n";
             }
+
+            if (includePromotionID == 1)
+                queryString = queryString + "               INNER JOIN Promotions ON SalesInvoiceDetails.IsBonus = 1 AND SalesInvoiceDetails.PromotionID = Promotions.PromotionID " + "\r\n";
 
             queryString = queryString + "                   INNER JOIN Customers ON SalesInvoiceDetails.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
@@ -153,9 +175,6 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
                     if (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.PartsInvoice)
                         queryString = queryString + "       INNER JOIN WarehouseBalancePrice ON SalesInvoiceDetails.CommodityID = WarehouseBalancePrice.CommodityID AND MONTH(SalesInvoiceDetails.EntryDate) = MONTH(WarehouseBalancePrice.EntryDate) AND YEAR(SalesInvoiceDetails.EntryDate) = YEAR(WarehouseBalancePrice.EntryDate) " + "\r\n";
 
-
-
-            queryString = queryString + "                   LEFT JOIN Promotions ON (@LocalIncludePromotionID = 0 OR (@LocalIncludePromotionID = -1 AND SalesInvoiceDetails.PromotionID IS NULL) OR (@LocalIncludePromotionID = 1 AND SalesInvoiceDetails.PromotionID IS NOT NULL)) AND SalesInvoiceDetails.PromotionID = Promotions.PromotionID " + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
 
@@ -178,43 +197,55 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         private void SalesInvoiceByServiceContract()
         {
-            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @IsRegularCheckUps bit " + "\r\n";
+            string queryString = " @LocationID int, @SalesInvoiceTypeID int, @FromDate DateTime, @ToDate DateTime, @IsRegularCheckUps bit, @IncludeVehiclesInvoice bit " + "\r\n";
 
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE     @LocalLocationID int, @LocalSalesInvoiceTypeID int, @LocalFromDate DateTime, @LocalToDate DateTime, @LocalIsRegularCheckUps bit " + "\r\n";
-            queryString = queryString + "       SET         @LocalLocationID = @LocationID  SET @LocalSalesInvoiceTypeID = @SalesInvoiceTypeID  SET @LocalFromDate = @FromDate  SET @LocalToDate = @ToDate  SET @LocalIsRegularCheckUps = @IsRegularCheckUps " + "\r\n";
+            queryString = queryString + "       DECLARE     @LocalLocationID int, @LocalSalesInvoiceTypeID int, @LocalFromDate DateTime, @LocalToDate DateTime, @LocalIsRegularCheckUps bit, @LocalIncludeVehiclesInvoice bit " + "\r\n";
+            queryString = queryString + "       SET         @LocalLocationID = @LocationID  SET @LocalSalesInvoiceTypeID = @SalesInvoiceTypeID  SET @LocalFromDate = @FromDate  SET @LocalToDate = @ToDate  SET @LocalIsRegularCheckUps = @IsRegularCheckUps   SET @LocalIncludeVehiclesInvoice = @IncludeVehiclesInvoice " + "\r\n";
 
-            queryString = queryString + "       IF          (@LocalIsRegularCheckUps = 1) " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.AllInvoice, true) + "\r\n";
-            queryString = queryString + "       ELSE    IF  (@LocalSalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.AllInvoice + ") " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.AllInvoice, false) + "\r\n";
-            queryString = queryString + "       ELSE        " + "\r\n"; //LAY BAT KY GlobalEnums.SalesInvoiceTypeID LAM DAI DIEN, KHONG CO Y NGHIA GI (LAY GlobalEnums.SalesInvoiceTypeID.ServicesInvoice LAM DAI DIEN)
-            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID.ServicesInvoice, false) + "\r\n";
+            queryString = queryString + "       IF          (@LocalIncludeVehiclesInvoice = 1) " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuild(false) + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
             this.totalBikePortalsEntities.CreateStoredProcedure("SalesInvoiceByServiceContract", queryString);
         }
+        private string SalesInvoiceByServiceContractBuild(bool includeVehiclesInvoice)
+        {
+            string queryString = "";
 
-        private string SalesInvoiceByServiceContractBuild(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool isRegularCheckUps)
+            queryString = queryString + "   BEGIN " + "\r\n";
+            queryString = queryString + "       IF          (@LocalIsRegularCheckUps = 1) " + "\r\n";
+            queryString = queryString + "               " + this.SalesInvoiceByServiceContractBuildMaster(GlobalEnums.SalesInvoiceTypeID.AllInvoice, true, includeVehiclesInvoice) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalSalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.AllInvoice + ") " + "\r\n";
+            queryString = queryString + "               " + this.SalesInvoiceByServiceContractBuildMaster(GlobalEnums.SalesInvoiceTypeID.AllInvoice, false, includeVehiclesInvoice) + "\r\n";
+            queryString = queryString + "       ELSE        " + "\r\n"; //LAY BAT KY GlobalEnums.SalesInvoiceTypeID LAM DAI DIEN, KHONG CO Y NGHIA GI (LAY GlobalEnums.SalesInvoiceTypeID.ServicesInvoice LAM DAI DIEN)
+            queryString = queryString + "               " + this.SalesInvoiceByServiceContractBuildMaster(GlobalEnums.SalesInvoiceTypeID.ServicesInvoice, false, includeVehiclesInvoice) + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+        private string SalesInvoiceByServiceContractBuildMaster(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool isRegularCheckUps, bool includeVehiclesInvoice)
         {
             string queryString = "";
 
             queryString = queryString + "   BEGIN " + "\r\n";
             queryString = queryString + "       IF          (@LocalLocationID = 0) " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, false, isRegularCheckUps) + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, false, isRegularCheckUps, includeVehiclesInvoice) + "\r\n";
             queryString = queryString + "       ELSE        " + "\r\n";
-            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, true, isRegularCheckUps) + "\r\n";
+            queryString = queryString + "                   " + this.SalesInvoiceByServiceContractBuildDetail(salesInvoiceTypeID, true, isRegularCheckUps, includeVehiclesInvoice) + "\r\n";
             queryString = queryString + "   END " + "\r\n";
 
             return queryString;
-
         }
 
-        private string SalesInvoiceByServiceContractBuildDetail(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool locationFilter, bool isRegularCheckUps)
+        private string SalesInvoiceByServiceContractBuildDetail(GlobalEnums.SalesInvoiceTypeID salesInvoiceTypeID, bool locationFilter, bool isRegularCheckUps, bool includeVehiclesInvoice)
         {
             string queryString = "";
 
@@ -223,7 +254,9 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "       SELECT      SalesInvoiceDetails.SalesInvoiceID, SalesInvoiceDetails.SalesInvoiceDetailID, SalesInvoiceDetails.EntryDate, CAST(SalesInvoiceDetails.EntryDate AS Date) AS EntryDateONLY, SalesInvoiceDetails.LocationID, Locations.Code AS LocationCode, SalesInvoiceDetails.SalesInvoiceTypeID, " + "\r\n";
             queryString = queryString + "                   SalesInvoiceDetails.CommodityID, Commodities.Code, Commodities.Name, SalesInvoiceDetails.Quantity, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, " + "\r\n";
             queryString = queryString + "                   ServiceContracts.CommodityID AS VehicleID, Vehicles.Code AS VehicleCode, Vehicles.Name AS VehicleName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.ColorCode, ServiceContracts.LicensePlate, SalesInvoiceDetails.CurrentMeters, " + "\r\n";
-            queryString = queryString + "                   ServiceContracts.PurchaseDate, ServiceContracts.AgentName, Customers.Name AS CustomerName, Customers.AddressNo AS CustomerAddressNo " + "\r\n";
+            queryString = queryString + "                   " + (includeVehiclesInvoice ? "ISNULL(VehicleInvoiceDetails.EntryDate, ServiceContracts.PurchaseDate)" : "ServiceContracts.PurchaseDate") + " AS PurchaseDate, " + (includeVehiclesInvoice ? "ISNULL(VehicleLocations.OfficialName, ServiceContracts.AgentName)" : "ServiceContracts.AgentName") + " AS AgentName, " + (includeVehiclesInvoice ? "VehicleLocations.OfficialName" : "''") + " AS VehicleLocationName, " + "\r\n";
+            queryString = queryString + "                   Customers.CustomerID, Customers.Name AS CustomerName, Customers.Birthday, Customers.IsFemale, Customers.Telephone, Customers.Facsimile, Customers.AddressNo, EntireTerritories.Name2 AS DistrictName, EntireTerritories.Name1 AS ProvinceName, CustomerCategories.Name AS CustomerCategoryName " + "\r\n";
+            
 
             queryString = queryString + "       FROM        SalesInvoiceDetails " + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities ON SalesInvoiceDetails.EntryDate >= @LocalFromDate AND SalesInvoiceDetails.EntryDate <= @LocalToDate " + (isRegularCheckUps ? " AND Commodities.IsRegularCheckUps = 1" : "") + (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.AllInvoice ? "" : " AND SalesInvoiceDetails.SalesInvoiceTypeID = @LocalSalesInvoiceTypeID") + (locationFilter ? " AND SalesInvoiceDetails.LocationID = @LocalLocationID" : "") + " AND SalesInvoiceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
@@ -231,7 +264,15 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "                   INNER JOIN ServiceContracts ON SalesInvoiceDetails.ServiceContractID = ServiceContracts.ServiceContractID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities AS Vehicles ON ServiceContracts.CommodityID = Vehicles.CommodityID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON ServiceContracts.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Locations ON SalesInvoiceDetails.LocationID = Locations.LocationID " + "\r\n";
+
+            if (includeVehiclesInvoice)
+            {
+                queryString = queryString + "               LEFT JOIN SalesInvoiceDetails VehicleInvoiceDetails ON ServiceContracts.SalesInvoiceDetailID = VehicleInvoiceDetails.SalesInvoiceDetailID " + "\r\n";
+                queryString = queryString + "               LEFT JOIN Locations VehicleLocations ON VehicleInvoiceDetails.LocationID = VehicleLocations.LocationID " + "\r\n";
+            }
 
             queryString = queryString + "   END " + "\r\n";
 
