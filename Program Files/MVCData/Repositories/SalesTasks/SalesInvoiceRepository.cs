@@ -45,6 +45,12 @@ namespace MVCData.Repositories.SalesTasks
             Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
             si.RestoreProcedure();
 
+            Helpers.SqlProgrammability.StockTasks.VehicleTransfer v = new Helpers.SqlProgrammability.StockTasks.VehicleTransfer(totalBikePortalsEntities);
+            v.RestoreProcedure();
+
+            Helpers.SqlProgrammability.StockTasks.PartTransfer b = new Helpers.SqlProgrammability.StockTasks.PartTransfer(totalBikePortalsEntities);
+            b.RestoreProcedure();
+
             /*
             
 
@@ -110,11 +116,7 @@ namespace MVCData.Repositories.SalesTasks
             a.RestoreProcedure();
 
 
-            Helpers.SqlProgrammability.StockTasks.VehicleTransfer v = new Helpers.SqlProgrammability.StockTasks.VehicleTransfer(totalBikePortalsEntities);
-            v.RestoreProcedure();
-
-            Helpers.SqlProgrammability.StockTasks.PartTransfer b = new Helpers.SqlProgrammability.StockTasks.PartTransfer(totalBikePortalsEntities);
-            b.RestoreProcedure();
+            
 
             
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);

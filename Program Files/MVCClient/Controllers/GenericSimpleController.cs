@@ -253,7 +253,7 @@ namespace MVCClient.Controllers
 
 
 
-        private TEntity GetEntityAndCheckAccessLevel(int? id, GlobalEnums.AccessLevel accessLevel)
+        protected virtual TEntity GetEntityAndCheckAccessLevel(int? id, GlobalEnums.AccessLevel accessLevel)
         {
             TEntity entity;
             if (id == null || (entity = this.genericService.GetByID((int)id)) == null) return null;
@@ -346,11 +346,14 @@ namespace MVCClient.Controllers
 
         public ActionResult Print(int? id)
         {
-            PrintViewModel printViewModel = new PrintViewModel() { Id = id != null ? (int)id : 0 };
-            return View(printViewModel);
+            return View(InitPrintViewModel(id));
         }
 
-
+        protected virtual PrintViewModel InitPrintViewModel(int? id)
+        {
+            PrintViewModel printViewModel = new PrintViewModel() { Id = id != null ? (int)id : 0 };
+            return printViewModel;
+        }
 
         //Create/CreateWizard: by Authorize Attribute (Editable)
         //Edit: by Authorize Attribute (Readonly?) -> then: Get Entity by ID (Need to check editable ACCESS for entity) -> Check Ediatable of Entity (by service) -> Add FLAG STATUS for Editable/ Readonly -> Set View Status!

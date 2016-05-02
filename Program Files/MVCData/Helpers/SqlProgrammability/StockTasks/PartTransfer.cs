@@ -19,6 +19,8 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             this.PartTransferSaveRelative();
             this.PartTransferPostSaveValidate();
+
+            this.PartTransferDetailPrint();
         }
 
 
@@ -121,6 +123,38 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
 
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("PartTransferPostSaveValidate", queryArray);
         }
+
+
+
+
+        private void PartTransferDetailPrint()
+        {
+            string queryString = " @SwitchSQLID int,  @EntityID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE         @LocalSwitchSQLID int,   @LocalEntityID int        SET @LocalSwitchSQLID = @SwitchSQLID        SET @LocalEntityID = @EntityID " + "\r\n";
+
+            queryString = queryString + "       IF (@LocalSwitchSQLID = 1) " + "\r\n";
+
+            queryString = queryString + "               SELECT          StockTransferDetails.StockTransferDetailID AS EntityID, Commodities.Code, Commodities.Name, StockTransferDetails.Quantity, WarehouseBalancePrice.UnitPrice, StockTransferDetails.Quantity * WarehouseBalancePrice.UnitPrice AS Amount " + "\r\n";
+            queryString = queryString + "               FROM            StockTransferDetails " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Commodities ON StockTransferDetails.StockTransferID = @LocalEntityID AND StockTransferDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                               LEFT OUTER JOIN WarehouseBalancePrice ON dbo.EOMONTHTIME(StockTransferDetails.EntryDate, 9999) = WarehouseBalancePrice.EntryDate AND StockTransferDetails.CommodityID = WarehouseBalancePrice.CommodityID " + "\r\n";
+
+            queryString = queryString + "       ELSE " + "\r\n";
+
+            queryString = queryString + "               SELECT          GoodsReceiptDetails.GoodsReceiptDetailID AS EntityID, Commodities.Code, Commodities.Name, GoodsReceiptDetails.Quantity, WarehouseBalancePrice.UnitPrice, GoodsReceiptDetails.Quantity * WarehouseBalancePrice.UnitPrice AS Amount " + "\r\n";
+            queryString = queryString + "               FROM            GoodsReceiptDetails " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Commodities ON GoodsReceiptDetails.GoodsReceiptID = @LocalEntityID AND GoodsReceiptDetails.CommodityTypeID <> " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                               LEFT OUTER JOIN WarehouseBalancePrice ON dbo.EOMONTHTIME(GoodsReceiptDetails.EntryDate, 9999) = WarehouseBalancePrice.EntryDate AND GoodsReceiptDetails.CommodityID = WarehouseBalancePrice.CommodityID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("PartTransferDetailPrint", queryString);
+        }
+
 
     }
 }

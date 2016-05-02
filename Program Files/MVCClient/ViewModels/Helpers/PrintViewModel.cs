@@ -4,5 +4,7 @@
     {
         public int Id { get; set; }
         public string ReportPath { get; set; }
+
+        public int PrintOptionID { get; set; }
     }
 }

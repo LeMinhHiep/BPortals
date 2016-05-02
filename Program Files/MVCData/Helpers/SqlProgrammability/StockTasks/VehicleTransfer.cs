@@ -28,6 +28,9 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.StockTransferEditable();
 
             this.StockTransferInitReference();
+
+            this.StockTransferPrint();
+            this.VehicleTransferDetailPrint();
         }
 
 
@@ -170,6 +173,80 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
         {
             StockTransferInitReference simpleInitReference = new StockTransferInitReference("StockTransfers", "StockTransferID", "Reference", ModelSettingManager.ReferenceLength, ModelSettingManager.ReferencePrefix(GlobalEnums.NmvnTaskID.StockTransfer));
             this.totalBikePortalsEntities.CreateTrigger("StockTransferInitReference", simpleInitReference.CreateQuery());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void StockTransferPrint()
+        {
+            string queryString = " @SwitchSQLID int,  @EntityID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE         @LocalSwitchSQLID int,   @LocalEntityID int        SET @LocalSwitchSQLID = @SwitchSQLID        SET @LocalEntityID = @EntityID " + "\r\n";
+
+            queryString = queryString + "       IF (@LocalSwitchSQLID = 1) " + "\r\n";
+
+            queryString = queryString + "               SELECT          StockTransfers.StockTransferID AS EntityID, StockTransfers.EntryDate, StockTransfers.Reference, WarehouseLocations.OfficialName AS WarehouseLocationOfficialName, WarehouseLocations.Address AS WarehouseLocationAddress, " + "\r\n";
+            queryString = queryString + "                               Locations.Name AS LocationName, Locations.OfficialName AS LocationOfficialName, Locations.Address AS LocationAddress, TransferOrders.Reference AS VoucherReference, TransferOrders.EntryDate AS VoucherEntryDate " + "\r\n";
+            queryString = queryString + "               FROM            StockTransfers " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Locations ON StockTransfers.StockTransferID = @LocalEntityID AND StockTransfers.LocationID = Locations.LocationID " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Warehouses ON StockTransfers.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Locations AS WarehouseLocations ON Warehouses.LocationID = WarehouseLocations.LocationID " + "\r\n";
+            queryString = queryString + "                               LEFT OUTER JOIN TransferOrders ON StockTransfers.TransferOrderID = TransferOrders.TransferOrderID " + "\r\n";
+
+            queryString = queryString + "       ELSE " + "\r\n";
+
+            queryString = queryString + "               SELECT          GoodsReceipts.GoodsReceiptID AS EntityID, GoodsReceipts.EntryDate, GoodsReceipts.Reference, WarehouseLocations.OfficialName AS WarehouseLocationOfficialName, WarehouseLocations.Address AS WarehouseLocationAddress, " + "\r\n";
+            queryString = queryString + "                               Locations.Name AS LocationName, Locations.OfficialName AS LocationOfficialName, Locations.Address AS LocationAddress, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherEntryDate " + "\r\n";
+            queryString = queryString + "               FROM            GoodsReceipts " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Locations ON GoodsReceipts.GoodsReceiptID = @LocalEntityID AND Locations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
+            queryString = queryString + "                               INNER JOIN Locations AS WarehouseLocations ON GoodsReceipts.LocationID = WarehouseLocations.LocationID " + "\r\n";
+            queryString = queryString + "                               INNER JOIN PurchaseInvoices ON GoodsReceipts.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND GoodsReceipts.VoucherID = PurchaseInvoices.PurchaseInvoiceID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("StockTransferPrint", queryString);
+        }
+
+
+        private void VehicleTransferDetailPrint()
+        {
+            string queryString = " @SwitchSQLID int,  @EntityID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE         @LocalSwitchSQLID int,   @LocalEntityID int        SET @LocalSwitchSQLID = @SwitchSQLID        SET @LocalEntityID = @EntityID " + "\r\n";
+
+            queryString = queryString + "       IF (@LocalSwitchSQLID = 1) " + "\r\n";
+
+            queryString = queryString + "               SELECT          StockTransferDetails.StockTransferDetailID AS EntityID, Commodities.Code, Commodities.Name, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode, StockTransferDetails.Quantity, GoodsReceiptDetails.UnitPrice, StockTransferDetails.Quantity * GoodsReceiptDetails.UnitPrice AS Amount " + "\r\n";
+            queryString = queryString + "               FROM            StockTransferDetails " + "\r\n";
+            queryString = queryString + "                               INNER JOIN GoodsReceiptDetails ON StockTransferDetails.StockTransferID = @LocalEntityID AND StockTransferDetails.GoodsReceiptDetailID = GoodsReceiptDetails.GoodsReceiptDetailID " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Commodities ON StockTransferDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+
+            queryString = queryString + "       ELSE " + "\r\n";
+
+            queryString = queryString + "               SELECT          GoodsReceiptDetails.GoodsReceiptDetailID AS EntityID, Commodities.Code, Commodities.Name, GoodsReceiptDetails.ChassisCode, GoodsReceiptDetails.EngineCode, GoodsReceiptDetails.ColorCode, GoodsReceiptDetails.Quantity, GoodsReceiptDetails.UnitPrice, GoodsReceiptDetails.Quantity * GoodsReceiptDetails.UnitPrice AS Amount " + "\r\n";
+            queryString = queryString + "               FROM            GoodsReceiptDetails " + "\r\n";
+            queryString = queryString + "                               INNER JOIN Commodities ON GoodsReceiptDetails.GoodsReceiptID = @LocalEntityID AND GoodsReceiptDetails.CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Vehicles + " AND GoodsReceiptDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("VehicleTransferDetailPrint", queryString);
         }
 
     }
