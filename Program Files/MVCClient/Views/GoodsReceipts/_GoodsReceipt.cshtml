@@ -116,7 +116,7 @@
                                 .Format("{0:n0}")
                                 .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                                 .ClientTemplate("#= Quantity #" + "<input type='hidden' name='GoodsReceiptViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
-                            
+
 
 
                             columns.Bound(p => p.UnitPrice).DisplayNameTitle().Width(90).Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Hidden()
@@ -194,26 +194,26 @@
                             events.DataBinding(@<text> function(e) {rowNumber = 0;} </text>);
                             //events.Change("kendoGridDetails_Change");
                         })
-                        .DataSource(dataSource => dataSource
-                            .Ajax()
-                            .Batch(true)
-                            .ServerOperation(false)
-                            .Model(model =>
-                            {
-                                model.Id(x => x.GoodsReceiptDetailID);
-                                model.Field(m => m.GoodsReceiptDetailID).DefaultValue(0);
-                                model.Field(m => m.GoodsReceiptID).DefaultValue(@Model.GoodsReceiptID);
-                            })
-                            .Events(events =>
-                            {
-                                events.Error("kendGrid_ErrorHandler");
-                            })
-                            .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
-                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                            .Aggregates(a => a.Add(x => x.Amount).Sum())
-                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                            )
+                                                                                .DataSource(dataSource => dataSource
+                                                                                    .Ajax()
+                                                                                    .Batch(true)
+                                                                                    .ServerOperation(false)
+                                                                                    .Model(model =>
+                                                                                    {
+                                                                                        model.Id(x => x.GoodsReceiptDetailID);
+                                                                                        model.Field(m => m.GoodsReceiptDetailID).DefaultValue(0);
+                                                                                        model.Field(m => m.GoodsReceiptID).DefaultValue(@Model.GoodsReceiptID);
+                                                                                    })
+                                                                                    .Events(events =>
+                                                                                    {
+                                                                                        events.Error("kendGrid_ErrorHandler");
+                                                                                    })
+                                                                                    .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
+                                                                                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                                                                                    .Aggregates(a => a.Add(x => x.Amount).Sum())
+                                                                                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                                                                                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                                                                                    )
                     )
 
                 </div>
@@ -267,8 +267,20 @@
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <input id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "GoodsReceipts")" value="Save" class="k-button custom-button" />
-                    <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "GoodsReceipts")" value="submitCreateWizard" class="k-button custom-button cancel" />
+                    @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                    <button id="closedSubmitButton" type="submit" formaction="@Url.Action("Edit", "GoodsReceipts")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu phiếu </button>
+                    if (Model.GoodsReceiptTypeID == (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice)
+                    {
+                        <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" formaction="@Url.Action("Edit", "GoodsReceipts")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu chuyển kho</button>
+                    }
+                    <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "GoodsReceipts")" class="k-button custom-button cancel" />
+                }
+                else
+                {
+                    if (Model.GoodsReceiptTypeID == (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice)
+                    {
+                        <button formaction="@Url.Action("Print", "GoodsReceipts", new { id = @Model.GoodsReceiptID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu chuyển kho </button>
+                    }
                 }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
