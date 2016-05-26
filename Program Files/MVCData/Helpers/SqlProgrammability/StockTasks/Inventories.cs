@@ -158,7 +158,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "               SET     @EntryDateEveryMonth = dbo.EOMONTHTIME(@EntryDateEveryMonth, 1)" + "\r\n";
             queryString = queryString + "           END " + "\r\n";
 
-            //queryString = queryString + "       DELETE FROM WarehouseBalanceDetail WHERE Quantity = 0 " + "\r\n"; //????WHAT WRONG HERE?
+            queryString = queryString + "       DELETE FROM WarehouseBalanceDetail WHERE Quantity = 0 " + "\r\n"; //????WHAT WRONG HERE?
 
             #endregion
 
