@@ -42,7 +42,7 @@ namespace MVCData.Repositories.SalesTasks
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
 
-            /*
+            
             Helpers.SqlProgrammability.StockTasks.Inventories m = new Helpers.SqlProgrammability.StockTasks.Inventories(totalBikePortalsEntities);
             m.RestoreProcedure();
                         
@@ -124,7 +124,7 @@ namespace MVCData.Repositories.SalesTasks
             
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);
             cmm.RestoreProcedure();
-            */
+            
         }
     }
 
