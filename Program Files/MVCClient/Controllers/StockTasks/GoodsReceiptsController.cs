@@ -47,7 +47,7 @@ namespace MVCClient.Controllers.StockTasks
             {
                 foreach (GoodsReceiptDetail goodsReceiptDetail in entity.GoodsReceiptDetails)
                 {
-                    if (goodsReceiptDetail.CommodityTypeID == (int)GlobalEnums.CommodityTypeID.Vehicles) printViewModel.PrintOptionID = printViewModel.PrintOptionID == 0 || printViewModel.PrintOptionID == 1 ? 1 : 3; ;
+                    if (goodsReceiptDetail.CommodityTypeID == (int)GlobalEnums.CommodityTypeID.Vehicles) printViewModel.PrintOptionID = printViewModel.PrintOptionID == 0 || printViewModel.PrintOptionID == 1 ? 1 : 3;
                     if (goodsReceiptDetail.CommodityTypeID != (int)GlobalEnums.CommodityTypeID.Vehicles) printViewModel.PrintOptionID = printViewModel.PrintOptionID == 0 || printViewModel.PrintOptionID == 2 ? 2 : 3;
                 }
             }

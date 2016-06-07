@@ -200,9 +200,13 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "       IF (@LocalSwitchSQLID = 1) " + "\r\n";
 
             queryString = queryString + "               SELECT          StockTransfers.StockTransferID AS EntityID, StockTransfers.EntryDate, StockTransfers.Reference, WarehouseLocations.OfficialName AS WarehouseLocationOfficialName, WarehouseLocations.Address AS WarehouseLocationAddress, " + "\r\n";
+            queryString = queryString + "                               CompanyLocations.Name AS CompanyName, CompanyLocations.OfficialName AS CompanyOfficialName, CompanyLocations.Address AS CompanyAddress, " + "\r\n";
             queryString = queryString + "                               Locations.Name AS LocationName, Locations.OfficialName AS LocationOfficialName, Locations.Address AS LocationAddress, TransferOrders.Reference AS VoucherReference, TransferOrders.EntryDate AS VoucherEntryDate " + "\r\n";
             queryString = queryString + "               FROM            StockTransfers " + "\r\n";
-            queryString = queryString + "                               INNER JOIN Locations ON StockTransfers.StockTransferID = @LocalEntityID AND StockTransfers.LocationID = Locations.LocationID " + "\r\n";
+
+            queryString = queryString + "                               INNER JOIN Locations CompanyLocations ON StockTransfers.StockTransferID = @LocalEntityID AND CompanyLocations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
+
+            queryString = queryString + "                               INNER JOIN Locations ON StockTransfers.LocationID = Locations.LocationID " + "\r\n";
             queryString = queryString + "                               INNER JOIN Warehouses ON StockTransfers.WarehouseID = Warehouses.WarehouseID " + "\r\n";
             queryString = queryString + "                               INNER JOIN Locations AS WarehouseLocations ON Warehouses.LocationID = WarehouseLocations.LocationID " + "\r\n";
             queryString = queryString + "                               LEFT OUTER JOIN TransferOrders ON StockTransfers.TransferOrderID = TransferOrders.TransferOrderID " + "\r\n";
@@ -210,9 +214,10 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "       ELSE " + "\r\n";
 
             queryString = queryString + "               SELECT          GoodsReceipts.GoodsReceiptID AS EntityID, GoodsReceipts.EntryDate, GoodsReceipts.Reference, WarehouseLocations.OfficialName AS WarehouseLocationOfficialName, WarehouseLocations.Address AS WarehouseLocationAddress, " + "\r\n";
-            queryString = queryString + "                               Locations.Name AS LocationName, Locations.OfficialName AS LocationOfficialName, Locations.Address AS LocationAddress, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherEntryDate " + "\r\n";
+            queryString = queryString + "                               CompanyLocations.Name AS CompanyName, CompanyLocations.OfficialName AS CompanyOfficialName, CompanyLocations.Address AS CompanyAddress, " + "\r\n";
+            queryString = queryString + "                               CompanyLocations.Name AS LocationName, CompanyLocations.OfficialName AS LocationOfficialName, CompanyLocations.Address AS LocationAddress, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherEntryDate " + "\r\n";
             queryString = queryString + "               FROM            GoodsReceipts " + "\r\n";
-            queryString = queryString + "                               INNER JOIN Locations ON GoodsReceipts.GoodsReceiptID = @LocalEntityID AND Locations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
+            queryString = queryString + "                               INNER JOIN CompanyLocations ON GoodsReceipts.GoodsReceiptID = @LocalEntityID AND CompanyLocations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
             queryString = queryString + "                               INNER JOIN Locations AS WarehouseLocations ON GoodsReceipts.LocationID = WarehouseLocations.LocationID " + "\r\n";
             queryString = queryString + "                               INNER JOIN PurchaseInvoices ON GoodsReceipts.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND GoodsReceipts.VoucherID = PurchaseInvoices.PurchaseInvoiceID " + "\r\n";
 
