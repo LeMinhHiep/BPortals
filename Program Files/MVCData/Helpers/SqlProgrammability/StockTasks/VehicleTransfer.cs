@@ -217,7 +217,7 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             queryString = queryString + "                               CompanyLocations.Name AS CompanyName, CompanyLocations.OfficialName AS CompanyOfficialName, CompanyLocations.Address AS CompanyAddress, " + "\r\n";
             queryString = queryString + "                               CompanyLocations.Name AS LocationName, CompanyLocations.OfficialName AS LocationOfficialName, CompanyLocations.Address AS LocationAddress, PurchaseInvoices.VATInvoiceNo AS VoucherReference, PurchaseInvoices.VATInvoiceDate AS VoucherEntryDate " + "\r\n";
             queryString = queryString + "               FROM            GoodsReceipts " + "\r\n";
-            queryString = queryString + "                               INNER JOIN CompanyLocations ON GoodsReceipts.GoodsReceiptID = @LocalEntityID AND CompanyLocations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
+            queryString = queryString + "                               INNER JOIN Locations AS CompanyLocations ON GoodsReceipts.GoodsReceiptID = @LocalEntityID AND CompanyLocations.LocationID = 9 " + "\r\n"; //LocationID = 9: CTY
             queryString = queryString + "                               INNER JOIN Locations AS WarehouseLocations ON GoodsReceipts.LocationID = WarehouseLocations.LocationID " + "\r\n";
             queryString = queryString + "                               INNER JOIN PurchaseInvoices ON GoodsReceipts.GoodsReceiptTypeID = " + (int)GlobalEnums.GoodsReceiptTypeID.PurchaseInvoice + " AND GoodsReceipts.VoucherID = PurchaseInvoices.PurchaseInvoiceID " + "\r\n";
 
