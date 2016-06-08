@@ -2,5 +2,8 @@
 
 @model string
 
-@{Html.Hidden("IncludeCommoditiesOutOfStock", "1");
-    @Html.Partial("EditorTemplates/NMVN/CommoditiesInWarehouses", Model)}
+@Html.Partial("EditorTemplates/NMVN/CommoditiesInWarehouses", Model)
+
+<script type="text/javascript">
+    window.includeCommoditiesOutOfStock = true;
+</script>
