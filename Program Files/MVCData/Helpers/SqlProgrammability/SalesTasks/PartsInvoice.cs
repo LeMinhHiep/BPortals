@@ -84,6 +84,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
             queryString = queryString + "       INSERT INTO @Commodities SELECT CommodityID, Code, Name, GrossPrice, CommodityTypeID, CommodityCategoryID FROM Commodities WHERE CommodityTypeID IN (" + (withCommoditiesInGoodsReceipts ? "" + (int)GlobalEnums.CommodityTypeID.Vehicles : "") + (withCommoditiesInGoodsReceipts && withCommoditiesInWarehouses ? ", " : "") + (withCommoditiesInWarehouses ? (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables : "") + ") AND (Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') " + "\r\n";
 
+            
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
             queryString = queryString + "           " + this.GetCommoditiesInWarehousesBuildSQL(withCommoditiesInGoodsReceipts, withCommoditiesInWarehouses, getSavedData, includeCommoditiesOutOfStock) + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
@@ -168,6 +169,14 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
             queryString = queryString + "               " + this.GetCommoditiesInWarehousesGETAvailable(withCommoditiesInGoodsReceipts, withCommoditiesInWarehouses, getSavedData) + "\r\n";
 
+
+            if (includeCommoditiesOutOfStock)
+            {
+                queryString = queryString + "       DECLARE @CurrentWarehouseBalancePrice TABLE (CommodityID int NOT NULL, UnitPrice decimal(18, 2) NOT NULL)" + "\r\n";
+                queryString = queryString + "       INSERT INTO @CurrentWarehouseBalancePrice SELECT CommodityID, UnitPrice FROM (SELECT EntryDate, CommodityID, UnitPrice, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY EntryDate DESC) AS RowNo FROM WarehouseBalancePrice WHERE CommodityID IN (SELECT CommodityID FROM @Commodities) AND EntryDate <= dbo.EOMONTHTIME(@EntryDate, 9999)) WarehouseBalancePriceWithRowNo WHERE RowNo = 1" + "\r\n";
+            }
+
+
             if (!includeCommoditiesOutOfStock)
                 queryString = queryString + "       IF (@HasCommoditiesAvailable > 0) " + "\r\n";
 
@@ -179,7 +188,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
 
             if (includeCommoditiesOutOfStock)
-                queryString = queryString + "                               LEFT JOIN (SELECT CommodityID, UnitPrice FROM (SELECT EntryDate, CommodityID, UnitPrice, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY EntryDate DESC) AS RowNo FROM WarehouseBalancePrice WHERE CommodityID IN (SELECT CommodityID FROM @Commodities) AND EntryDate <= dbo.EOMONTHTIME(@EntryDate, 9999)) WarehouseBalancePriceWithRowNo WHERE RowNo = 1) CurrentWarehouseBalancePrice ON Commodities.CommodityID = CurrentWarehouseBalancePrice.CommodityID " + "\r\n";
+                queryString = queryString + "                               LEFT JOIN @CurrentWarehouseBalancePrice CurrentWarehouseBalancePrice ON Commodities.CommodityID = CurrentWarehouseBalancePrice.CommodityID " + "\r\n";
 
 
             if (!includeCommoditiesOutOfStock)
