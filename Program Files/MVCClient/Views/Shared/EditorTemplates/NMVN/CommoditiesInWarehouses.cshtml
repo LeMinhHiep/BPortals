@@ -31,14 +31,14 @@
                     locationID: requireConfig.pageOptions.LocationID,
                     entryDate: $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(),
                     searchText: $("#CommodityName").data("kendoAutoComplete").value(),
-                    includeCommoditiesOutOfStock: true,
+                    includeCommoditiesOutOfStock: $("#IncludeCommoditiesOutOfStock").val(),
                     salesInvoiceID: $("#SalesInvoiceID") != undefined? $("#SalesInvoiceID").val(): 0,
                     stockTransferID: $("#StockTransferID") != undefined? $("#StockTransferID").val(): 0,
                     inventoryAdjustmentID: $("#InventoryAdjustmentID") != undefined? $("#InventoryAdjustmentID").val(): 0
                     };}
 
 
-                </text>);//Send parameter to controller search action: parameter locationID?????
+                </text>);//Send parameter to controller search action: parameter locationID?????    == "1"? true: false
             })
             .ServerFiltering(true);
         })

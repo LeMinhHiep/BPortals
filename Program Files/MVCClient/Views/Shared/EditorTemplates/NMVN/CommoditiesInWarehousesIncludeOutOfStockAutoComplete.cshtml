@@ -1,4 +1,6 @@
-﻿@model string
+﻿@using MVCClient.Configuration
 
-@Html.Hidden ("IncludeCommoditiesOutOfStock", "1");
-@Html.Partial("CommoditiesInWarehouses", Model)
+@model string
+
+@{Html.Hidden("IncludeCommoditiesOutOfStock", true);
+    @Html.Partial("EditorTemplates/NMVN/CommoditiesInWarehouses", Model)}

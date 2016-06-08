@@ -2,5 +2,5 @@
 
 @model string
 
-@{Html.Hidden("IncludeCommoditiesOutOfStock", "0");
+@{Html.Hidden("IncludeCommoditiesOutOfStock", false);
     @Html.Partial("EditorTemplates/NMVN/CommoditiesInWarehouses", Model)}
