@@ -1832,6 +1832,14 @@
           <Parameter Name="StockTransferID" Type="int" Mode="In" />
           <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetCommoditiesInWarehousesIncludeOutOfStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="EntryDate" Type="datetime" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="SalesInvoiceID" Type="int" Mode="In" />
+          <Parameter Name="StockTransferID" Type="int" Mode="In" />
+          <Parameter Name="InventoryAdjustmentID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetGoodsReceiptIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -3233,6 +3241,14 @@
           <FunctionImport Name="TransferOrderVoid">
             <Parameter Name="EntityID" Mode="In" Type="Int32" />
             <Parameter Name="InActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetCommoditiesInWarehousesIncludeOutOfStock" ReturnType="Collection(TotalBikePortalsModel.CommoditiesInWarehouse)">
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="SalesInvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="StockTransferID" Mode="In" Type="Int32" />
+            <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -7755,6 +7771,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="TransferOrderVoid" FunctionName="TotalBikePortalsModel.Store.TransferOrderVoid" />
+          <FunctionImportMapping FunctionImportName="GetCommoditiesInWarehousesIncludeOutOfStock" FunctionName="TotalBikePortalsModel.Store.GetCommoditiesInWarehousesIncludeOutOfStock">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.CommoditiesInWarehouse">
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -70,12 +70,18 @@ namespace MVCData.Repositories.CommonTasks
             return commoditiesInGoodsReceipts;
         }
 
-        public IList<CommoditiesInWarehouse> GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
+        public IList<CommoditiesInWarehouse> GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, bool includeCommoditiesOutOfStock, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            List<CommoditiesInWarehouse> commoditiesInWarehouses = this.TotalBikePortalsEntities.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).ToList();
+            List<CommoditiesInWarehouse> commoditiesInWarehouses;
+
+            if (!includeCommoditiesOutOfStock)
+                commoditiesInWarehouses = this.TotalBikePortalsEntities.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).ToList();
+            else
+                commoditiesInWarehouses = this.TotalBikePortalsEntities.GetCommoditiesInWarehousesIncludeOutOfStock(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).ToList();
 
             return commoditiesInWarehouses;
         }
+
 
         public IList<CommoditiesAvailable> GetCommoditiesAvailables(int? locationID, DateTime? entryDate, string searchText)
         {

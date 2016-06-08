@@ -16,10 +16,12 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         {
             this.GetPartsInvoiceIndexes();
 
-            this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false);
-            this.GetCommoditiesInWarehouses("GetPartAvailables", false, true, false);
-            this.GetCommoditiesInWarehouses("GetCommoditiesInWarehouses", false, true, true);
-            this.GetCommoditiesInWarehouses("GetCommoditiesAvailables", true, true, false);
+            this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false, false);
+            this.GetCommoditiesInWarehouses("GetPartAvailables", false, true, false, false);
+            this.GetCommoditiesInWarehouses("GetCommoditiesInWarehouses", false, true, true, false);
+            this.GetCommoditiesInWarehouses("GetCommoditiesAvailables", true, true, false, false);
+
+            this.GetCommoditiesInWarehouses("GetCommoditiesInWarehousesIncludeOutOfStock", false, true, true, true);
 
             this.GetPartsInvoiceViewDetails();
             this.PartsInvoiceSaveRelative();
@@ -56,7 +58,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         /// <summary>
         /// Get QuantityAvailable (Remaining) Commodities BY EVERY (WarehouseID, CommodityID)
         /// </summary>
-        private void GetCommoditiesInWarehouses(string storedProcedureName, bool withCommoditiesInGoodsReceipts, bool withCommoditiesInWarehouses, bool getSavedData)
+        private void GetCommoditiesInWarehouses(string storedProcedureName, bool withCommoditiesInGoodsReceipts, bool withCommoditiesInWarehouses, bool getSavedData, bool includeCommoditiesOutOfStock)
         {
             //HIEN TAI, SU DUNG CHUNG CAC CAU SQL DE TAO RA NHIEU PHIEN BAN StoredProcedure, MUC DICH: NHAM DE QUAN LY CODE TUONG TU NHAU
             //VI VAY, CODE NAY TUAN THEO QUY UOC SAU: (CHI LA QUY UOC THOI, KHONG PHAI DIEU KIEN RANG BUOC GI CA)
@@ -67,7 +69,10 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             //THEO QUY UOC NAY THI: getSavedData = TRUE ONLY WHEN: GetCommoditiesInWarehouses: DUOC SU DUNG TRONG SalesInvoice, StockTransfer, InventoryAdjustment
             //HAI TRUONG HOP: GetVehicleAvailables VA GetPartAvailables: DUOC SU DUNG TRONG VehicleTransferOrder VA PartTransferOrder (TAT NHIEN, SE CON DUOC SU DUNG TRONG NHUNG TRUONG HOP KHAC KHI KHONG YEU CAU LAY getSavedData, TUY NHIEN, HIEN TAI CHUA CO SU DUNG NOI NAO KHAC)
             //TRUONG HOP CUOI CUNG: GetCommoditiesAvailables: CUNG GIONG NHU GetVehicleAvailables VA GetPartAvailables, TUY NHIEN, NO BAO GOM CA Vehicle VA PartANDConsumable (get both Vehicles and Parts/ Consumables on the same view) (HIEN TAI, GetCommoditiesAvailables: CHUA DUOC SU DUNG O CHO NAO CA, CHI DE DANH SAU NAY CAN THIET THI SU DUNG THOI)
+
             
+            //BO SUNG NGAY 08-JUN-2016: includeCommoditiesOutOfStock = TRUE: CHI DUY NHAT AP DUNG CHO GetCommoditiesInWarehousesIncludeOutOfStock. CAC T/H KHAC CHUA XEM XET, DO CHUA CO NHU CAU SU DUNG. NEU CO NHU CAU -> THI CO THE XEM XET LAI SQL QUERY
+
 
             string queryString = " @LocationID int, @EntryDate DateTime, @SearchText nvarchar(60) " + (getSavedData ? ", @SalesInvoiceID int, @StockTransferID int, @InventoryAdjustmentID int " : "") + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
@@ -80,11 +85,11 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "       INSERT INTO @Commodities SELECT CommodityID, Code, Name, GrossPrice, CommodityTypeID, CommodityCategoryID FROM Commodities WHERE CommodityTypeID IN (" + (withCommoditiesInGoodsReceipts ? "" + (int)GlobalEnums.CommodityTypeID.Vehicles : "") + (withCommoditiesInGoodsReceipts && withCommoditiesInWarehouses ? ", " : "") + (withCommoditiesInWarehouses ? (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables : "") + ") AND (Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') " + "\r\n";
 
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
-            queryString = queryString + "           " + this.GetCommoditiesInWarehousesBuildSQL(withCommoditiesInGoodsReceipts, withCommoditiesInWarehouses, getSavedData) + "\r\n";
+            queryString = queryString + "           " + this.GetCommoditiesInWarehousesBuildSQL(withCommoditiesInGoodsReceipts, withCommoditiesInWarehouses, getSavedData, includeCommoditiesOutOfStock) + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           " + this.GetCommoditiesInWarehousesRETURNNothing() + "\r\n";
 
-            this.totalBikePortalsEntities.CreateStoredProcedure(storedProcedureName, queryString); 
+            this.totalBikePortalsEntities.CreateStoredProcedure(storedProcedureName, queryString);
         }
 
         private string GetCommoditiesInWarehousesGETAvailable(bool withCommoditiesInGoodsReceipts, bool withCommoditiesInWarehouses, bool getSavedData)
@@ -100,7 +105,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
                 queryString = queryString + "               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
             }
-            
+
             if (withCommoditiesInWarehouses)
             {
                 //GET QuantityEndREC IN WarehouseJournal
@@ -157,22 +162,31 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             return queryString;
         }
 
-        private string GetCommoditiesInWarehousesBuildSQL(bool withCommoditiesInGoodsReceipts, bool withCommoditiesInWarehouses, bool getSavedData)
+        private string GetCommoditiesInWarehousesBuildSQL(bool withCommoditiesInGoodsReceipts, bool withCommoditiesInWarehouses, bool getSavedData, bool includeCommoditiesOutOfStock)
         {
             string queryString = "                  BEGIN " + "\r\n";
 
             queryString = queryString + "               " + this.GetCommoditiesInWarehousesGETAvailable(withCommoditiesInGoodsReceipts, withCommoditiesInWarehouses, getSavedData) + "\r\n";
 
-            queryString = queryString + "               IF (@HasCommoditiesAvailable > 0) " + "\r\n";
+            if (!includeCommoditiesOutOfStock)
+                queryString = queryString + "       IF (@HasCommoditiesAvailable > 0) " + "\r\n";
 
-            queryString = queryString + "                   SELECT          Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, Commodities.GrossPrice, CommodityCategories.VATPercent, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, CommoditiesAvailable.QuantityAvailable " + "\r\n";
-            queryString = queryString + "                   FROM            @Commodities Commodities INNER JOIN  " + "\r\n";
-            queryString = queryString + "                                  (SELECT WarehouseID, CommodityID, SUM(QuantityAvailable) AS QuantityAvailable FROM @CommoditiesAvailable GROUP BY WarehouseID, CommodityID) CommoditiesAvailable ON Commodities.CommodityID = CommoditiesAvailable.CommodityID INNER JOIN " + "\r\n";
-            queryString = queryString + "                                   Warehouses ON CommoditiesAvailable.WarehouseID = Warehouses.WarehouseID INNER JOIN " + "\r\n";
-            queryString = queryString + "                                   CommodityCategories ON Commodities.CommodityCategoryID = CommodityCategories.CommodityCategoryID " + "\r\n";
+            queryString = queryString + "                   SELECT          " + (!includeCommoditiesOutOfStock ? "" : "TOP 50") + "Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, " + (!includeCommoditiesOutOfStock ? "Commodities.GrossPrice" : "ROUND(CAST(ISNULL(CurrentWarehouseBalancePrice.UnitPrice, 0) AS decimal(18, 2)) * (1 + CommodityCategories.VATPercent/100), " + (int)GlobalEnums.rndAmount + ") AS GrossPrice") + ", CommodityCategories.VATPercent, " + (!includeCommoditiesOutOfStock ? "" : "ISNULL(") + "Warehouses.WarehouseID" + (!includeCommoditiesOutOfStock ? "" : ", 0) AS WarehouseID") + ", " + (!includeCommoditiesOutOfStock ? "" : "ISNULL(") + "Warehouses.Code" + (!includeCommoditiesOutOfStock ? "" : ", '')") + " AS WarehouseCode, " + (!includeCommoditiesOutOfStock ? "" : "ISNULL(") + "CommoditiesAvailable.QuantityAvailable" + (!includeCommoditiesOutOfStock ? "" : ", CAST(0 AS decimal(18, 2)) ) AS QuantityAvailable") + " \r\n";
+            queryString = queryString + "                   FROM            @Commodities Commodities INNER JOIN " + "\r\n";
+            queryString = queryString + "                                   CommodityCategories ON Commodities.CommodityCategoryID = CommodityCategories.CommodityCategoryID " + (!includeCommoditiesOutOfStock ? "INNER JOIN" : "INNER JOIN") + "\r\n";
+            queryString = queryString + "                                  (SELECT WarehouseID, CommodityID, SUM(QuantityAvailable) AS QuantityAvailable FROM @CommoditiesAvailable GROUP BY WarehouseID, CommodityID) CommoditiesAvailable ON Commodities.CommodityID = CommoditiesAvailable.CommodityID " + (!includeCommoditiesOutOfStock ? "INNER JOIN" : "INNER JOIN") + "\r\n";
+            queryString = queryString + "                                   Warehouses ON CommoditiesAvailable.WarehouseID = Warehouses.WarehouseID " + "\r\n";
 
-            queryString = queryString + "               ELSE " + "\r\n";
-            queryString = queryString + "                   " + this.GetCommoditiesInWarehousesRETURNNothing() + "\r\n";
+
+            if (includeCommoditiesOutOfStock)
+                queryString = queryString + "                               INNER JOIN (SELECT CommodityID, UnitPrice FROM (SELECT EntryDate, CommodityID, UnitPrice, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY EntryDate DESC) AS RowNo FROM WarehouseBalancePrice WHERE CommodityID IN (SELECT CommodityID FROM @Commodities) AND EntryDate <= dbo.EOMONTHTIME(@EntryDate, 9999)) WarehouseBalancePriceWithRowNo WHERE RowNo = 1) CurrentWarehouseBalancePrice ON Commodities.CommodityID = CurrentWarehouseBalancePrice.CommodityID " + "\r\n";
+
+
+            if (!includeCommoditiesOutOfStock)
+            {
+                queryString = queryString + "       ELSE " + "\r\n";
+                queryString = queryString + "               " + this.GetCommoditiesInWarehousesRETURNNothing() + "\r\n";
+            }
 
             queryString = queryString + "           END " + "\r\n";
 

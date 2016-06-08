@@ -1687,6 +1687,8 @@
     <Content Include="Views\VehicleTransferOrders\Void.cshtml" />
     <Content Include="Views\Helpers\Commons\_VoidConfirmed.cshtml" />
     <Content Include="Views\GoodsReceipts\Print.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NMVN\CommoditiesInWarehouses.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NMVN\CommoditiesInWarehousesIncludeOutOfStockAutoComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

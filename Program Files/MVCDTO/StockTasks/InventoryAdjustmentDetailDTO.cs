@@ -66,7 +66,7 @@ namespace MVCDTO.StockTasks
 
     public class PartAdjustmentDetailDTO : InventoryAdjustmentDetailDTO
     {
-        [UIHint("NMVN/CommoditiesInWarehousesAutoComplete")]
+        [UIHint("NMVN/CommoditiesInWarehousesIncludeOutOfStockAutoComplete")]
         public override string CommodityName { get; set; }
     }
 }

@@ -1258,5 +1258,34 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TransferOrderVoid", entityIDParameter, inActiveParameter);
         }
+    
+        public virtual ObjectResult<CommoditiesInWarehouse> GetCommoditiesInWarehousesIncludeOutOfStock(Nullable<int> locationID, Nullable<System.DateTime> entryDate, string searchText, Nullable<int> salesInvoiceID, Nullable<int> stockTransferID, Nullable<int> inventoryAdjustmentID)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var entryDateParameter = entryDate.HasValue ?
+                new ObjectParameter("EntryDate", entryDate) :
+                new ObjectParameter("EntryDate", typeof(System.DateTime));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var salesInvoiceIDParameter = salesInvoiceID.HasValue ?
+                new ObjectParameter("SalesInvoiceID", salesInvoiceID) :
+                new ObjectParameter("SalesInvoiceID", typeof(int));
+    
+            var stockTransferIDParameter = stockTransferID.HasValue ?
+                new ObjectParameter("StockTransferID", stockTransferID) :
+                new ObjectParameter("StockTransferID", typeof(int));
+    
+            var inventoryAdjustmentIDParameter = inventoryAdjustmentID.HasValue ?
+                new ObjectParameter("InventoryAdjustmentID", inventoryAdjustmentID) :
+                new ObjectParameter("InventoryAdjustmentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInWarehouse>("GetCommoditiesInWarehousesIncludeOutOfStock", locationIDParameter, entryDateParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, inventoryAdjustmentIDParameter);
+        }
     }
 }

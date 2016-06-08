@@ -90,9 +90,9 @@ namespace MVCClient.Api.CommonTasks
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
+        public JsonResult GetCommoditiesInWarehouses(int? locationID, DateTime? entryDate, string searchText, bool includeCommoditiesOutOfStock, int? salesInvoiceID, int? stockTransferID, int? inventoryAdjustmentID)
         {
-            var result = commodityRepository.GetCommoditiesInWarehouses(locationID, entryDate, searchText, salesInvoiceID, stockTransferID, inventoryAdjustmentID).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
+            var result = commodityRepository.GetCommoditiesInWarehouses(locationID, entryDate, searchText, includeCommoditiesOutOfStock, salesInvoiceID, stockTransferID, inventoryAdjustmentID).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.GrossPrice, s.VATPercent });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

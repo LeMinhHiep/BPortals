@@ -1,0 +1,4 @@
+﻿@model string
+
+@Html.Hidden ("IncludeCommoditiesOutOfStock", "1");
+@Html.Partial("CommoditiesInWarehouses", Model)
