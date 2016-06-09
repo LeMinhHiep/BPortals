@@ -163,38 +163,27 @@
                                 rowNumber = 0;
                                 }
                             </text>);
-                        @*events.DataBound(@<text>
-                                function(e) {
-                                    var grid = $("#kendoGridDetails").data("kendoGrid");
-                                    var data = grid.dataSource.data();
-                                    $.each(data, function (i, row) {
-                                        var isWarrantyClaim = row.IsWarrantyClaim;
-                                        if (isWarrantyClaim == true) {
-                                            $('tr[data-uid="' + row.uid + '"]').css("color", "darkred");
-                                        }
-                                    });
-                                }
-                            </text>);*@
+
                         })
-                                                                                                                        .DataSource(dataSource => dataSource
-                                                                                                                            .Ajax()
-                                                                                                                            .Batch(true)
-                                                                                                                            .ServerOperation(false)
-                                                                                                                            .Model(model =>
-                                                                                                                            {
-                                                                                                                                model.Id(x => x.InventoryAdjustmentDetailID);
-                                                                                                                                model.Field(m => m.InventoryAdjustmentDetailID).DefaultValue(0);
-                                                                                                                                model.Field(m => m.InventoryAdjustmentID).DefaultValue(@Model.InventoryAdjustmentID);
-                                                                                                                            })
-                                                                                                                            .Events(events =>
-                                                                                                                            {
-                                                                                                                                events.Error("kendGrid_ErrorHandler");
-                                                                                                                            })
-                                                                                                                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                                                                                                                            .Aggregates(a => a.Add(x => x.Amount).Sum())
-                                                                                                                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                                                                                                                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                                                                                                                        )
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Batch(true)
+                            .ServerOperation(false)
+                            .Model(model =>
+                            {
+                                model.Id(x => x.InventoryAdjustmentDetailID);
+                                model.Field(m => m.InventoryAdjustmentDetailID).DefaultValue(0);
+                                model.Field(m => m.InventoryAdjustmentID).DefaultValue(@Model.InventoryAdjustmentID);
+                            })
+                            .Events(events =>
+                            {
+                                events.Error("kendGrid_ErrorHandler");
+                            })
+                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                            .Aggregates(a => a.Add(x => x.Amount).Sum())
+                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                        )
                     )
 
                     @Html.Partial("~/Views/InventoryAdjustments/_InventoryAdjustmentSectionB.cshtml")
@@ -205,10 +194,16 @@
             </div>
 
 
-            <div class="div-button">
+            <div class="div-button">                
                 @if (Model.Editable)
                 {
-                    <input id="closedSubmitButton" type="submit" value="Save" class="k-button custom-button" />
+                    @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                    <button id="closedSubmitButton" type="submit" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
+                }
+                else
+                {
+                    <button formaction="@Url.Action("Print", "PartAdjustments", new { id = @Model.InventoryAdjustmentID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
                 }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
