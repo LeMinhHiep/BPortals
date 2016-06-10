@@ -220,6 +220,13 @@ namespace MVCService.SalesTasks
         {
         }
 
+        protected override bool TryValidateModel(ServicesInvoiceDTO dto, ref System.Text.StringBuilder invalidMessage)
+        {
+            if (dto.IsFinished && dto.RespondedDate == null) invalidMessage.Append(" Vui lòng nhập ngày giờ bắt đầu sửa chữa;");
+
+            return base.TryValidateModel(dto, ref invalidMessage);
+        }
+
         public override bool Save(ServicesInvoiceDTO servicesInvoiceDTO)
         {
             servicesInvoiceDTO.SalesInvoiceDetails.RemoveAll(x => x.Quantity == 0);

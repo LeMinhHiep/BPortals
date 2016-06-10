@@ -223,7 +223,7 @@ namespace MVCDTO.SalesTasks
         public string ReceptionistName { get; set; }
 
         [Display(Name = "Giờ bắt đầu sửa chữa")]
-        [Required(ErrorMessage = "Nhập ngày giờ sửa chữa")]
+        //[Required(ErrorMessage = "Nhập ngày giờ sửa chữa")]
         public Nullable<System.DateTime> RespondedDate { get; set; }
 
         public int ServiceLineID { get; set; }

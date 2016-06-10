@@ -96,14 +96,18 @@ namespace MVCService
         protected virtual bool TryValidateModel(TDto dto)
         {
             StringBuilder invalidMessage = new StringBuilder();
-
-            //if (dto.EntryDate < new DateTime(2015, 7, 1) || dto.EntryDate > DateTime.Today.AddDays(2)) invalidMessage.Append(" Ngày không hợp lệ;");
+            this.TryValidateModel(dto, ref invalidMessage);
 
             if (invalidMessage.ToString().Length > 0) throw new System.ArgumentException("Lỗi dữ liệu", invalidMessage.ToString());
 
             return true;
         }
 
+        protected virtual bool TryValidateModel(TDto dto, ref StringBuilder invalidMessage)
+        {
+            //if (dto.EntryDate < new DateTime(2015, 7, 1) || dto.EntryDate > DateTime.Today.AddDays(2)) invalidMessage.Append(" Ngày không hợp lệ;");
+            return true;
+        }
 
         public virtual bool Save(TDto dto)
         {
