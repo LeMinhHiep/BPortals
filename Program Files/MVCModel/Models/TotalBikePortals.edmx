@@ -660,8 +660,10 @@
           <Property Name="ReceiptID" Type="int" Nullable="false" />
           <Property Name="PromotionID" Type="int" />
           <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReceptionistID" Type="int" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="ServiceLineID" Type="int" Nullable="false" />
+          <Property Name="RespondedDate" Type="datetime" />
           <Property Name="CurrentMeters" Type="int" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
@@ -1509,6 +1511,18 @@
             </Principal>
             <Dependent Role="SalesInvoices">
               <PropertyRef Name="QuotationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoices_Receptionists">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="SalesInvoices" Type="Self.SalesInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="SalesInvoices">
+              <PropertyRef Name="ReceptionistID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2431,6 +2445,10 @@
             <End Role="Quotations" EntitySet="Quotations" />
             <End Role="SalesInvoices" EntitySet="SalesInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesInvoices_Receptionists" Association="Self.FK_SalesInvoices_Receptionists">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="SalesInvoices" EntitySet="SalesInvoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_SalesInvoices_SalesInvoiceTypes" Association="Self.FK_SalesInvoices_SalesInvoiceTypes">
             <End Role="SalesInvoiceTypes" EntitySet="SalesInvoiceTypes" />
             <End Role="SalesInvoices" EntitySet="SalesInvoices" />
@@ -3250,6 +3268,10 @@
             <Parameter Name="StockTransferID" Mode="In" Type="Int32" />
             <Parameter Name="InventoryAdjustmentID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_SalesInvoices_Receptionists" Association="TotalBikePortalsModel.FK_SalesInvoices_Receptionists">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="SalesInvoice" EntitySet="SalesInvoices" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -5162,6 +5184,7 @@
           <NavigationProperty Name="Quotations" Relationship="TotalBikePortalsModel.FK_Quotations_Employees" FromRole="Employee" ToRole="Quotation" />
           <NavigationProperty Name="SalesInvoices" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Employees" FromRole="Employee" ToRole="SalesInvoice" />
           <NavigationProperty Name="InventoryAdjustments" Relationship="TotalBikePortalsModel.FK_InventoryAdjustments_Employees" FromRole="Employee" ToRole="InventoryAdjustment" />
+          <NavigationProperty Name="SalesInvoices1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Receptionists" FromRole="Employee" ToRole="SalesInvoice" />
         </EntityType>
         <Association Name="FK_Employees_Locations">
           <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
@@ -5274,6 +5297,9 @@
           <Property Name="PromotionID" Type="Int32" />
           <Property Name="PromotionVouchers" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Promotion" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Promotions" FromRole="SalesInvoice" ToRole="Promotion" />
+          <Property Name="ReceptionistID" Type="Int32" />
+          <Property Name="RespondedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Receptionists" FromRole="SalesInvoice" ToRole="Employee" />
         </EntityType>
         <Association Name="FK_Quotations_Customers">
           <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
@@ -5910,6 +5936,18 @@
             </Principal>
             <Dependent Role="SalesInvoice">
               <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesInvoices_Receptionists">
+          <End Type="TotalBikePortalsModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TotalBikePortalsModel.SalesInvoice" Role="SalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="SalesInvoice">
+              <PropertyRef Name="ReceptionistID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7410,6 +7448,8 @@
           <EntitySetMapping Name="SalesInvoices">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoice">
               <MappingFragment StoreEntitySet="SalesInvoices">
+                <ScalarProperty Name="RespondedDate" ColumnName="RespondedDate" />
+                <ScalarProperty Name="ReceptionistID" ColumnName="ReceptionistID" />
                 <ScalarProperty Name="PromotionVouchers" ColumnName="PromotionVouchers" />
                 <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />

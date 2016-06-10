@@ -126,6 +126,7 @@
         <AssociationConnector Association="TotalBikePortalsModel.FK_InventoryAdjustments_Customers" />
         <EntityTypeShape EntityType="TotalBikePortalsModel.Promotion" Width="1.5" PointX="12.375" PointY="4.875" />
         <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_Promotions" />
+        <AssociationConnector Association="TotalBikePortalsModel.FK_SalesInvoices_Receptionists" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

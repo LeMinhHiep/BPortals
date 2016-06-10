@@ -64,6 +64,8 @@ namespace MVCModel.Models
         public Nullable<System.DateTime> InActiveDate { get; set; }
         public Nullable<int> PromotionID { get; set; }
         public string PromotionVouchers { get; set; }
+        public Nullable<int> ReceptionistID { get; set; }
+        public Nullable<System.DateTime> RespondedDate { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
@@ -76,5 +78,6 @@ namespace MVCModel.Models
         public virtual SalesInvoice SalesInvoice1 { get; set; }
         public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual Promotion Promotion { get; set; }
+        public virtual Employee Employee1 { get; set; }
     }
 }

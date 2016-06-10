@@ -8,4 +8,11 @@ namespace MVCClient.ViewModels.Helpers
         [Display(Name = "Nhân viên thực hiện")]
         string EmployeeName { get; set; }
     }
+
+    public interface IReceptionistAutoCompleteViewModel
+    {
+        int ReceptionistID { get; set; }
+        [Display(Name = "Nhân viên tiếp nhận")]
+        string ReceptionistName { get; set; }
+    }
 }

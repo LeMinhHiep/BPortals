@@ -63,7 +63,8 @@ namespace MVCClient.App_Start
             Mapper.CreateMap<PartsInvoiceViewDetail, PartsInvoiceDetailDTO>();
             Mapper.CreateMap<PartsInvoiceDetailDTO, SalesInvoiceDetail>();
 
-            Mapper.CreateMap<SalesInvoice, ServicesInvoiceViewModel>();
+            Mapper.CreateMap<SalesInvoice, ServicesInvoiceViewModel>()
+                .ForMember(des => des.ReceptionistName, m => m.MapFrom(src => src.Employee1.Name));
             Mapper.CreateMap<SalesInvoice, ServicesInvoiceDTO>();
             Mapper.CreateMap<ServicesInvoiceViewModel, SalesInvoice>();
             Mapper.CreateMap<ServicesInvoicePrimitiveDTO, SalesInvoice>();

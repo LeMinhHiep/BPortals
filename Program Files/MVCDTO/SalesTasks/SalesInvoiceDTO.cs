@@ -131,7 +131,7 @@ namespace MVCDTO.SalesTasks
         [Required(ErrorMessage = "Vui lòng nhập Số seri")]
         public string VATInvoiceSeries { get; set; }
         [Display(Name = "Ngày hóa đơn")]
-        [Required(ErrorMessage = "Vui lòng Ngày hóa đơn")]
+        [Required(ErrorMessage = "Vui lòng nhập Ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
 
     }
@@ -215,6 +215,16 @@ namespace MVCDTO.SalesTasks
     {
         public override GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.ServicesInvoice; } }
         public override int SalesInvoiceTypeID { get { return (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice; } }
+
+        [Required(ErrorMessage = "Nhập tên nhân viên tiếp nhận")]
+        public int ReceptionistID { get; set; }
+        [Display(Name = "Nhân viên tiếp nhận")]
+        [Required(ErrorMessage = "Nhập tên nhân viên tiếp nhận")]
+        public string ReceptionistName { get; set; }
+
+        [Display(Name = "Giờ bắt đầu sửa chữa")]
+        [Required(ErrorMessage = "Nhập ngày giờ sửa chữa")]
+        public Nullable<System.DateTime> RespondedDate { get; set; }
 
         public int ServiceLineID { get; set; }
         [Display(Name = "Số km công tơ mét")]

@@ -27,7 +27,7 @@ namespace MVCClient.ViewModels.SalesTasks
         public string EndTimezone { get; set; }
         public bool IsAllDay { get; set; }
         public string RecurrenceException { get; set; }
-        public string RecurrenceRule { get; set; }                
+        public string RecurrenceRule { get; set; }
         public string Title { get; set; }
     }
 
@@ -38,13 +38,13 @@ namespace MVCClient.ViewModels.SalesTasks
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
     }
 
-    public class ServicesInvoiceViewModel : ServicesInvoiceDTO, ISimpleViewModel, IContractibleInvoiceViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel, IPromotionAutoCompleteViewModel
+    public class ServicesInvoiceViewModel : ServicesInvoiceDTO, ISimpleViewModel, IContractibleInvoiceViewModel, IReceptionistAutoCompleteViewModel, IEmployeeAutoCompleteViewModel, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel, IPromotionAutoCompleteViewModel
     {
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
 
-        public  override bool PrintAfterClosedSubmit { get { return true; } }
+        public override bool PrintAfterClosedSubmit { get { return true; } }
     }
 
 }

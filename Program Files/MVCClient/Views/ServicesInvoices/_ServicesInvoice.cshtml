@@ -14,6 +14,7 @@
 
             <div class="div-left">
                 @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionA.cshtml")
+                @Html.Partial("~/Views/Helpers/Commons/_ReceptionistAutoComplete.cshtml")
                 @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionC.cshtml")
 
                 @Html.HiddenFor(model => model.QuotationID)
@@ -36,7 +37,14 @@
                     </div>*@
 
 
-
+                <div class="form-group1">
+                    @Html.LabelFor(model => model.RespondedDate, htmlAttributes: new { @class = "control-label-left" })
+                    <div class="div-input">
+                        @Html.Kendo().DateTimePickerFor(model => model.RespondedDate).HtmlAttributes(new { @class = "input-class" })
+                        @Html.ValidationMessageFor(model => model.RespondedDate, "", new { @class = "text-danger" })
+                    </div>                    
+                </div>
+                
                 <div class="form-group1">
                     @Html.LabelFor(model => model.CurrentMeters, htmlAttributes: new { @class = "control-label-left" })
                     <div class="div-input">
