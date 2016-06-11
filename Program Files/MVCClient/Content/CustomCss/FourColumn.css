@@ -72,6 +72,10 @@
     width: 270px;
 }
 
+.input-class2 {
+    width: 730px;
+}
+
 .text-danger {
 }
 
@@ -87,7 +91,7 @@
 }
 .control-label1 {
     text-align: right;
-    margin: 10px 10px 2px 0px;
+    margin: 6px 10px 2px 0px;
     float: left;
     width: 160px;
 }

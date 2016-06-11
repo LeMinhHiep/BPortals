@@ -230,9 +230,9 @@ namespace MVCDTO.SalesTasks
         [Display(Name = "Số km công tơ mét")]
         public int CurrentMeters { get; set; }
 
-        [Display(Name = "Tình trạng xe")]
+        [Display(Name = "Yêu cầu của khách hàng")]
         public string Damages { get; set; }
-        [Display(Name = "Kết quả kiểm tra")]
+        [Display(Name = "Kết quả chuẩn đoán")]
         public string Causes { get; set; }
         [Display(Name = "Biện pháp giải quyết")]
         public string Solutions { get; set; }

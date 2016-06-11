@@ -42,38 +42,14 @@
                     <div class="div-input">
                         @Html.Kendo().DateTimePickerFor(model => model.RespondedDate).HtmlAttributes(new { @class = "input-class" })
                         @Html.ValidationMessageFor(model => model.RespondedDate, "", new { @class = "text-danger" })
-                    </div>                    
+                    </div>
                 </div>
-                
+
                 <div class="form-group1">
                     @Html.LabelFor(model => model.CurrentMeters, htmlAttributes: new { @class = "control-label-left" })
                     <div class="div-input">
                         @Html.Kendo().NumericTextBoxFor(model => model.CurrentMeters).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "input-class" })
                         @Html.ValidationMessageFor(model => model.CurrentMeters, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group1">
-                    @Html.LabelFor(model => model.Damages, htmlAttributes: new { @class = "control-label-left" })
-                    <div class="div-input">
-                        @Html.Kendo().MaskedTextBoxFor(model => model.Damages).HtmlAttributes(new { @class = "input-class" })
-                        @Html.ValidationMessageFor(model => model.Damages, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group1">
-                    @Html.LabelFor(model => model.Causes, htmlAttributes: new { @class = "control-label-left" })
-                    <div class="div-input">
-                        @Html.Kendo().MaskedTextBoxFor(model => model.Causes).HtmlAttributes(new { @class = "input-class" })
-                        @Html.ValidationMessageFor(model => model.Causes, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group1">
-                    @Html.LabelFor(model => model.Solutions, htmlAttributes: new { @class = "control-label-left" })
-                    <div class="div-input">
-                        @Html.Kendo().MaskedTextBoxFor(model => model.Solutions).HtmlAttributes(new { @class = "input-class" })
-                        @Html.ValidationMessageFor(model => model.Solutions, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -99,8 +75,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
 
                 <div>
@@ -252,19 +226,43 @@
                         )
                     )
 
+
                     @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionB.cshtml")
+
+                    <div class="panel-div">
+                        <div class="div-row">
+                            @Html.LabelFor(model => model.Damages, htmlAttributes: new { @class = "control-label1" })
+                            <div class="div-input">
+                                @Html.Kendo().MaskedTextBoxFor(model => model.Damages).HtmlAttributes(new { @class = "input-class2" })
+                                @Html.ValidationMessageFor(model => model.Damages, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="div-row">
+                            @Html.LabelFor(model => model.Causes, htmlAttributes: new { @class = "control-label1" })
+                            <div class="div-input">
+                                @Html.Kendo().MaskedTextBoxFor(model => model.Causes).HtmlAttributes(new { @class = "input-class2" })
+                                @Html.ValidationMessageFor(model => model.Causes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="div-row">
+                            @Html.LabelFor(model => model.Solutions, htmlAttributes: new { @class = "control-label1" })
+                            <div class="div-input">
+                                @Html.Kendo().MaskedTextBoxFor(model => model.Solutions).HtmlAttributes(new { @class = "input-class2" })
+                                @Html.ValidationMessageFor(model => model.Solutions, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
-
             </div>
 
 
             <div class="div-button">
                 @if (Model.Editable)
                 {
-                    <button id="submitButton" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Save </button>
-                    <button id="closedSubmitButton_NMVN" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
+                    <button id="submitButton" type="submit" onclick="$('#IsFinished').val(false);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Save </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#IsFinished').val(false);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu sửa chữa </button>
                     <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button"> <img src="~/Content/Images/New/payment-icon.png" alt="SaveFinish" /> Thanh toán </button>
 
                     <input id="submitCreateWizard" style="display:none" type="submit" formaction="@Url.Action("Edit", "ServicesInvoices")" class="k-button custom-button cancel" />
