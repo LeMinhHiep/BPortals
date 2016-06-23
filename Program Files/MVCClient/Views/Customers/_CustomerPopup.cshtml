@@ -90,6 +90,16 @@
                     </div>
                 </div>
 
+                <div class="div-row">
+                    @Html.LabelFor(model => model.IsFemale, htmlAttributes: new { @class = "control-label2" })
+                    <div class="div-input" style="margin-top: 8px;">
+                        @Html.EditorFor(model => model.IsFemale)
+                    </div>
+                    <div class="div-validation-message1">
+                        @Html.ValidationMessageFor(model => model.IsFemale, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
             </div>
             <div class="div-panelbar">
                 @(Html.Kendo().PanelBar()
@@ -166,15 +176,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="div-row">
-                                        @Html.LabelFor(model => model.IsFemale, htmlAttributes: new { @class = "control-label2" })
-                                        <div class="div-input">
-                                            @Html.EditorFor(model => model.IsFemale)
-                                        </div>
-                                        <div class="div-validation-message1">
-                                            @Html.ValidationMessageFor(model => model.IsFemale, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+
                                 </div>
                             </text>).HtmlAttributes(new { @class = "panel-class" });
                     })

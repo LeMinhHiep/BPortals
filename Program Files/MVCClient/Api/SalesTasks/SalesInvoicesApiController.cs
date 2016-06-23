@@ -42,7 +42,7 @@ namespace MVCClient.Api.SalesTasks
 
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-       
+
     }
 
 
@@ -86,9 +86,9 @@ namespace MVCClient.Api.SalesTasks
         }
 
 
-        public JsonResult GetServicesInvoiceIndexes([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetServicesInvoiceIndexes([DataSourceRequest] DataSourceRequest request, int? serviceContractID)
         {
-            ICollection<ServicesInvoiceIndex> servicesInvoiceIndexes = this.servicesInvoiceAPIRepository.GetEntityIndexes<ServicesInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
+            ICollection<ServicesInvoiceIndex> servicesInvoiceIndexes = serviceContractID == null || serviceContractID == -1 ? this.servicesInvoiceAPIRepository.GetEntityIndexes<ServicesInvoiceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext)) : this.servicesInvoiceAPIRepository.SearchServicesInvoiceIndexes((int)serviceContractID);
 
             DataSourceResult response = servicesInvoiceIndexes.ToDataSourceResult(request);
 

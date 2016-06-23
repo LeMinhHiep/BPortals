@@ -1287,5 +1287,14 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommoditiesInWarehouse>("GetCommoditiesInWarehousesIncludeOutOfStock", locationIDParameter, entryDateParameter, searchTextParameter, salesInvoiceIDParameter, stockTransferIDParameter, inventoryAdjustmentIDParameter);
         }
+    
+        public virtual ObjectResult<ServicesInvoiceIndex> SearchServicesInvoiceIndexes(Nullable<int> serviceContractID)
+        {
+            var serviceContractIDParameter = serviceContractID.HasValue ?
+                new ObjectParameter("ServiceContractID", serviceContractID) :
+                new ObjectParameter("ServiceContractID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ServicesInvoiceIndex>("SearchServicesInvoiceIndexes", serviceContractIDParameter);
+        }
     }
 }

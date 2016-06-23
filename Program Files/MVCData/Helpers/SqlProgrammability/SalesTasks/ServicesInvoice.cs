@@ -30,25 +30,31 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         private void GetServicesInvoiceIndexes()
         {
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetServicesInvoiceIndexes", this.BUILDSQLServicesInvoiceIndexes(true));
+            this.totalBikePortalsEntities.CreateStoredProcedure("SearchServicesInvoiceIndexes", this.BUILDSQLServicesInvoiceIndexes(false));
+        }
+
+        private string BUILDSQLServicesInvoiceIndexes(bool getOrSearch)
+        {   //getOrSearch = true: get; false: search
             string queryString;
 
-            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = (getOrSearch ? " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " : " @ServiceContractID int") + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SELECT      SalesInvoices.SalesInvoiceID, CAST(SalesInvoices.EntryDate AS DATE) AS EntryDate, SalesInvoices.Reference, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.AddressNo AS CustomerDescription, Commodities.Name AS CommodityName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.LicensePlate, SalesInvoices.TotalGrossAmount, SalesInvoices.IsFinished " + "\r\n";
             queryString = queryString + "       FROM        SalesInvoices INNER JOIN" + "\r\n";
-            queryString = queryString + "                   Locations ON SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + " AND SalesInvoices.EntryDate >= @FromDate AND SalesInvoices.EntryDate <= @ToDate AND SalesInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.ServicesInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = SalesInvoices.LocationID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   Locations ON SalesInvoices.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + (getOrSearch ? " AND SalesInvoices.EntryDate >= @FromDate AND SalesInvoices.EntryDate <= @ToDate AND SalesInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)MVCBase.Enums.GlobalEnums.NmvnTaskID.ServicesInvoice + " AND AccessControls.AccessLevel > 0) " : " AND SalesInvoices.ServiceContractID = @ServiceContractID") + " AND Locations.LocationID = SalesInvoices.LocationID INNER JOIN " + "\r\n";
             queryString = queryString + "                   Customers ON SalesInvoices.CustomerID = Customers.CustomerID LEFT JOIN" + "\r\n";
             queryString = queryString + "                   ServiceContracts ON SalesInvoices.ServiceContractID = ServiceContracts.ServiceContractID LEFT JOIN" + "\r\n";
             queryString = queryString + "                   Commodities ON ServiceContracts.CommodityID = Commodities.CommodityID " + "\r\n";
-            
+
             queryString = queryString + "       " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
-            this.totalBikePortalsEntities.CreateStoredProcedure("GetServicesInvoiceIndexes", queryString);
+            return queryString;
         }
 
         /// <summary>
@@ -119,7 +125,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
             queryString = queryString + "       DECLARE @ServiceInvoices TABLE (SalesInvoiceID int, EntryDate datetime NOT NULL, Reference nvarchar(10) NULL, CustomerID int NOT NULL, ServiceContractID int, ServiceContractReference nvarchar(10) NULL, ServiceContractCommodityID int NOT NULL, LicensePlate nvarchar(60) NULL, ChassisCode nvarchar(60) NULL, EngineCode nvarchar(60) NULL, ColorCode nvarchar(60) NULL, PurchaseDate datetime NULL, AgentName nvarchar(100) NULL, QuotationID int NULL, ServiceLineID int NOT NULL)" + "\r\n";
 
-            
+
             queryString = queryString + "       IF (@SearchText = '') " + "\r\n";
             queryString = queryString + "           INSERT INTO @ServiceInvoices " + querySQL + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
@@ -128,7 +134,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "               IF (@@ROWCOUNT <= 0) " + "\r\n";
             queryString = queryString + "                   INSERT INTO @ServiceInvoices " + querySQL + " AND (ServiceContracts.ChassisCode LIKE '%' + @SearchText + '%' OR ServiceContracts.EngineCode LIKE '%' + @SearchText + '%') " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
-            
+
 
             queryString = queryString + "       SELECT  ServiceInvoices.SalesInvoiceID, ServiceInvoices.EntryDate, ServiceInvoices.Reference, ServiceInvoices.QuotationID, Quotations.Reference AS QuotationReference, Quotations.EntryDate AS QuotationEntryDate, " + "\r\n";
             queryString = queryString + "               ServiceInvoices.CustomerID, Customers.Name AS CustomerName, Customers.Birthday AS CustomerBirthday, Customers.Telephone + ' ' + Customers.Facsimile AS CustomerTelephone, Customers.AddressNo AS CustomerAddressNo, EntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
@@ -165,7 +171,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "       FROM            SalesInvoices INNER JOIN " + "\r\n";
             queryString = queryString + "                       SalesInvoiceTypes ON SalesInvoices.SalesInvoiceTypeID = SalesInvoiceTypes.SalesInvoiceTypeID AND (SalesInvoices.SalesInvoiceID = @LocalSalesInvoiceID OR SalesInvoices.ServiceInvoiceID = @LocalSalesInvoiceID) INNER JOIN " + "\r\n";
             queryString = queryString + "                       Locations ON SalesInvoices.LocationID = Locations.LocationID INNER JOIN " + "\r\n";
-            
+
             queryString = queryString + "                       Customers ON SalesInvoices.CustomerID = Customers.CustomerID INNER JOIN " + "\r\n";
             queryString = queryString + "                       EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID LEFT JOIN " + "\r\n";
             queryString = queryString + "                       Employees ON SalesInvoices.SalesInvoiceID = @LocalSalesInvoiceID AND SalesInvoices.EmployeeID = Employees.EmployeeID LEFT JOIN " + "\r\n";

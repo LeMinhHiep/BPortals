@@ -36,5 +36,6 @@ namespace MVCCore.Repositories.SalesTasks
 
     public interface IServicesInvoiceAPIRepository : IGenericAPIRepository
     {
+        ICollection<ServicesInvoiceIndex> SearchServicesInvoiceIndexes(int serviceContractID);
     }
 }

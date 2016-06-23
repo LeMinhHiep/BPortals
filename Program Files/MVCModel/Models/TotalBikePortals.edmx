@@ -2102,6 +2102,9 @@
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
           <Parameter Name="IsFinished" Type="int" Mode="In" />
         </Function>
+        <Function Name="SearchServicesInvoiceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ServiceContractID" Type="int" Mode="In" />
+        </Function>
         <Function Name="ServiceContractGetVehiclesInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
@@ -3272,6 +3275,9 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
+          <FunctionImport Name="SearchServicesInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.ServicesInvoiceIndex)">
+            <Parameter Name="ServiceContractID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -7823,6 +7829,23 @@
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
                 <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
                 <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchServicesInvoiceIndexes" FunctionName="TotalBikePortalsModel.Store.SearchServicesInvoiceIndexes">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalBikePortalsModel.ServicesInvoiceIndex">
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="CustomerDescription" ColumnName="CustomerDescription" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="ChassisCode" ColumnName="ChassisCode" />
+                <ScalarProperty Name="EngineCode" ColumnName="EngineCode" />
+                <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="IsFinished" ColumnName="IsFinished" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

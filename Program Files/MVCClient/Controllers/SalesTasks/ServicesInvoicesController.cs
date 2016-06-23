@@ -51,5 +51,15 @@ namespace MVCClient.Controllers.SalesTasks
             return View();
         }
 
+
+        //[AccessLevelAuthorize(GlobalEnums.AccessLevel.Readable)]
+        [OnResultExecutingFilterAttribute]
+        public virtual ActionResult SearchByVehicle(int? id)
+        {
+            ViewBag.ServiceContractID = id;
+            ViewBag.SelectedEntityID = -1;
+            return View("Index");
+        }
+
     }
 }

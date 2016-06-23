@@ -229,7 +229,7 @@
 
                     @Html.Partial("~/Views/SalesInvoices/_SalesInvoiceSectionB.cshtml")
 
-                    <div class="panel-div">
+                    <div class="panel-div" style="margin-left: 1px;"> @*margin-left: 1px; this to make the left of its items the same with item inside PanelBar which border = 1px*@
                         <div class="div-row">
                             @Html.LabelFor(model => model.Damages, htmlAttributes: new { @class = "control-label1" })
                             <div class="div-input">

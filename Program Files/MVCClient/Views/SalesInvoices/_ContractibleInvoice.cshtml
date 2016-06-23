@@ -26,7 +26,8 @@
             }
         }
         <div class="label-description" style="margin-top: 10px;">
-            <a style="color: #0026ff;" href="@Url.Action("Edit", "ServiceContracts", new { id = @Model.ServiceContractID })" target="_blank"> @Model.ServiceContractCommodityName / @Model.ServiceContractCommodityCode / @Model.ServiceContractLicensePlate / @serviceContractPurchaseDate / @Model.ServiceContractChassisCode / @Model.ServiceContractEngineCode </a>
+            <a style="color: #0026ff;" href="@Url.Action("SearchByVehicle", "ServicesInvoices", new { id = @Model.ServiceContractID })" target="_blank"> @Model.ServiceContractCommodityName / @Model.ServiceContractCommodityCode </a>
+            <a style="color: #ff6a00;" href="@Url.Action("Edit", "ServiceContracts", new { id = @Model.ServiceContractID })" target="_blank"> @Model.ServiceContractLicensePlate / @serviceContractPurchaseDate / @Model.ServiceContractChassisCode / @Model.ServiceContractEngineCode </a>
         </div>
     </div>
 </div>

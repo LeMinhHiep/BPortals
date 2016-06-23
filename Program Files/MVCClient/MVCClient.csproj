@@ -810,6 +810,7 @@
     <Content Include="Scripts\Controllers\Root\ServicesInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\ServicesInvoices\Edit.js" />
     <Content Include="Scripts\Controllers\Root\ServicesInvoices\Index.js" />
+    <Content Include="Scripts\Controllers\Root\ServicesInvoices\SearchByVehicle.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Common\kendoWidgetReadonly.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Common\superBase.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditWithDetail.js" />

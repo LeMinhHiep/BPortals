@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
-
+using System.Data.Entity.Core.Objects;
 
 using MVCBase.Enums;
 using MVCModel.Models;
@@ -41,7 +41,14 @@ namespace MVCData.Repositories.SalesTasks
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
         {
+            Helpers.SqlProgrammability.SalesTasks.ServicesInvoice t = new Helpers.SqlProgrammability.SalesTasks.ServicesInvoice(totalBikePortalsEntities);
+            t.RestoreProcedure();
+
             /*
+            Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
+            si.RestoreProcedure();
+
+            
             Helpers.SqlProgrammability.SalesTasks.PartsInvoice y = new Helpers.SqlProgrammability.SalesTasks.PartsInvoice(totalBikePortalsEntities);
             y.RestoreProcedure();
 
@@ -50,9 +57,7 @@ namespace MVCData.Repositories.SalesTasks
             v.RestoreProcedure();
 
             
-            Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
-            si.RestoreProcedure();
-
+            
             
             
             Helpers.SqlProgrammability.StockTasks.Inventories m = new Helpers.SqlProgrammability.StockTasks.Inventories(totalBikePortalsEntities);
@@ -114,8 +119,6 @@ namespace MVCData.Repositories.SalesTasks
             x.RestoreProcedure();
             
             
-            Helpers.SqlProgrammability.SalesTasks.ServicesInvoice t = new Helpers.SqlProgrammability.SalesTasks.ServicesInvoice(totalBikePortalsEntities);
-            t.RestoreProcedure();
             
             
            
@@ -201,6 +204,13 @@ namespace MVCData.Repositories.SalesTasks
         public ServicesInvoiceAPIRepository(TotalBikePortalsEntities totalBikePortalsEntities)
             : base(totalBikePortalsEntities, "GetServicesInvoiceIndexes")
         {
+        }
+
+        public ICollection<ServicesInvoiceIndex> SearchServicesInvoiceIndexes(int serviceContractID)
+        {
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("ServiceContractID", serviceContractID) };
+
+            return base.ExecuteFunction<ServicesInvoiceIndex>("SearchServicesInvoiceIndexes", parameters);
         }
     }
 
