@@ -57,7 +57,7 @@ namespace MVCDTO.CommonTasks
         public bool IsCustomer { get; set; }
         [Display(Name = "Nhà cung cấp")]
         public bool IsSupplier { get; set; }
-        [Display(Name = "Giới tính")]
+        [Display(Name = "Giới tính nữ")]
         public bool IsFemale { get; set; }
 
         public override int PreparedPersonID { get { return 1; } }
