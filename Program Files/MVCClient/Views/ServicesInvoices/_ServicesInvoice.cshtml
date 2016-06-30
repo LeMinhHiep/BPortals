@@ -253,6 +253,15 @@
                                 @Html.ValidationMessageFor(model => model.Solutions, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="div-row">
+                            @Html.LabelFor(model => model.NextMaintenance, htmlAttributes: new { @class = "control-label1" })
+                            <div class="div-input">
+                                @Html.Kendo().MaskedTextBoxFor(model => model.NextMaintenance).HtmlAttributes(new { @class = "input-class2" })
+                                @Html.ValidationMessageFor(model => model.NextMaintenance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -682,6 +682,7 @@
           <Property Name="Damages" Type="nvarchar" MaxLength="300" />
           <Property Name="Causes" Type="nvarchar" MaxLength="300" />
           <Property Name="Solutions" Type="nvarchar" MaxLength="300" />
+          <Property Name="NextMaintenance" Type="nvarchar" MaxLength="300" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="IsMajorRepair" Type="bit" />
@@ -3276,7 +3277,7 @@
             <End Role="SalesInvoice" EntitySet="SalesInvoices" />
           </AssociationSet>
           <FunctionImport Name="SearchServicesInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.ServicesInvoiceIndex)">
-            <Parameter Name="ServiceContractID" Mode="In" Type="Int32" />
+          <Parameter Name="ServiceContractID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -5306,6 +5307,7 @@
           <Property Name="ReceptionistID" Type="Int32" />
           <Property Name="RespondedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Employee1" Relationship="TotalBikePortalsModel.FK_SalesInvoices_Receptionists" FromRole="SalesInvoice" ToRole="Employee" />
+          <Property Name="NextMaintenance" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Quotations_Customers">
           <End Type="TotalBikePortalsModel.Customer" Role="Customer" Multiplicity="1" />
@@ -7454,6 +7456,7 @@
           <EntitySetMapping Name="SalesInvoices">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.SalesInvoice">
               <MappingFragment StoreEntitySet="SalesInvoices">
+                <ScalarProperty Name="NextMaintenance" ColumnName="NextMaintenance" />
                 <ScalarProperty Name="RespondedDate" ColumnName="RespondedDate" />
                 <ScalarProperty Name="ReceptionistID" ColumnName="ReceptionistID" />
                 <ScalarProperty Name="PromotionVouchers" ColumnName="PromotionVouchers" />

@@ -66,6 +66,7 @@ namespace MVCModel.Models
         public string PromotionVouchers { get; set; }
         public Nullable<int> ReceptionistID { get; set; }
         public Nullable<System.DateTime> RespondedDate { get; set; }
+        public string NextMaintenance { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }

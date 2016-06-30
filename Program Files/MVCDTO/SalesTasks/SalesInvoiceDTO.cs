@@ -236,6 +236,8 @@ namespace MVCDTO.SalesTasks
         public string Causes { get; set; }
         [Display(Name = "Biện pháp giải quyết")]
         public string Solutions { get; set; }
+        [Display(Name = "Yêu cầu sửa chữa lần tới")]
+        public string NextMaintenance { get; set; }
 
         [Display(Name = "Sửa chữa lớn")]
         public bool IsMajorRepair { get; set; }
