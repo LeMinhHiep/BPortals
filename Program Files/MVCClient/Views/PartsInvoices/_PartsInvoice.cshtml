@@ -38,7 +38,7 @@
 
             <div class="div-right">
                 <div class="contract-separator">
-                    @if (Model.ServiceContractID == null || Model.ServiceContractID == 0)
+                    @if ((Model.ServiceContractID == null || Model.ServiceContractID == 0) && (Model.ServiceInvoiceID == null || Model.ServiceInvoiceID == 0))
                     {
                         @Html.Partial("~/Views/SalesInvoices/_ContractlessInvoice.cshtml")}
                     else
@@ -88,7 +88,7 @@
                                 .ClientTemplate("<div class = 'multiline-grid'> #= CommodityName #</div>" +
                                         "<div> #= CommodityCode # #= '[' ##= WarehouseCode ##= ']' #</div>" +
                                         "<div class = 'isWarrantyClaim'> #= (IsWarrantyClaim == true) ? '[Khiếu nại bảo hành]' : '' #</div>" +
-                                        "<div class = 'isBonus'> #= (IsWarrantyClaim == false && IsBonus == true) ? '[Quà tặng]' : '' #</div>" +
+                                        "<div class = 'isBonus'> #= (IsBonus == true) ? '[Quà tặng]' : '' #</div>" +
                                         "<input type='hidden' name='PartsInvoiceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
 
                             columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()

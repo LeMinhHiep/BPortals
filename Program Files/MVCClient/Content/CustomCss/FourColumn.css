@@ -197,6 +197,17 @@
     margin-top: -7px;
 }
 
+.vehiclesinvoice-background {
+    background-image: url('../Images/New/TanThanhGiftIcon.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    float: left;
+    width: 135px;
+    height: 135px;
+    text-align: center;
+    margin-top: -7px;
+}
+
 .div-in-background{
     margin-top: 30px;
 }

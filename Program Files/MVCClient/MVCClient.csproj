@@ -450,6 +450,7 @@
     <Content Include="Content\Images\New\save-icon.png" />
     <Content Include="Content\Images\New\sprite.png" />
     <Content Include="Content\Images\New\supplier_div_bg.png" />
+    <Content Include="Content\Images\New\TanThanhGiftIcon.png" />
     <Content Include="Content\Images\New\taxi.png" />
     <Content Include="Content\Images\New\taxi_bg.png" />
     <Content Include="Content\Images\New\Telephone.png" />
@@ -773,6 +774,7 @@
     <Content Include="Scripts\Controllers\Root\PartAdjustments\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartAdjustments\Edit.js" />
     <Content Include="Scripts\Controllers\Root\PartAdjustments\Index.js" />
+    <Content Include="Scripts\Controllers\Root\PartsInvoices\Promotion.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Delete.js" />
@@ -1692,6 +1694,8 @@
     <Content Include="Views\Shared\EditorTemplates\NMVN\CommoditiesInWarehousesIncludeOutOfStockAutoComplete.cshtml" />
     <Content Include="Views\PartAdjustments\Print.cshtml" />
     <Content Include="Views\Helpers\Commons\_ReceptionistAutoComplete.cshtml" />
+    <Content Include="Views\VehiclesInvoices\Print.cshtml" />
+    <Content Include="Views\AccountInvoices\PrintDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

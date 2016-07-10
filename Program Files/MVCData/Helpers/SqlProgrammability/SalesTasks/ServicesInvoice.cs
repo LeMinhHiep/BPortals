@@ -66,7 +66,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       SELECT      COUNT(SalesInvoiceID) AS NoInvoice, SUM(TotalGrossAmount ) AS TotalGrossAmount " + "\r\n";
+            queryString = queryString + "       SELECT      COUNT(SalesInvoiceID) AS NoInvoice, SUM(TotalQuantity) AS TotalQuantity, SUM(TotalGrossAmount) AS TotalGrossAmount, MIN(SalesInvoiceID) AS MinSalesInvoiceID, MIN(Reference) AS MinReference " + "\r\n";
             queryString = queryString + "       FROM        SalesInvoices " + "\r\n";
             queryString = queryString + "       WHERE       ServiceInvoiceID = @ServiceInvoiceID " + "\r\n";
 

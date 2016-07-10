@@ -56,6 +56,7 @@ namespace MVCDTO.SalesTasks
         public string EmployeeName { get; set; }
 
 
+        public bool IsFinished { get; set; }
 
         public override void PerformPresaveRule()
         {
@@ -240,9 +241,7 @@ namespace MVCDTO.SalesTasks
         public string NextMaintenance { get; set; }
 
         [Display(Name = "Sửa chữa lớn")]
-        public bool IsMajorRepair { get; set; }
-
-        public bool IsFinished { get; set; }
+        public bool IsMajorRepair { get; set; }        
     }
 
     public class ServicesInvoiceDTO : ServicesInvoicePrimitiveDTO, IBaseDetailEntity<ServicesInvoiceDetailDTO>

@@ -28,7 +28,7 @@ namespace MVCClient.Controllers
         where TPrimitiveDto : BaseDTO, IPrimitiveEntity, IPrimitiveDTO, new()
         where TSimpleViewModel : TDto, ISimpleViewModel, new() //Note: constraints [TSimpleViewModel : TDto] and also [TViewDetailViewModel : TDto  -> in GenericViewDetailController]: is required for this.genericService.Editable(TDto) only!!! If there is any reason need to remove this constraints, just consider for this.genericService.Editable(TDto) only [should change this.genericService.Editable(TDto) only if needed -- means after remove this constraints]
     {
-        private readonly IGenericService<TEntity, TDto, TPrimitiveDto> genericService;
+        protected readonly IGenericService<TEntity, TDto, TPrimitiveDto> GenericService;
         private readonly IViewModelSelectListBuilder<TSimpleViewModel> viewModelSelectListBuilder;
 
         private bool isSimpleCreate;
@@ -50,7 +50,7 @@ namespace MVCClient.Controllers
         public GenericSimpleController(IGenericService<TEntity, TDto, TPrimitiveDto> genericService, IViewModelSelectListBuilder<TSimpleViewModel> viewModelSelectListBuilder, bool isCreateWizard, bool isSimpleCreate)
             : base(genericService)
         {
-            this.genericService = genericService;
+            this.GenericService = genericService;
             this.viewModelSelectListBuilder = viewModelSelectListBuilder;
 
             this.isCreateWizard = isCreateWizard;
@@ -199,7 +199,7 @@ namespace MVCClient.Controllers
         {
             try
             {
-                if (this.genericService.Delete(id))
+                if (this.GenericService.Delete(id))
                     return RedirectToAction("Index");
                 else
                     throw new System.ArgumentException("Lỗi xóa dữ liệu", "Dữ liệu này không thể xóa được.");
@@ -233,7 +233,7 @@ namespace MVCClient.Controllers
         {
             try
             {
-                if (this.genericService.Void(id, inActive))
+                if (this.GenericService.Void(id, inActive))
                     return RedirectToAction("Index");
                 else
                     throw new System.ArgumentException("Lỗi vô hiệu dữ liệu", "Dữ liệu này không thể vô hiệu.");
@@ -256,9 +256,9 @@ namespace MVCClient.Controllers
         protected virtual TEntity GetEntityAndCheckAccessLevel(int? id, GlobalEnums.AccessLevel accessLevel)
         {
             TEntity entity;
-            if (id == null || (entity = this.genericService.GetByID((int)id)) == null) return null;
+            if (id == null || (entity = this.GenericService.GetByID((int)id)) == null) return null;
 
-            if (this.genericService.GetAccessLevel(entity.OrganizationalUnitID) < accessLevel) return null;
+            if (this.GenericService.GetAccessLevel(entity.OrganizationalUnitID) < accessLevel) return null;
 
             return entity;
         }
@@ -275,7 +275,7 @@ namespace MVCClient.Controllers
 
                 if (!this.TryValidateModel(dto)) return false;//Check DTO IsValid
                 else
-                    if (this.genericService.Save(dto))
+                    if (this.GenericService.Save(dto))
                     {
                         simpleViewModel.SetID(dto.GetID());
                         return true;
@@ -323,16 +323,16 @@ namespace MVCClient.Controllers
         {
             
             if (!forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE               (THE CONDITIONAL CLAUSE: if (!forDelete) MEAN: WHEN SHOW VIEW FOR DELETE, NO NEED TO CHECK Editable => Editable SHOULD BE FALSE)
-                simpleViewModel.Editable = this.genericService.Editable(simpleViewModel);
+                simpleViewModel.Editable = this.GenericService.Editable(simpleViewModel);
 
             if (forDelete || simpleViewModel is ServiceContractViewModel)//WHEN forDelete, IT SHOULD BE CHECK FOR Deletable ATTRIBUTE, SURELY.          BUT, WHEN OPEN VIEW FOR EDIT, NOW: ONLY VIEW ServiceContract NEED TO USE Deletable ATTRIBUTE ONLY. SO, THIS CODE IS CORRECT FOR NOW, BUT LATER, IF THERE IS MORE VIEWS NEED THIS Deletable ATTRIBUTE, THIS CODE SHOULD MODIFY MORE GENERIC!!!
-                simpleViewModel.Deletable = this.genericService.Deletable(simpleViewModel);
+                simpleViewModel.Deletable = this.GenericService.Deletable(simpleViewModel);
 
 
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);
 
-            simpleViewModel.UserID = this.genericService.UserID; //CAU LENH NAY TAM THOI DUOC SU DUNG DE SORT USER DROPDWONLIST. SAU NAY NEN LAM CACH KHAC, CACH NAY KHONG HAY
+            simpleViewModel.UserID = this.GenericService.UserID; //CAU LENH NAY TAM THOI DUOC SU DUNG DE SORT USER DROPDWONLIST. SAU NAY NEN LAM CACH KHAC, CACH NAY KHONG HAY
 
             this.viewModelSelectListBuilder.BuildSelectLists(simpleViewModel); //Buil select list for dropdown box using IEnumerable<SelectListItem> (using for short data list only). For the long list, it should use Kendo automplete instead.
 

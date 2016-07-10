@@ -18,6 +18,11 @@ namespace MVCClient.Controllers.SalesTasks
         {
         }
 
+        public ActionResult PrintDetail(int? id)
+        {
+            return View(InitPrintViewModel(id));
+        }
+
         public virtual ActionResult GetPendingSalesInvoices()
         {
             return View();

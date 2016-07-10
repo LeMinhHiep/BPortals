@@ -1296,5 +1296,14 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ServicesInvoiceIndex>("SearchServicesInvoiceIndexes", serviceContractIDParameter);
         }
+    
+        public virtual ObjectResult<string> VehiclesInvoiceDeletable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("VehiclesInvoiceDeletable", entityIDParameter);
+        }
     }
 }

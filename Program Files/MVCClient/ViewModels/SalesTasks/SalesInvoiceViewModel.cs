@@ -17,6 +17,8 @@ namespace MVCClient.ViewModels.SalesTasks
         public IEnumerable<SelectListItem> PaymentTermDropDown { get; set; }
         public IEnumerable<SelectListItem> PreparedPersonDropDown { get; set; }
         public IEnumerable<SelectListItem> ApproverDropDown { get; set; }
+
+        public override bool PrintAfterClosedSubmit { get { return true; } }
     }
 
     public class VehiclesInvoiceSchedularViewModel : VehiclesInvoiceDTO, ISchedulerEvent

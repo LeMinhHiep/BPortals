@@ -15,5 +15,8 @@ namespace MVCModel.Models
     {
         public Nullable<int> NoInvoice { get; set; }
         public Nullable<decimal> TotalGrossAmount { get; set; }
+        public Nullable<int> MinSalesInvoiceID { get; set; }
+        public string MinReference { get; set; }
+        public Nullable<decimal> TotalQuantity { get; set; }
     }
 }

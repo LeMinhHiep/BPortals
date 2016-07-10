@@ -8,6 +8,7 @@
         @Html.AntiForgeryToken()
 
         <div id="popupWindow"></div>
+        @Html.HiddenFor(model => model.IsFinished)
 
         <div class="div-main">
 
@@ -45,6 +46,13 @@
             <div class="div-right">
                 <div class="contract-separator">
                     @Html.Partial("~/Views/SalesInvoices/_ContractlessInvoice.cshtml")
+
+                    <div id="vehiclesinvoice-background" class="vehiclesinvoice-background" style="float: right; text-align: center; display: none">
+                        <div class="div-in-background">
+                                <a id="MinReference" style="color: #0026ff;" href="#" target="_blank"> </a>
+                            <div id="TotalPartsAmount"></div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -207,12 +215,27 @@
 
             </div>
 
-            <div class="div-button">
+            @*<div class="div-button">
                 @if (Model.Editable)
                 {
                     <input id="closedSubmitButton" type="submit" value="Save" class="k-button custom-button" />
                 }
+            </div>*@
+
+            <div class="div-button">
+                @if (Model.Editable)
+                {
+                    <button id="submitButton" type="submit" onclick="$('#IsFinished').val(false);" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="Lưu phiếu" /> Lưu </button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#IsFinished').val(false);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In hóa đơn </button>
+                    <button id="closedSubmitButton" type="submit" onclick="$('#IsFinished').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/payment-icon.png" alt="SaveFinish" /> Hoàn tất </button>                                        
+                }
+                else
+                {
+                    <button formaction="@Url.Action("Print", "VehiclesInvoice", new {id = @Model.SalesInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In hóa đơn </button>
+                }
             </div>
+
+
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")
         </div>
     }
@@ -221,6 +244,44 @@
 
 <link href="@Url.Content("~/Content/CustomCss/FourColumn.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        (function getRelatedPartsInvoiceValue() {
+            $.ajax({
+                url: '@Url.Action("GetRelatedPartsInvoiceValue", "ServicesInvoiceApi")',
+                data: JSON.stringify({ "serviceInvoiceID": $("#SalesInvoiceID").val() }),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                error: function (request, error) {
+                    $("#vehiclesinvoice-background").css("display", "none");
+                },
+                success: function (result) {
+                    $("#vehiclesinvoice-background").css("display", "inline-block");
+                    if (result.NoInvoice > 0) {
+                        var myRoute = "@Url.Action("Edit", "PartsInvoices", new { id = "_id_" })".replace("_id_", result.MinSalesInvoiceID);
+                        
+                        $("#MinReference").html(result.MinReference);
+                        $("#TotalPartsAmount").html("#:" + kendo.format('{0:n0}', result.TotalQuantity) + " $:" + kendo.format('{0:n0}', result.TotalPartsAmount));
+                    }
+                    else {
+                        var myRoute = "@Url.Action("Promotion", "PartsInvoices", new { id = "_id_" })".replace("_id_", $("#SalesInvoiceID").val());
+                        
+                        $("#MinReference").html("Quà tặng...");
+                        $("#TotalPartsAmount").html("");
+                    }
+                    $("#MinReference").attr("href", myRoute);
+                }
+            });
+
+            setTimeout(getRelatedPartsInvoiceValue, 10000); // every 10 sec
+        })();
+    });
+
+</script>
 
 
 <style type="text/css">

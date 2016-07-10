@@ -19,8 +19,8 @@
             });
 
             selectedItems.forEach(function (eachItem) { //Step 2) And then handle eachItem in array
-                if (e.keyCode == 119) { eachItem.set("IsBonus", !eachItem.IsBonus); }
-                if (e.keyCode == 120) { eachItem.set("IsWarrantyClaim", !eachItem.IsWarrantyClaim); }
+                if (e.keyCode == 119) { eachItem.set("IsBonus", !eachItem.IsBonus); eachItem.set("IsWarrantyClaim", null); }
+                if (e.keyCode == 120) { eachItem.set("IsWarrantyClaim", !eachItem.IsWarrantyClaim); eachItem.set("IsBonus", null); }
                 eachItem.set("DiscountPercent", (eachItem.IsBonus || eachItem.IsWarrantyClaim) ? 100 : 0);
             });
         }

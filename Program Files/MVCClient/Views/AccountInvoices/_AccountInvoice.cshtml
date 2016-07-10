@@ -273,11 +273,12 @@
                 {
                     @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
                     <button id="closedSubmitButton" type="submit" class="k-button custom-button"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu hóa đơn </button>
-                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
+                    <button id="closedSubmitButton_NMVN" type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In hóa đơn</button>
                 }
                 else
                 {
-                    <button formaction="@Url.Action("Print", "AccountInvoices", new { id = @Model.AccountInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
+                    <button formaction="@Url.Action("Print", "AccountInvoices", new { id = @Model.AccountInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In hóa đơn</button>
+                    <button formaction="@Url.Action("PrintDetail", "AccountInvoices", new { id = @Model.AccountInvoiceID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In bảng kê</button>
                 }
             </div>
             @Html.Partial("~/Views/Helpers/Commons/_ViewHeader.cshtml")

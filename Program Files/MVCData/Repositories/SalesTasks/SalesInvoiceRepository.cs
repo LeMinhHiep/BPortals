@@ -39,11 +39,21 @@ namespace MVCData.Repositories.SalesTasks
     public class VehiclesInvoiceRepository : SalesInvoiceRepository, IVehiclesInvoiceRepository
     {
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, "VehiclesInvoiceEditable")
+            : base(totalBikePortalsEntities, "VehiclesInvoiceEditable", "VehiclesInvoiceDeletable")
         {
-            /*
+
             Helpers.SqlProgrammability.SalesTasks.ServicesInvoice t = new Helpers.SqlProgrammability.SalesTasks.ServicesInvoice(totalBikePortalsEntities);
             t.RestoreProcedure();
+
+            
+            Helpers.SqlProgrammability.SalesTasks.AccountInvoice vat = new Helpers.SqlProgrammability.SalesTasks.AccountInvoice(totalBikePortalsEntities);
+            vat.RestoreProcedure();
+
+            
+            Helpers.SqlProgrammability.SalesTasks.VehiclesInvoice x = new Helpers.SqlProgrammability.SalesTasks.VehiclesInvoice(totalBikePortalsEntities);
+            x.RestoreProcedure();
+
+            
             
             Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
             si.RestoreProcedure();
@@ -95,9 +105,7 @@ namespace MVCData.Repositories.SalesTasks
             acl.RestoreProcedure();
 
             
-            Helpers.SqlProgrammability.SalesTasks.AccountInvoice vat = new Helpers.SqlProgrammability.SalesTasks.AccountInvoice(totalBikePortalsEntities);
-            vat.RestoreProcedure();
-
+            
             
             
             
@@ -115,8 +123,7 @@ namespace MVCData.Repositories.SalesTasks
             Helpers.SqlProgrammability.SalesTasks.Quotation q = new Helpers.SqlProgrammability.SalesTasks.Quotation(totalBikePortalsEntities);
             q.RestoreProcedure();
 
-            Helpers.SqlProgrammability.SalesTasks.VehiclesInvoice x = new Helpers.SqlProgrammability.SalesTasks.VehiclesInvoice(totalBikePortalsEntities);
-            x.RestoreProcedure();
+
             
             
             
@@ -134,7 +141,7 @@ namespace MVCData.Repositories.SalesTasks
             
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);
             cmm.RestoreProcedure();
-            */
+            
         }
     }
 

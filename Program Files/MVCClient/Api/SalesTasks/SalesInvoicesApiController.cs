@@ -114,7 +114,10 @@ namespace MVCClient.Api.SalesTasks
                 return Json(new
                 {
                     NoInvoice = relatedPartsInvoiceValue[0].NoInvoice,
-                    TotalPartsAmount = relatedPartsInvoiceValue[0].TotalGrossAmount
+                    MinSalesInvoiceID = relatedPartsInvoiceValue[0].MinSalesInvoiceID,
+                    MinReference = relatedPartsInvoiceValue[0].MinReference,
+                    TotalQuantity = relatedPartsInvoiceValue[0].TotalQuantity,
+                    TotalPartsAmount = relatedPartsInvoiceValue[0].TotalGrossAmount                    
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

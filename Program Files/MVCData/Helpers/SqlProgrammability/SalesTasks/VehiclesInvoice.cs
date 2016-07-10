@@ -26,6 +26,7 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             this.VehiclesInvoicePostSaveValidate();
 
             this.VehiclesInvoiceEditable();
+            this.VehiclesInvoiceDeletable();
 
             this.SalesInvoiceInitReference();
         }
@@ -226,6 +227,9 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             queryString = queryString + "       FROM       (SELECT GoodsReceiptDetailID, SUM(Quantity) AS Quantity FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID GROUP BY GoodsReceiptDetailID) SalesInvoiceDetails INNER JOIN" + "\r\n";
             queryString = queryString + "                   GoodsReceiptDetails ON SalesInvoiceDetails.GoodsReceiptDetailID = GoodsReceiptDetails.GoodsReceiptDetailID ; " + "\r\n";
 
+            queryString = queryString + "       IF @SaveRelativeOption = 1 " + "\r\n"; //NEED TO UPDATE ONLY WHEN Update
+            queryString = queryString + "                   UPDATE      SalesInvoices SET SalesInvoices.CustomerID = VehiclesInvoices.CustomerID FROM SalesInvoices INNER JOIN SalesInvoices AS VehiclesInvoices ON VehiclesInvoices.SalesInvoiceID = @EntityID AND SalesInvoices.ServiceInvoiceID = VehiclesInvoices.SalesInvoiceID " + "\r\n";
+
             //////queryString = queryString + "       THROW 60000, N'My Exception: Le Minh Hiep--throw', 1 " + "\r\n"; //RAISERROR (N'My Exception: Le Minh Hiep', 16, 1) 
 
             queryString = queryString + "    END " + "\r\n";
@@ -246,12 +250,22 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
 
         private void VehiclesInvoiceEditable()
         {
-            string[] queryArray = new string[2];
+            string[] queryArray = new string[3];
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = ServiceContractID FROM ServiceContracts WHERE SalesInvoiceDetailID IN (SELECT SalesInvoiceDetailID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID) ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID AND NOT AccountInvoiceID IS NULL ";
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoices WHERE SalesInvoiceID = @EntityID AND IsFinished = 1 ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = ServiceContractID FROM ServiceContracts WHERE SalesInvoiceDetailID IN (SELECT SalesInvoiceDetailID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID) ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID AND NOT AccountInvoiceID IS NULL ";
 
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("VehiclesInvoiceEditable", queryArray);
+        }
+
+        private void VehiclesInvoiceDeletable()
+        {
+            string[] queryArray = new string[1];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoices WHERE ServiceInvoiceID = @EntityID ";
+
+            this.totalBikePortalsEntities.CreateProcedureToCheckExisting("VehiclesInvoiceDeletable", queryArray);
         }
 
 

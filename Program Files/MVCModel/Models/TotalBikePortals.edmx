@@ -2163,6 +2163,9 @@
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="VehiclesInvoiceDeletable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
         <Function Name="VehiclesInvoiceEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -3279,6 +3282,9 @@
           <FunctionImport Name="SearchServicesInvoiceIndexes" ReturnType="Collection(TotalBikePortalsModel.ServicesInvoiceIndex)">
           <Parameter Name="ServiceContractID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="VehiclesInvoiceDeletable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
           <Property Type="Int32" Name="PurchaseOrderID" Nullable="false" />
@@ -3504,6 +3510,9 @@
         <ComplexType Name="RelatedPartsInvoiceValue">
           <Property Type="Int32" Name="NoInvoice" Nullable="true" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="MinSalesInvoiceID" Nullable="true" />
+          <Property Type="String" Name="MinReference" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="true" Precision="38" Scale="2" />
         </ComplexType>
         <ComplexType Name="PartTransferViewDetail">
           <Property Type="Int32" Name="StockTransferDetailID" Nullable="false" />
@@ -6240,6 +6249,9 @@
               <ComplexTypeMapping TypeName="TotalBikePortalsModel.RelatedPartsInvoiceValue">
                 <ScalarProperty Name="NoInvoice" ColumnName="NoInvoice" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="MinSalesInvoiceID" ColumnName="MinSalesInvoiceID" />
+                <ScalarProperty Name="MinReference" ColumnName="MinReference" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7852,6 +7864,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VehiclesInvoiceDeletable" FunctionName="TotalBikePortalsModel.Store.VehiclesInvoiceDeletable" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
