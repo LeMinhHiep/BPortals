@@ -153,7 +153,7 @@ namespace MVCClient.Controllers
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
             if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity))));
+            return View(this.GetViewModel(entity));
         }
 
 
@@ -189,7 +189,7 @@ namespace MVCClient.Controllers
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
             if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), true));
+            return View(this.GetViewModel(entity, true));
         }
 
 
@@ -217,13 +217,51 @@ namespace MVCClient.Controllers
 
 
 
+
+        [AccessLevelAuthorize, ImportModelStateFromTempData]
+        public virtual ActionResult Alter(int? id)
+        {
+            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
+            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+            return View(this.GetViewModel(entity, false, true));
+        }
+
+
+        [HttpPost, ActionName("Alter")]
+        [ValidateAntiForgeryToken, ExportModelStateToTempData]
+        public virtual ActionResult AlterConfirmed(TSimpleViewModel simpleViewModel)
+        {
+            try
+            {
+                if (this.GenericService.Alter(simpleViewModel))
+                    return RedirectToAction("Index");
+                else
+                    throw new System.ArgumentException("Lỗi vô hiệu dữ liệu", "Dữ liệu này không thể vô hiệu.");
+
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddValidationErrors(exception);
+                return View("Alter", this.TailorViewModel(simpleViewModel, false, true));
+                //return RedirectToAction("Alter", simpleViewModel.GetID());
+            }
+        }
+
+
+
+
+
+
+
+
         [AccessLevelAuthorize, ImportModelStateFromTempData]
         public virtual ActionResult Void(int? id)
         {
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
             if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), true));
+            return View(this.GetViewModel(entity));
         }
 
 
@@ -321,13 +359,20 @@ namespace MVCClient.Controllers
 
         protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel, bool forDelete)
         {
-            
+            return this.TailorViewModel(simpleViewModel, forDelete, false);
+        }
+
+        protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel, bool forDelete, bool forAlter)
+        {
+
             if (!forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE               (THE CONDITIONAL CLAUSE: if (!forDelete) MEAN: WHEN SHOW VIEW FOR DELETE, NO NEED TO CHECK Editable => Editable SHOULD BE FALSE)
                 simpleViewModel.Editable = this.GenericService.Editable(simpleViewModel);
 
             if (forDelete || simpleViewModel is ServiceContractViewModel)//WHEN forDelete, IT SHOULD BE CHECK FOR Deletable ATTRIBUTE, SURELY.          BUT, WHEN OPEN VIEW FOR EDIT, NOW: ONLY VIEW ServiceContract NEED TO USE Deletable ATTRIBUTE ONLY. SO, THIS CODE IS CORRECT FOR NOW, BUT LATER, IF THERE IS MORE VIEWS NEED THIS Deletable ATTRIBUTE, THIS CODE SHOULD MODIFY MORE GENERIC!!!
                 simpleViewModel.Deletable = this.GenericService.Deletable(simpleViewModel);
 
+            if (forAlter)//NOW THIS GlobalLocked attribute ONLY be considered WHEN ALTER ACTION to USE IN ALTER VIEW: to ALLOW or NOT ALTER.
+                simpleViewModel.GlobalLocked = this.GenericService.GlobalLocked(simpleViewModel);
 
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);
@@ -340,6 +385,30 @@ namespace MVCClient.Controllers
         }
 
 
+
+
+        #region GetViewModel
+        /// <summary>
+        /// There are serveral times have to build ViewModel from Entity, by the same steps
+        /// This is the reason to have GetViewModel. This is not for any purpose. This GetViewModel may change or ormit if needed
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private TSimpleViewModel GetViewModel(TEntity entity)
+        {
+            return this.GetViewModel(entity, false);
+        }
+
+        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete)
+        {
+            return this.GetViewModel(entity, forDelete, false);
+        }
+
+        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete, bool forAlter)
+        {
+            return this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), forDelete, forAlter);
+        }
+        #endregion GetViewModel
 
 
 

@@ -787,6 +787,7 @@
     <Content Include="Scripts\Controllers\Root\PartsInvoices\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Edit.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Index.js" />
+    <Content Include="Scripts\Controllers\Root\PurchaseInvoices\Alter.js" />
     <Content Include="Scripts\Controllers\Root\PurchaseInvoices\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Root\PurchaseInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PurchaseInvoices\Edit.js" />
@@ -1696,6 +1697,7 @@
     <Content Include="Views\Helpers\Commons\_ReceptionistAutoComplete.cshtml" />
     <Content Include="Views\VehiclesInvoices\Print.cshtml" />
     <Content Include="Views\AccountInvoices\PrintDetail.cshtml" />
+    <Content Include="Views\PurchaseInvoices\Alter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

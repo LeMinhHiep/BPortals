@@ -13,11 +13,14 @@ namespace MVCCore.Services
     {
         TEntity GetByID(int id);
 
+        bool GlobalLocked(TDto dto);
         bool Editable(TDto dto);
         bool Deletable(TDto dto);
 
         bool Save(TDto dto);
         bool Delete(int id);
+
+        bool Alter(TDto dto);
         bool Void(int id, bool inActive);
 
         void PreSaveRoutines(TDto dto);

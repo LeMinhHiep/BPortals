@@ -306,11 +306,11 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             }
 
 
-            queryString = queryString + "       SELECT      SalesInvoiceDetails.SalesInvoiceID, SalesInvoiceDetails.SalesInvoiceDetailID, CASE WHEN SalesInvoiceDetails.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + " THEN SalesInvoiceDetails.SalesInvoiceID ELSE SalesInvoiceDetails.ServiceInvoiceID END AS ServiceInvoiceID, SalesInvoiceDetails.EntryDate, CAST(SalesInvoiceDetails.EntryDate AS Date) AS EntryDateONLY, SalesInvoiceDetails.LocationID, Locations.Code AS LocationCode, SalesInvoiceDetails.SalesInvoiceTypeID, " + "\r\n";
+            queryString = queryString + "       SELECT      SalesInvoiceDetails.SalesInvoiceID, SalesInvoiceDetails.SalesInvoiceDetailID, CASE WHEN SalesInvoiceDetails.SalesInvoiceTypeID = " + (int)GlobalEnums.SalesInvoiceTypeID.ServicesInvoice + " THEN SalesInvoiceDetails.SalesInvoiceID ELSE SalesInvoiceDetails.ServiceInvoiceID END AS ServiceInvoiceID, SalesInvoiceDetails.EntryDate, CAST(SalesInvoiceDetails.EntryDate AS Date) AS EntryDateONLY, CAST(" + (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.ServicesInvoice ? "ISNULL(ServiceInvoices.EntryDate, SalesInvoiceDetails.EntryDate)" : "SalesInvoiceDetails.EntryDate") + " AS Date) AS ServiceEntryDate, SalesInvoiceDetails.LocationID, Locations.Code AS LocationCode, SalesInvoiceDetails.SalesInvoiceTypeID, " + "\r\n";
             queryString = queryString + "                   SalesInvoiceDetails.CommodityID, Commodities.Code, Commodities.Name, SalesInvoiceDetails.Quantity, SalesInvoiceDetails.UnitPrice, SalesInvoiceDetails.VATPercent, SalesInvoiceDetails.GrossPrice, SalesInvoiceDetails.Amount, SalesInvoiceDetails.VATAmount, SalesInvoiceDetails.GrossAmount, " + "\r\n";
             queryString = queryString + "                   ServiceContracts.CommodityID AS VehicleID, ServiceVehicles.Code AS VehicleCode, ServiceVehicles.Name AS VehicleName, ServiceContracts.ChassisCode, ServiceContracts.EngineCode, ServiceContracts.ColorCode, ServiceContracts.LicensePlate, SalesInvoiceDetails.CurrentMeters, " + "\r\n";
             queryString = queryString + "                   " + (includeVehiclesInvoice ? "ISNULL(VehicleInvoiceDetails.EntryDate, ServiceContracts.PurchaseDate)" : "ServiceContracts.PurchaseDate") + " AS PurchaseDate, " + (includeVehiclesInvoice ? "ISNULL(VehicleLocations.OfficialName, ServiceContracts.AgentName)" : "ServiceContracts.AgentName") + " AS AgentName, " + (includeVehiclesInvoice ? "VehicleLocations.OfficialName" : "''") + " AS VehicleLocationName, " + "\r\n";
-            queryString = queryString + "                   Customers.CustomerID, Customers.Name AS CustomerName, Customers.Birthday, Customers.IsFemale, Customers.Telephone, Customers.Facsimile, Customers.AddressNo, EntireTerritories.Name2 AS DistrictName, EntireTerritories.Name1 AS ProvinceName, CustomerCategories.Name AS CustomerCategoryName " + "\r\n";
+            queryString = queryString + "                   Customers.CustomerID, Customers.Name AS CustomerName, Customers.Birthday, Customers.IsFemale, Customers.VATCode, Customers.Telephone, Customers.Facsimile, Customers.AddressNo, EntireTerritories.Name2 AS DistrictName, EntireTerritories.Name1 AS ProvinceName, CustomerCategories.Name AS CustomerCategoryName " + "\r\n";
 
 
             queryString = queryString + "       FROM        SalesInvoiceDetails " + "\r\n";
@@ -327,6 +327,12 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
             {
                 queryString = queryString + "               LEFT JOIN SalesInvoiceDetails VehicleInvoiceDetails ON ServiceContracts.SalesInvoiceDetailID = VehicleInvoiceDetails.SalesInvoiceDetailID " + "\r\n";
                 queryString = queryString + "               LEFT JOIN Locations VehicleLocations ON VehicleInvoiceDetails.LocationID = VehicleLocations.LocationID " + "\r\n";
+            }
+
+            if (salesInvoiceTypeID == GlobalEnums.SalesInvoiceTypeID.ServicesInvoice)
+            {
+                queryString = queryString + "               LEFT JOIN SalesInvoices AS ServiceInvoices ON SalesInvoiceDetails.ServiceInvoiceID = ServiceInvoices.SalesInvoiceID " + "\r\n";
+                
             }
 
             queryString = queryString + "   END " + "\r\n";

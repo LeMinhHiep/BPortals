@@ -54,6 +54,7 @@ namespace MVCDTO
 
         public bool Editable { get; set; }
         public bool Deletable { get; set; }
+        public bool GlobalLocked { get; set; }
 
 
 

@@ -72,17 +72,23 @@ namespace MVCService
             return this.genericRepository.GetAccessLevel(this.UserID, this.nmvnTaskID, organizationalUnitID);
         }
 
-        public virtual bool Approvable(TDto dto)
+        public virtual bool GlobalLocked(TDto dto)
         {
-            if (dto.EntryDate <= this.genericRepository.GetEditLockedDate(this.LocationID, this.nmvnTaskID)) return false;
-            if (this.GetAccessLevel(dto.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) return false;
-
-            return this.genericRepository.GetApprovable(dto.GetID());
+            return (dto.EntryDate <= this.genericRepository.GetEditLockedDate(this.LocationID, this.nmvnTaskID));
         }
+
+        //public virtual bool Approvable(TDto dto)
+        //{
+        //    return false;
+        //}
 
         public virtual bool Editable(TDto dto)
         {
-            if (!this.Approvable(dto)) return false;
+            if (this.GlobalLocked(dto)) return false;
+            if (this.GetAccessLevel(dto.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) return false;
+
+            if (!this.genericRepository.GetApprovable(dto.GetID())) return false;
+            
             return this.genericRepository.GetEditable(dto.GetID());
         }
 
@@ -179,6 +185,31 @@ namespace MVCService
         }
 
 
+        public virtual bool Alter(TDto dto)
+        {
+            using (var dbContextTransaction = this.genericRepository.BeginTransaction())
+            {
+                try
+                {
+                    if (this.GlobalLocked(dto)) throw new System.ArgumentException("Lỗi điều chỉnh dữ liệu", "Dữ liệu này đã bị khóa.");
+
+                    this.AlterMe(dto);
+
+                    this.genericRepository.SaveChanges();
+
+                    dbContextTransaction.Commit();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+
         protected string EFFunctionNameVoid { get; set; }
 
         public virtual bool Void(int id, bool inActive)
@@ -207,7 +238,7 @@ namespace MVCService
             }
         }
 
-        
+
 
         public virtual void PreSaveRoutines(TDto dto)
         {
@@ -303,6 +334,13 @@ namespace MVCService
         {
             this.SaveRelative(entity, SaveRelativeOption.Undo);
         }
+
+
+        protected virtual void AlterMe(TDto dto)
+        {
+            throw new System.ArgumentException("Lỗi điều chỉnh dữ liệu", "Hệ thống không cho phép điều chỉnh dữ liệu này.");
+        }
+
 
         protected virtual void PostSaveValidate(TEntity entity)
         {

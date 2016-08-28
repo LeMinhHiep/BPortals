@@ -15,7 +15,7 @@ namespace MVCCore.Repositories
 
         ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters);
         int ExecuteFunction(string functionName, params ObjectParameter[] parameters);
-
+        int ExecuteStoreCommand(string commandText, params Object[] parameters);
 
 
         T GetEntity<T>(params Expression<Func<T, object>>[] includes) where T : class;

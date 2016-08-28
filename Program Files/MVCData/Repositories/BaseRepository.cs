@@ -76,6 +76,11 @@ namespace MVCData.Repositories
             return this.TotalBikePortalsObjectContext.ExecuteFunction(functionName, parameters);
         }
 
+        public virtual int ExecuteStoreCommand(string commandText, params Object[] parameters)
+        {
+            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
+            return this.TotalBikePortalsObjectContext.ExecuteStoreCommand(commandText, parameters);
+        }
 
 
 
