@@ -14,7 +14,11 @@
           <Property Name="NMVNTaskID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="AccessLevel" Type="int" Nullable="false" />
+          <Property Name="ApprovalPermitted" Type="bit" Nullable="false" />
+          <Property Name="UnApprovalPermitted" Type="bit" Nullable="false" />
           <Property Name="AccessLevelBACKUP" Type="int" />
+          <Property Name="ApprovalPermittedBACKUP" Type="int" />
+          <Property Name="UnApprovalPermittedBACKUP" Type="int" />
         </EntityType>
         <EntityType Name="AccountInvoiceDetails">
           <Key>
@@ -1827,6 +1831,11 @@
           <Parameter Name="GoodsReceiptTypeID" Type="int" Mode="In" />
           <Parameter Name="VoucherID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetApprovalPermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
+          <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetCommoditiesAvailables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
@@ -1970,6 +1979,11 @@
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetUnApprovalPermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
+          <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetVehicleAdjustmentIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
@@ -2134,8 +2148,15 @@
         <Function Name="StockTransferEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="TransferOrderApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
         <Function Name="TransferOrderEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TransferOrderToggleApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="Approved" Type="bit" Mode="In" />
         </Function>
         <Function Name="TransferOrderVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
@@ -3284,6 +3305,23 @@
           </FunctionImport>
           <FunctionImport Name="VehiclesInvoiceDeletable" ReturnType="Collection(String)">
           <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetApprovalPermitted" ReturnType="Collection(Boolean)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="NMVNTaskID" Mode="In" Type="Int32" />
+            <Parameter Name="OrganizationalUnitID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetUnApprovalPermitted" ReturnType="Collection(Boolean)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="NMVNTaskID" Mode="In" Type="Int32" />
+            <Parameter Name="OrganizationalUnitID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TransferOrderToggleApproved">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="Approved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="TransferOrderApproved" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PurchaseInvoiceViewDetail">
@@ -4750,6 +4788,10 @@
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
           <Property Name="AccessLevel" Type="Int32" Nullable="false" />
           <Property Name="AccessLevelBACKUP" Type="Int32" />
+          <Property Name="ApprovalPermitted" Type="Boolean" Nullable="false" />
+          <Property Name="UnApprovalPermitted" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovalPermittedBACKUP" Type="Int32" />
+          <Property Name="UnApprovalPermittedBACKUP" Type="Int32" />
         </EntityType>
         <Association Name="FK_ServiceContracts_Locations">
           <End Type="TotalBikePortalsModel.Location" Role="Location" Multiplicity="1" />
@@ -6945,6 +6987,10 @@
           <EntitySetMapping Name="AccessControls">
             <EntityTypeMapping TypeName="TotalBikePortalsModel.AccessControl">
               <MappingFragment StoreEntitySet="AccessControls">
+                <ScalarProperty Name="UnApprovalPermittedBACKUP" ColumnName="UnApprovalPermittedBACKUP" />
+                <ScalarProperty Name="ApprovalPermittedBACKUP" ColumnName="ApprovalPermittedBACKUP" />
+                <ScalarProperty Name="UnApprovalPermitted" ColumnName="UnApprovalPermitted" />
+                <ScalarProperty Name="ApprovalPermitted" ColumnName="ApprovalPermitted" />
                 <ScalarProperty Name="AccessLevelBACKUP" ColumnName="AccessLevelBACKUP" />
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
@@ -7865,6 +7911,10 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="VehiclesInvoiceDeletable" FunctionName="TotalBikePortalsModel.Store.VehiclesInvoiceDeletable" />
+          <FunctionImportMapping FunctionImportName="GetApprovalPermitted" FunctionName="TotalBikePortalsModel.Store.GetApprovalPermitted" />
+          <FunctionImportMapping FunctionImportName="GetUnApprovalPermitted" FunctionName="TotalBikePortalsModel.Store.GetUnApprovalPermitted" />
+          <FunctionImportMapping FunctionImportName="TransferOrderToggleApproved" FunctionName="TotalBikePortalsModel.Store.TransferOrderToggleApproved" />
+          <FunctionImportMapping FunctionImportName="TransferOrderApproved" FunctionName="TotalBikePortalsModel.Store.TransferOrderApproved" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

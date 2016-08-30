@@ -27,7 +27,7 @@ namespace MVCService.StockTasks
 
 
         public GoodsReceiptService(IGoodsReceiptRepository goodsReceiptRepository, IInventoryRepository inventoryRepository, IGoodsReceiptHelperService goodsReceiptHelperService)
-            : base(goodsReceiptRepository, "GoodsReceiptPostSaveValidate", "GoodsReceiptSaveRelative", "GetGoodsReceiptViewDetails")
+            : base(goodsReceiptRepository, "GoodsReceiptPostSaveValidate", "GoodsReceiptSaveRelative", null, "GetGoodsReceiptViewDetails")
         {
             this.inventoryRepository = inventoryRepository;
             this.goodsReceiptHelperService = goodsReceiptHelperService;

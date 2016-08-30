@@ -52,9 +52,11 @@ namespace MVCDTO
         public Nullable<System.DateTime> InActiveDate { get; set; }
 
 
-        public bool Editable { get; set; }
-        public bool Deletable { get; set; }
         public bool GlobalLocked { get; set; }
+        public bool Editable { get; set; }
+        public bool Approvable { get; set; }
+        public bool UnApprovable { get; set; }
+        public bool Deletable { get; set; }        
 
 
 

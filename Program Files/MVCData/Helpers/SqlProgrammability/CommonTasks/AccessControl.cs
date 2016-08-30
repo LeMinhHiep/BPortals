@@ -16,6 +16,8 @@ namespace MVCData.Helpers.SqlProgrammability.CommonTasks
         public void RestoreProcedure()
         {
             this.GetAccessLevel();
+            this.GetApprovalPermitted();
+            this.GetUnApprovalPermitted();
             this.UpdateLockedDate();
         }
 
@@ -44,6 +46,30 @@ namespace MVCData.Helpers.SqlProgrammability.CommonTasks
             queryString = queryString + "       WHERE       UserID = @UserID AND NMVNTaskID = @NMVNTaskID AND (@OrganizationalUnitID <= 0 OR (@OrganizationalUnitID > 0 AND OrganizationalUnitID = @OrganizationalUnitID)) " + "\r\n";
 
             this.totalBikePortalsEntities.CreateStoredProcedure("GetAccessLevel", queryString);
+        }
+
+        private void GetApprovalPermitted()
+        {
+            string queryString = " @UserID Int, @NMVNTaskID Int, @OrganizationalUnitID Int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       SELECT      CAST(MAX(CAST(ApprovalPermitted AS Int)) AS Bit) AS ApprovalPermitted FROM AccessControls " + "\r\n";
+            queryString = queryString + "       WHERE       UserID = @UserID AND NMVNTaskID = @NMVNTaskID AND (@OrganizationalUnitID <= 0 OR (@OrganizationalUnitID > 0 AND OrganizationalUnitID = @OrganizationalUnitID)) " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetApprovalPermitted", queryString);
+        }
+
+        private void GetUnApprovalPermitted()
+        {
+            string queryString = " @UserID Int, @NMVNTaskID Int, @OrganizationalUnitID Int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       SELECT      CAST(MAX(CAST(UnApprovalPermitted AS Int)) AS Bit) AS UnApprovalPermitted FROM AccessControls " + "\r\n";
+            queryString = queryString + "       WHERE       UserID = @UserID AND NMVNTaskID = @NMVNTaskID AND (@OrganizationalUnitID <= 0 OR (@OrganizationalUnitID > 0 AND OrganizationalUnitID = @OrganizationalUnitID)) " + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("GetUnApprovalPermitted", queryString);
         }
 
 

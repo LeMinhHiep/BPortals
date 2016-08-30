@@ -17,7 +17,7 @@ namespace MVCService.StockTasks
     public class VehicleTransferService : GenericWithViewDetailService<StockTransfer, StockTransferDetail, VehicleTransferViewDetail, VehicleTransferDTO, VehicleTransferPrimitiveDTO, VehicleTransferDetailDTO>, IVehicleTransferService
     {
         public VehicleTransferService(IVehicleTransferRepository vehicleTransferRepository)
-            : base(vehicleTransferRepository, "VehicleTransferPostSaveValidate", "VehicleTransferSaveRelative", "GetVehicleTransferViewDetails")
+            : base(vehicleTransferRepository, "VehicleTransferPostSaveValidate", "VehicleTransferSaveRelative", null, "GetVehicleTransferViewDetails")
         {
         }
 
@@ -55,7 +55,7 @@ namespace MVCService.StockTasks
         private readonly IPartTransferHelperService partTransferHelperService;
 
         public PartTransferService(IPartTransferRepository partTransferRepository, IInventoryRepository inventoryRepository, IPartTransferHelperService partTransferHelperService)
-            : base(partTransferRepository, "PartTransferPostSaveValidate", "PartTransferSaveRelative", "GetPartTransferViewDetails")
+            : base(partTransferRepository, "PartTransferPostSaveValidate", "PartTransferSaveRelative", null, "GetPartTransferViewDetails")
         {
             this.inventoryRepository = inventoryRepository;
             this.partTransferHelperService = partTransferHelperService;

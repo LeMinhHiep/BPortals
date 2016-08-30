@@ -20,5 +20,9 @@ namespace MVCModel.Models
         public int OrganizationalUnitID { get; set; }
         public int AccessLevel { get; set; }
         public Nullable<int> AccessLevelBACKUP { get; set; }
+        public bool ApprovalPermitted { get; set; }
+        public bool UnApprovalPermitted { get; set; }
+        public Nullable<int> ApprovalPermittedBACKUP { get; set; }
+        public Nullable<int> UnApprovalPermittedBACKUP { get; set; }
     }
 }

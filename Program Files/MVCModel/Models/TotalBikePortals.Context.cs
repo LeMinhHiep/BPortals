@@ -1305,5 +1305,61 @@ namespace MVCModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("VehiclesInvoiceDeletable", entityIDParameter);
         }
+    
+        public virtual ObjectResult<Nullable<bool>> GetApprovalPermitted(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var nMVNTaskIDParameter = nMVNTaskID.HasValue ?
+                new ObjectParameter("NMVNTaskID", nMVNTaskID) :
+                new ObjectParameter("NMVNTaskID", typeof(int));
+    
+            var organizationalUnitIDParameter = organizationalUnitID.HasValue ?
+                new ObjectParameter("OrganizationalUnitID", organizationalUnitID) :
+                new ObjectParameter("OrganizationalUnitID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetApprovalPermitted", userIDParameter, nMVNTaskIDParameter, organizationalUnitIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> GetUnApprovalPermitted(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var nMVNTaskIDParameter = nMVNTaskID.HasValue ?
+                new ObjectParameter("NMVNTaskID", nMVNTaskID) :
+                new ObjectParameter("NMVNTaskID", typeof(int));
+    
+            var organizationalUnitIDParameter = organizationalUnitID.HasValue ?
+                new ObjectParameter("OrganizationalUnitID", organizationalUnitID) :
+                new ObjectParameter("OrganizationalUnitID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetUnApprovalPermitted", userIDParameter, nMVNTaskIDParameter, organizationalUnitIDParameter);
+        }
+    
+        public virtual int TransferOrderToggleApproved(Nullable<int> entityID, Nullable<bool> approved)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var approvedParameter = approved.HasValue ?
+                new ObjectParameter("Approved", approved) :
+                new ObjectParameter("Approved", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TransferOrderToggleApproved", entityIDParameter, approvedParameter);
+        }
+    
+        public virtual ObjectResult<string> TransferOrderApproved(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("TransferOrderApproved", entityIDParameter);
+        }
     }
 }

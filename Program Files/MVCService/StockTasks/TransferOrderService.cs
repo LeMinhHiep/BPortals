@@ -16,7 +16,7 @@ namespace MVCService.StockTasks
     public class VehicleTransferOrderService : GenericWithViewDetailService<TransferOrder, TransferOrderDetail, VehicleTransferOrderViewDetail, VehicleTransferOrderDTO, VehicleTransferOrderPrimitiveDTO, VehicleTransferOrderDetailDTO>, IVehicleTransferOrderService
     {
         public VehicleTransferOrderService(IVehicleTransferOrderRepository vehicleTransferOrderRepository)
-            : base(vehicleTransferOrderRepository, null, null, "GetVehicleTransferOrderViewDetails")
+            : base(vehicleTransferOrderRepository, null, null, "TransferOrderToggleApproved", "GetVehicleTransferOrderViewDetails")
         {
             this.EFFunctionNameVoid = "TransferOrderVoid";
         }
@@ -90,7 +90,7 @@ namespace MVCService.StockTasks
     public class PartTransferOrderService : GenericWithViewDetailService<TransferOrder, TransferOrderDetail, PartTransferOrderViewDetail, PartTransferOrderDTO, PartTransferOrderPrimitiveDTO, PartTransferOrderDetailDTO>, IPartTransferOrderService
     {
         public PartTransferOrderService(IPartTransferOrderRepository partTransferOrderRepository)
-            : base(partTransferOrderRepository, null, null, "GetPartTransferOrderViewDetails")
+            : base(partTransferOrderRepository, null, null, "TransferOrderToggleApproved", "GetPartTransferOrderViewDetails")
         {
         }
 

@@ -34,6 +34,7 @@ namespace MVCService
 
         private readonly string functionNamePostSaveValidate;
         private readonly string functionNameSaveRelative;
+        private readonly string functionNameToggleApproved;
 
         private readonly GlobalEnums.NmvnTaskID nmvnTaskID;
 
@@ -46,12 +47,17 @@ namespace MVCService
         { }
 
         public GenericService(IGenericRepository<TEntity> genericRepository, string functionNamePostSaveValidate, string functionNameSaveRelative)
+            : this(genericRepository, functionNamePostSaveValidate, functionNameSaveRelative, null)
+        { }
+
+        public GenericService(IGenericRepository<TEntity> genericRepository, string functionNamePostSaveValidate, string functionNameSaveRelative, string functionNameToggleApproved)
             : base(genericRepository)
         {
             this.genericRepository = genericRepository;
 
             this.functionNamePostSaveValidate = functionNamePostSaveValidate;
             this.functionNameSaveRelative = functionNameSaveRelative;
+            this.functionNameToggleApproved = functionNameToggleApproved;
 
             this.nmvnTaskID = (new TPrimitiveDto()).NMVNTaskID;
         }
@@ -67,28 +73,54 @@ namespace MVCService
             get { return this.nmvnTaskID; }
         }
 
-        public override GlobalEnums.AccessLevel GetAccessLevel(int? organizationalUnitID)
-        {
-            return this.genericRepository.GetAccessLevel(this.UserID, this.nmvnTaskID, organizationalUnitID);
-        }
+
+
 
         public virtual bool GlobalLocked(TDto dto)
         {
             return (dto.EntryDate <= this.genericRepository.GetEditLockedDate(this.LocationID, this.nmvnTaskID));
         }
 
-        //public virtual bool Approvable(TDto dto)
-        //{
-        //    return false;
-        //}
+        public override GlobalEnums.AccessLevel GetAccessLevel(int? organizationalUnitID)
+        {
+            return this.genericRepository.GetAccessLevel(this.UserID, this.nmvnTaskID, organizationalUnitID);
+        }
+
+        public override bool GetApprovalPermitted(int? organizationalUnitID)
+        {
+            return this.genericRepository.GetApprovalPermitted(this.UserID, this.nmvnTaskID, organizationalUnitID);
+        }
+
+        public override bool GetUnApprovalPermitted(int? organizationalUnitID)
+        {
+            return this.genericRepository.GetUnApprovalPermitted(this.UserID, this.nmvnTaskID, organizationalUnitID);
+        }
+
+
+
+        public virtual bool Approvable(TDto dto)
+        {
+            if (this.GlobalLocked(dto)) return false;
+            if (dto.Approved || !this.GetApprovalPermitted(dto.OrganizationalUnitID)) return false;
+
+            return this.genericRepository.GetEditable(dto.GetID());
+        }
+
+        public virtual bool UnApprovable(TDto dto)
+        {
+            if (this.GlobalLocked(dto)) return false;
+            if (!dto.Approved || !this.GetUnApprovalPermitted(dto.OrganizationalUnitID)) return false;
+
+            return this.genericRepository.GetEditable(dto.GetID());
+        }
 
         public virtual bool Editable(TDto dto)
         {
             if (this.GlobalLocked(dto)) return false;
             if (this.GetAccessLevel(dto.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) return false;
 
-            if (!this.genericRepository.GetApprovable(dto.GetID())) return false;
-            
+            if (this.genericRepository.GetApproved(dto.GetID())) return false;
+
             return this.genericRepository.GetEditable(dto.GetID());
         }
 
@@ -150,6 +182,30 @@ namespace MVCService
 
             dto.SetID(entity.GetID());
             return true;
+        }
+
+        public virtual bool ToggleApproved(TDto dto)
+        {
+            using (var dbContextTransaction = this.genericRepository.BeginTransaction())
+            {
+                try
+                {
+                    if ((!dto.Approved && !this.Approvable(dto)) || (dto.Approved && !this.UnApprovable(dto))) throw new System.ArgumentException("Lỗi " + (dto.Approved ? "hủy " : "") + "duyệt dữ liệu", "Bạn không có quyền hoặc dữ liệu này đã bị khóa.");
+                                        
+                    this.ToggleApprovedMe(dto);
+
+                    this.genericRepository.SaveChanges();
+
+                    dbContextTransaction.Commit();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public virtual bool Delete(int id)
@@ -324,11 +380,25 @@ namespace MVCService
             return entity;
         }
 
+
+        protected virtual void ToggleApprovedMe(TDto dto)
+        {
+            if (this.functionNameToggleApproved != null && this.functionNameToggleApproved != "")
+            {
+                ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("EntityID", dto.GetID()), new ObjectParameter("Approved", !dto.Approved) };
+                if (this.genericRepository.ExecuteFunction(this.functionNameToggleApproved, parameters) != 1) throw new System.ArgumentException("Lỗi", "Chứng từ không tồn tại hoặc đã " + (dto.Approved ? "hủy" : "") + "duyệt");
+            }
+            else
+                throw new System.ArgumentException("Lỗi", "Hệ thống không cho phép thực hiện tác vụ này.");
+        }
+
+
         protected virtual void DeleteMe(TDto dto, TEntity entity)
         {
             this.DeleteMaster(dto, entity);
             this.genericRepository.Remove(entity);
         }
+
 
         protected virtual void DeleteMaster(TDto dto, TEntity entity)
         {

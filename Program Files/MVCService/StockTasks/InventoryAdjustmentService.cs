@@ -17,7 +17,7 @@ namespace MVCService.StockTasks
     public class VehicleAdjustmentService : GenericWithViewDetailService<InventoryAdjustment, InventoryAdjustmentDetail, VehicleAdjustmentViewDetail, VehicleAdjustmentDTO, VehicleAdjustmentPrimitiveDTO, VehicleAdjustmentDetailDTO>, IVehicleAdjustmentService
     {
         public VehicleAdjustmentService(IVehicleAdjustmentRepository vehicleAdjustmentRepository)
-            : base(vehicleAdjustmentRepository, "VehicleAdjustmentPostSaveValidate", "VehicleAdjustmentSaveRelative", "GetVehicleAdjustmentViewDetails")
+            : base(vehicleAdjustmentRepository, "VehicleAdjustmentPostSaveValidate", "VehicleAdjustmentSaveRelative", null, "GetVehicleAdjustmentViewDetails")
         {
         }
 
@@ -57,7 +57,7 @@ namespace MVCService.StockTasks
 
 
         public PartAdjustmentService(IPartAdjustmentRepository partAdjustmentRepository, IInventoryRepository inventoryRepository, IPartAdjustmentHelperService partAdjustmentHelperService)
-            : base(partAdjustmentRepository, "PartAdjustmentPostSaveValidate", "PartAdjustmentSaveRelative", "GetPartAdjustmentViewDetails")
+            : base(partAdjustmentRepository, "PartAdjustmentPostSaveValidate", "PartAdjustmentSaveRelative", null, "GetPartAdjustmentViewDetails")
         {
             this.inventoryRepository = inventoryRepository;
             this.partAdjustmentHelperService = partAdjustmentHelperService;

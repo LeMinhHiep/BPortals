@@ -18,7 +18,7 @@ namespace MVCService.PurchaseTasks
         private readonly IPurchaseInvoiceRepository purchaseInvoiceRepository;
 
         public PurchaseInvoiceService(IPurchaseInvoiceRepository purchaseInvoiceRepository)
-            : base(purchaseInvoiceRepository, "PurchaseInvoicePostSaveValidate", "PurchaseInvoiceSaveRelative", "GetPurchaseInvoiceViewDetails")
+            : base(purchaseInvoiceRepository, "PurchaseInvoicePostSaveValidate", "PurchaseInvoiceSaveRelative", null, "GetPurchaseInvoiceViewDetails")
         {
             this.purchaseInvoiceRepository = purchaseInvoiceRepository;
         }

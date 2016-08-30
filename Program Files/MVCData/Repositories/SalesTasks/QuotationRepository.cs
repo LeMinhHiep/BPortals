@@ -12,7 +12,7 @@ namespace MVCData.Repositories.SalesTasks
     public class QuotationRepository : GenericWithDetailRepository<Quotation, QuotationDetail>, IQuotationRepository
     {
         public QuotationRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, "QuotationEditable", "QuotationDeletable", "QuotationApprovable")
+            : base(totalBikePortalsEntities, "QuotationEditable", "QuotationApproved", "QuotationDeletable")
         {
         }
 

@@ -19,11 +19,11 @@ namespace MVCData.Repositories.SalesTasks
         public SalesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable)
             : this(totalBikePortalsEntities, functionNameEditable, null) { }
 
-        public SalesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable)
-            : this(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, null) { }
+        public SalesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved)
+            : this(totalBikePortalsEntities, functionNameEditable, functionNameApproved, null) { }
 
-        public SalesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable, string functionNameApprovable)
-            : base(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, functionNameApprovable)
+        public SalesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved, string functionNameDeletable)
+            : base(totalBikePortalsEntities, functionNameEditable, functionNameApproved, functionNameDeletable)
         {
         }
 
@@ -39,12 +39,23 @@ namespace MVCData.Repositories.SalesTasks
     public class VehiclesInvoiceRepository : SalesInvoiceRepository, IVehiclesInvoiceRepository
     {
         public VehiclesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, "VehiclesInvoiceEditable", "VehiclesInvoiceDeletable")
+            : base(totalBikePortalsEntities, "VehiclesInvoiceEditable", null, "VehiclesInvoiceDeletable")
         {
+            
+            Helpers.SqlProgrammability.StockTasks.TransferOrder to = new Helpers.SqlProgrammability.StockTasks.TransferOrder(totalBikePortalsEntities);
+            to.RestoreProcedure();
+
+
+            
+            Helpers.SqlProgrammability.CommonTasks.AccessControl acl = new Helpers.SqlProgrammability.CommonTasks.AccessControl(totalBikePortalsEntities);
+            acl.RestoreProcedure();
+
+
+            
             Helpers.SqlProgrammability.SalesTasks.SalesInvoice si = new Helpers.SqlProgrammability.SalesTasks.SalesInvoice(totalBikePortalsEntities);
             si.RestoreProcedure();
 
-            /*
+            
             Helpers.SqlProgrammability.SalesTasks.ServicesInvoice t = new Helpers.SqlProgrammability.SalesTasks.ServicesInvoice(totalBikePortalsEntities);
             t.RestoreProcedure();
 
@@ -83,9 +94,7 @@ namespace MVCData.Repositories.SalesTasks
             
 
             
-            Helpers.SqlProgrammability.StockTasks.TransferOrder to = new Helpers.SqlProgrammability.StockTasks.TransferOrder(totalBikePortalsEntities);
-            to.RestoreProcedure();
-
+            
             
             Helpers.SqlProgrammability.SalesTasks.ServiceContracts n = new Helpers.SqlProgrammability.SalesTasks.ServiceContracts(totalBikePortalsEntities);
             n.RestoreProcedure();
@@ -100,9 +109,7 @@ namespace MVCData.Repositories.SalesTasks
             
             
             
-            Helpers.SqlProgrammability.CommonTasks.AccessControl acl = new Helpers.SqlProgrammability.CommonTasks.AccessControl(totalBikePortalsEntities);
-            acl.RestoreProcedure();
-
+            
             
             
             
@@ -140,6 +147,7 @@ namespace MVCData.Repositories.SalesTasks
             
             Helpers.SqlProgrammability.CommonTasks.Commons cmm = new Helpers.SqlProgrammability.CommonTasks.Commons(totalBikePortalsEntities);
             cmm.RestoreProcedure();
+            /*
             */
         }
     }
@@ -169,7 +177,7 @@ namespace MVCData.Repositories.SalesTasks
     public class ServicesInvoiceRepository : SalesInvoiceRepository, IServicesInvoiceRepository
     {
         public ServicesInvoiceRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, "ServicesInvoiceEditable", "ServicesInvoiceDeletable")
+            : base(totalBikePortalsEntities, "ServicesInvoiceEditable", null, "ServicesInvoiceDeletable")
         {
         }
 

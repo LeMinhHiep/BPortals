@@ -12,5 +12,12 @@ namespace MVCCore.Services
 
         GlobalEnums.AccessLevel GetAccessLevel();
         GlobalEnums.AccessLevel GetAccessLevel(int? organizationalUnitID);
+
+        bool GetApprovalPermitted();
+        bool GetApprovalPermitted(int? organizationalUnitID);
+
+        bool GetUnApprovalPermitted();
+        bool GetUnApprovalPermitted(int? organizationalUnitID);
+
     }
 }

@@ -7,11 +7,11 @@ using MVCModel.Models;
 using MVCCore.Repositories.SalesTasks;
 
 namespace MVCData.Repositories.SalesTasks
-{   
+{
     public class ServiceContractRepository : GenericRepository<ServiceContract>, IServiceContractRepository
     {
         public ServiceContractRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, null, "ServicesContractDeletable")
+            : base(totalBikePortalsEntities, null, null, "ServicesContractDeletable")
         {
         }
 
@@ -25,12 +25,12 @@ namespace MVCData.Repositories.SalesTasks
             return this.TotalBikePortalsEntities.ServiceContracts.Where(w => w.AgentName.Contains(agentName)).Select(a => a.AgentName).Distinct().ToList();
         }
 
-        
+
 
         public ICollection<ServiceContractGetVehiclesInvoice> ServiceContractGetVehiclesInvoice(int locationID, string searchText, int? salesInvoiceID, int? serviceContractID)
         {
             return this.TotalBikePortalsEntities.ServiceContractGetVehiclesInvoices(locationID, searchText, salesInvoiceID, serviceContractID).ToList();
-        }        
+        }
     }
 
     public class ServiceContractAPIRepository : GenericAPIRepository, IServiceContractAPIRepository

@@ -11,7 +11,7 @@ namespace MVCService.SalesTasks
     public class QuotationService : GenericWithViewDetailService<Quotation, QuotationDetail, QuotationViewDetail, QuotationDTO, QuotationPrimitiveDTO, QuotationDetailDTO>, IQuotationService
     {
         public QuotationService(IQuotationRepository quotationRepository)
-            : base(quotationRepository, "QuotationPostSaveValidate", "QuotationSaveRelative", "GetQuotationViewDetails")
+            : base(quotationRepository, "QuotationPostSaveValidate", "QuotationSaveRelative", null, "GetQuotationViewDetails")
         {
         }
 

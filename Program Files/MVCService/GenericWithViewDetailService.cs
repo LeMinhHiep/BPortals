@@ -34,8 +34,13 @@ namespace MVCService
         {
         }
 
-        public GenericWithViewDetailService(IGenericWithDetailRepository<TEntity, TEntityDetail> genericWithDetailRepository, string functionNamePostSaveValidate, string functionNameSaveRelative, string functionNameGetViewDetails)
-            : base(genericWithDetailRepository, functionNamePostSaveValidate, functionNameSaveRelative)
+        public GenericWithViewDetailService(IGenericWithDetailRepository<TEntity, TEntityDetail> genericWithDetailRepository, string functionNamePostSaveValidate, string functionNameSaveRelative, string functionNameToggleApproved)
+            : this(genericWithDetailRepository, functionNamePostSaveValidate, functionNameSaveRelative, functionNameToggleApproved, null)
+        {
+        }
+
+        public GenericWithViewDetailService(IGenericWithDetailRepository<TEntity, TEntityDetail> genericWithDetailRepository, string functionNamePostSaveValidate, string functionNameSaveRelative, string functionNameToggleApproved, string functionNameGetViewDetails)
+            : base(genericWithDetailRepository, functionNamePostSaveValidate, functionNameSaveRelative, functionNameToggleApproved)
         {
             this.functionNameGetViewDetails = functionNameGetViewDetails;
         }

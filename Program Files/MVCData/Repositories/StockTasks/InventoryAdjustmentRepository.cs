@@ -19,11 +19,11 @@ namespace MVCData.Repositories.StockTasks
         public InventoryAdjustmentRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable)
             : this(totalBikePortalsEntities, functionNameEditable, null) { }
 
-        public InventoryAdjustmentRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable)
-            : this(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, null) { }
+        public InventoryAdjustmentRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved)
+            : this(totalBikePortalsEntities, functionNameEditable, functionNameApproved, null) { }
 
-        public InventoryAdjustmentRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable, string functionNameApprovable)
-            : base(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, functionNameApprovable)
+        public InventoryAdjustmentRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved, string functionNameDeletable)
+            : base(totalBikePortalsEntities, functionNameEditable, functionNameApproved, functionNameDeletable)
         {
         }
 

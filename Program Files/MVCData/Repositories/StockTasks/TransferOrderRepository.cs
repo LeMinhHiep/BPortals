@@ -13,7 +13,7 @@ namespace MVCData.Repositories.StockTasks
     public abstract class TransferOrderRepository : GenericWithDetailRepository<TransferOrder, TransferOrderDetail>, ITransferOrderRepository
     {
         public TransferOrderRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, "TransferOrderEditable")
+            : base(totalBikePortalsEntities, "TransferOrderEditable", "TransferOrderApproved")
         {
         }
     }
@@ -29,7 +29,7 @@ namespace MVCData.Repositories.StockTasks
         {
             this.TotalBikePortalsEntities.Configuration.ProxyCreationEnabled = false;
 
-            var queryable = this.TotalBikePortalsEntities.TransferOrders.Where(w => !w.InActive && w.SourceLocationID == locationID && (searchText == null || searchText == "" || w.Reference.Contains(searchText) || w.Warehouse.Code.Contains(searchText) || w.Warehouse.Name.Contains(searchText))).Include(w => w.Warehouse).Include(l => l.Warehouse.Location);
+            var queryable = this.TotalBikePortalsEntities.TransferOrders.Where(w => w.Approved && !w.InActive && w.SourceLocationID == locationID && (searchText == null || searchText == "" || w.Reference.Contains(searchText) || w.Warehouse.Code.Contains(searchText) || w.Warehouse.Name.Contains(searchText))).Include(w => w.Warehouse).Include(l => l.Warehouse.Location);
             if (commodityTypeIDList != null)
             {
                 List<int> listCommodityTypeID = commodityTypeIDList.Split(',').Select(n => int.Parse(n)).ToList();

@@ -27,11 +27,11 @@ namespace MVCData.Repositories
         public GenericWithDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable)
             : this(totalBikePortalsEntities, functionNameEditable, null) { }
 
-        public GenericWithDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable)
-            : this(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, null) { }
+        public GenericWithDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved)
+            : this(totalBikePortalsEntities, functionNameEditable, functionNameApproved, null) { }
 
-        public GenericWithDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable, string functionNameApprovable)
-            : base(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, functionNameApprovable)
+        public GenericWithDetailRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved, string functionNameDeletable)
+            : base(totalBikePortalsEntities, functionNameEditable, functionNameApproved, functionNameDeletable)
         {
             modelDetailDbSet = this.TotalBikePortalsEntities.Set<TEntityDetail>();
         }

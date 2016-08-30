@@ -182,8 +182,59 @@ namespace MVCClient.Controllers
 
 
 
+        #region Approve/ UnApprove
+
+        [AccessLevelAuthorize(GlobalEnums.AccessLevel.Readable), ImportModelStateFromTempData]
+        [OnResultExecutingFilterAttribute]
+        public virtual ActionResult Approve(int? id)
+        {
+            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
+            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            TSimpleViewModel simpleViewModel = this.GetViewModel(entity, true);
+
+            if (!simpleViewModel.Approved)
+                if (this.GenericService.GetApprovalPermitted(entity.OrganizationalUnitID))
+                    simpleViewModel.Approvable = this.GenericService.Approvable(simpleViewModel);
+                else //USER DON'T HAVE PERMISSION TO DO
+                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            if (simpleViewModel.Approved)
+                if (this.GenericService.GetUnApprovalPermitted(entity.OrganizationalUnitID))
+                    simpleViewModel.UnApprovable = this.GenericService.UnApprovable(simpleViewModel);
+                else //USER DON'T HAVE PERMISSION TO DO
+                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            return View(simpleViewModel);
+        }
+
+        [HttpPost, ActionName("Approve")]
+        [ValidateAntiForgeryToken, ExportModelStateToTempData]
+        public virtual ActionResult ApproveConfirmed(TSimpleViewModel simpleViewModel)
+        {
+            try
+            {
+                if (this.GenericService.ToggleApproved(simpleViewModel))
+                    return RedirectToAction("Index");
+                else
+                    throw new System.ArgumentException("Lỗi duyệt dữ liệu", "Dữ liệu này không thể duyệt được.");
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddValidationErrors(exception);
+                return RedirectToAction("Approve", simpleViewModel.GetID());
+            }
+        }
+
+
+        #endregion Approve/ UnApprove
+
+
+
+
 
         [AccessLevelAuthorize, ImportModelStateFromTempData]
+        [OnResultExecutingFilterAttribute]
         public virtual ActionResult Delete(int? id)
         {
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
@@ -219,11 +270,12 @@ namespace MVCClient.Controllers
 
 
         [AccessLevelAuthorize, ImportModelStateFromTempData]
+        [OnResultExecutingFilterAttribute]
         public virtual ActionResult Alter(int? id)
         {
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
             if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             return View(this.GetViewModel(entity, false, true));
         }
 
@@ -256,6 +308,7 @@ namespace MVCClient.Controllers
 
 
         [AccessLevelAuthorize, ImportModelStateFromTempData]
+        [OnResultExecutingFilterAttribute]
         public virtual ActionResult Void(int? id)
         {
             TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);

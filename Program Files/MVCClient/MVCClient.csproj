@@ -776,6 +776,7 @@
     <Content Include="Scripts\Controllers\Root\PartAdjustments\Index.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Promotion.js" />
     <Content Include="Scripts\Controllers\Root\PartsInvoices\Delete.js" />
+    <Content Include="Scripts\Controllers\Root\PartTransferOrders\Approve.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Delete.js" />
     <Content Include="Scripts\Controllers\Root\PartTransferOrders\Edit.js" />
@@ -845,6 +846,7 @@
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetSubscribeChange.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Indexs\kindexGrid.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Validations\kenGridValidator.js" />
+    <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Approve.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Create.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Delete.js" />
     <Content Include="Scripts\Controllers\Root\VehicleTransferOrders\Edit.js" />
@@ -1698,6 +1700,9 @@
     <Content Include="Views\VehiclesInvoices\Print.cshtml" />
     <Content Include="Views\AccountInvoices\PrintDetail.cshtml" />
     <Content Include="Views\PurchaseInvoices\Alter.cshtml" />
+    <Content Include="Views\PartTransferOrders\Approve.cshtml" />
+    <Content Include="Views\Helpers\Commons\_ApproveConfirm.cshtml" />
+    <Content Include="Views\VehicleTransferOrders\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

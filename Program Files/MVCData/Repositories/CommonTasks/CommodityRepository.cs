@@ -11,7 +11,7 @@ namespace MVCData.Repositories.CommonTasks
     public class CommodityRepository : GenericRepository<Commodity>, ICommodityRepository
     {
         public CommodityRepository(TotalBikePortalsEntities totalBikePortalsEntities)
-            : base(totalBikePortalsEntities, null, "CommodityDeletable")
+            : base(totalBikePortalsEntities, null, null, "CommodityDeletable")
         {
         }
 

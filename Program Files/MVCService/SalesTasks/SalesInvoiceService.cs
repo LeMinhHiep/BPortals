@@ -29,7 +29,7 @@ namespace MVCService.SalesTasks
                                       IAccountInvoiceAPIRepository accountInvoiceAPIRepository,
                                       IServiceContractService serviceContractService,
                                       IAccountInvoiceService accountInvoiceService)
-            : base(vehiclesInvoiceRepository, "VehiclesInvoicePostSaveValidate", "VehiclesInvoiceSaveRelative", "GetVehiclesInvoiceViewDetails")
+            : base(vehiclesInvoiceRepository, "VehiclesInvoicePostSaveValidate", "VehiclesInvoiceSaveRelative", null, "GetVehiclesInvoiceViewDetails")
         {
             this.serviceContractRepository = serviceContractRepository;
             this.accountInvoiceAPIRepository = accountInvoiceAPIRepository;
@@ -152,7 +152,7 @@ namespace MVCService.SalesTasks
 
 
         public PartsInvoiceService(IPartsInvoiceRepository partsInvoiceRepository, IInventoryRepository inventoryRepository, IPartsInvoiceHelperService partsInvoiceHelperService)
-            : base(partsInvoiceRepository, "PartsInvoicePostSaveValidate", "PartsInvoiceSaveRelative", "GetPartsInvoiceViewDetails")
+            : base(partsInvoiceRepository, "PartsInvoicePostSaveValidate", "PartsInvoiceSaveRelative", null, "GetPartsInvoiceViewDetails")
         {
             this.inventoryRepository = inventoryRepository;
             this.partsInvoiceHelperService = partsInvoiceHelperService;

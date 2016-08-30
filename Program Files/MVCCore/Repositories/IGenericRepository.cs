@@ -45,8 +45,10 @@ namespace MVCCore.Repositories
 
         DateTime GetEditLockedDate(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID);
         GlobalEnums.AccessLevel GetAccessLevel(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID, int? organizationalUnitID);
+        bool GetApprovalPermitted(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID, int? organizationalUnitID);
+        bool GetUnApprovalPermitted(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID, int? organizationalUnitID);
 
-        bool GetApprovable(int id);
+        bool GetApproved(int id);
         bool GetEditable(int id);
         bool GetDeletable(int id);
         bool CheckExisting(int id, string functionName);

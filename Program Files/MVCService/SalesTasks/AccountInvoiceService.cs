@@ -12,7 +12,7 @@ namespace MVCService.SalesTasks
     public class AccountInvoiceService: GenericWithViewDetailService<AccountInvoice, AccountInvoiceDetail, AccountInvoiceViewDetail, AccountInvoiceDTO, AccountInvoicePrimitiveDTO, AccountInvoiceDetailDTO>, IAccountInvoiceService
     {
         public AccountInvoiceService(IAccountInvoiceRepository accountInvoiceRepository)
-            : base(accountInvoiceRepository, "AccountInvoicePostSaveValidate", "AccountInvoiceSaveRelative", "GetAccountInvoiceViewDetails")
+            : base(accountInvoiceRepository, "AccountInvoicePostSaveValidate", "AccountInvoiceSaveRelative", null, "GetAccountInvoiceViewDetails")
         {
         }
 

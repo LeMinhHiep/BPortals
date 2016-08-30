@@ -20,8 +20,10 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.GetVehicleTransferOrderViewDetails();
             this.GetPartTransferOrderViewDetails();
 
+            this.TransferOrderApproved();
             this.TransferOrderEditable();
 
+            this.TransferOrderToggleApproved();
             this.TransferOrderVoid();
 
             this.TransferOrderInitReference();
@@ -123,6 +125,15 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.totalBikePortalsEntities.CreateStoredProcedure("GetPartTransferOrderViewDetails", queryString);
         }
 
+        private void TransferOrderApproved()
+        {
+            string[] queryArray = new string[1];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = TransferOrderID FROM TransferOrders WHERE TransferOrderID = @EntityID AND Approved = 1";
+
+            this.totalBikePortalsEntities.CreateProcedureToCheckExisting("TransferOrderApproved", queryArray);
+        }
+
         private void TransferOrderEditable()
         {
             string[] queryArray = new string[1];
@@ -132,6 +143,17 @@ namespace MVCData.Helpers.SqlProgrammability.StockTasks
             this.totalBikePortalsEntities.CreateProcedureToCheckExisting("TransferOrderEditable", queryArray);
         }
 
+
+        private void TransferOrderToggleApproved()
+        {
+            string queryString = " @EntityID int, @Approved bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       UPDATE      TransferOrders  SET Approved = @Approved, ApprovedDate = GetDate() WHERE TransferOrderID = @EntityID AND Approved = ~@Approved" + "\r\n";
+
+            this.totalBikePortalsEntities.CreateStoredProcedure("TransferOrderToggleApproved", queryString);
+        }
 
         private void TransferOrderVoid()
         {

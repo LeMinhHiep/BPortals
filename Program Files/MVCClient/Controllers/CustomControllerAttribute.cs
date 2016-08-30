@@ -29,8 +29,9 @@ namespace MVCClient.Controllers
 
     public class AccessLevelAuthorizeAttribute : AuthorizeAttribute
     {
-        private GlobalEnums.AccessLevel accessLevel;
         private BaseController baseController;
+
+        private GlobalEnums.AccessLevel accessLevel;
 
         public AccessLevelAuthorizeAttribute()
             : this(GlobalEnums.AccessLevel.Editable)
@@ -80,7 +81,7 @@ namespace MVCClient.Controllers
 
 
 
-    
+
 
     public abstract class ModelStateTempDataTransfer : ActionFilterAttribute
     {
@@ -130,6 +131,6 @@ namespace MVCClient.Controllers
     }
 
 
-    
+
 
 }

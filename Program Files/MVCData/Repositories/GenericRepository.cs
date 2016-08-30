@@ -27,8 +27,8 @@ namespace MVCData.Repositories
         private DbSet<TEntity> modelDbSet = null;
 
         private readonly string functionNameEditable;
-        private readonly string functionNameDeletable;
-        private readonly string functionNameApprovable;
+        private readonly string functionNameApproved;
+        private readonly string functionNameDeletable;        
 
 
         public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities)
@@ -37,17 +37,17 @@ namespace MVCData.Repositories
         public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable)
             : this(totalBikePortalsEntities, functionNameEditable, null) { }
 
-        public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable)
-            : this(totalBikePortalsEntities, functionNameEditable, functionNameDeletable, null) { }
+        public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved)
+            : this(totalBikePortalsEntities, functionNameEditable, functionNameApproved, null) { }
 
-        public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameDeletable, string functionNameApprovable)
+        public GenericRepository(TotalBikePortalsEntities totalBikePortalsEntities, string functionNameEditable, string functionNameApproved, string functionNameDeletable)
             : base(totalBikePortalsEntities)
         {
             modelDbSet = this.TotalBikePortalsEntities.Set<TEntity>();
 
             this.functionNameEditable = functionNameEditable;
-            this.functionNameDeletable = functionNameDeletable;
-            this.functionNameApprovable = functionNameApprovable;
+            this.functionNameApproved = functionNameApproved;
+            this.functionNameDeletable = functionNameDeletable;            
         }
 
 
@@ -150,9 +150,26 @@ namespace MVCData.Repositories
         }
 
 
-        public bool GetApprovable(int id)
+        public bool GetApprovalPermitted(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID, int? organizationalUnitID)
         {
-            return !this.CheckExisting(id, this.functionNameApprovable);
+            if (userID == null || userID == 0 || (int)nmvnTaskID == 0) return false;
+
+            bool? approvalPermitted = this.TotalBikePortalsEntities.GetApprovalPermitted(userID, (int)nmvnTaskID, organizationalUnitID).Single();
+            return approvalPermitted == null ? false : (bool)approvalPermitted;
+        }
+
+        public bool GetUnApprovalPermitted(int? userID, GlobalEnums.NmvnTaskID nmvnTaskID, int? organizationalUnitID)
+        {
+            if (userID == null || userID == 0 || (int)nmvnTaskID == 0) return false;
+
+            bool? unApprovalPermitted = this.TotalBikePortalsEntities.GetUnApprovalPermitted(userID, (int)nmvnTaskID, organizationalUnitID).Single();
+            return unApprovalPermitted == null ? false : (bool)unApprovalPermitted;
+        }
+
+
+        public bool GetApproved(int id)
+        {
+            return this.CheckExisting(id, this.functionNameApproved);
         }
 
         public bool GetEditable(int id)

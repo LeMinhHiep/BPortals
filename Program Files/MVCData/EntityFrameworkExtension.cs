@@ -221,8 +221,8 @@ namespace MVCData
 //dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE VehiclesInvoicePostSaveValidate");
 //dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE VehicleTransferPostSaveValidate");
 
-//dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE QuotationApprovable");
-//dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE SalesInvoiceApprovable");
+//dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE QuotationApproved");
+//dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE SalesInvoiceApproved");
 //dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE ServicesInvoiceSaveRelative");
 
 //dbContext.Database.ExecuteSqlCommand(@"DROP PROCEDURE ServicesInvoiceDeletable");
