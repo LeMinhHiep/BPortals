@@ -248,6 +248,7 @@ namespace MVCService
                 try
                 {
                     if (this.GlobalLocked(dto)) throw new System.ArgumentException("Lỗi điều chỉnh dữ liệu", "Dữ liệu này đã bị khóa.");
+                    if (this.GetAccessLevel(dto.OrganizationalUnitID) != GlobalEnums.AccessLevel.Editable) throw new System.ArgumentException("Lỗi điều chỉnh dữ liệu", "Bạn không có quyền điều chỉnh dữ liệu này.");
 
                     this.AlterMe(dto);
 
