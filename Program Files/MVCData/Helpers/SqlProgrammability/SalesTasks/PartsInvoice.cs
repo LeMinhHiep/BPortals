@@ -289,10 +289,12 @@ namespace MVCData.Helpers.SqlProgrammability.SalesTasks
         {
             string[] queryArray = new string[2];//BE CAUTION: PartsInvoice SHOULD BE NOT ALLOWED TO CHANGE ServiceInvoiceID BY USER, IN ORDER THIS Procedure CAN CONTROL PartsInvoiceEditable VIA ServiceInvoiceID. IF USER REALLY NEED TO CHANGE: PLEASE USE THIS WORKARROUND INSTEAD: REQUEST USER TO DELETE THIS PartsInvoice, AND THEN CREATE NEW ONE WITH NEW FOREIGN KEY ServiceInvoiceID!
 
-            queryArray[0] = "                 DECLARE @ServiceInvoiceID Int " + "\r\n";
-            queryArray[0] = queryArray[0] + " SELECT TOP 1 @ServiceInvoiceID = ServiceInvoiceID FROM SalesInvoices WHERE SalesInvoiceID = @EntityID " + "\r\n";
+            queryArray[0] = "                 DECLARE @ServiceInvoiceID Int, @IsFinished Bit " + "\r\n";
+            queryArray[0] = queryArray[0] + " SELECT TOP 1 @ServiceInvoiceID = ServiceInvoiceID, @IsFinished = IsFinished FROM SalesInvoices WHERE SalesInvoiceID = @EntityID " + "\r\n";
             queryArray[0] = queryArray[0] + " IF NOT @ServiceInvoiceID IS NULL" + "\r\n";
             queryArray[0] = queryArray[0] + "       SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoices WHERE SalesInvoiceID = @ServiceInvoiceID AND IsFinished = 1 " + "\r\n";
+            queryArray[0] = queryArray[0] + " ELSE IF @IsFinished = 1 " + "\r\n";
+            queryArray[0] = queryArray[0] + "       SELECT @FoundEntity = @EntityID " + "\r\n";
 
             queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesInvoiceID FROM SalesInvoiceDetails WHERE SalesInvoiceID = @EntityID AND NOT AccountInvoiceID IS NULL ";
 
